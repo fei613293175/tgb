@@ -1,16 +1,16 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
-task_id: TASK-R02-001
-release: R02
+task_id: TASK-R03-001
+release: R03
 status: IN_PROGRESS
-title: 开发推广宝品牌与 H5 公共浅色壳层
+title: 开发公共认证与法律信息页面
 
 preconditions:
-  - MANIFEST_SHA256.txt verification passes after the R01 closeout commit
-  - R01_RESULT.md conclusion is PASS for development closeout
-  - production remains unchanged and all edits occur in an isolated R02 staging copy
-  - staging write access is limited to code/assets; business POST and real user data writes remain blocked
-  - no credentials cookies tokens or signing secrets enter source evidence or screenshots
+  - R02_RESULT.md conclusion is PASS for development closeout
+  - R02 production-stability hash and staging rollback evidence remain valid
+  - create a new R03 staging code and database snapshot from the verified R02 staging baseline
+  - production stays unchanged and all write windows remain loopback-only and recoverable
+  - no credentials cookies tokens formhash or real identity data enter source evidence or screenshots
 
 read_first:
   - 06_HARD_GATES.md
@@ -23,58 +23,60 @@ read_first:
   - 03_PAGE_LEDGER.csv
   - 12_PAGE_SOURCE_MAP.csv
   - 13_SIDE_EFFECT_TEST_PLAN.md
-  - LESSONS_LEARNED.md
   - DECISIONS.md
-  - version-results/R01_RESULT.md
+  - LESSONS_LEARNED.md
+  - version-results/R02_RESULT.md
 
 scope:
-  - DESKTOP-SPLASH
-  - shared H5 token stylesheet and versioned local asset foundation
-  - shared header footer bottom navigation card button input label empty loading toast and dialog primitives
-  - browser safe-area behavior and Android WebView compatibility contract
-  - local SVG or subset iconfont foundation with no public CDN dependency
+  - PUBLIC-LOGIN
+  - PUBLIC-REGISTER
+  - PUBLIC-SMS-LOGIN
+  - LEGAL-SERVICE-AGREEMENT
+  - LEGAL-PRIVACY
+  - LEGAL-USER-AGREEMENT
+  - LEGAL-CONSUMER-AGREEMENT
+  - LEGAL-ANTI-FRAUD
+  - LEGAL-MEMBER-AGREEMENT
+  - LEGAL-HELP
+  - LEGAL-ABOUT
 
 actions:
-  - Create a new immutable R02 server staging snapshot from the verified R00 baseline or current production snapshot without editing production.
-  - Record staging source hash backup rollback path listener and method restrictions before edits.
-  - Inventory the exact shared header footer navigation CSS and icon entry points used by R03 through R09.
-  - Implement STYLE_TOKENS.json as a versioned local CSS custom-property layer.
-  - Implement the Light Grid shared page shell and components with light backgrounds only.
-  - Create a local icon strategy using SVG sprite inline SVG or a verified WOFF2 subset; do not add public CDN dependencies.
-  - Redesign DESKTOP-SPLASH as a light 推广宝 H5 guidance page while preserving its mobile redirect behavior.
-  - Add browser safe-area CSS without double-applying Android native status-bar insets.
-  - Keep legacy pages not yet assigned to R02 visually and functionally stable; shared assets must be opt-in or compatibility-scoped.
-  - Capture 360x800 390x844 and 430x932 screenshots plus Android-WebView-safe layout evidence where applicable.
-  - Check CSS JS icon font and image requests for 404 mixed content external CDN and cache-header regressions.
-  - Compare routes query parameters forms hidden fields and side effects before and after; business behavior must remain identical.
-  - Run applicable static screenshot console overflow touch-target contrast and manifest gates.
-  - Build a new server-signed Android APK only if R02 H5/App integration requires native source or packaged-resource changes; otherwise record why R01 APK remains current.
-  - Put every newly built test APK on the local Desktop; do not wait for owner feedback.
-  - Update page ledger source map evidence decisions lessons CURRENT_STATUS NEXT_TASK and manifest.
-  - Run the full global drift audit before R02 closeout, then immediately continue to R03.
+  - Create and verify an isolated R03 staging snapshot that preserves the closed R02 shared shell.
+  - Inventory route form hidden-field script and legal-copy baselines before editing each page.
+  - Apply the Light Grid authentication and long-form reading components with light backgrounds only.
+  - Remove online Tailwind and public UI CDN dependencies from R03 pages using versioned local assets.
+  - Fix the 390px narrow-column and dollar-is-not-defined failures without changing authentication or SMS protocols.
+  - Keep legal主体 contract payment备案 and historical MKT wording frozen until owner or legal approval.
+  - Use a staging-only reversible account and mocked outbound SMS before any controlled POST test.
+  - Verify success failure empty validation permission and long-content states where safely reachable.
+  - Capture 360x800 390x844 and 430x932 screenshots and overflow touch contrast console and resource evidence.
+  - Compare routes query parameters actions methods fields hidden values hooks and side effects before and after.
+  - Keep GitHub Actions manual-only and do not wait for asynchronous device feedback.
+  - Build a server-signed Android APK only if native production source or packaged resources change.
+  - Put every newly built server-signed APK on the Desktop; never deliver Debug as formal release.
+  - Update ledger source map evidence decisions lessons status next task result and manifest.
+  - Run full global drift audit before R03 closeout then continue to R04.
 
 forbidden:
-  - Do not edit /www/wwwroot/tg.suewammes.com in place.
-  - Do not change login registration legal finance reward upload payment or other business behavior.
-  - Do not mark R03 through R09 pages visually verified merely because they consume shared assets.
-  - Do not use online Tailwind Font Awesome Google Fonts or another public runtime UI CDN.
-  - Do not add dark page backgrounds large dark surfaces warm-orange primary branding or old 签米 product copy.
-  - Do not submit SMS login payment withdrawal purchase reward delete certification or account-cancellation actions.
-  - Do not restore GitHub Actions automatic testing.
-  - Do not wait for asynchronous owner device feedback before continuing safe documented development.
+  - Do not edit the production site or reuse the R02 staging directory as an unversioned R03 workspace.
+  - Do not reset production passwords send real SMS register a real user or weaken authentication.
+  - Do not rename routes parameters form fields hidden values or legal business meanings.
+  - Do not replace legal主体 merchant备案 contract or MKT wording without written owner or legal approval.
+  - Do not use online Tailwind public Font Awesome public iconfont or another runtime UI CDN.
+  - Do not introduce dark page surfaces warm-orange branding or oversized pill-only composition.
+  - Do not restore GitHub Actions automatic triggers or wait for asynchronous owner feedback.
 
 acceptance:
-  - DESKTOP-SPLASH uses the 推广宝 name and approved light visual system while preserving mobile redirect behavior.
-  - Shared tokens and components are versioned local assets and do not require Tailwind or a public icon CDN.
-  - 360x800 390x844 and 430x932 have no horizontal overflow clipping status-bar overlap or large dark surfaces.
-  - Text controls touch targets focus states and contrast meet the frozen gates.
-  - Legacy pages outside R02 retain routes parameters forms and business behavior.
-  - Browser and Android safe-area paths do not double-offset the header.
-  - Runtime asset checks show no new 404 mixed content or blocking public UI CDN.
+  - All 11 R03 page IDs have exact source protocol and visual evidence or a documented owner/legal blocker.
+  - Login register and SMS login retain business behavior and no longer have narrow-column or missing-dollar failures.
+  - Long legal pages are readable at all three viewports with no horizontal overflow or word-by-word columns.
+  - Product UI brand is 推广宝 while frozen legal主体 and merchant meanings remain unchanged.
+  - R03 runtime assets use local versioned CSS icons and fonts with no new public UI CDN.
+  - Controlled authentication tests use only staging fixtures and restore POST=405 afterward.
   - Production code and data remain unchanged.
-  - R02_RESULT.md and the global drift audit pass.
+  - R03_RESULT.md and the global drift audit pass.
   - CURRENT_STATUS.yaml NEXT_TASK.yaml evidence decisions lessons and manifest are synchronized.
 
 on_success:
-  next_release: R03
-  next_task_title: 开发公共认证与法律信息页面
+  next_release: R04
+  next_task_title: 开发首页与发现页面

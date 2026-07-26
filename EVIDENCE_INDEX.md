@@ -115,3 +115,5 @@ evidence/
   `evidence/R02/after/AUTH-HOME-R02-390x844.jpg`
 - R02 Android WebView 安全区源码、构建和设备待验状态：
   `evidence/R02/android/INSET_EVIDENCE_STATUS.md`
+- R02 开发关版与全局漂移审计：
+  `version-results/R02_RESULT.md`

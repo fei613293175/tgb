@@ -1,5 +1,5 @@
 page_id,family,route,auth,scope,reachability,evidence_status,side_effect_risk,source_owner,release,notes
-DESKTOP-SPLASH,entry,/,public,IN_SCOPE,RUNTIME_REACHED,OBSERVED,LOW,root/index.php,R02,"desktop only shows H5 guide; preserve behavior and rebrand to 推广宝"
+DESKTOP-SPLASH,entry,/,public,IN_SCOPE,RUNTIME_REACHED,REDESIGNED_VERIFIED,LOW,root/index.php,R02,"desktop H5 guide redesigned as 推广宝; mobile redirect preserved"
 PUBLIC-LOGIN,auth,/plugin.php?id=xigua_hb,public,IN_SCOPE,RUNTIME_REACHED,OBSERVED,MEDIUM,xigua_hb,R03,"mobile UA login page"
 PUBLIC-REGISTER,auth,/plugin.php?id=tb_cus_mobilereg,public,IN_SCOPE,RUNTIME_REACHED,OBSERVED,MEDIUM,tb_cus_mobilereg,R03,"390px narrow-column defect and jquery load error"
 PUBLIC-SMS-LOGIN,auth,/plugin.php?id=tb_cus_mobilereg&modac={sms_login},public,IN_SCOPE,RUNTIME_REACHED,OBSERVED,HIGH,tb_cus_mobilereg,R03,"OTP flow not submitted"
