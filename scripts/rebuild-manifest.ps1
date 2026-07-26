@@ -18,7 +18,6 @@ $excludedPrefixes = @(
 function Test-IsExcluded([string]$relative) {
     $normalized = $relative.Replace('\', '/')
     if ($normalized -eq 'android-app/local.properties') { return $true }
-    if ($normalized -match '^deliverables/.+\.(apk|apks|aab)$') { return $true }
     foreach ($prefix in $excludedPrefixes) {
         if ($normalized.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
             return $true

@@ -1,0 +1,27 @@
+{
+  "date": "2026-07-27",
+  "deployId": "20260727T051035+0800",
+  "archiveSha256": "b6fd61f320b1f15726608abf69f610a27ea744e37e42fdf62108769b42f09de9",
+  "viewports": [
+    {"width": 360, "height": 800, "clientWidth": 355, "scrollWidth": 355, "visibleForbiddenActions": [], "reportVisibleCount": 1, "screenshot": "r05-detail-360x800.png"},
+    {"width": 390, "height": 844, "clientWidth": 386, "scrollWidth": 386, "visibleForbiddenActions": [], "reportVisibleCount": 1, "screenshot": "r05-detail-390x844-viewport.png"},
+    {"width": 430, "height": 932, "clientWidth": 426, "scrollWidth": 426, "visibleForbiddenActions": [], "reportVisibleCount": 1, "screenshot": "r05-detail-430x932.png"}
+  ],
+  "home": {
+    "width": 390,
+    "height": 844,
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "visibleLegacyCategoryCount": 0,
+    "screenshot": "r05-home-hidden-categories-390x844.png"
+  },
+  "sideEffectRollback": {
+    "status": "PASS",
+    "history": "/www/staging/tg-h5-ui-r05/private/detail-get-history/20260727T051517+0800"
+  },
+  "temporaryChannels": {
+    "authBridge": "OFF",
+    "browserOrigin": "OFF",
+    "localTunnelPort28085": "OFF"
+  }
+}

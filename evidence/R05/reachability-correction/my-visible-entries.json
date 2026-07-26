@@ -1,0 +1,151 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "scrollY": 600,
+  "entries": [
+    {
+      "text": "返回",
+      "href": "#",
+      "width": 38,
+      "height": 38,
+      "exposedArea": 1444,
+      "hit": true
+    },
+    {
+      "text": "消息",
+      "href": "plugin.php?id=xigua_lt",
+      "width": 38,
+      "height": 38,
+      "exposedArea": 1444,
+      "hit": true
+    },
+    {
+      "text": "设置",
+      "href": "plugin.php?id=xigua_hb&ac=shezhi",
+      "width": 38,
+      "height": 38,
+      "exposedArea": 1444,
+      "hit": true
+    },
+    {
+      "text": "热 邀请好友",
+      "href": "plugin.php?id=xigua_hh&ac=invite",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "我的团队",
+      "href": "plugin.php?id=xigua_hh&ac=myfans",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "认证 实名认证",
+      "href": "plugin.php?id=xiaomy_certification",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "刷新卡",
+      "href": "plugin.php?id=xigua_hb&ac=refresh&do=sxtc",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "头条广告",
+      "href": "plugin.php?id=tb_toutiao",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "超级头条",
+      "href": "plugin.php?id=tb_toutiao&modac=super_main",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "我的项目",
+      "href": "plugin.php?id=xigua_hb&ac=mypub",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "项目审核",
+      "href": "plugin.php?id=xigua_hb&ac=manage&stat=display&display=0",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "在线客服",
+      "href": "{external_url}",
+      "width": 157.4499969482422,
+      "height": 63.60000228881836,
+      "exposedArea": 10013.820166282647,
+      "hit": true
+    },
+    {
+      "text": "APP/加速器",
+      "href": "done/app.html",
+      "width": 157.4499969482422,
+      "height": 63.60000228881836,
+      "exposedArea": 10013.820166282647,
+      "hit": true
+    },
+    {
+      "text": "推荐 趣赚汇",
+      "href": "{external_url}",
+      "width": 102.30000305175781,
+      "height": 100.4000015258789,
+      "exposedArea": 10270.920462493901,
+      "hit": true
+    },
+    {
+      "text": "首页",
+      "href": "plugin.php?id=xigua_hb",
+      "width": 93.80000305175781,
+      "height": 64.20000457763672,
+      "exposedArea": 6021.96062530519,
+      "hit": true
+    },
+    {
+      "text": "签到 新",
+      "href": "plugin.php?id=view&modac=sign",
+      "width": 93.80000305175781,
+      "height": 64.20000457763672,
+      "exposedArea": 6021.96062530519,
+      "hit": true
+    },
+    {
+      "text": "分红",
+      "href": "plugin.php?id=tb_cus_pipei",
+      "width": 93.80000305175781,
+      "height": 64.20000457763672,
+      "exposedArea": 6021.96062530519,
+      "hit": true
+    },
+    {
+      "text": "我的",
+      "href": "plugin.php?id=xigua_hb&ac=my",
+      "width": 93.80000305175781,
+      "height": 64.20000457763672,
+      "exposedArea": 6021.96062530519,
+      "hit": true
+    }
+  ]
+}

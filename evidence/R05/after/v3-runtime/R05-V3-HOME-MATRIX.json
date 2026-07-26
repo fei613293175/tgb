@@ -1,0 +1,122 @@
+[
+  {
+    "vp": {
+      "width": 360,
+      "height": 800
+    },
+    "m": {
+      "clientWidth": 360,
+      "controls": [
+        {
+          "cls": "search-input",
+          "font": "16px",
+          "h": 46,
+          "tag": "INPUT",
+          "visible": true,
+          "w": 262.3999938964844
+        },
+        {
+          "cls": "search-btn",
+          "font": "14px",
+          "h": 44,
+          "tag": "BUTTON",
+          "visible": true,
+          "w": 64
+        }
+      ],
+      "header": null,
+      "legacy": {
+        "area": 0,
+        "display": "none",
+        "height": 0,
+        "pointer": "none",
+        "width": 0
+      },
+      "overflow": 0,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "推广宝",
+      "url": "http://127.0.0.1:28085/plugin.php?id=xigua_hb&mobile=2"
+    }
+  },
+  {
+    "vp": {
+      "width": 390,
+      "height": 844
+    },
+    "m": {
+      "clientWidth": 390,
+      "controls": [
+        {
+          "cls": "search-input",
+          "font": "16px",
+          "h": 46,
+          "tag": "INPUT",
+          "visible": true,
+          "w": 292.8000183105469
+        },
+        {
+          "cls": "search-btn",
+          "font": "14px",
+          "h": 44,
+          "tag": "BUTTON",
+          "visible": true,
+          "w": 64
+        }
+      ],
+      "header": null,
+      "legacy": {
+        "area": 0,
+        "display": "none",
+        "height": 0,
+        "pointer": "none",
+        "width": 0
+      },
+      "overflow": 0,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "推广宝",
+      "url": "http://127.0.0.1:28085/plugin.php?id=xigua_hb&mobile=2"
+    }
+  },
+  {
+    "vp": {
+      "width": 430,
+      "height": 932
+    },
+    "m": {
+      "clientWidth": 430,
+      "controls": [
+        {
+          "cls": "search-input",
+          "font": "16px",
+          "h": 46,
+          "tag": "INPUT",
+          "visible": true,
+          "w": 332.8000183105469
+        },
+        {
+          "cls": "search-btn",
+          "font": "14px",
+          "h": 44,
+          "tag": "BUTTON",
+          "visible": true,
+          "w": 64
+        }
+      ],
+      "header": null,
+      "legacy": {
+        "area": 0,
+        "display": "none",
+        "height": 0,
+        "pointer": "none",
+        "width": 0
+      },
+      "overflow": 0,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "推广宝",
+      "url": "http://127.0.0.1:28085/plugin.php?id=xigua_hb&mobile=2"
+    }
+  }
+]

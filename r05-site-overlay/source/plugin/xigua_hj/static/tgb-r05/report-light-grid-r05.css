@@ -1,0 +1,177 @@
+:root {
+    color-scheme: light;
+}
+
+body {
+    background: #F4F7FB !important;
+    color: #405166;
+}
+
+.tgb-r05-report-page,
+.tgb-r05-report-page *,
+.tgb-r05-report-page *::before,
+.tgb-r05-report-page *::after {
+    box-sizing: border-box;
+}
+
+.tgb-r05-report-page {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 12px 16px calc(24px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-x: clip;
+    color: #405166;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.tgb-r05-report-page .weui-cells__title {
+    max-width: 100%;
+    margin: 20px 0 8px;
+    padding: 0;
+    color: #0E1B2A;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.tgb-r05-report-page .weui-cells {
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 1px solid #D8E1EC;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(12, 27, 51, 0.08);
+}
+
+.tgb-r05-report-page .weui-cell {
+    min-width: 0;
+    min-height: 52px;
+    padding: 12px 14px;
+}
+
+.tgb-r05-report-page .weui-cell::before {
+    border-color: #D8E1EC;
+}
+
+.tgb-r05-report-page .weui-cell__bd {
+    min-width: 0;
+}
+
+.tgb-r05-report-page .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 100%;
+}
+
+.tgb-r05-report-page .tagsids {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin: 0 8px 8px 0;
+    padding: 8px 14px;
+    color: #405166;
+    background: #EDF3FA;
+    border: 1px solid #D8E1EC;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@supports (gap: 8px) {
+    .tgb-r05-report-page .tagsids {
+        margin: 0;
+    }
+}
+
+.tgb-r05-report-page .tagsids::after,
+.tgb-r05-report-page .weui-btn_primary::after {
+    border: 0;
+}
+
+.tgb-r05-report-page .tagsids.tag-on {
+    color: #FFFFFF;
+    background: #2764FF;
+    border-color: #2764FF;
+}
+
+.tgb-r05-report-page .weui-label {
+    width: 88px;
+    color: #0E1B2A;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.tgb-r05-report-page .weui-input,
+.tgb-r05-report-page .weui-textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    color: #0E1B2A;
+    background: #FFFFFF;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.tgb-r05-report-page .weui-textarea {
+    min-height: 112px;
+    resize: vertical;
+}
+
+.tgb-r05-report-page .weui-input::placeholder,
+.tgb-r05-report-page .weui-textarea::placeholder {
+    color: #718096;
+    opacity: 1;
+}
+
+.tgb-r05-report-page .weui-btn-area {
+    margin: 24px 0 0;
+}
+
+.tgb-r05-report-page .weui-btn_primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    color: #FFFFFF;
+    background: #2764FF;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tgb-r05-report-page .weui-btn_primary:active {
+    background: #1847CC;
+}
+
+.tgb-r05-report-page .tagsids:focus,
+.tgb-r05-report-page .weui-input:focus,
+.tgb-r05-report-page .weui-textarea:focus,
+.tgb-r05-report-page .weui-btn_primary:focus {
+    outline: 2px solid #2764FF;
+    outline-offset: 2px;
+}
+
+.tgb-r05-report-page .weui-btn_primary:disabled {
+    color: #718096;
+    background: #D8E1EC;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tgb-r05-report-page *,
+    .tgb-r05-report-page *::before,
+    .tgb-r05-report-page *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}

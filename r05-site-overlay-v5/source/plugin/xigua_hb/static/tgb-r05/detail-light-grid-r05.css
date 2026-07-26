@@ -1,0 +1,494 @@
+/* Light Grid R05 v5: click-proven content detail surface only. */
+:root {
+  color-scheme: light;
+  --tg-r05-bg: #f4f7fb;
+  --tg-r05-surface: #ffffff;
+  --tg-r05-soft: #edf3fa;
+  --tg-r05-ink: #0e1b2a;
+  --tg-r05-text: #405166;
+  --tg-r05-muted: #718096;
+  --tg-r05-border: #d8e1ec;
+  --tg-r05-primary: #2764ff;
+  --tg-r05-primary-pressed: #1847cc;
+  --tg-r05-violet: #7657ff;
+  --tg-r05-warning: #d99000;
+  --tg-r05-shadow: 0 8px 24px rgba(12, 27, 51, 0.08);
+}
+
+body {
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  background: var(--tg-r05-bg) !important;
+  color: var(--tg-r05-text) !important;
+}
+
+.view.tgb-r05-detail {
+  width: 100% !important;
+  min-width: 0;
+  margin: calc(52px + env(safe-area-inset-top, 0px)) 0 0 !important;
+  padding: 0 0 calc(88px + env(safe-area-inset-bottom, 0px)) !important;
+  overflow-x: hidden;
+  background: var(--tg-r05-bg) !important;
+  color: var(--tg-r05-text) !important;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+.tgb-r05-detail,
+.tgb-r05-detail *,
+.tgb-r05-detail *::before,
+.tgb-r05-detail *::after {
+  box-sizing: border-box;
+  letter-spacing: 0 !important;
+}
+
+.tgb-r05-detail img,
+.tgb-r05-detail video,
+.tgb-r05-detail iframe,
+.tgb-r05-detail table {
+  max-width: 100%;
+}
+
+.tgb-r05-detail a,
+.tgb-r05-detail button,
+.tgb-r05-detail [role="button"] {
+  -webkit-tap-highlight-color: rgba(39, 100, 255, 0.12);
+}
+
+.tgb-r05-detail a:focus-visible,
+.tgb-r05-detail button:focus-visible {
+  outline: 3px solid rgba(39, 100, 255, 0.28) !important;
+  outline-offset: 2px;
+}
+
+.tgb-r05-detail > div > .weui-flex:first-child {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(52px + env(safe-area-inset-top, 0px)) !important;
+  min-height: 52px;
+  margin: 0 !important;
+  padding: env(safe-area-inset-top, 0px) 12px 0 !important;
+  align-items: center !important;
+  border-bottom: 1px solid var(--tg-r05-border) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 14px rgba(12, 27, 51, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r05-detail > div > .weui-flex:first-child > a,
+.tgb-r05-detail > div > .weui-flex:first-child > .view-header-right {
+  min-width: 64px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+  color: var(--tg-r05-primary) !important;
+}
+
+.tgb-r05-detail > div > .weui-flex:first-child > a img {
+  margin: 0 !important;
+}
+
+.tgb-r05-detail > div > .weui-flex:first-child .bi {
+  margin: 0 !important;
+  color: var(--tg-r05-primary) !important;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.tgb-r05-detail > div > .weui-flex:first-child > em {
+  min-width: 0;
+  align-self: center;
+  margin: 0 !important;
+  color: var(--tg-r05-ink) !important;
+  font-size: 18px !important;
+  font-style: normal;
+  font-weight: 700 !important;
+  line-height: 26px;
+  white-space: nowrap;
+}
+
+.tgb-r05-detail .view-header-right {
+  justify-content: flex-end;
+  font-size: 13px !important;
+}
+
+.tgb-r05-detail .view-header-right a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--tg-r05-primary) !important;
+}
+
+.tgb-r05-detail .view-header-right .bi {
+  margin-right: 5px !important;
+  font-size: 15px !important;
+}
+
+.tgb-r05-detail #header {
+  top: 0 !important;
+  height: calc(52px + env(safe-area-inset-top, 0px)) !important;
+  padding: env(safe-area-inset-top, 0px) 16px 0 !important;
+  border-bottom: 1px solid var(--tg-r05-border) !important;
+  background: var(--tg-r05-surface) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* The legacy template renders a second empty back bar under the real title bar. */
+.tgb-r05-detail #header {
+  display: none !important;
+}
+
+.tgb-r05-detail #header > a {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.tgb-r05-detail #header > a img,
+.tgb-r05-detail #header-title {
+  margin-top: 0 !important;
+}
+
+.tgb-r05-detail .crypto-project-container {
+  width: 100% !important;
+  min-height: 100vh;
+  padding: 16px 16px 24px !important;
+  overflow: hidden;
+  background: var(--tg-r05-bg) !important;
+  background-image: none !important;
+}
+
+.tgb-r05-detail .crypto-glass,
+.tgb-r05-detail .crypto-section,
+.tgb-r05-detail .crypto-warning-section,
+.tgb-r05-detail .weui-cells-view,
+.tgb-r05-detail .view-content {
+  max-width: 100%;
+  margin: 0 0 12px !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r05-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r05-surface) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r05-detail .crypto-project-header,
+.tgb-r05-detail .crypto-user-card,
+.tgb-r05-detail .crypto-section,
+.tgb-r05-detail .crypto-warning-section {
+  padding: 16px !important;
+}
+
+.tgb-r05-detail .crypto-pinned-badge {
+  padding: 10px 12px !important;
+  border-color: rgba(217, 144, 0, 0.28) !important;
+  background: #fff9e9 !important;
+}
+
+.tgb-r05-detail .crypto-pinned-text {
+  color: #7a5300 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  overflow-wrap: anywhere;
+}
+
+.tgb-r05-detail .crypto-project-title,
+.tgb-r05-detail .crypto-project-title a {
+  margin: 0 !important;
+  color: var(--tg-r05-ink) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 30px !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tgb-r05-detail .crypto-user-info {
+  min-width: 0;
+  gap: 12px !important;
+}
+
+.tgb-r05-detail .crypto-avatar-section {
+  flex: 0 0 52px;
+}
+
+.tgb-r05-detail .crypto-avatar {
+  width: 52px !important;
+  height: 52px !important;
+  border: 2px solid var(--tg-r05-surface) !important;
+  box-shadow: 0 0 0 1px var(--tg-r05-border) !important;
+}
+
+.tgb-r05-detail .crypto-badge-director {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 24px !important;
+  height: 24px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--tg-r05-surface);
+  border-radius: 50%;
+  background: var(--tg-r05-violet);
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.tgb-r05-detail .crypto-user-details,
+.tgb-r05-detail .crypto-user-name-row,
+.tgb-r05-detail .crypto-contact-info {
+  min-width: 0;
+}
+
+.tgb-r05-detail .crypto-user-name {
+  color: var(--tg-r05-ink) !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  overflow-wrap: anywhere;
+}
+
+.tgb-r05-detail .crypto-vip-badge,
+.tgb-r05-detail .crypto-verify-badge {
+  border-radius: 6px !important;
+  background: #f0edff !important;
+  color: var(--tg-r05-violet) !important;
+}
+
+.tgb-r05-detail .crypto-user-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px !important;
+  color: var(--tg-r05-muted) !important;
+}
+
+.tgb-r05-detail .crypto-user-actions {
+  width: auto !important;
+  min-width: 96px;
+}
+
+.tgb-r05-detail .crypto-message-btn,
+.tgb-r05-detail .crypto-copy-btn {
+  min-height: 48px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: var(--tg-r05-primary) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+
+.tgb-r05-detail .crypto-message-btn:active,
+.tgb-r05-detail .crypto-copy-btn:active {
+  background: var(--tg-r05-primary-pressed) !important;
+  transform: none !important;
+}
+
+.tgb-r05-detail .crypto-section-header {
+  min-width: 0;
+  margin-bottom: 8px !important;
+}
+
+.tgb-r05-detail .crypto-section-title,
+.tgb-r05-detail .crypto-warning-title {
+  margin: 0 0 8px !important;
+  color: var(--tg-r05-ink) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+}
+
+.tgb-r05-detail .crypto-description-text,
+.tgb-r05-detail .crypto-project-description,
+.tgb-r05-detail .crypto-warning-content,
+.tgb-r05-detail .crypto-contact-info {
+  max-width: 100%;
+  color: var(--tg-r05-text) !important;
+  font-size: 16px !important;
+  line-height: 1.75 !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tgb-r05-detail .crypto-description-text img,
+.tgb-r05-detail .crypto-project-description img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+.tgb-r05-detail .crypto-project-images,
+.tgb-r05-detail .jly_photo {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px !important;
+  width: 100%;
+}
+
+.tgb-r05-detail .crypto-image-item,
+.tgb-r05-detail .jly_photo .imgloading {
+  width: 100% !important;
+  min-width: 0;
+  aspect-ratio: 1;
+  margin: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r05-border);
+  border-radius: 6px !important;
+  background: var(--tg-r05-soft);
+}
+
+.tgb-r05-detail .crypto-image,
+.tgb-r05-detail .crypto-image-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.tgb-r05-detail .crypto-warning-section {
+  border-left: 3px solid var(--tg-r05-warning) !important;
+  background: #fffdf5 !important;
+}
+
+.tgb-r05-detail .crypto-warning-link {
+  color: var(--tg-r05-primary) !important;
+  text-decoration: underline;
+}
+
+.tgb-r05-detail .crypto-floating-warning {
+  top: auto !important;
+  right: 16px !important;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 12px !important;
+  border: 1px solid rgba(217, 144, 0, 0.3) !important;
+  border-radius: 8px !important;
+  background: #fff9e9 !important;
+  background-image: none !important;
+  box-shadow: var(--tg-r05-shadow) !important;
+  color: #7a5300 !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+.tgb-r05-detail .crypto-floating-warning:hover,
+.tgb-r05-detail .crypto-floating-warning:active {
+  transform: none !important;
+}
+
+.tgb-r05-detail .crypto-floating-text {
+  margin-top: 0 !important;
+}
+
+.tgb-r05-detail .footer-box {
+  min-height: calc(64px + env(safe-area-inset-bottom, 0px));
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  border-top: 1px solid var(--tg-r05-border) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r05-detail .footer-box .left-notice-box {
+  min-width: 0;
+  min-height: 48px;
+  border: 1px solid var(--tg-r05-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r05-soft) !important;
+}
+
+.tgb-r05-detail .footer-box .right-user-oprate-box {
+  min-width: 112px;
+  min-height: 48px;
+  margin-left: 8px !important;
+}
+
+.tgb-r05-detail .crypto-image-modal .crypto-modal-content {
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
+  border-radius: 8px !important;
+  background: var(--tg-r05-surface) !important;
+}
+
+.tgb-r05-detail .crypto-modal-close,
+.tgb-r05-detail .crypto-modal-nav {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.tgb-r05-detail .crypto-modal-content {
+  border-color: var(--tg-r05-border) !important;
+  background: var(--tg-r05-surface) !important;
+  box-shadow: var(--tg-r05-shadow) !important;
+}
+
+.tgb-r05-detail .crypto-modal-header,
+.tgb-r05-detail .crypto-modal-footer {
+  border-color: var(--tg-r05-border) !important;
+  background: var(--tg-r05-soft) !important;
+  color: var(--tg-r05-text) !important;
+}
+
+.tgb-r05-detail .crypto-modal-nav,
+.tgb-r05-detail .crypto-modal-close {
+  border-radius: 8px !important;
+  background: var(--tg-r05-primary) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+
+.tgb-r05-detail .crypto-toast {
+  border-radius: 8px !important;
+  background: var(--tg-r05-primary) !important;
+  background-image: none !important;
+  box-shadow: var(--tg-r05-shadow) !important;
+}
+
+@media (max-width: 380px) {
+  .tgb-r05-detail .crypto-project-container {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  .tgb-r05-detail .crypto-user-card {
+    padding: 12px !important;
+  }
+
+  .tgb-r05-detail .crypto-user-info {
+    flex-wrap: wrap;
+  }
+
+  .tgb-r05-detail .crypto-user-actions {
+    width: 100% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tgb-r05-detail,
+  .tgb-r05-detail *,
+  .tgb-r05-detail *::before,
+  .tgb-r05-detail *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

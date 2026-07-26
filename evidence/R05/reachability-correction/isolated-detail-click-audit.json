@@ -1,0 +1,54 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "baseline": "R04-derived R05 isolated staging with v3 out-of-scope files restored",
+  "credentialsStored": false,
+  "personalDataStored": false,
+  "entry": {
+    "parent": "AUTH-HOME",
+    "control": "visible content title",
+    "child": "/plugin.php?id=xigua_hb&ac=view&pubid={sanitized}",
+    "clipExposure": "PASS",
+    "hitTest": "PASS",
+    "clicked": true,
+    "screenshot": "evidence/R05/reachability-correction/production-home-390x844.png"
+  },
+  "visibleChildren": [
+    {
+      "page": "SAFETY-REPORT",
+      "route": "/plugin.php?id=xigua_hj",
+      "exposedArea": 681,
+      "hit": true,
+      "clicked": true,
+      "submitted": false,
+      "screenshot": "evidence/R05/reachability-correction/isolated-detail-report-entry-390x100.jpg"
+    },
+    {
+      "page": "COMMUNICATION-CHAT-DETAIL",
+      "route": "/plugin.php?id=xigua_hb&ac=chat&touid={sanitized}",
+      "exposedArea": 13653,
+      "hit": true,
+      "clicked": false,
+      "reason": "requires synthetic peer and chat-state rollback"
+    }
+  ],
+  "hiddenOrAbsentChildren": [
+    {"page": "CONTENT-REDPACK-LIST", "sourcePresent": true, "exposedArea": 0, "hit": false},
+    {"page": "CARD-ADD", "sourcePresent": true, "exposedArea": 0, "hit": false},
+    {"page": "CARD-UPLOAD", "sourcePresent": true, "exposedArea": 0, "hit": false},
+    {"feature": "COMMENT", "sourcePresent": true, "visibleActionCount": 0, "hitCount": 0},
+    {"feature": "LIKE", "sourcePresent": true, "visibleActionCount": 0, "hitCount": 0},
+    {"feature": "FAVORITE", "sourcePresent": false, "visibleActionCount": 0, "hitCount": 0},
+    {"page": "CONTENT-MEMBER", "sourcePresent": true, "visibleActionCount": 0, "hitCount": 0, "note": "member remains a separate wallet-parent isolated candidate"}
+  ],
+  "rollback": {
+    "finalStatus": "PASS",
+    "viewsRestored": true,
+    "viewLogRowSetRestored": true,
+    "dailyViewLogRowSetRestored": true,
+    "dailyTaskRowSetRestored": true,
+    "moneyRewardCounterInvariants": "UNCHANGED",
+    "comparison": "order-independent SQL row sets",
+    "exactInitialViewDelta": "NOT_RETAINED_AFTER_FIRST_BYTE_ORDER_COMPARISON_RETRY"
+  }
+}

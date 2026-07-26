@@ -2,7 +2,8 @@ $script:ManifestBinaryExtensions = [System.Collections.Generic.HashSet[string]]:
     [System.StringComparer]::OrdinalIgnoreCase
 )
 foreach ($extension in @(
-    '.bytes', '.gif', '.jar', '.jpeg', '.jpg', '.otf', '.png', '.woff', '.woff2'
+    '.aab', '.aar', '.apk', '.apks', '.bytes', '.gif', '.gz', '.jar', '.jpeg', '.jpg',
+    '.otf', '.pdf', '.png', '.so', '.webp', '.woff', '.woff2', '.zip'
 )) {
     [void]$script:ManifestBinaryExtensions.Add($extension)
 }

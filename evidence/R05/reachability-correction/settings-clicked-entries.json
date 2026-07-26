@@ -1,0 +1,25 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "credentialsStored": false,
+  "personalDataStored": false,
+  "parent": {
+    "page": "ACCOUNT-MY",
+    "control": "设置",
+    "child": "/plugin.php?id=xigua_hb&ac=shezhi",
+    "clicked": true
+  },
+  "children": [
+    {"control": "资料设置", "child": "/plugin.php?id=xigua_member:profile", "clicked": true},
+    {"control": "收货地址", "child": "/plugin.php?id=xigua_hb&ac=myaddr&mobile=2", "clicked": true},
+    {"control": "联系方式", "child": "/plugin.php?id=tb_credit&modac=userext", "clicked": true},
+    {"control": "服务协议", "child": "/m/yhxy.html", "clicked": true},
+    {"control": "隐私政策", "child": "/m/yszc.html", "clicked": true},
+    {"control": "消费协议", "child": "/m/xfxy.html", "clicked": true},
+    {"control": "注销账号", "child": "/plugin.php?id=deluser", "clicked": true, "destructiveActionClicked": false}
+  ],
+  "excluded": [
+    {"page": "ACCOUNT-OTHER-SETTINGS", "reason": "no visible parent control found on the current settings page"},
+    {"control": "退出登录", "reason": "session mutation is outside the read-only reachability pass"}
+  ]
+}

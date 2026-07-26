@@ -20,7 +20,6 @@ $excludedPrefixes = @(
 function Test-IsExcluded([string]$relative) {
     $normalized = $relative.Replace('\', '/')
     if ($normalized -eq 'android-app/local.properties') { return $true }
-    if ($normalized -match '^deliverables/.+\.(apk|apks|aab)$') { return $true }
     foreach ($prefix in $excludedPrefixes) {
         if ($normalized.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
             return $true
@@ -47,6 +46,8 @@ $required = @(
     '13_SIDE_EFFECT_TEST_PLAN.md',
     '14_ANDROID_TOOLCHAIN.md',
     '15_GITHUB_ACTIONS.md',
+    '16_RUNTIME_CLICK_AUDIT.md',
+    '17_RUNTIME_CLICK_GRAPH.csv',
     'STYLE_TOKENS.json',
     'CURRENT_STATUS.yaml',
     'NEXT_TASK.yaml',
@@ -123,8 +124,176 @@ function Test-Manifest {
     Write-Host 'MANIFEST_SHA256.txt 校验通过。' -ForegroundColor Green
 }
 
+function Get-YamlScalar {
+    param(
+        [Parameter(Mandatory = $true)][string]$Text,
+        [Parameter(Mandatory = $true)][string]$Name
+    )
+    $match = [regex]::Match($Text, "(?m)^[ \t]*$([regex]::Escape($Name)):\s*(.+?)\s*$")
+    if (-not $match.Success) {
+        throw "YAML 缺少字段：$Name"
+    }
+    return $match.Groups[1].Value.Trim('"', "'")
+}
+
+function Get-YamlList {
+    param(
+        [Parameter(Mandatory = $true)][string]$Text,
+        [Parameter(Mandatory = $true)][string]$Name
+    )
+    $match = [regex]::Match(
+        $Text,
+        "(?ms)^$([regex]::Escape($Name)):\s*\r?\n(?<body>(?:^[ \t]+- [^\r\n]*(?:\r?\n|$))+?)^(?=\S|$)"
+    )
+    if (-not $match.Success) {
+        throw "YAML 缺少列表：$Name"
+    }
+    return @(
+        [regex]::Matches($match.Groups['body'].Value, '(?m)^\s+-\s+(.+?)\s*$') |
+            ForEach-Object { $_.Groups[1].Value.Trim('"', "'") }
+    )
+}
+
+function Assert-StateConsistency {
+    $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
+    $nextText = Get-Content -LiteralPath (Join-Path $root 'NEXT_TASK.yaml') -Raw -Encoding UTF8
+    $pairs = @(
+        @('project_id', 'project_id'),
+        @('current_release', 'release'),
+        @('active_task_id', 'task_id'),
+        @('release_status', 'status')
+    )
+    foreach ($pair in $pairs) {
+        $left = Get-YamlScalar -Text $statusText -Name $pair[0]
+        $right = Get-YamlScalar -Text $nextText -Name $pair[1]
+        if ($left -ne $right) {
+            throw "状态不一致：CURRENT_STATUS.$($pair[0])=$left，NEXT_TASK.$($pair[1])=$right"
+        }
+    }
+    if ((Get-YamlScalar -Text $statusText -Name 'release_status') -ne 'IN_PROGRESS') {
+        throw '当前接续包必须明确保持唯一版本 IN_PROGRESS。'
+    }
+}
+
+function Assert-ReadFirstFiles {
+    $nextText = Get-Content -LiteralPath (Join-Path $root 'NEXT_TASK.yaml') -Raw -Encoding UTF8
+    $manifestPaths = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+    foreach ($line in (Get-Content -LiteralPath $manifest -Encoding UTF8)) {
+        if ($line -match '^[0-9a-fA-F]{64}  (.+)$') {
+            [void]$manifestPaths.Add($Matches[1].Replace('\', '/'))
+        }
+    }
+    foreach ($relative in (Get-YamlList -Text $nextText -Name 'read_first')) {
+        $normalized = $relative.Replace('\', '/')
+        if (-not (Test-Path -LiteralPath (Join-Path $root $normalized) -PathType Leaf)) {
+            throw "NEXT_TASK.read_first 文件缺失：$normalized"
+        }
+        if (-not $manifestPaths.Contains($normalized)) {
+            throw "NEXT_TASK.read_first 未纳入 MANIFEST：$normalized"
+        }
+    }
+}
+
+function Assert-ClickGraphConsistency {
+    $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
+    $ledger = @(Import-Csv -LiteralPath (Join-Path $root '03_PAGE_LEDGER.csv'))
+    $graph = @(Import-Csv -LiteralPath (Join-Path $root '17_RUNTIME_CLICK_GRAPH.csv'))
+    $clicked = @($graph | Where-Object clicked -eq 'true')
+    $pending = @($graph | Where-Object scope_effect -eq 'VISIBLE_ENTRY_PENDING_ISOLATED_CLICK')
+    $hidden = @($graph | Where-Object scope_effect -in @('HIDDEN_OUT_OF_VISUAL_SCOPE', 'HIDDEN_PROTOCOL_ONLY'))
+    $clickedChildren = @($clicked.child_page_id | Sort-Object -Unique)
+    $expected = [ordered]@{
+        click_graph_edges = $graph.Count
+        click_graph_clicked_edges = $clicked.Count
+        click_graph_pending_isolated_edges = $pending.Count
+        click_graph_hidden_or_absent_edges = $hidden.Count
+        click_proven_page_count = $clickedChildren.Count
+    }
+    foreach ($item in $expected.GetEnumerator()) {
+        $recorded = [int](Get-YamlScalar -Text $statusText -Name $item.Key)
+        if ($recorded -ne $item.Value) {
+            throw "点击图统计漂移：$($item.Key) 记录=$recorded 实际=$($item.Value)"
+        }
+    }
+
+    $unproven = @(
+        $ledger |
+            Where-Object {
+                $_.scope -eq 'IN_SCOPE' -and
+                $_.page_id -ne 'DESKTOP-SPLASH' -and
+                -not $_.page_id.StartsWith('NATIVE-') -and
+                $_.page_id -notin $clickedChildren
+            } |
+            Select-Object -ExpandProperty page_id
+    )
+    if ($unproven.Count -gt 0) {
+        throw "视觉 IN_SCOPE 页面缺少已点击父边：$($unproven -join ', ')"
+    }
+    $invalidScope = @(
+        $ledger |
+            Where-Object {
+                $_.scope -eq 'IN_SCOPE' -and
+                $_.reachability -in @('DIRECT_URL_ONLY', 'SOURCE_ROUTE_FOUND', 'SOURCE_DISCOVERED', 'DORMANT_ENABLED', 'HIDDEN_ZERO_EXPOSURE')
+            } |
+            Select-Object -ExpandProperty page_id
+    )
+    if ($invalidScope.Count -gt 0) {
+        throw "禁止直接 URL、源码、休眠或隐藏页面进入视觉范围：$($invalidScope -join ', ')"
+    }
+}
+
+function Assert-ArtifactHashes {
+    $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
+    $artifacts = @(
+        @('handoff_apk', 'server_release_apk_sha256', 'server_release_apk_bytes'),
+        @('r05_v5_overlay_archive', 'r05_v5_overlay_archive_sha256', $null)
+    )
+    foreach ($artifact in $artifacts) {
+        $relative = Get-YamlScalar -Text $statusText -Name $artifact[0]
+        $path = Join-Path $root $relative
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw "正式制品缺失：$relative"
+        }
+        $actualHash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()
+        $expectedHash = (Get-YamlScalar -Text $statusText -Name $artifact[1]).ToLowerInvariant()
+        if ($actualHash -ne $expectedHash) {
+            throw "正式制品原始 SHA-256 不一致：$relative"
+        }
+        if ($null -ne $artifact[2]) {
+            $actualBytes = (Get-Item -LiteralPath $path).Length
+            $expectedBytes = [long](Get-YamlScalar -Text $statusText -Name $artifact[2])
+            if ($actualBytes -ne $expectedBytes) {
+                throw "正式制品字节数不一致：$relative"
+            }
+        }
+    }
+}
+
+function Assert-GitCheckpoint {
+    if (-not (Test-Path -LiteralPath (Join-Path $root '.git'))) {
+        throw '交接目录不是 Git 工作树，无法证明跨电脑恢复。'
+    }
+    $dirty = @(& git -C $root status --porcelain=v1)
+    if ($LASTEXITCODE -ne 0 -or $dirty.Count -gt 0) {
+        throw 'Git 工作树不是干净的已冻结检查点；必须提交全部交接文件后再运行漂移审计。'
+    }
+    $upstream = (& git -C $root rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>$null).Trim()
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($upstream)) {
+        throw '当前分支没有上游分支，无法证明新电脑可恢复。'
+    }
+    $head = (& git -C $root rev-parse HEAD).Trim()
+    $remoteHead = (& git -C $root rev-parse $upstream).Trim()
+    if ($LASTEXITCODE -ne 0 -or $head -ne $remoteHead) {
+        throw "当前提交尚未推送到上游：HEAD=$head upstream=$remoteHead"
+    }
+}
+
 function Show-Resume {
     Test-Manifest
+    Assert-StateConsistency
+    Assert-ReadFirstFiles
+    Assert-ClickGraphConsistency
+    Assert-ArtifactHashes
     Write-Host ''
     Write-Host '当前状态' -ForegroundColor Cyan
     Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Encoding UTF8
@@ -132,11 +301,15 @@ function Show-Resume {
     Write-Host '唯一下一任务' -ForegroundColor Cyan
     Get-Content -LiteralPath (Join-Path $root 'NEXT_TASK.yaml') -Encoding UTF8
     Write-Host ''
-    Write-Host '接管提醒：先完整阅读硬门禁、项目章程、页面台账、视觉规范、Android 规范、决定和踩坑；不得直接改生产。' -ForegroundColor Yellow
+    Write-Host '接管提醒：收到“继续开发 / 立即开发 / 立即开始”任一触发词后，先完整阅读 read_first、硬门禁、决定和踩坑，再从唯一 IN_PROGRESS 任务继续；不得直接改生产。' -ForegroundColor Yellow
 }
 
 function Test-Drift {
     Test-Manifest
+    Assert-StateConsistency
+    Assert-ReadFirstFiles
+    Assert-ClickGraphConsistency
+    Assert-ArtifactHashes
     $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
     $gateText = Get-Content -LiteralPath (Join-Path $root '06_HARD_GATES.md') -Raw -Encoding UTF8
     $tokens = Get-Content -LiteralPath (Join-Path $root 'STYLE_TOKENS.json') -Raw -Encoding UTF8 | ConvertFrom-Json
@@ -170,12 +343,15 @@ function Test-Drift {
     }
     Write-Host "页面台账总数：$($ledger.Count)"
     Write-Host "源码映射总数：$($sourceMap.Count)"
-    Write-Host "真实观察：$(@($ledger | Where-Object evidence_status -eq 'OBSERVED').Count)"
-    Write-Host "待运行时验证：$(@($ledger | Where-Object evidence_status -in @('SOURCE_DISCOVERED','DORMANT_ENABLED','INTERACTIVE_ONLY','PLANNED')).Count)"
+    $graph = @(Import-Csv -LiteralPath (Join-Path $root '17_RUNTIME_CLICK_GRAPH.csv'))
+    Write-Host "已点击边：$(@($graph | Where-Object clicked -eq 'true').Count)"
+    Write-Host "待隔离点击边：$(@($graph | Where-Object scope_effect -eq 'VISIBLE_ENTRY_PENDING_ISOLATED_CLICK').Count)"
+    Write-Host "隐藏或不存在边：$(@($graph | Where-Object scope_effect -in @('HIDDEN_OUT_OF_VISUAL_SCOPE','HIDDEN_PROTOCOL_ONLY')).Count)"
 
     if ($failed.Count -gt 0) {
         throw "漂移检查失败。先加固文档/状态，再关版。"
     }
+    Assert-GitCheckpoint
     Write-Host '结构化漂移检查通过；仍必须人工完成 VERSION_CLOSEOUT_TEMPLATE.md 的全局审计。' -ForegroundColor Green
 }
 

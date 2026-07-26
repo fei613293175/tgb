@@ -1,0 +1,26 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "credentialsStored": false,
+  "screenshotsStoredForPersonalPages": false,
+  "edges": [
+    {
+      "parent": "AUTH-HOME",
+      "control": "发布",
+      "child": "/plugin.php?id=xigua_hb&ac=pub&step=3&catid=31&idu={sanitized}",
+      "clicked": true
+    },
+    {
+      "parent": "ACCOUNT-MY",
+      "control": "我的项目",
+      "child": "/plugin.php?id=xigua_hb&ac=mypub",
+      "clicked": true
+    },
+    {
+      "parent": "ACCOUNT-MY",
+      "control": "项目审核",
+      "child": "/plugin.php?id=xigua_hb&ac=manage&stat=display&display=0",
+      "clicked": true
+    }
+  ]
+}

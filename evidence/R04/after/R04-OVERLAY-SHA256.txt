@@ -1,0 +1,5 @@
+c73fed1bc7337070c5559c9a0a02ecdc945a2066ff1492b7113b021bc2264660  source/plugin/xigua_hb/static/tgb-r04/discovery-light-grid-r04.css
+81b84312bf6f6a8c4f1fb9a67523f37f8ce1df6707b2392dc6a8b3821bb2c8af  source/plugin/xigua_hb/static/tgb-r04/discovery-r04.js
+19b975006d190bf038d353d0096c1d0364fd6ab12681e9d57457c9d50507ac21  source/plugin/xigua_hb/template/touch/cat.php
+8fecb08132985b816a9c4e5adaf91ce567c3961e1a91ba1ae39fb7f4b6c6a9c4  source/plugin/xigua_hb/template/touch/index.php
+03deb348a75094f1b388ec5b1d5b04aadce9a6d9670ae6b85b2d2c2f18d8c33f  source/plugin/xigua_hb/template/touch/tab1.php

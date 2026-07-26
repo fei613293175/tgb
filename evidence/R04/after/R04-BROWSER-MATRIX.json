@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "release": "R04",
+  "captured_at": "2026-07-26",
+  "deployment_id": "20260726T233007+0800",
+  "browser_profile": "Android 14 mobile UA through SSH-only loopback staging",
+  "asset_version": "20260726-r04-2",
+  "home_default": [
+    {"requested_viewport":"360x800","captured_bitmap":"350x778","overflow_px":0,"input_font_px":16,"input_height_px":48,"publish_px":"56x56","bottom_nav_height_px":64,"legacy_home_filters":{"ids":[5,14,15,13],"visible_count":0,"hit_target_count":0,"exposed_heights_px":[0,0,0,0]},"console_errors":0},
+    {"requested_viewport":"390x844","captured_bitmap":"380x822","overflow_px":0,"input_font_px":16,"input_height_px":48,"publish_px":"56x56","bottom_nav_height_px":64,"legacy_home_filters":{"ids":[5,14,15,13],"visible_count":0,"hit_target_count":0,"exposed_heights_px":[0,0,0,0]},"console_errors":0},
+    {"requested_viewport":"430x932","captured_bitmap":"420x845","overflow_px":0,"input_font_px":16,"input_height_px":48,"publish_px":"56x56","bottom_nav_height_px":64,"legacy_home_filters":{"ids":[5,14,15,13],"visible_count":0,"hit_target_count":0,"exposed_heights_px":[0,0,0,0]},"console_errors":0}
+  ],
+  "search_empty": [
+    {"requested_viewport":"360x800","captured_bitmap":"360x800","overflow_px":0,"back_px":"76x44","publish_px":"58x44","header_overlap":false,"empty_visible":true},
+    {"requested_viewport":"390x844","captured_bitmap":"390x843","overflow_px":0,"back_px":"76x44","publish_px":"58x44","header_overlap":false,"empty_visible":true},
+    {"requested_viewport":"430x932","captured_bitmap":"430x866","overflow_px":0,"back_px":"76x46.2","publish_px":"58x46.2","header_overlap":false,"empty_visible":true}
+  ],
+  "category_empty": [
+    {"requested_viewport":"360x800","captured_bitmap":"360x800","overflow_px":0,"back_px":"76x44","publish_px":"58x44","header_overlap":false,"empty_visible":true},
+    {"requested_viewport":"390x844","captured_bitmap":"390x843","overflow_px":0,"back_px":"76x44","publish_px":"58x44","header_overlap":false,"empty_visible":true},
+    {"requested_viewport":"430x932","captured_bitmap":"430x866","overflow_px":0,"back_px":"76x46.2","publish_px":"58x46.2","header_overlap":false,"empty_visible":true}
+  ],
+  "runtime": {"home":200,"search_populated":200,"search_empty":200,"category":200,"article":200,"post":405,"business_counters_unchanged":true},
+  "network": {"final_request_correlated_reload_failures":0,"http_4xx":0,"plugin_console_errors":0},
+  "privacy": {"home_dom_mask_only":true,"search_title_dom_mask_only":true,"server_modified":false,"cookies_saved":false,"uid_saved":false,"real_identity_saved":false}
+}

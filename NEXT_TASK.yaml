@@ -1,90 +1,71 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
-task_id: TASK-R04-001
-release: R04
+task_id: TASK-R06-001
+release: R06
 status: IN_PROGRESS
-title: 开发首页与发现页面
-
-preconditions:
-  - R03_RESULT.md conclusion is PASS for development closeout
-  - R03 production-stability hash staging backup and controlled-auth cleanup remain valid
-  - create a new R04 staging code and database snapshot from the verified R03 staging baseline
-  - production stays unchanged and all write windows remain loopback-only and recoverable
-  - no credentials cookies tokens formhash real UID query or private content enter evidence
+title: 批量开发账户与沟通真实可达页面
 
 read_first:
+  - 16_RUNTIME_CLICK_AUDIT.md
+  - 17_RUNTIME_CLICK_GRAPH.csv
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
+  - version-results/R05_RESULT.md
+  - evidence/R05/after/R05-V5-BROWSER-MATRIX.json
   - 04_VISUAL_SYSTEM.md
   - STYLE_TOKENS.json
-  - 02_PAGE_EXPERIENCE_LOG.md
   - 03_PAGE_LEDGER.csv
   - 12_PAGE_SOURCE_MAP.csv
-  - 13_SIDE_EFFECT_TEST_PLAN.md
   - DECISIONS.md
   - LESSONS_LEARNED.md
-  - version-results/R03_RESULT.md
 
-scope:
-  - AUTH-HOME
-  - DISCOVERY-SEARCH
-  - DISCOVERY-CATEGORY
-  - DISCOVERY-ARTICLE-LIST
+click_proven_in_scope:
+  - ACCOUNT-MY
+  - ACCOUNT-SETTINGS
+  - ACCOUNT-PROFILE
+  - ACCOUNT-ADDRESS
+  - ACCOUNT-CONTACT
+  - ACCOUNT-CERTIFICATION
+  - ACCOUNT-CANCEL
+  - COMMUNICATION-CHAT-LIST
 
-source_focus:
-  - source/plugin/xigua_hb/template/touch/index.php
-  - source/plugin/xigua_hb/template/touch/search.php
-  - source/plugin/xigua_hb/template/touch/c_cat.php
-  - source/plugin/xigua_hb/template/touch/article_li.php
-  - source/plugin/xigua_hb/include/city.inc.php
-  - source/plugin/xigua_hb/include/cat.inc.php
-  - source/plugin/xigua_hb/include/c_search.php
-  - source/plugin/xigua_hb/include/c_article_li.php
-  - source/plugin/xigua_hb/static/app.js
+candidate_pending_isolated_click:
+  - COMMUNICATION-CHAT-DETAIL
+
+out_of_visual_scope:
+  - ACCOUNT-OTHER-SETTINGS
+
+implementation_batches:
+  - lane_a: personal center settings profile and address
+  - lane_b: contact certification and cancellation confirmation
+  - lane_c: chat list and synthetic chat-detail click fixture
 
 actions:
-  - Create and verify an isolated R04 staging snapshot that preserves closed R02 and R03 overlays.
-  - Inventory runtime routes query parameters templates AJAX contracts sorting filters and GET side effects before edits.
-  - Capture sanitized before evidence for home search category and article-list states at real H5 viewports.
-  - Apply the Light Grid discovery system to header search tabs cards lists pagination empty and loading states.
-  - Preserve the bottom navigation order destinations active-state logic publish entry and App WebView safe-area contract.
-  - Keep headline promotion display and publish entry behavior unchanged; do not enter purchase or publish flows.
-  - Remove public UI CDN dependencies from R04-owned templates using versioned local CSS icons and fonts.
-  - Fix all R04-owned JavaScript and console errors without editing R05-R09 controllers or templates.
-  - Verify initial HTML and AJAX fragments for default query filter category pagination empty and error states.
-  - Compare list ordering item IDs hrefs query strings request methods field names response fragment hooks and database counters.
-  - Use only GET and isolated fixtures unless a documented reversible write window is strictly necessary.
-  - Capture 360x800 390x844 and 430x932 screenshots plus overflow touch contrast console network and resource evidence.
-  - Keep GitHub Actions manual-only and do not wait for asynchronous device feedback.
-  - Build a server-signed Android APK only if native production source or packaged resources change.
-  - Put every newly built server-signed APK on the Desktop; never deliver Debug as formal release.
-  - Update ledger source map evidence decisions lessons status next task result and manifest.
-  - Run full global drift audit before R04 closeout then continue to R05.
+  - continue from the active R06 staging and v7 overlay
+  - preserve all routes fields hidden values handlers permissions and mutation behavior
+  - apply Light Grid shallow-color UI only to click-proven pages
+  - complete chat-detail isolated click before adding it to visual scope
+  - run 360x800 390x844 and 430x932 browser checks for each batch
+  - complete only the missing 360x800 and 430x932 checks for the corrected contact fallback prompt
+  - close all temporary fixtures bridges and write windows after testing
 
 forbidden:
-  - Do not edit the production site or reuse the R03 staging directory as an unversioned R04 workspace.
-  - Do not change list ranking exposure category membership pagination semantics or promoted-content logic.
-  - Do not click publish purchase reward favorite comment message or other write actions.
-  - Do not rename routes ac values query parameters template variables AJAX hooks or bottom-nav destinations.
-  - Do not expose search terms UID content owner identity private counters or authenticated cookies in evidence.
-  - Do not use online Tailwind public Font Awesome public iconfont or another runtime UI CDN.
-  - Do not introduce dark page surfaces warm-orange branding oversized marketing heroes or decorative card nesting.
-  - Do not modify R05-R09 page templates merely because they share legacy CSS or scripts.
-  - Do not restore GitHub Actions automatic triggers or wait for asynchronous owner feedback.
+  - do not edit production
+  - do not redesign direct URL source-only hidden or dormant pages
+  - do not submit identity cancellation address profile contact or message writes with real user data
+  - do not expose comments likes favorites cards redpack or hidden home categories
+  - do not restore GitHub Actions automatic triggers
 
 acceptance:
-  - All 4 R04 page IDs have exact source protocol visual and state evidence.
-  - Home search category and article list retain ordering routes filters pagination and AJAX behavior.
-  - Default populated empty loading and safely reachable error states use the same business meanings.
-  - Three H5 viewports have no horizontal overflow clipped controls status-bar overlap or text below 16px in inputs.
-  - Header search tabs cards lists pagination and bottom navigation use the approved light visual system.
-  - R04 runtime assets use local versioned CSS icons and fonts with no new public UI CDN.
-  - R04-owned console errors and resource failures are zero or have a source-hash-proven cross-version owner.
-  - Database counters and production stable-code hash prove no unauthorized side effects or production changes.
-  - R04_RESULT.md and the global drift audit pass.
-  - CURRENT_STATUS.yaml NEXT_TASK.yaml evidence decisions lessons and manifest are synchronized.
+  - every redesigned page has a CLICK_PROVEN parent edge
+  - business controls routes parameters fields and handlers match the R05 baseline
+  - three mobile viewports have no horizontal overflow overlap or sub-44px primary controls
+  - all pages remain light and use local versioned UI assets
+  - chat detail is either isolated-click proven and redesigned or remains excluded
+  - staging POST returns 405 after testing and production stable hash is unchanged
+  - R06_RESULT.md status next task decisions lessons and manifest are synchronized
 
 on_success:
-  next_release: R05
-  next_task_title: 开发内容详情与发布页面
+  next_release: R07
+  next_task_title: 开发资金会员订单和推广购买页面

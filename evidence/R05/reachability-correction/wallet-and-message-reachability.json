@@ -1,0 +1,31 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "credentialsStored": false,
+  "personalDataStored": false,
+  "wallet": {
+    "parent": "/plugin.php?id=xigua_hb&ac=qianbao",
+    "clickedChildren": [
+      {"control": "提现账户", "child": "/plugin.php?id=xigua_hb&ac=mytx&idu={sanitized}", "clicked": true, "submitted": false},
+      {"control": "收益记录", "child": "/plugin.php?id=xigua_hb&ac=qianbao&type=in&idu={sanitized}", "clicked": true},
+      {"control": "提现记录", "child": "/plugin.php?id=xigua_hb&ac=qianbao&type=out&idu={sanitized}", "clicked": true}
+    ],
+    "visibleSideEffectChild": {
+      "page": "CONTENT-MEMBER",
+      "child": "/plugin.php?id=xigua_hb&ac=member&uid={sanitized}",
+      "clicked": false,
+      "reason": "authenticated member GET can write visit logs; replay on untouched isolated baseline"
+    }
+  },
+  "messages": {
+    "parent": "/plugin.php?id=xigua_lt",
+    "clicked": true,
+    "visibleConversationChild": {
+      "page": "COMMUNICATION-CHAT-DETAIL",
+      "child": "/plugin.php?id=xigua_lt&ac=chat&touid={sanitized}",
+      "clicked": false,
+      "reason": "opening a real conversation may mutate read state; replay with synthetic isolated data"
+    },
+    "deleteClicked": false
+  }
+}

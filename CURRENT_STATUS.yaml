@@ -1,10 +1,11 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
 product_name: 推广宝
-snapshot_date: 2026-07-26
-current_release: R04
+snapshot_date: 2026-07-27
+current_release: R06
 release_status: IN_PROGRESS
-active_task_id: TASK-R04-001
+active_task_id: TASK-R06-001
+active_mode: UI_IMPLEMENTATION
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -23,18 +24,27 @@ facts:
   platform: Discuz! X3.4 Release 20220518
   h5_only_business_frontend: true
   observed_page_types: 41
+  observed_page_types_status: INVALIDATED_LEGACY_COUNT_PENDING_CLICK_REAUDIT
   ledger_rows: 64
   page_source_map_rows: 64
+  runtime_click_graph_file: 17_RUNTIME_CLICK_GRAPH.csv
+  runtime_click_audit_file: 16_RUNTIME_CLICK_AUDIT.md
+  click_proven_page_count: 29
+  click_graph_edges: 39
+  click_graph_clicked_edges: 31
+  click_graph_pending_isolated_edges: 3
+  click_graph_hidden_or_absent_edges: 5
   database_identifier_stored_in_handoff: false
   credentials_stored_in_handoff: false
 
 staging:
-  status: R03_CLOSED_R04_STAGING_REQUIRED
-  owner_release: R03
-  snapshot_id: 20260726T192810+0800
-  site_root: /www/staging/tg-h5-ui-r03/site
-  private_evidence_root: /www/staging/tg-h5-ui-r03/private
-  listener: 127.0.0.1:18083
+  status: R06_ACTIVE
+  owner_release: R06
+  source_release: R05
+  snapshot_id: 20260727T060741+0800
+  site_root: /www/staging/tg-h5-ui-r06/site
+  private_evidence_root: /www/staging/tg-h5-ui-r06/private
+  listener: 127.0.0.1:18086
   access: SSH_TUNNEL_ONLY
   allowed_methods:
     - GET
@@ -43,14 +53,33 @@ staging:
   final_get_status: 200
   production_code_unchanged: true
   production_stable_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
-  r03_auth_legal_deploy_id: 20260726T204235+0800
-  r03_auth_legal_archive_sha256: 87c52be0333750dbfcb7f7cd69b0d12ad34e5c506b63c0601abedf56e6c944b4
-  r03_artifact_manifest_sha256: 8245062f87b3b87fe50cfdae648887d7f125ab12ef1c0218a5095a262115f614
-  r03_overlay_files: 14
-  r03_overlay_hash_parity: PASS
-  r03_controlled_auth_run: 20260726T203757+0800
-  auth_test_fixture: REMOVED
+  source_r04_deploy_id: 20260726T233007+0800
+  source_r04_overlay_archive_sha256: bedb3ae60d63de7a7410a2952c459d47d4df96b6532df8ee6da86e9f7eb8cbc2
+  r05_artifact_manifest_sha256: 573ac4a1fa467ef595704b062805c299c6ee28a3c0da32456721dc72266525d7
+  r05_main_tables: 680
+  r05_ucenter_tables: 607
+  r05_create_gate: PASS
+  r05_independent_verify: PASS
+  auth_bridge: OFF
+  auth_test_fixture: NOT_CREATED
   mobile_ua_test_mode: OFF
+  r05_v3_scope_validity: INVALIDATED_SCOPE_DRIFT
+  r05_v4_scope_validity: SUPERSEDED_BY_V5_AFTER_DETAIL_CLICK_PROOF
+  r05_v5_scope_validity: CLICK_PROVEN_MINIMAL_OVERLAY
+  r05_v5_deploy_id: 20260727T051035+0800
+  r05_v5_overlay_files: 12
+  r05_v5_overlay_archive_sha256: b6fd61f320b1f15726608abf69f610a27ea744e37e42fdf62108769b42f09de9
+  r05_v5_overlay_archive: deliverables/r05-click-proven-overlay-v5.tar.gz
+  r05_v5_backup_dir: /www/staging/tg-h5-ui-r05/private/change-backups/20260727T051035+0800-click-proven-v5
+  r06_overlay_revision: v7
+  r06_overlay_files: 13
+  r06_overlay_archive: deliverables/r06-account-communication-overlay-v7.tar.gz
+  r06_overlay_archive_sha256: b5c50e99b7040d75ddad0bc64c3d29e63dce74f9e12f127134f62d9165989a0d
+  r06_deploy_id: 20260727T061010+0800
+  r06_contact_runtime_scope: MOBILE_FALLBACK_PROMPT_NOT_HIDDEN_FORM
+  r06_contact_390x844: PASS
+  browser_origin_bridge: OFF
+  reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
 
 design:
   theme: Light Grid / 晴空电光
@@ -79,6 +108,7 @@ android:
   server_build_id: 20260726T155100+0800
   server_source_commit: 3692ec4f1487533e3f17d54f0f6360e8265bcc29
   desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R01-支付H5兼容修复.apk
+  handoff_apk: deliverables/android/R01/tuiguangbao-1.0.0-R01-payment-h5.apk
   native_top_loading_progress_visible: false
   r02_inset_instrumentation: COMPILED_DEVICE_EXECUTION_PENDING
   r02_debug_apk_sha256: 4c99e43aa3f85015f92d8586be24d7eef99c01a12a9c8b1a46f1d0073556820b
@@ -87,7 +117,7 @@ android:
   github_actions_status: RETIRED_AFTER_RUN_30192427296_PASS
   github_actions_artifact_id: 8629065339
   github_actions_artifact_sha256: fc113dd032f6d54485dc4918ec8f1396cfa3503643063af3ac2081f4a7785880
-  ci_visual_review: NATIVE_PASS_H5_R02_R03_COMPLETE_R04_R09_PENDING
+  ci_visual_review: NATIVE_PASS_H5_R02_R04_COMPLETE_R05_R09_PENDING
   owner_device_feedback_mode: ASYNC_DO_NOT_WAIT
 
 completed:
@@ -97,7 +127,7 @@ completed:
   - R00 side-effect test plan and hard gates
   - R00 Android toolchain verification
   - mobile browser public and authenticated runtime experience
-  - 41 page types recorded without destructive submissions
+  - legacy 41 page observations retained only as historical visual notes; scope claim invalidated on 2026-07-27
   - visual tokens and light-only design direction frozen
   - Android product identity and architecture requirement frozen
   - initial brand icon generated
@@ -137,15 +167,40 @@ completed:
   - R03 controlled password and mocked-SMS authentication success and failure tests
   - R03 temporary fixture and POST window removed with production stable hash unchanged
   - R03 development closeout and global drift audit
+  - R04 isolated loopback staging snapshot preserving closed R02 and R03 overlays
+  - R04 home search real-category and conditional article-list Light Grid redesign
+  - R04 hidden legacy home categories corrected to zero visible zero hit-target and zero exposed height
+  - R04 local versioned CSS and JS with no online Tailwind or public UI CDN
+  - R04 three real H5 viewport browser matrix with zero horizontal overflow and header overlap
+  - R04 read-only route and business-counter equivalence regression
+  - R04 authentication bridge removal POST 405 and production stable-code verification
+  - R04 development closeout global drift audit and parallel-thread ownership rules
+  - production click proof for home personal center publish my projects project review settings and messages
+  - production click proof for profile address contact cancel-confirmation certification wallet withdrawal VIP refresh headline invite team sign dividend and internal App download landing
+  - hidden comments favorites background card routes and dormant R09 source plugins removed from visual scope
+  - content detail reached by a visible home title in the R04-derived isolated baseline with all observed GET side effects rolled back
+  - detail report control visibly reached and clicked without submission
+  - detail comments likes favorites redpack and card controls proven absent or zero-exposed and kept outside visual scope
+  - R05 v5 minimal 12-file overlay includes the R04 hidden-category correction plus detail and report scopes with all known hidden-page overrides absent
+  - R05 v5 local scope gate and independent staging verifier passed with POST 405 and production stable code unchanged
+  - R05 browser regression proved hidden home categories zero-visible zero-hit and detail passed the three mobile viewports without overflow or hidden-action exposure
+  - R05 development closeout and global drift correction
+  - R06 seven account and communication pages retain prior three-viewport evidence with v7 brand and palette corrections
+  - R06 contact scope corrected from the non-rendered userext form to the real mobile fallback prompt
+  - R06 contact prompt verified at 390x844 with no overflow no public UI CDN and visible 推广宝 branding
+  - chat detail and member detail preserved only as visible-entry candidates pending isolated replay
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 visual implementation R04 through R09 (R04 now active)
+  - H5 visual implementation R06 through R09 (R06 active)
   - controlled-write fixtures for each high-risk page family
   - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)
 
 blockers:
+  - id: B-R06-CHAT-01
+    description: chat detail has a visible parent conversation row but requires synthetic isolated click because opening can mutate read state
+    affects: chat-detail inclusion only; other click-proven R06 pages continue in parallel
   - id: B-R01-01
     description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
     affects: cumulative external payment end-to-end release gate before R09 production release

@@ -27,10 +27,12 @@
 
 ## 4. 未保存截图的真实体验
 
-41 类页面的真实观察结论记录于：
+旧 41 类页面观察已混入直接 URL 和源码页，只保留为历史视觉参考，不再证明 UI 范围。当前范围证据记录于：
 
 - `02_PAGE_EXPERIENCE_LOG.md`
 - `03_PAGE_LEDGER.csv`
+- `16_RUNTIME_CLICK_AUDIT.md`
+- `17_RUNTIME_CLICK_GRAPH.csv`
 
 不保存个人页面截图是隐私保护选择，不代表这些页面未体验。
 
@@ -140,3 +142,51 @@ evidence/
   `version-results/R03_RESULT.md`
 
 注册页三张截图已在保存前将邀请编号替换为 `[已脱敏]`。不得尝试恢复或输出原值。
+
+## 10. R04 首页与发现证据
+
+- R04 隔离舞台、纠偏部署和生产不变性：
+  `evidence/R04/staging/R04_STAGING_RESULT.md`
+- 首页、搜索和真实分类三档截图与裁剪后几何矩阵：
+  `evidence/R04/after/R04_RUNTIME_SCREENSHOT_AUDIT.md`、
+  `evidence/R04/after/R04-BROWSER-MATRIX.json`
+- 首页纠偏截图证明 `data-id=5/14/15/13` 的旧分类暴露高度、可见数和命中数均为 0；截图内容仅做当前 DOM 脱敏，不修改服务器。
+- R04 本地资源和控制台审计：
+  `evidence/R04/network/R04_RESOURCE_AUDIT.md`
+- 协议、隐藏条件路由和业务计数等价：
+  `evidence/R04/regression/R04_PROTOCOL_AND_READONLY_EQUIVALENCE.md`
+- 5 文件逐项 SHA-256 与 v11 回滚：
+  `evidence/R04/after/R04-OVERLAY-SHA256.txt`、
+  `evidence/R04/rollback/R04_DEPLOYMENT_ROLLBACK.md`
+- R04 开发关版与漂移纠偏：
+  `version-results/R04_RESULT.md`
+
+## 11. R05 真实点击范围纠偏证据
+
+- 负责人纠偏原图：
+  `evidence/R05/reachability-correction/owner-feedback-card-add.png`、
+  `evidence/R05/reachability-correction/owner-feedback-comments.png`
+- 生产首页及首页到个人中心的脱敏证据：
+  `evidence/R05/reachability-correction/production-home-390x844.png`、
+  `evidence/R05/reachability-correction/home-to-my.json`
+- 个人中心可见控件与 R05 三个实点页面：
+  `evidence/R05/reachability-correction/my-visible-entries.json`、
+  `evidence/R05/reachability-correction/r05-clicked-candidates.json`
+- 设置页及其七个安全子入口实点：
+  `evidence/R05/reachability-correction/settings-clicked-entries.json`
+- 个人中心双钱包、VIP、邀请、团队、认证、刷新卡、推广、签到、分红和站内 App 下载落地页实点：
+  `evidence/R05/reachability-correction/account-hub-clicked-entries.json`
+- 钱包三种安全状态及消息/成员副作用边界：
+  `evidence/R05/reachability-correction/wallet-and-message-reachability.json`
+- 隔离详情实点、举报可达、隐藏功能零暴露与 GET 回滚：
+  `evidence/R05/reachability-correction/isolated-detail-click-audit.json`、
+  `evidence/R05/reachability-correction/isolated-detail-report-entry-390x100.jpg`
+
+上述 JSON 不保存 UID、手机号、余额、收款账户、聊天对象、聊天正文或客服 token。当前点击图为 39 条边，其中 31 条已实点，3 条可见入口因 GET 副作用等待隔离重放，其余 5 条专门记录隐藏或不存在的功能不得进入视觉范围。
+
+- R05 v5 范围纠偏部署、门禁和回滚位置：
+  `evidence/R05/staging/R05_SCOPE_CORRECTION_V5.md`
+- R05 v5 三视口、首页隐藏分类和超范围控件真实浏览器矩阵：
+  `evidence/R05/after/R05-V5-BROWSER-MATRIX.json`
+
+v5 制品 `deliverables/r05-click-proven-overlay-v5.tar.gz` 共 12 个文件，SHA-256 为 `b6fd61f320b1f15726608abf69f610a27ea744e37e42fdf62108769b42f09de9`。浏览器矩阵覆盖 360x800、390x844、430x932，三个详情视口的超范围可见操作均为空；390x844 首页旧分类可见数为 0。

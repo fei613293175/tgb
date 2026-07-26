@@ -1,0 +1,11 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "parent": "/plugin.php?id=xigua_hb&mobile=2",
+  "control": "我的",
+  "controlHref": "/plugin.php?id=xigua_hb&ac=my&idu={sanitized}",
+  "clipExposure": "PASS",
+  "hitTest": "PASS",
+  "clicked": true,
+  "child": "/plugin.php?id=xigua_hb&ac=my&idu={sanitized}"
+}

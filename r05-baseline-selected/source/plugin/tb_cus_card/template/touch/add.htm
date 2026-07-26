@@ -1,0 +1,581 @@
+{template tb_cus_card:header}
+<script src="{$static_path}/lib/weui/js/lrz.min.js"></script>
+<style>
+body{
+             background-color: #0A0E17!important; /* 币圈深色背景 */
+
+        }
+
+    .weui-label{
+        font-weight: 100;
+        color: black;
+        height: 1.7rem;
+        line-height: 1.8rem;
+    }
+    .weui-uploader__files{
+        float: left;
+    }
+    .weui-uploader__title{
+        font-weight: 400!important;
+        color:000;
+        
+    }
+
+    .topinfo{
+        text-align: center;
+        float: left;
+        width: 29.33%;
+        margin: 0px 0px 0px 10px;
+        border: 1px solid #fff;
+        padding: 10px 0px 10px 0px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        height:60px;
+    }
+    .topinfo-price{
+        font-size: 0.9rem;
+        color: #fff;
+        font-weight: 600;
+    }
+    .topinfo-desc{
+        font-size: 10px;
+        color: #fff;
+    }
+    .topinfo-active{
+        border: 1px solid #fff;
+        background: linear-gradient(135deg, #00D395 0%, #00B884 100%);
+    }
+    .weui-grid{
+        padding: 5px!important;
+    }
+    .weui-grids:after{
+        border:0px;
+    }
+    .weui-grid:active{
+        background-color: #fff;
+    }
+        .weui-uploader__title{
+        font-size: 16px;
+        font-weight: 550;
+        color: #000;
+        padding: 10px 0px 15px 0px;
+    }
+     input::-webkit-input-placeholder { /* WebKit browsers */
+    color: #fff!important;
+    font-size: 15px;
+}
+
+    .weui-btn:after{
+        border:0px;
+    }
+    .weui-input{
+        padding-left:20px;
+    }
+
+    a{
+        color: #0000008c;
+    }
+    .active{
+
+        font-weight: bold;
+        color:#fff;
+      background: linear-gradient(135deg, #00D395 0%, #00B884 100%);
+        padding: 8px 15px;
+        border-radius: 30px;
+        font-size: 13px;
+    }
+
+
+</style>
+{eval}
+if($_G['uid']){
+
+$uid = $_G['uid'];
+$usermoney = DB::fetch_first('SELECT money FROM %t WHERE uid=%d', array("xigua_hb_user", $uid));
+$usermoney = $usermoney['money'];
+
+$card = DB::fetch_first('SELECT count(id) as sc FROM %t WHERE uid=%d', array("tb_cus_card", $uid));
+$card = $card['sc']?$card['sc']:0;
+
+//用户
+
+$totalmypub = C::t('#xigua_hb#xigua_hb_pub')->count_by_uid($_G['uid']);
+
+//悬赏
+$xuanshang = DB::fetch_first('SELECT count(id) as sc FROM %t WHERE uid=%d', array("tb_xuanshang", $uid));
+$xuanshang = $xuanshang['sc']?$xuanshang['sc']:0;
+
+
+$xuanshang = $xuanshang['sc']?$xuanshang['sc']:0;
+
+//头条
+$toutiao = DB::fetch_first('SELECT count(id) as sc FROM %t WHERE uid=%d AND endtime>'.time(), array("tb_toutiao", $uid));
+$toutiao = $toutiao['sc']?$toutiao['sc']:0;
+
+$xiguahh_user = C::t("#tb_cus_xiguahh#tb_cus_xiguahh_user")->fetch_first_field_data("*","where uid={$uid}");
+
+$ext2 = $xiguahh_user['money']?$xiguahh_user['money']:0.00;
+
+
+$myextcredits = getuserprofile('extcredits' . $config['credit_type']);
+
+// $ext2 = getuserprofile('extcredits2');
+
+
+}
+
+if($hhme['status'] == 1){
+    $showhhmename = $hhme[joininfo][name];
+}else{
+
+    $oldback  = $hhme['oldback'];
+    $oldjoin = unserialize($oldback);
+    $oldjoin = unserialize($oldjoin['joininfo']);
+    $showhhmename = $oldjoin['name'];
+}
+
+if($hhme['endts']){
+    $hhendts = date("Y-m-d",$hhme['endts']);
+}
+
+
+$uidfollow = DB::result_first("select count(id) from %t  WHERE favtype='favuser' and favid=%d", array('xigua_hb_follow', $_G['uid']));
+
+$uidfollow1 = DB::result_first("select count(id) from %t  WHERE favtype='favuser' and uid=%d", array('xigua_hb_follow', $_G['uid']));
+
+$uidvote = DB::result_first("select count(id) from %t  WHERE uid=%d", array('xigua_hb_votelog', $_G['uid']));
+
+
+require DISCUZ_ROOT . './source/plugin/tb_cus_mobilereg/common.php';
+$yqmcode = getUserInviteCode($_G['uid']);
+
+
+$commentnew = DB::result_first("select cid from %t  WHERE new=1 AND touid=%d", array('xigua_hb_comment', $_G['uid']));
+
+
+
+{/eval}
+<style>
+    /* 整体头部样式 */
+    #header {
+        z-index: 999;
+      background: rgba(19, 26, 45, 0.8) !important;
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid #1E2A45;
+      width: 100%;
+      height: 100px;
+      font-size: 18px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-sizing: border-box;
+      border-bottom:1px solid #f1f1f1;
+    }
+
+    /* 返回按钮样式 */
+    #back-button {
+      margin-top: 150px;  
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* 返回按钮文字样式 */
+    #back-button span {
+      margin-right: 30px;
+    }
+
+    /* 标题样式 */
+    #header-title {
+      color: #fff;
+      font-weight: 600;
+      font-size: 20px;
+      margin: 0;
+      margin-top: 15px;
+    }
+
+  </style>
+ <!-- 头部栏 -->
+  <div id="header" style="margin-top:0px;">
+    <!-- 返回按钮 -->
+    <a href="javascript:window.history.go(-1);">
+      <img style="margin-top: 20px;" src="https://img.imehui.com/20250117/1737108696678a2cd8a7344.png" alt="返回图标" width="20" height="20">
+    </a >
+    <!-- 标题 -->
+    <h1 id="header-title">发布名片</h1>
+    <div style="width: 20px;"></div>
+  </div>
+
+
+    <div style="z-index: 998;top:100px;background-color:#fff;height:25px;position: fixed;display: flex; text-align: center;font-size:14px;color:#000;font-weight:600;width:100%;box-shadow: 0 0.05333rem 0.21333rem 0 rgba(0, 0, 0, 0.03);padding:20px 10px 15px 10px;">
+        <!--{loop $mptype_arr $mpkey $maval}-->
+        <div style="flex:1">
+            <a href="plugin.php?id=tb_cus_card&modac=add&mptype={$mpkey}" {if $_GET['mptype'] == $mpkey} class="active" {/if}>$maval[0]</a>
+        </div>
+        <!--{/loop}-->
+
+    </div>
+
+
+
+    <div class="weui-uploader__bd" style=" background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;border-radius:10px;margin:15px;margin-top:175px;">
+        <ul class="weui-uploader__files" style="background-color:#fff;border-radius:50px;margin:10px;margin-right:-120px;">
+        </ul>
+        <div class="weui-uploader__input-box" style="background-color:#fff0;border-radius:0px;margin:10px;">
+            <input class="weui-uploader__input" accept="image/*" multiple="" type="file" onchange="uploadimgfm(this)">
+        </div>
+        <div class="weui-uploader__hd">
+            <p class="weui-uploader__title" style="color:#fff;line-height:60px;">上传名片封面<span style="color: red">*</span></p>
+        </div>
+        <p style="margin-left: 10px;color:#fff;font-size:12px;line-height:0px;margin-top:-20px;">禁止使用二维码作为封面。</p>
+    </div>
+</div>
+
+<script>
+function removeimgfm(obj) {
+    $.confirm({
+        title: '删除?',
+        content: '删除?',
+        theme:'modern',
+        columnClass:'medium',
+        boxWidth: '50%',
+        useBootstrap: false,
+        backgroundDismiss: false,
+        buttons: {
+            confirm: {
+                text: '确认',
+                btnClass: 'btn-blue',
+                action: function() {
+                    var imgsrc = $(obj).attr("data-img");
+                    $.post("plugin.php?id=tb_cus_card" + "&modac=ajax" + "&submodac=deleteimg", { imgbase64: imgsrc }, function(rs) {
+                        $(obj).remove();
+                        return false;
+                    }, 'json');
+                }
+            },
+            cancel: {
+                text: '取消',
+                action: function() {}
+            }
+        }
+    });
+}
+
+function uploadimgfm(obj) {
+    $.showLoading();
+    lrz(obj.files[0], { width: 750, fieldName: "file" }).then(function(data) {
+        $.post("plugin.php?id=tb_cus_card" + "&modac=ajax" + "&submodac=uploadimg", { imgbase64: data.base64 }, function(rs) {
+            $.hideLoading();
+            $(obj).parent().prev().html('<li onclick="removeimgfm(this)" data-img="'+rs.filename +'" class="weui-uploader__file" style="background-image:url('+rs.src+')"><input value="'+rs.src+'"  type="hidden"  id="lc_fmpic" /></li>');
+        },'json');
+    }).then(function(data) {
+
+    }).catch(function(err) {
+        console.log(err);
+    });
+}
+</script>
+
+        </div>
+
+    </div>
+
+
+<div class="weui-cel" style="border-radius:10px;background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;margin:15px;padding:15px; display: flex; align-items: center;">
+     
+    <div class="weui-cell__bd">
+        <input class="weui-input" style="font-size:15px;color:#fff;" placeholder="可以吸引人的名片标题" id="lc_title" type="text">
+    </div>
+</div>
+
+
+
+
+
+                <!--{if $mptype_arr[$_GET['mptype']][1]=='text'}-->
+
+
+<div class="weui-cel" style="border-radius:10px;background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;margin:15px;padding:15px; display: flex; align-items: center;">
+         
+        <div class="weui-cell__bd">
+
+            <input class="weui-input" placeholder="请输入添加你的账号" id="mqcontent" type="text">
+        </div>
+    </div>
+
+
+                <!--{elseif $mptype_arr[$_GET['mptype']][1]=='img'}-->
+
+
+
+<div class="weui-cel" style="border-radius:10px;background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;margin:15px;padding:10px; display: flex; align-items: center; box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.1);">
+
+                    <div class="weui-uploader">
+                        <div class="weui-uploader__hd">
+                            <p class="weui-uploader__title">1、请上传$mptype_arr[$_GET['mptype']][0]：<span style="color: red">*</span></p>
+                        </div>
+                        <div class="weui-uploader__bd">
+                            <ul class="weui-uploader__files">
+                            </ul>
+                            <div class="weui-uploader__input-box">
+                                <input class="weui-uploader__input uploadimg" accept="image/*" multiple="" type="file" onchange="uploadimgfm1(this)">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+    <script>
+        function removeimgfm1(obj){
+            $.confirm('确认删除?',
+                '删除?', function() {
+                    var imgsrc =  $(obj).attr("data-img");
+                    $.post("plugin.php?id=tb_cus_card"+"&modac=ajax"+"&submodac=deleteimg", {imgbase64: imgsrc}, function (rs) {
+                        $(obj).remove();
+                        return false;
+                    }, 'json');
+                });
+        }
+        function uploadimgfm1(obj) {
+            $.showLoading();
+            lrz(obj.files[0],{width:750,fieldName:"file"}).then(function(data) {
+
+                $.post("plugin.php?id=tb_cus_card"+"&modac=ajax"+"&submodac=uploadimg",{imgbase64: data.base64},function(rs){
+                    $.hideLoading();
+                    $(obj).parent().prev().html('<li onclick="removeimgfm1(this)" data-img="'+rs.filename +'" class="weui-uploader__file" style="background-image:url('+rs.src+')"><input value="'+rs.src+'"  type="hidden"  id="mqcontent" /></li>');
+                },'json');
+
+            }).then(function(data) {
+
+            }).catch(function(err) {
+                console.log(err);
+            });
+        }
+    </script>
+  <!--{/if}-->
+
+
+
+
+<div class="weui-uploader__bd" style="background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;border-radius:10px;margin:15px; box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.1);">
+    <ul class="weui-uploader__files" style="background-color:#fff;border-radius:50px;margin:10px;margin-right:-120px;">
+    </ul>
+    <div class="weui-uploader__input-box" style="background-color:#fff0;border-radius:0px;margin:10px;">
+        <input class="weui-uploader__input" accept="image/*" multiple="" type="file" onchange="uploadimgqr(this)">
+    </div>
+    <div class="weui-uploader__hd">
+        <p class="weui-uploader__title" style="color:#fff;line-height:60px;">上传二维码<span style="color: red">*</span></p>
+    </div>
+    <p style="margin-left: 10px;color:#fff;font-size:12px;line-height:0px;margin-top:-20px;">请上传二维码</p>
+</div>
+<script>
+    function removeimgqr(obj) {
+        $.confirm({
+            title: '删除?',
+            content: '删除?',
+            theme:'modern',
+            columnClass:'medium',
+            boxWidth: '50%',
+            useBootstrap: false,
+            backgroundDismiss: false,
+            buttons: {
+                confirm: {
+                    text: '确认',
+                    btnClass: 'btn-blue',
+                    action: function() {
+                        var imgsrc = $(obj).attr("data-img");
+                        $.post("plugin.php?id=tb_cus_card" + "&modac=ajax" + "&submodac=deleteimg", { imgbase64: imgsrc }, function(rs) {
+                            $(obj).remove();
+                            return false;
+                        }, 'json');
+                    }
+                },
+                cancel: {
+                    text: '取消',
+                    action: function() {}
+                }
+            }
+        });
+    }
+
+    function uploadimgqr(obj) {
+        $.showLoading();
+        lrz(obj.files[0], { width: 750, fieldName: "file" }).then(function(data) {
+            $.post("plugin.php?id=tb_cus_card" + "&modac=ajax" + "&submodac=uploadimg", { imgbase64: data.base64 }, function(rs) {
+                $.hideLoading();
+                $(obj).parent().prev().html('<li onclick="removeimgqr(this)" data-img="'+rs.filename +'" class="weui-uploader__file" style="background-image:url('+rs.src+')"><input value="'+rs.src+'"  type="hidden"  id="lc_qrpic" /></li>');
+            },'json');
+        }).then(function(data) {
+
+        }).catch(function(err) {
+            console.log(err);
+        });
+    }
+</script>
+
+
+
+</div>
+
+</div>
+
+
+
+              
+<div class="weui-cel" style="border-radius:10px;background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;margin:15px;padding:10px; display: flex; align-items: center; box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.1);">
+        <div class="weui-cell__bd">
+           <div class="weui-cell__hd" style="margin-bottom:5px;"><label class="weui-uploader__title" style="color:#fff">名片简介</label>
+           <span style="color:red;">*</span>
+           </div>
+            <textarea class="weui-textarea" s  rows="3" id="lc_remark" style="background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;border-radius:10px;padding:10px;"></textarea>
+        </div>
+    </div>
+
+<div class="weui-cel" style="background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;border-radius:10px 10px 0px 0px;margin:15px;padding:10px; display: flex; align-items: center;margin-bottom:-10px;">
+        <div class="weui-cell__hd" style="margin-bottom:6px;"><label class="weui-uploader__title" style="color:#fff;">你想多少人加你？</label></div>
+    </div>
+
+
+<header style=" box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.1);margin: 0px 15px 0px 15px;background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;border-radius:0px 0px 10px 10px;padding:0px 7px 0px 0px">
+    <div style="margin-left: 0px;background-color:#fff;">
+        <div class="topinfo" data-price="0" data-id="0">
+            <div class="topinfo-price">￥1 </div>
+            <div class="topinfo-desc">仅发布</div>
+            <div class="topinfo-desc" style="font-size:10px;color:#fff;">限时1元发布</div>
+        </div>
+
+        <!--{loop $taojing_topinfo $key $value}-->
+
+        <div class="topinfo" data-price="{$value[2]}" data-id="{$key}">
+            <div class="topinfo-price">￥{$value[2]}<br/>{$value[3]}</div>
+            <div class="topinfo-desc">{$value[0]}</div>
+        </div>
+
+        <!--{/loop}-->
+    </div>
+    <input type="hidden" id="topinfo">
+</div>
+
+<div style="clear: both;"></div>
+
+</header>
+
+<div style="background: linear-gradient(145deg, #131A2D 0%, #0F1525 100%);
+        border: 1px solid #1E2A45;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        overflow: hidden;height:35px;border-radius:10px;padding:10px;margin:15px;text-align:center;font-size:12px; color:#fff;">*黄、赌、博彩、诈骗、立即删除封号，费用不退
+  <p>你发布即代表同意<a style="color:blue;" href="/m/fpsm.html">《用户使用服务协议》</a></p>
+    </div>
+<div style="height: 0px;"></div>
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="btn" style="width: 90%;background: linear-gradient(135deg, #00D395 0%, #00B884 100%);border-radius:30px;font-weight:600;font-size:20px;"><em style="font-size:13px;"> ¥</em><span id="showprice" style="font-size:20px;"> {$tb_cus_card_cfg['fbprice']}</span> <em style="font-size:13px;">(发布费2元) </em> </a>
+        <div style="height: 30px;"></div>
+    
+
+
+
+
+<script>
+
+    $(document).on('click', "#btn", function () {
+        var formData = new FormData();
+        formData.append("modac",'add');
+        formData.append("submodac",'addsubmit');
+        formData.append("formhash",'{FORMHASH}');
+        formData.append("lc_title",$("#lc_title").val());
+        formData.append("topinfo",$("#topinfo").val());
+        formData.append("lc_remark",$("#lc_remark").val());
+        formData.append("lc_fmpic",$("#lc_fmpic").val());
+        formData.append("lc_qrpic",$("#lc_qrpic").val());
+/*        formData.append("qq",$("#qq").val());
+        formData.append("weixin",$("#weixin").val());*/
+        formData.append("mptype","{$_GET['mptype']}");
+        formData.append("mqcontent",$("#mqcontent").val());
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: formData,
+            url: "plugin.php?id=tb_cus_card",
+            processData : false,
+            contentType : false,
+            async: false,
+            success: function(data) {
+                if(data.rs != 200){
+                    layer.msg(data.msg);
+
+                }else{
+                    window.location.href=data.msg;
+                   /* $.alert(data.msg,"",function(){
+                        location.reload();
+                        return false;
+                    });*/
+                }
+            },
+            error: function(xhr) {}
+        })
+    })
+
+
+    $(document).on('click', ".topinfo", function () {
+        $(".topinfo").each(function(){
+            $(this).removeClass('topinfo-active')
+        });
+        $(this).addClass('topinfo-active');
+
+        var price = $(this).attr("data-price");
+        var topinfokey = $(this).attr("data-id");
+        price = parseFloat(price)
+        var tmpprice = parseFloat("{$tb_cus_card_cfg['fbprice']}") + price;
+        $("#showprice").text(tmpprice);
+        if(price>0){
+            $("#zdinfo").text("并置顶");
+        }else{
+            $("#zdinfo").text("");
+        }
+        $("#topinfo").val(topinfokey);
+    });
+
+</script>
+
+
+
+</body>
+
+</html>

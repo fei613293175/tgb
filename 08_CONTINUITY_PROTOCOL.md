@@ -2,7 +2,7 @@
 
 ## 1. 目标
 
-换电脑、换 AI、没有聊天记录时，只要拥有完整交接包并说“立即开始”或“立即开发”，执行者就能：
+换电脑、换 AI、没有聊天记录时，只要拥有完整交接包并说“继续开发”“立即开发”或“立即开始”，执行者就能：
 
 - 确认交接包未损坏；
 - 知道唯一当前版本和任务；
@@ -27,21 +27,23 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 
 如果校验通过，依次读：
 
-1. `06_HARD_GATES.md`
-2. `00_PROJECT_CHARTER.md`
-3. `CURRENT_STATUS.yaml`
-4. `NEXT_TASK.yaml`
-5. `03_PAGE_LEDGER.csv`
-6. `12_PAGE_SOURCE_MAP.csv`
-7. `13_SIDE_EFFECT_TEST_PLAN.md`
-8. `04_VISUAL_SYSTEM.md`
-9. `10_ANDROID_APP_SPEC.md`
-10. `14_ANDROID_TOOLCHAIN.md`
-11. `15_GITHUB_ACTIONS.md`
-12. `07_TEST_MATRIX.md`
-13. `DECISIONS.md`
-14. `LESSONS_LEARNED.md`
-15. 当前版本关版记录（若存在）
+1. `16_RUNTIME_CLICK_AUDIT.md`
+2. `17_RUNTIME_CLICK_GRAPH.csv`
+3. `06_HARD_GATES.md`
+4. `00_PROJECT_CHARTER.md`
+5. `CURRENT_STATUS.yaml`
+6. `NEXT_TASK.yaml`
+7. `03_PAGE_LEDGER.csv`
+8. `12_PAGE_SOURCE_MAP.csv`
+9. `13_SIDE_EFFECT_TEST_PLAN.md`
+10. `04_VISUAL_SYSTEM.md`
+11. `10_ANDROID_APP_SPEC.md`
+12. `14_ANDROID_TOOLCHAIN.md`
+13. `15_GITHUB_ACTIONS.md`
+14. `07_TEST_MATRIX.md`
+15. `DECISIONS.md`
+16. `LESSONS_LEARNED.md`
+17. 当前版本关版记录（若存在）
 
 ## 3. 状态唯一性
 
@@ -50,7 +52,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 两者必须指向同一项目、当前版本和兼容任务。
 - 文档中的未来路线不能被误认为已完成。
 - 聊天中说过但未写入状态/决定的内容不具有接续效力。
-- 本项目已有 D-013 的连续开发授权；关版通过后自动切换到下一版，不再等待重复授权。D-020 进一步明确负责人真机反馈异步返回，开发不得因等待反馈停滞，但任何高风险动作仍受 G00-G25 约束。
+- 本项目已有 D-013 的连续开发授权；关版通过后自动切换到下一版，不再等待重复授权。D-020 进一步明确负责人真机反馈异步返回，开发不得因等待反馈停滞，但任何高风险动作仍受 G00-G28 约束。
 
 ## 4. 开发前检查
 
@@ -59,6 +61,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 无凭据进入文件；
 - 当前任务边界和验收条件完整；
 - 页面台账状态准确；
+- 每个视觉 `IN_SCOPE` 页面都能在真实点击图中反向追溯到根入口；
 - Android 包名/签名连续性材料可用（涉及 App 时）；
 - GitHub 远程和当前 commit 明确；不得误把历史 Actions 结果当作当前版本门禁；
 - 备份、回滚和隔离测试数据可用；
@@ -70,6 +73,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 
 - 复用的组件/选择器/脚本；
 - 页面与模板映射；
+- 页面父入口、裁剪后暴露面积、命中测试、点击前后 URL 和脱敏截图；
 - 业务协议 diff；
 - GET 或按钮副作用；
 - 控制台错误、WebView 差异；
@@ -78,6 +82,14 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 新风险与门禁建议。
 
 不得等到会话结束再凭记忆补写。
+
+## 5.1 并行执行协议
+
+- 默认结构为一个主线程加最多三个子线程；主线程先在计划中登记每条线的文件所有权、输入证据和完成条件。
+- 子线程只修改互斥页面文件，或执行只读审计/预研。共享模板、共享脚本、状态、manifest、服务器部署和关版文档由主线程独占。
+- 当前版本未关版时，下一版本仅可只读预研；预研结论写入当前 `NEXT_TASK.yaml` 后才具有接续效力。
+- 子线程完成后，主线程必须重新读取当前工作树、复核 diff、运行门禁并决定是否合入；子线程自报 PASS 不等于版本 PASS。
+- 遇到文件所有权重叠、共享依赖或运行时事实冲突时，将相关文件交回主线程，不允许两个子线程继续竞争修改。
 
 ## 6. 大版本关版
 
@@ -96,6 +108,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode drift-au
 - 需求是否漂移；
 - 业务功能是否仍完全一致；
 - 页面是否漏改；
+- 是否错误改造了没有真实点击父边的直接 URL、隐藏或源码页面；
 - 是否复用了正确的视觉/组件优点；
 - 是否引入深色大块、暖橙旧风格或品牌混用；
 - Android 权限、支付、状态栏、体积和签名是否漂移；

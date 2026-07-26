@@ -1,0 +1,387 @@
+{template mart:header}
+<script src="source/plugin/tb_cus_base/static/lib/weui/js/lrz.min.js"></script>
+<style>
+    /* ===== 深空科技感配色 - 完全重写样式，保持所有功能不变 ===== */
+    body {
+        background: radial-gradient(circle at 20% 30%, #0a0c1a, #03050b) !important;
+        background-color: #0a0c1a;
+        background-image: none;
+        color: #eef5ff;
+        font-family: 'Inter', 'SF Pro Display', 'system-ui', sans-serif;
+    }
+    
+  
+    
+    /* 主要内容区域 */
+    .weui-form__control-area {
+        margin-top: 110px;
+        padding: 0 20px;
+    }
+    
+    /* 表单组 - 磨砂玻璃卡片 */
+    .weui-cells__group {
+        background: rgba(18, 22, 44, 0.65);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* 表单单元格 */
+    .weui-cells {
+        background: transparent !important;
+    }
+    
+    .weui-cell {
+        background: transparent;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        padding: 16px 15px;
+    }
+    
+    .weui-cell:before {
+        border-top: none !important;
+    }
+    
+    .weui-cell:after {
+        border-bottom: none !important;
+    }
+    
+    /* 标签样式 */
+    .weui-label {
+        color: #8e9aaf;
+        font-size: 15px !important;
+        font-weight: 500;
+        min-width: 80px;
+    }
+    
+    /* 输入框样式 */
+    .weui-input, .newinput, .select-s {
+        background: rgba(30, 42, 69, 0.5) !important;
+        border: 1px solid #2a3a5f !important;
+        border-radius: 12px !important;
+        color: #eef5ff !important;
+        height: 45px;
+        padding-left: 15px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+    
+    .weui-input:focus,
+    .newinput:focus,
+    .select-s:focus {
+        outline: none;
+        border-color: #60a5fa !important;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    
+    .weui-input::placeholder,
+    .newinput::placeholder,
+    .select-s::placeholder {
+        color: #8e9aaf !important;
+    }
+    
+    /* 上传区域样式 */
+    .uploaderqy .weui-uploader {
+        background: transparent;
+    }
+    
+    .weui-uploader__bd {
+        background: transparent;
+    }
+    
+    .weui-uploader__files {
+        margin: 0;
+    }
+    
+    .weui-uploader__file {
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        border-radius: 12px;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .weui-uploader__input-box {
+        border: 2px dashed #2a3a5f;
+        border-radius: 12px;
+        background: rgba(30, 42, 69, 0.3);
+        transition: all 0.3s ease;
+    }
+    
+    .weui-uploader__input-box:before,
+    .weui-uploader__input-box:after {
+        background-color: #60a5fa;
+    }
+    
+    .weui-uploader__input-box:active {
+        border-color: #60a5fa;
+        background: rgba(59, 130, 246, 0.1);
+    }
+    
+    /* 提交按钮样式 - 蓝紫渐变 */
+    .mart-btn {
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 1rem !important;
+        font-size: 18px !important;
+        font-weight: 600 !important;
+        height: 50px;
+        line-height: 50px;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        width: 95%;
+        margin: 20px auto;
+    }
+    
+    .mart-btn:hover,
+    .mart-btn:active {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(59, 130, 246, 0.4) !important;
+    }
+    
+    /* 弹窗样式 - Layer 深空风格 */
+    .layui-layer {
+        background: rgba(18, 22, 44, 0.95) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(59, 130, 246, 0.3) !important;
+        color: #eef5ff !important;
+        border-radius: 1.5rem !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        font-size: 0.4rem;
+    }
+    
+    .layui-layer-title {
+        background: rgba(10, 12, 26, 0.6) !important;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2) !important;
+        color: #60a5fa !important;
+        font-weight: 600;
+        border-radius: 1.5rem 1.5rem 0 0 !important;
+    }
+    
+    .layui-layer-btn {
+        border-top: 1px solid rgba(59, 130, 246, 0.2) !important;
+    }
+    
+    .layui-layer-btn a {
+        background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+        border: none !important;
+        border-radius: 8px !important;
+        color: white !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .layui-layer-btn .layui-layer-btn1 {
+        background: linear-gradient(135deg, #2a3a5f, #1e2a45) !important;
+        color: #8e9aaf !important;
+    }
+    
+    /* 隐藏不需要的样式 */
+    .newbtn,
+    .showlog,
+    .good,
+    .credit-val,
+    .credit-tab,
+    .credit-title,
+    .jf-tab,
+    .u-button {
+        display: none;
+    }
+    
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        .weui-form__control-area {
+            margin-top: 100px;
+            padding: 0 15px;
+        }
+        
+        #header {
+            padding: 0 15px;
+        }
+        
+        .mart-btn {
+            width: 100% !important;
+        }
+        
+        .f15 {
+            width: auto;
+        }
+    }
+</style>
+
+<style>
+    /* 整体头部样式 - 深空玻璃效果 */
+    #header {
+        z-index: 999;
+        background: rgba(10, 12, 26, 0.85) !important;
+        backdrop-filter: blur(15px);
+        width: 100%;
+        height: 90px;
+        font-size: 18px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-sizing: border-box;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 返回按钮样式 */
+    #back-button {
+        margin-top: 150px;  
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+    }
+
+    /* 返回按钮文字样式 */
+    #back-button span {
+        margin-right: 30px;
+    }
+
+    /* 标题样式 */
+    #header-title {
+        color: #eef5ff;
+        font-weight: 600;
+        font-size: 20px;
+        margin: 0;
+        margin-top: 25px;
+        background: linear-gradient(90deg, #60a5fa, #a855f7);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+</style>
+
+<!-- 头部栏 -->
+<div id="header" style="margin-top:0px;">
+    <!-- 返回按钮 -->
+    <a href="javascript:window.history.go(-1);">
+        <img style="margin-top: 30px;" src="https://img.imehui.com/20250919/175827202768cd1a1b5dc6e.png" alt="返回图标" width="20" height="20">
+    </a>
+    <!-- 标题 -->
+    <h1 id="header-title">社交信息</h1>
+    <div style="width: 20px;"></div>
+</div>
+
+<div class="weui-form__control-area" style="margin-top:110px;">
+    <form id="submityes">
+        <div class="weui-cells__group ">
+            <div class="weui-cells weui-cells-new">
+                <div class="weui-cell ">
+                    <div class="weui-cell__hd"><label class="weui-label f15">微信号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input select-s" name="weixin" type="text"
+                             value="$userextendinfo['weixin']"  placeholder=" 请输入微信号">
+                     </div>
+                </div>
+
+                <div class="weui-cell ">
+                    <div class="weui-cell__hd"><label class="weui-label f15">群号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input select-s" name="wmqcode"  type="text"
+                               value="$userextendinfo['wmqcode']"   placeholder=" 请输入群号">
+                    </div>
+                </div>
+
+                <div class="weui-cell ">
+                    <div class="weui-cell__hd"><label class="weui-label f15">QQ号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input select-s" name="qq"  type="number"
+                               value="$userextendinfo['qq']"   placeholder=" 请输入QQ号">
+                    </div>
+                </div>
+
+                <div class="weui-cell ">
+                    <div class="weui-cell__hd"><label class="weui-label f15">群码</label></div>
+                    <div class="weui-cell__bd">
+                        <div class="weui-uploader uploaderqy">
+                            <div class="weui-uploader">
+                                <div class="weui-uploader__bd">
+                                    <ul class="weui-uploader__files">
+                                        <!--{if $userextendinfo['pic']}-->
+                                        <li onclick="removeimg(this)" class="weui-uploader__file" style="background-image:url($userextendinfo['pic'])">
+                                            <input value="$userextendinfo['pic']" type="hidden" name="pic">
+                                        </li>
+                                        <!--{/if}-->
+                                    </ul>
+                                    <div class="weui-uploader__input-box">
+                                        <input class="weui-uploader__input" accept="image/*" multiple="" type="file" onchange="uploadimg(this)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin:20px;">
+                <a class="weui-btn weui-btn_primary mart-btn" onclick="adduserext()" href="javascript:" style="width:95%;font-size:18px!important;font-weight:500;">立即提交</a>
+            </div>
+        </div>
+
+        <input type="hidden" value="userext" name="modac">
+        <input type="hidden" value="addsubmit" name="submodac">
+        <input type="hidden" name="formhash" value="{FORMHASH}">
+    </form>
+</div>
+
+<script>
+    function removeimg(obj){
+        layer.confirm('您确定要删除吗？', {
+            btn: ['确定', '取消'] //按钮
+        }, function(){
+            $(obj).remove();
+            layer.closeAll();
+        }, function(){
+
+        });
+        return false;
+    }
+    function uploadimg(obj,filename) {
+        lrz(obj.files[0],{width:750,fieldName:"file"}).then(function(data) {
+            $.post("plugin.php?id=tb_credit"+"&modac=userext"+"&submodac=uploadimg",{imgbase64: data.base64},function(rs){
+                $(obj).parent().prev().html('<li onclick="removeimg(this)" class="weui-uploader__file" style="background-image:url('+rs.data+')"><input value="'+rs.data+'"  type="hidden"  name="pic" /></li>');
+            },'json');
+
+        }).then(function(data) {
+
+        }).catch(function(err) {
+            console.log(err);
+        });
+    }
+
+    function adduserext() {
+        var data = $("#submityes").serialize();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            url: 'plugin.php?id=tb_credit',
+            success: function (data) {
+                if (data.code == 200) {
+                    layer.msg(data.msg, {shade: 0.01}, function () {
+                        window.location.href = "plugin.php?id=tb_credit"+"&modac=myjbzz"+"&dhtype=2";
+                    });
+                } else {
+                    layer.msg(data.msg, {shade: 0.01});
+                }
+            },
+            error: function (xhr) {
+            }
+        })
+    }
+</script>
+
+{template tb_cus_base:top}
+{template mart:footer}
