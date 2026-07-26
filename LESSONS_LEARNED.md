@@ -197,6 +197,11 @@
 - 现象：本机和服务器缓存构建已通过，但 GitHub 干净 Linux 环境首次解析 `guava-parent` POM 与 `junit-bom` module 时，严格校验正确停止。
 - 规则：不能关闭 dependency verification。对每个新出现的 POM/module（包括 Kotlin Build Tools classpath 间接解析的 BOM）从两个 Maven Central HTTPS 端点下载并确认字节 SHA-256 一致，只追加精确 artifact；随后用新的干净 CI run 证明元数据闭合。
 
+## L-040 自动全绿不等于跨版本视觉门禁已通过
+
+- 现象：首个全绿 Android CI 已证明原生容器、截图与日志链路正常，但截图仍真实显示尚未改造的生产 H5 旧品牌“签米”和暖橙视觉。
+- 规则：自动 run 可登记 PASS，同时人工截图必须把跨版本待改项写成 OPEN；不得把旧 H5 误报为 G13/G14 通过。R02/R03 改造后该项升级为阻断性回归，R09 前必须清零。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

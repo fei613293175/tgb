@@ -51,7 +51,7 @@ design:
   approved_logo: assets/brand/tuiguangbao-app-icon-master-light-v2.png
 
 android:
-  status: SERVER_RELEASE_BUILT_CI_CONNECTING
+  status: SERVER_RELEASE_BUILT_CI_PASS_DEVICE_FLOWS_PENDING
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin
@@ -69,7 +69,10 @@ android:
   server_build_id: 20260726T143800+0800
   native_top_loading_progress_visible: false
   github_actions_repository: https://github.com/fei613293175/tgb
-  github_actions_status: RUN_30191901834_FAILED_LINUX_METADATA_FIX_PREPARED
+  github_actions_status: RUN_30192012488_PASS_ARTIFACT_REVIEWED
+  github_actions_artifact_id: 8628928965
+  github_actions_artifact_sha256: b0370aca9d66c595c257d1b993e778b84e9fb136a7191fb526d15c7dcc97e194
+  ci_visual_review: NATIVE_PASS_LEGACY_H5_BRAND_PENDING_R02_R03
 
 completed:
   - R00 production read-only source and database baseline
@@ -90,9 +93,9 @@ completed:
   - physical-device blue native loading bar feedback recorded and source fix implemented
   - replacement no-progress signed Release rebuilt on server and copied to the local Desktop
   - replacement APK physically verified with the native top progress bar absent
+  - GitHub Actions clean build, APK gates, Android 36 emulator install/start, screenshot, log and artifact review
 
 not_completed:
-  - GitHub Actions first clean run and artifact review
   - Android device photo upload and external-payment return tests
   - H5 visual implementation R02 through R09
   - controlled-write fixtures for each high-risk page family
