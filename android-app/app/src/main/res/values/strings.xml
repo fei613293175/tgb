@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">推广宝</string>
+    <string name="offline_title">页面暂时无法打开</string>
+    <string name="offline_message">请检查网络连接后重试。推广宝不会忽略证书错误或跳转到不受信任的页面。</string>
+    <string name="retry">重新加载</string>
+    <string name="exit_title">退出推广宝？</string>
+    <string name="exit_message">再次确认后将关闭应用。</string>
+    <string name="cancel">取消</string>
+    <string name="exit">退出</string>
+    <string name="blocked_link">已拦截不受信任的外部链接</string>
+    <string name="alipay_unavailable">未找到可处理此支付请求的支付宝，请返回收银台选择其他方式。</string>
+    <string name="download_started">下载任务已创建</string>
+    <string name="download_failed">无法安全下载此文件</string>
+</resources>

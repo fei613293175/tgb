@@ -1,0 +1,113 @@
+schema_version: 1
+project_id: TG-H5-UI-REDESIGN
+product_name: 推广宝
+snapshot_date: 2026-07-26
+current_release: R01
+release_status: IN_PROGRESS
+active_task_id: TASK-R01-001
+business_behavior_change_allowed: false
+dark_page_theme_allowed: false
+production_direct_edit_allowed: false
+
+scope:
+  h5_visual_redesign: true
+  android_native_container: true
+  brand_unification: true
+  admin_ui: false
+  external_site_ui: false
+
+facts:
+  site: tg.suewammes.com
+  production_root: /www/wwwroot/tg.suewammes.com
+  plugin_root: /www/wwwroot/tg.suewammes.com/source/plugin
+  platform: Discuz! X3.4 Release 20220518
+  h5_only_business_frontend: true
+  observed_page_types: 41
+  ledger_rows: 64
+  page_source_map_rows: 64
+  database_identifier_stored_in_handoff: false
+  credentials_stored_in_handoff: false
+
+staging:
+  status: READ_ONLY_READY
+  snapshot_id: 20260726T125247+0800
+  site_root: /www/staging/tg-h5-ui-r00/site
+  private_evidence_root: /www/staging/tg-h5-ui-r00/private
+  listener: 127.0.0.1:18081
+  access: SSH_TUNNEL_ONLY
+  allowed_methods:
+    - GET
+    - HEAD
+  post_status: 405
+  final_get_status: 200
+  production_code_unchanged: true
+
+design:
+  theme: Light Grid / 晴空电光
+  light_background_required: true
+  large_dark_surfaces_forbidden: true
+  product_name: 推广宝
+  token_file: STYLE_TOKENS.json
+  approved_logo: assets/brand/tuiguangbao-app-icon-master-light-v2.png
+
+android:
+  status: SERVER_RELEASE_BUILT_CI_CONNECTING
+  app_name: 推广宝
+  application_id: com.suewammes.tuiguangbao
+  language: Kotlin
+  release_apk_min_bytes: 10485760
+  gallery_upload_required: true
+  external_payment_app_required: true
+  status_bar_overlap_forbidden: true
+  signing_material_in_handoff: false
+  jdk: Microsoft OpenJDK 21.0.12+8-LTS
+  sdk_ready: true
+  server_build_image: hhy-android-toolchain:r08-api36-cache
+  server_release_apk_built: true
+  server_release_apk_bytes: 18153898
+  server_release_apk_sha256: a03066bae79f67bafe5f0061d9cba88017839a9efd2690a83f196bbcf0c93bb8
+  server_build_id: 20260726T143800+0800
+  native_top_loading_progress_visible: false
+  github_actions_repository: https://github.com/fei613293175/tgb
+  github_actions_status: WORKFLOW_PREPARED_NOT_YET_RUN
+
+completed:
+  - R00 production read-only source and database baseline
+  - R00 isolated loopback staging and restore validation
+  - R00 64 of 64 page-to-source mapping
+  - R00 side-effect test plan and hard gates
+  - R00 Android toolchain verification
+  - mobile browser public and authenticated runtime experience
+  - 41 page types recorded without destructive submissions
+  - visual tokens and light-only design direction frozen
+  - Android product identity and architecture requirement frozen
+  - initial brand icon generated
+  - Android Kotlin source, unit tests, lint and local Debug/Release builds
+  - formal RSA 4096 signing material created outside the handoff
+  - server-isolated signed Release APK built, inspected and copied to the local Desktop
+  - GitHub Actions build, emulator, screenshot and log workflow prepared
+  - first server APK physically installed, launched and reached the H5 site
+  - physical-device blue native loading bar feedback recorded and source fix implemented
+  - replacement no-progress signed Release rebuilt on server and copied to the local Desktop
+
+not_completed:
+  - GitHub Actions first clean run and artifact review
+  - replacement APK physical-device confirmation that the top progress bar is gone
+  - Android device photo upload and external-payment return tests
+  - H5 visual implementation R02 through R09
+  - controlled-write fixtures for each high-risk page family
+  - production deployment
+
+blockers:
+  - id: B-R01-01
+    description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
+    affects: R01 external payment end-to-end test
+  - id: B-LEGAL-01
+    description: legacy MKT legal wording requires owner or legal decision before replacement
+    affects: R03 legal copy only
+
+next_task_file: NEXT_TASK.yaml
+hard_gates_file: 06_HARD_GATES.md
+page_ledger_file: 03_PAGE_LEDGER.csv
+page_source_map_file: 12_PAGE_SOURCE_MAP.csv
+manifest_file: MANIFEST_SHA256.txt

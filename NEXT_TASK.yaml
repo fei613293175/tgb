@@ -1,0 +1,75 @@
+schema_version: 1
+project_id: TG-H5-UI-REDESIGN
+task_id: TASK-R01-001
+release: R01
+status: IN_PROGRESS
+title: 开发推广宝 Android 原生容器并交付首个签名测试 APK
+
+preconditions:
+  - MANIFEST_SHA256.txt verification passes
+  - R00_RESULT.md is PASS
+  - Android toolchain verification passes
+  - no credentials or signing passwords enter the handoff or source
+  - H5 work remains on read-only staging and production is unchanged
+
+read_first:
+  - 06_HARD_GATES.md
+  - 00_PROJECT_CHARTER.md
+  - CURRENT_STATUS.yaml
+  - 10_ANDROID_APP_SPEC.md
+  - 14_ANDROID_TOOLCHAIN.md
+  - 15_GITHUB_ACTIONS.md
+  - 12_PAGE_SOURCE_MAP.csv
+  - 13_SIDE_EFFECT_TEST_PLAN.md
+  - LESSONS_LEARNED.md
+  - DECISIONS.md
+  - version-results/R00_RESULT.md
+
+actions:
+  - Create android-app Kotlin project with applicationId com.suewammes.tuiguangbao.
+  - Lock Gradle Wrapper AGP Kotlin compileSdk targetSdk minSdk and dependency verification.
+  - Implement a light-only branded splash and adaptive icons from the approved logo.
+  - Implement a single-activity WebView with HTTPS host allowlist and safe browser fallback.
+  - Apply WindowInsets so status and navigation bars never overlap H5 content.
+  - Implement back navigation target-blank download offline and SSL error handling.
+  - Keep WebView page loading automatic and remove the native top progress bar per physical-device feedback.
+  - Implement H5 file chooser with Photo Picker or SAF and no broad storage permission.
+  - Implement external-app routing with exact scheme host package allowlists and reject arbitrary intents.
+  - Generate the formal RSA 4096 keystore outside the handoff and wire signing through environment variables.
+  - Build and inspect signed Release APK and ensure size is at least 10485760 bytes without post-sign padding.
+  - Run unit lint static secret and APK metadata checks.
+  - Run available emulator or device smoke tests; record any unavailable hardware test as an explicit closure blocker.
+  - Push the complete handoff and Android source to the authorized GitHub repository.
+  - Run GitHub Actions clean build, Android 36 emulator install/start, screenshot, log and regression gates.
+  - Treat every CI failure as a fix, rebuild and retest loop; never waive a failed gate to obtain green status.
+  - Update native page rows evidence and create version-results/R01_RESULT.md.
+  - Run global drift audit and rebuild manifest only after review.
+
+forbidden:
+  - Do not edit /www/wwwroot/tg.suewammes.com in place.
+  - Do not begin R02 H5 visual implementation before R01 closeout.
+  - Do not embed site login database payment or signing credentials.
+  - Do not ignore SSL errors or load arbitrary non-HTTPS hosts in WebView.
+  - Do not accept arbitrary custom schemes intent components selectors or javascript external navigation.
+  - Do not request MANAGE_EXTERNAL_STORAGE or unnecessary broad media permissions.
+  - Do not treat a debug or unsigned APK as the signed release deliverable.
+  - Do not create real payment withdrawal purchase reward or cancellation transactions.
+  - Do not upload keystore passwords site credentials cookies tokens or authenticated screenshots to GitHub.
+  - Do not treat the GitHub Debug artifact as the formal server-signed Release deliverable.
+
+acceptance:
+  - Application label and package are 推广宝 and com.suewammes.tuiguangbao.
+  - Light splash adaptive icons and system bars pass visual checks.
+  - WebView loading navigation offline SSL and allowlist behavior pass.
+  - File chooser works through the minimum-permission system picker path.
+  - Approved external payment routing and safe fallback pass with a sandbox or sanitized sample.
+  - Signed Release APK is at least 10485760 bytes and install/launch is verified.
+  - GitHub Actions clean run is green and its APK screenshot test reports and logs are reviewed.
+  - No native top page-loading progress line is visible in the replacement APK.
+  - APK metadata SHA-256 certificate SHA-256 and signing custody are recorded without secrets.
+  - R01 closeout and global drift audit pass.
+  - CURRENT_STATUS.yaml NEXT_TASK.yaml native ledger rows decisions lessons and manifest are updated.
+
+on_success:
+  next_release: R02
+  next_task_title: 开发推广宝品牌与 H5 公共浅色壳层

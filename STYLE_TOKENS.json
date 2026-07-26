@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "project": "TG-H5-UI-REDESIGN",
+    "theme": "Light Grid / 晴空电光",
+    "version": "1.0.0",
+    "frozenAt": "2026-07-26",
+    "businessBehaviorChangeAllowed": false,
+    "darkPageBackgroundAllowed": false
+  },
+  "color": {
+    "bg": "#F4F7FB",
+    "surface": "#FFFFFF",
+    "surfaceSoft": "#EDF3FA",
+    "ink": "#0E1B2A",
+    "text": "#405166",
+    "muted": "#718096",
+    "border": "#D8E1EC",
+    "navy": "#0C1B33",
+    "primary": "#2764FF",
+    "primaryPressed": "#1847CC",
+    "mint": "#19B8A9",
+    "violet": "#7657FF",
+    "success": "#15965A",
+    "warning": "#D99000",
+    "danger": "#D93F5C",
+    "info": "#2176C7"
+  },
+  "font": {
+    "family": "\"PingFang SC\", \"Microsoft YaHei\", \"Noto Sans SC\", system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif",
+    "size": {
+      "xs": 12,
+      "sm": 13,
+      "body": 14,
+      "bodyLg": 16,
+      "titleSm": 18,
+      "title": 22,
+      "display": 28
+    },
+    "lineHeight": {
+      "xs": 18,
+      "sm": 20,
+      "body": 22,
+      "bodyLg": 24,
+      "titleSm": 26,
+      "title": 30,
+      "display": 36
+    }
+  },
+  "space": [4, 8, 12, 16, 20, 24, 32],
+  "radius": {
+    "tag": 6,
+    "control": 12,
+    "card": 16,
+    "sheet": 20,
+    "round": 999
+  },
+  "size": {
+    "touchMin": 44,
+    "controlHeight": 48,
+    "topbarHeight": 52,
+    "bottomNavHeight": 64,
+    "pageGutter": 16
+  },
+  "shadow": {
+    "floating": "0 8px 24px rgba(12, 27, 51, 0.08)"
+  },
+  "motion": {
+    "fastMs": 120,
+    "normalMs": 180,
+    "slowMs": 240,
+    "respectReducedMotion": true
+  },
+  "viewport": [
+    {"width": 360, "height": 800},
+    {"width": 390, "height": 844},
+    {"width": 430, "height": 932}
+  ]
+}

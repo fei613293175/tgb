@@ -1,0 +1,32 @@
+# Machine-local Android/Gradle state
+.gradle/
+.kotlin/
+**/build/
+**/local.properties
+*.iml
+.idea/
+
+# Signing and credentials must never enter Git
+*.jks
+*.keystore
+keystore.properties
+*.pem
+*.p12
+*.env
+
+# APKs are delivered by server/GitHub Actions artifacts, not committed
+deliverables/**/*.apk
+*.apk
+*.apks
+*.aab
+
+# Local QA/runtime output
+.runtime/
+ci-artifacts/
+captures/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+
