@@ -33,14 +33,14 @@
 
 最终部署：
 
-- 部署 ID：`20260726T170445+0800`
+- 部署 ID：`20260726T184740+0800`
 - 覆盖包 SHA-256：
-  `17af7af1d2d3ba0a31242cd74e5596767bde644e00cfedcaaa7bef4ef81edb8d`
+  `bb77e85e27607c130ba7303874f4f1ab5e72f4564775d187a1fd0d7ca739d042`
 - 移动路径最终 HTTP：200
 - 桌面引导最终 HTTP：200
 - 部署前备份：
-  `/www/staging/tg-h5-ui-r02/private/change-backups/20260726T170445+0800`
-- 本地覆盖层与隔离站 6 个白名单文件逐文件 SHA-256：全部一致
+  `/www/staging/tg-h5-ui-r02/private/change-backups/20260726T184740+0800`
+- 本地覆盖层与隔离站 19 个白名单文件逐文件 SHA-256：全部一致
 
 共享壳层文件：
 
@@ -50,6 +50,13 @@
 - `source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css`
 - `source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg`
 - `source/plugin/xigua_hb/static/tgb-r02/chat-r02.svg`
+- 本地 Remixicon 3.5.0 CSS/WOFF2
+- 11 个实际底部导航模板，包括 `my_new.php`、`vip.php` 和 `tab*.php`
+
+本地 Remixicon WOFF2 SHA-256：
+`b0d0b7e5101a1b8a54268b9188da520d19d74df9b35714a8ddb5987fad990591`。
+`my_new.php` 和 `vip.php` 复用服务器现有本地 Font Awesome 4.7.0，未新增
+公共 CDN。
 
 ## 环境修复
 
@@ -74,6 +81,21 @@
 
 生产站未进入该窗口，生产代码与数据均未修改。
 
+## 登录后视觉夹具与回收
+
+- 合成账号仅存在于 R02 主库/UCenter 克隆库，关联行与 UID 一致性通过；不含
+  真实手机号、真实身份或负责人账号变更。
+- 随机密码未输出、未落盘；临时回环登录桥只用于浏览器视觉取证。
+- 登录桥回收历史：
+  `/www/staging/tg-h5-ui-r02/private/auth-bridge-history/20260726T183947+0800`
+- 强制 UA 回收历史：
+  `/www/staging/tg-h5-ui-r02/private/mobile-ua-test-history/20260726T183948+0800`
+- 回收后桥目录不存在、强制 UA 状态为 OFF、`POST=405`。
+
+强制 UA 激活期间，部署 `20260726T183919+0800` 在桌面入口门禁得到 302，按
+预期判定失败。恢复动态 UA 后，同一代码族重新部署并通过；该失败没有被删除或
+改写为成功。
+
 ## 响应式预览清理
 
 三档受控响应式证据生成后，临时入口 `site/__r02_test__` 已从站点目录移走，
@@ -92,3 +114,7 @@
   `5333ea8150f836430716a124ecda4ce3a4ada958e9e8edd97bcb92710a8f2c37`
 
 结论仍为 `PASS`，临时证据入口没有残留在隔离站点。
+
+最终部署后再次完整复核：主库/UCenter 表数仍为 680/607，生产稳定代码
+SHA-256 仍为
+`91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984`。

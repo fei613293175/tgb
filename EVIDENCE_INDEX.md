@@ -109,3 +109,9 @@ evidence/
   CSS；它证明共享组件断点和无横向溢出，不替代登录后业务页面证据。
 - R02 登录夹具限制：
   `evidence/R02/regression/LOGIN_FIXTURE_LIMIT.md`
+- R02 登录后共享壳层运行时审计：
+  `evidence/R02/after/AUTHENTICATED_SHARED_SHELL_AUDIT.md`
+- R02 登录后共享壳层截图：
+  `evidence/R02/after/AUTH-HOME-R02-390x844.jpg`
+- R02 Android WebView 安全区源码、构建和设备待验状态：
+  `evidence/R02/android/INSET_EVIDENCE_STATUS.md`

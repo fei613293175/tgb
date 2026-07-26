@@ -42,12 +42,32 @@ function mainPresence(string $configPath, string $phone): array {
 }
 
 function ucenterPresence(string $configPath, string $phone): bool {
-    include $configPath;
-    $database = @new mysqli(UC_DBHOST, UC_DBUSER, UC_DBPW, UC_DBNAME, (int) UC_DBPORT);
+    $text = file_get_contents($configPath);
+    if ($text === false) {
+        throw new RuntimeException('UCenter config read failed');
+    }
+    $value = static function (string $name) use ($text): string {
+        $pattern = "/define\\('" . preg_quote($name, "/") .
+            "',\\s*(?:'((?:\\\\.|[^'])*)'|([0-9]+))\\s*\\);/";
+        if (!preg_match($pattern, $text, $match)) {
+            throw new RuntimeException('UCenter config value missing: ' . $name);
+        }
+        return $match[1] !== '' ? stripcslashes($match[1]) : $match[2];
+    };
+    $database = @new mysqli(
+        $value('UC_DBHOST'),
+        $value('UC_DBUSER'),
+        $value('UC_DBPW'),
+        $value('UC_DBNAME'),
+        3306
+    );
     if ($database->connect_errno) {
         throw new RuntimeException('UCenter connection failed');
     }
-    $table = UC_DBTABLEPRE . 'members';
+    $table = $value('UC_DBTABLEPRE') . 'members';
+    if (!preg_match('/^`[A-Za-z0-9_]+`\\.[A-Za-z0-9_]+$/', $table)) {
+        throw new RuntimeException('unexpected UCenter table name');
+    }
     $statement = $database->prepare(
         "SELECT COUNT(*) FROM " . $table . " WHERE username = ?"
     );
@@ -75,7 +95,11 @@ try {
         $phone
     );
 } catch (Throwable $error) {
-    fwrite(STDERR, "[R02-ACCOUNT-PRESENCE] ABORT: read-only probe failed\n");
+    file_put_contents(
+        'php://stderr',
+        "[R02-ACCOUNT-PRESENCE] ABORT: read-only probe failed: " .
+        $error->getMessage() . "\n"
+    );
     exit(2);
 }
 

@@ -59,7 +59,7 @@ endif;
 
 <meta name="description" content="{echo $desc ? $desc : ($description ? $description : $_G['cache']['plugin']['xigua_f']['defaultdesc'])}">
 <link rel="stylesheet" href="source/plugin/xigua_hb/static/custom.css?{VERHASH}199">
-<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css?v=20260726-r02b">
+<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css?v=20260726-r02d">
 <!--{if is_file(DISCUZ_ROOT.'source/plugin/xigua_hb/template/touch/jl_jy_style.php')}--><!--{template xigua_hb:touch/jl_jy_style}--><!--{/if}-->
 <!--{if is_file(DISCUZ_ROOT.'source/plugin/xigua_hb/template/touch/jl_fc_style.php')}--><!--{template xigua_hb:touch/jl_fc_style}--><!--{/if}-->
 <!--{if is_file(DISCUZ_ROOT.'source/plugin/xigua_hb/template/touch/jl_zp_style.php')}--><!--{template xigua_hb:touch/jl_zp_style}--><!--{/if}-->

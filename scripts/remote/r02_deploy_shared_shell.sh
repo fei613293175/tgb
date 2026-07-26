@@ -14,8 +14,35 @@ EXPECTED_FILES=(
   "source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg"
   "source/plugin/xigua_hb/static/tgb-r02/chat-r02.svg"
   "source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css"
+  "source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css"
+  "source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.woff2"
   "source/plugin/xigua_hb/template/touch/common_header.php"
   "source/plugin/xigua_hb/template/touch/common_nav.php"
+  "source/plugin/xigua_hb/template/touch/my_new.php"
+  "source/plugin/xigua_hb/template/touch/tab1.php"
+  "source/plugin/xigua_hb/template/touch/tab10.php"
+  "source/plugin/xigua_hb/template/touch/tab11.php"
+  "source/plugin/xigua_hb/template/touch/tab2.php"
+  "source/plugin/xigua_hb/template/touch/tab3.php"
+  "source/plugin/xigua_hb/template/touch/tab4.php"
+  "source/plugin/xigua_hb/template/touch/tab5.php"
+  "source/plugin/xigua_hb/template/touch/tab6.php"
+  "source/plugin/xigua_hb/template/touch/tab9.php"
+  "source/plugin/xigua_hb/template/touch/vip.php"
+)
+
+NAV_TEMPLATE_FILES=(
+  "source/plugin/xigua_hb/template/touch/my_new.php"
+  "source/plugin/xigua_hb/template/touch/tab1.php"
+  "source/plugin/xigua_hb/template/touch/tab10.php"
+  "source/plugin/xigua_hb/template/touch/tab11.php"
+  "source/plugin/xigua_hb/template/touch/tab2.php"
+  "source/plugin/xigua_hb/template/touch/tab3.php"
+  "source/plugin/xigua_hb/template/touch/tab4.php"
+  "source/plugin/xigua_hb/template/touch/tab5.php"
+  "source/plugin/xigua_hb/template/touch/tab6.php"
+  "source/plugin/xigua_hb/template/touch/tab9.php"
+  "source/plugin/xigua_hb/template/touch/vip.php"
 )
 
 fail() {
@@ -54,10 +81,36 @@ done
 php -l "${WORK_DIR}/index.php" >/dev/null
 php -l "${WORK_DIR}/source/plugin/xigua_hb/template/touch/common_header.php" >/dev/null
 php -l "${WORK_DIR}/source/plugin/xigua_hb/template/touch/common_nav.php" >/dev/null
+for template in "${NAV_TEMPLATE_FILES[@]}"; do
+  php -l "${WORK_DIR}/${template}" >/dev/null
+  grep -Fq 'tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02' \
+    "${WORK_DIR}/${template}" ||
+    fail "local Remixicon link is absent from ${template}"
+  if grep -Fq 'cdn.jsdelivr.net/npm/remixicon' "${WORK_DIR}/${template}"; then
+    fail "public Remixicon CDN remains in ${template}"
+  fi
+done
+for template in \
+  "source/plugin/xigua_hb/template/touch/my_new.php" \
+  "source/plugin/xigua_hb/template/touch/vip.php"; do
+  grep -Fq \
+    'source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css' \
+    "${WORK_DIR}/${template}" ||
+    fail "local Font Awesome link is absent from ${template}"
+  if grep -Fq 'cdn.jsdelivr.net/npm/font-awesome' "${WORK_DIR}/${template}"; then
+    fail "public Font Awesome CDN remains in ${template}"
+  fi
+done
 grep -Fq 'tgb-light-grid' "${WORK_DIR}/source/plugin/xigua_hb/template/touch/common_header.php" ||
   fail "shared header marker is absent"
 grep -Fq 'Light Grid R02' "${WORK_DIR}/source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css" ||
   fail "stylesheet marker is absent"
+grep -Fq 'Remix Icon v3.5.0' \
+  "${WORK_DIR}/source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css" ||
+  fail "vendored Remixicon CSS marker is absent"
+[ "$(sha256sum "${WORK_DIR}/source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.woff2" | awk '{print $1}')" \
+  = "b0d0b7e5101a1b8a54268b9188da520d19d74df9b35714a8ddb5987fad990591" ] ||
+  fail "vendored Remixicon WOFF2 hash mismatch"
 grep -Fq '请使用手机打开推广宝' "${WORK_DIR}/index.php" ||
   fail "desktop guide marker is absent"
 
@@ -136,7 +189,9 @@ grep -Fq '请使用手机打开推广宝' "${DESKTOP_HTML}" || fail "desktop gui
 for asset in \
   "source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css|Light Grid R02" \
   "source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg|<svg" \
-  "source/plugin/xigua_hb/static/tgb-r02/chat-r02.svg|<svg"; do
+  "source/plugin/xigua_hb/static/tgb-r02/chat-r02.svg|<svg" \
+  "source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css|Remix Icon v3.5.0" \
+  "source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css|Font Awesome 4.7.0"; do
   asset_path="${asset%%|*}"
   asset_marker="${asset#*|}"
   asset_body="${WORK_DIR}/$(basename "${asset_path}").response"
@@ -147,6 +202,26 @@ for asset in \
   grep -Fq "${asset_marker}" "${asset_body}" ||
     fail "asset ${asset_path} returned fallback content"
 done
+
+FONT_PATH="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.woff2"
+FONT_BODY="${WORK_DIR}/remixicon.woff2.response"
+FONT_CODE="$(curl -sS -o "${FONT_BODY}" -w '%{http_code}' \
+  -H 'Host: tg-h5-ui-r02.local' \
+  "http://127.0.0.1:${LOOPBACK_PORT}/${FONT_PATH}")"
+[ "${FONT_CODE}" = "200" ] || fail "asset ${FONT_PATH} HTTP ${FONT_CODE}"
+[ "$(sha256sum "${FONT_BODY}" | awk '{print $1}')" \
+  = "b0d0b7e5101a1b8a54268b9188da520d19d74df9b35714a8ddb5987fad990591" ] ||
+  fail "served Remixicon WOFF2 hash mismatch"
+
+FA_FONT_PATH="source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/fonts/fontawesome-webfont.woff2"
+FA_FONT_BODY="${WORK_DIR}/fontawesome-webfont.woff2.response"
+FA_FONT_CODE="$(curl -sS -o "${FA_FONT_BODY}" -w '%{http_code}' \
+  -H 'Host: tg-h5-ui-r02.local' \
+  "http://127.0.0.1:${LOOPBACK_PORT}/${FA_FONT_PATH}")"
+[ "${FA_FONT_CODE}" = "200" ] || fail "asset ${FA_FONT_PATH} HTTP ${FA_FONT_CODE}"
+[ "$(sha256sum "${FA_FONT_BODY}" | awk '{print $1}')" \
+  = "2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe" ] ||
+  fail "served Font Awesome WOFF2 hash mismatch"
 
 printf '[R02-DEPLOY] PASS\n'
 printf '[R02-DEPLOY] DEPLOY_ID=%s\n' "${DEPLOY_ID}"

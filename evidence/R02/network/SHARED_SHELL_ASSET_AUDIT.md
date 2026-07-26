@@ -1,7 +1,7 @@
 # R02 共享壳层资源审计
 
 日期：2026-07-26
-结论：`PASS_WITH_REMAINING_AUTH_AND_ANDROID_EVIDENCE`
+结论：`PASS_WITH_ANDROID_EVIDENCE_REMAINING`
 
 ## 新增运行时资源
 
@@ -10,7 +10,8 @@
 | Light Grid 令牌与组件 CSS | 本站版本化 CSS | 无 |
 | 推广宝品牌标志 | 本站 SVG | 无 |
 | 顶栏聊天图标 | 本站 SVG | 无 |
-| 旧页面 iconfont | 保留现有本站资源 | 无新增 |
+| Remixicon 3.5.0 | 本站 CSS + WOFF2 | 无 |
+| Font Awesome 4.7.0 | 复用服务器既有本站资源 | 无 |
 
 未引入在线 Tailwind、Google Fonts、公共 iconfont CDN 或新的第三方 UI
 运行时依赖。
@@ -27,6 +28,14 @@
   `evidence/R02/after/DESKTOP-SPLASH-1265x712.jpg`
 - 截图 SHA-256：
   `da30c805c925b4461b62e19c22d5ed3e36006f96569ab26b3320ea6599951e8d`
+- Remixicon CSS：122,973 bytes
+- Remixicon WOFF2：143,720 bytes
+- Remixicon WOFF2 SHA-256：
+  `b0d0b7e5101a1b8a54268b9188da520d19d74df9b35714a8ddb5987fad990591`
+- 11 个共享导航模板不再请求 jsDelivr Remixicon；`my_new.php`、`vip.php`
+  不再请求 jsDelivr Font Awesome：PASS
+- 登录后页面声明本站 Remixicon，字体加载检查：PASS
+- 登录后页面新增公共 UI CDN 请求：0
 
 ## 响应式组件矩阵
 
@@ -56,7 +65,6 @@
 
 ## 尚未关闭
 
-- 登录后首页的共享顶栏、底栏和卡片视觉复核；
 - Android WebView 中 R02 H5 与原生状态栏不叠加的实机证据。
 
 以上仍是 R02 关版门禁，当前不得把 R02 标为完成。

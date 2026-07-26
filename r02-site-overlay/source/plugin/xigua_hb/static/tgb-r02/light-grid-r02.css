@@ -42,6 +42,24 @@ html.tgb-light-grid body {
 
 html.tgb-light-grid body {
   padding-bottom: calc(var(--tgb-tabbar-height) + env(safe-area-inset-bottom, 0px));
+  scrollbar-color: rgba(39, 100, 255, 0.52) var(--tgb-bg);
+}
+
+html.tgb-light-grid::-webkit-scrollbar,
+html.tgb-light-grid body::-webkit-scrollbar {
+  width: 5px;
+  background: var(--tgb-bg);
+}
+
+html.tgb-light-grid::-webkit-scrollbar-track,
+html.tgb-light-grid body::-webkit-scrollbar-track {
+  background: var(--tgb-bg);
+}
+
+html.tgb-light-grid::-webkit-scrollbar-thumb,
+html.tgb-light-grid body::-webkit-scrollbar-thumb {
+  background: rgba(39, 100, 255, 0.52);
+  border-radius: 5px;
 }
 
 .tgb-light-grid *,
@@ -390,11 +408,193 @@ html.tgb-light-grid body {
   color: var(--tgb-primary) !important;
 }
 
+/*
+ * Current xigua_hb shared shell
+ *
+ * The live templates use tech-header/qmn-nav/post-card rather than the
+ * older x_header/weui-tabbar primitives. Keep these rules in the same
+ * token layer so all shared shells converge without changing routes or
+ * template logic.
+ */
+.tgb-light-grid body .tech-header {
+  padding: 10px 0 !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid var(--tgb-border) !important;
+  box-shadow: 0 8px 24px rgba(14, 27, 42, 0.08) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+}
+
+.tgb-light-grid body .tech-header .header-container {
+  gap: 8px !important;
+  padding: 0 12px !important;
+}
+
+.tgb-light-grid body .tech-header .search-section {
+  margin-top: 0 !important;
+}
+
+.tgb-light-grid body .tech-header .search-form {
+  min-height: 46px !important;
+  background: var(--tgb-surface-soft) !important;
+  border: 1px solid var(--tgb-border) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.tgb-light-grid body .tech-header .search-form:focus-within {
+  border-color: var(--tgb-primary) !important;
+  box-shadow: 0 0 0 3px rgba(39, 100, 255, 0.14) !important;
+}
+
+.tgb-light-grid body .tech-header .search-input {
+  min-width: 0;
+  height: 44px !important;
+  padding: 0 14px !important;
+  color: var(--tgb-ink) !important;
+  font-size: 16px !important;
+}
+
+.tgb-light-grid body .tech-header .search-input::placeholder {
+  color: var(--tgb-muted) !important;
+}
+
+.tgb-light-grid body .tech-header .search-btn {
+  min-width: 64px;
+  min-height: 44px;
+  margin: 1px 4px !important;
+  padding: 0 16px !important;
+  color: #fff !important;
+  background: var(--tgb-primary) !important;
+  border: 0 !important;
+  border-radius: 11px !important;
+  box-shadow: 0 5px 14px rgba(39, 100, 255, 0.24) !important;
+}
+
+.tgb-light-grid body .qmn-nav {
+  --qmn-h: 64px !important;
+  --qmn-bg: rgba(255, 255, 255, 0.96) !important;
+  --qmn-shadow: 0 -8px 24px rgba(14, 27, 42, 0.08) !important;
+  --qmn-border-color: var(--tgb-border) !important;
+  --qmn-active-color: var(--tgb-primary) !important;
+  --qmn-active-glow: rgba(39, 100, 255, 0.18) !important;
+  --qmn-inactive-color: var(--tgb-muted) !important;
+  height: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+  padding: 4px 8px env(safe-area-inset-bottom, 0px) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-top: 1px solid var(--tgb-border) !important;
+  box-shadow: 0 -8px 24px rgba(14, 27, 42, 0.08) !important;
+}
+
+.tgb-light-grid body .qmn-nav::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(39, 100, 255, 0.34),
+    transparent
+  ) !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-item {
+  min-width: 44px !important;
+  min-height: 52px !important;
+  color: var(--tgb-muted) !important;
+  border-radius: 13px !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-icon-wrap i,
+.tgb-light-grid body .qmn-nav .qmn-label {
+  color: var(--tgb-muted) !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-item.active {
+  color: var(--tgb-primary) !important;
+  background: var(--tgb-primary-soft) !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-item.active .qmn-icon-wrap,
+.tgb-light-grid body .qmn-nav .qmn-item.active .qmn-icon-wrap i,
+.tgb-light-grid body .qmn-nav .qmn-item.active .qmn-label {
+  color: var(--tgb-primary) !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-item.active .qmn-icon-wrap {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tgb-light-grid body .qmn-nav .qmn-item.active .qmn-dot {
+  background: var(--tgb-primary) !important;
+  box-shadow: 0 0 0 3px rgba(39, 100, 255, 0.12) !important;
+}
+
+.tgb-light-grid body .publish-btn {
+  right: 14px !important;
+  bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+  width: 58px !important;
+  height: 58px !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  background: linear-gradient(135deg, var(--tgb-primary), var(--tgb-violet)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.72) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 26px rgba(39, 100, 255, 0.26) !important;
+}
+
+.tgb-light-grid body .post-card,
+.tgb-light-grid body .listdata-card,
+.tgb-light-grid body .listdata-card1,
+.tgb-light-grid body .super-item {
+  background: var(--tgb-surface) !important;
+  border-color: var(--tgb-border) !important;
+  border-radius: var(--tgb-radius-card) !important;
+  box-shadow: var(--tgb-shadow-card) !important;
+}
+
+.tgb-light-grid body .post-card:hover {
+  transform: none !important;
+  box-shadow: var(--tgb-shadow-card) !important;
+}
+
+.tgb-light-grid body .avatar-outer {
+  background: var(--tgb-primary-soft) !important;
+  border-color: rgba(39, 100, 255, 0.2) !important;
+}
+
+.tgb-light-grid body .time-badge,
+.tgb-light-grid body .category-tag {
+  color: var(--tgb-primary) !important;
+  background: var(--tgb-primary-soft) !important;
+  border-color: rgba(39, 100, 255, 0.18) !important;
+}
+
+.tgb-light-grid body .read-stats {
+  color: var(--tgb-muted) !important;
+  background: var(--tgb-surface-soft) !important;
+  border-color: var(--tgb-border) !important;
+}
+
+.tgb-light-grid body .pinned-tag {
+  color: var(--tgb-violet) !important;
+  background: rgba(118, 87, 255, 0.11) !important;
+  border-color: rgba(118, 87, 255, 0.18) !important;
+}
+
+.tgb-light-grid body a[href*="id=tb_toutiao"][href*="modac=super_main"] {
+  color: #fff !important;
+  background: var(--tgb-primary) !important;
+  box-shadow: 0 5px 14px rgba(39, 100, 255, 0.2) !important;
+}
+
 /* Keep the app's native status-bar inset and the page inset from stacking. */
 @media (display-mode: browser) {
   .tgb-light-grid .x_header.x_header_fix {
     padding-top: calc(10px + env(safe-area-inset-top, 0px)) !important;
     height: calc(var(--tgb-header-height) + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  .tgb-light-grid body .tech-header {
+    padding-top: calc(10px + env(safe-area-inset-top, 0px)) !important;
   }
 }
 

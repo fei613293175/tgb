@@ -42,8 +42,12 @@ staging:
   final_get_status: 200
   production_code_unchanged: true
   production_stable_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
-  r02_shared_shell_deploy_id: 20260726T170445+0800
-  r02_shared_shell_archive_sha256: 17af7af1d2d3ba0a31242cd74e5596767bde644e00cfedcaaa7bef4ef81edb8d
+  r02_shared_shell_deploy_id: 20260726T184740+0800
+  r02_shared_shell_archive_sha256: bb77e85e27607c130ba7303874f4f1ab5e72f4564775d187a1fd0d7ca739d042
+  r02_overlay_files: 19
+  r02_overlay_hash_parity: PASS
+  auth_visual_fixture: ACTIVE_BRIDGE_OFF
+  mobile_ua_test_mode: OFF
 
 design:
   theme: Light Grid / 晴空电光
@@ -73,6 +77,8 @@ android:
   server_source_commit: 3692ec4f1487533e3f17d54f0f6360e8265bcc29
   desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R01-支付H5兼容修复.apk
   native_top_loading_progress_visible: false
+  r02_inset_instrumentation: COMPILED_DEVICE_EXECUTION_PENDING
+  r02_debug_apk_sha256: 4c99e43aa3f85015f92d8586be24d7eef99c01a12a9c8b1a46f1d0073556820b
   github_actions_repository: https://github.com/fei613293175/tgb
   github_actions_automatic_testing_enabled: false
   github_actions_status: RETIRED_AFTER_RUN_30192427296_PASS
@@ -114,13 +120,18 @@ completed:
   - R02 Nginx FastCGI header forwarding and UCenter client isolation repairs
   - R02 static asset content gates and desktop visual evidence
   - R02 real iframe viewport component matrix at 360x800 390x844 and 430x932 with no horizontal overflow
+  - R02 staging-only synthetic authenticated visual fixture with main and UCenter parity
+  - R02 authenticated shared shell browser evidence with bridge and forced-UA modes removed
+  - R02 local Remixicon 3.5.0 and server-local Font Awesome migration for shared navigation templates
+  - R02 44px search touch target 16px input and Light Grid scrollbar runtime gates
+  - R02 Android inset ownership instrumentation source and Debug build gates
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
   - H5 visual implementation R02 through R09 (R02 now active)
   - controlled-write fixtures for each high-risk page family
   - production deployment
-  - R02 authenticated shared-shell visual and Android WebView safe-area evidence
+  - R02 Android WebView safe-area evidence
 
 blockers:
   - id: B-R01-01
@@ -129,9 +140,6 @@ blockers:
   - id: B-LEGAL-01
     description: legacy MKT legal wording requires owner or legal decision before replacement
     affects: R03 legal copy only
-  - id: B-R02-LOGIN-01
-    description: provided login identifier is absent from the actual phone-login mapping and cannot create an authenticated R02 clone session; do not alter production credentials to bypass
-    affects: R02 authenticated visual evidence and later controlled-write fixtures; safe public and source work continues
 
 next_task_file: NEXT_TASK.yaml
 hard_gates_file: 06_HARD_GATES.md
