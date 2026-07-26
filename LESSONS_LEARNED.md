@@ -222,6 +222,60 @@
 - 现象：生产收银台在用户点击后先发 AJAX，再用 `window.location.href=data.msg` 跳到外部 H5 网关；WebView 最终导航可能不再携带 `hasGesture=true`。旧路由会把这类真实支付跳转当作任意无手势外链拦截。
 - 规则：不能全局取消手势门禁。只允许从本站或已批准支付页进入源码证据中登记的精确 HTTPS 网关，让收银台留在 WebView 内；支付宝 deep link 继续锁定 scheme、host、package。域名相似后缀、尾随点和未登记来源必须由单元测试证明被拒绝。
 
+## L-045 稳定代码清单必须排除运行时缓存和按日上传目录
+
+- 现象：生产的 `data/sysdata` 缓存文件和
+  `source/plugin/xigua_hb/pics/YYYYMM/DD` 日期目录在未部署代码时也会变化，
+  让全量文件哈希误报生产漂移。
+- 规则：稳定代码门禁继续覆盖源码与静态资源，但明确排除
+  `data/sysdata/*` 和 `source/plugin/xigua_hb/pics/*`；上传、缓存目录必须由
+  独立运行时审计负责，不能从所有门禁中消失。
+
+## L-046 Nginx reload 成功不代表新监听已立即接管
+
+- 现象：R02 首次创建在 `nginx -s reload` 后立即 curl，短暂出现连接拒绝，
+  但配置、目录和数据库均已正确创建。
+- 规则：语法通过并 reload 后等待至少 1 秒，再执行监听和 HTTP 探针；失败时
+  先核对端口/进程，不重复创建数据库或覆盖既有 staging。
+
+## L-047 最小 FastCGI 配置必须显式转发真实浏览器头
+
+- 现象：服务器的最小 `fastcgi.conf` 不包含 User-Agent、Cookie、Accept、
+  Referer 等 HTTP 参数。R02 初始 vhost 因而把 Android 当桌面、无法保持登录，
+  但单纯 HTTP 200 门禁看不出差异。
+- 规则：隔离 vhost 的 PHP location 显式传递所需请求头；用 Android UA
+  触发 `mobile=2` 跳转并用浏览器会话复验。不得假设生产面板 include 与最小
+  vhost 行为等价。
+
+## L-048 静态资源 HTTP 200 可能是首页回退假阳性
+
+- 现象：保护性 `umask 077` 让新静态目录成为 root-only，Nginx 访问失败后
+  `try_files` 回退到 `index.php`，CSS/SVG 探针仍得到 200。
+- 规则：新目录显式设置 owner/mode；资源门禁除状态码外还要检查 MIME、文件
+  内容标记、浏览器 `naturalWidth` 和截图。任一资源返回 HTML 均为失败。
+
+## L-049 UCenter 客户端必须同时改账号、库名和限定表前缀
+
+- 现象：仅修改 `UC_DBUSER`/`UC_DBPW`/`UC_DBNAME` 仍会让
+  `UC_DBTABLEPRE` 残留生产数据库限定符，引发 1142 SELECT denied。
+- 规则：克隆环境同时重写四项，并用真实
+  `SELECT ... FROM UC_DBTABLEPRE.vars` 探针验证，不能只做连接或表数量测试。
+
+## L-050 用户提供的登录标识不能替代可验证测试夹具
+
+- 现象：给定标识不在实际手机号登录映射表中；在其他资料字段找到的用户又
+  与给定密码不匹配。直接反复提交只会混淆账号问题与 UI 回归。
+- 规则：先做不泄密的只读映射/密码匹配检查。无法验证时不得重置生产账号或
+  把失败归咎于 UI；继续安全开发，并在需要写入的版本创建可回滚隔离测试账号。
+
+## L-051 固定宽度画布不等于真实响应式视口
+
+- 现象：把 390px 组件放在 1280px 桌面文档中时，组件宽度看似正确，但旧站
+  `@media` 仍按桌面宽度执行，最初截图无法证明 400px/414px 断点。
+- 规则：响应式证据必须让页面运行在真实等宽 iframe 或浏览器视口中，并同时
+  记录根字号以及 document、body、组件三层 scroll/client 宽度。整页截图发生
+  像素缩放时只允许无损分段取证后按目标尺寸归一化，不得用错误裁切充当门禁。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

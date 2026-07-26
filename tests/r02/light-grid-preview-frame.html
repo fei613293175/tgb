@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>推广宝 R02 Responsive Frame</title>
+  <style>
+    html,body{margin:0;min-height:100%;background:#dfe7f1}
+    body{display:grid;place-items:start center;padding:24px;box-sizing:border-box}
+    iframe{display:block;border:1px solid #d8e1ec;background:#f4f7fb;box-shadow:0 24px 70px rgba(14,27,42,.18)}
+  </style>
+</head>
+<body>
+  <iframe id="preview-frame" title="推广宝 R02 Light Grid"></iframe>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var width = Number(params.get("width") || 390);
+      var height = Number(params.get("height") || 844);
+      var allowed = {"360x800":1,"390x844":1,"430x932":1};
+      if (!allowed[width + "x" + height]) {
+        width = 390;
+        height = 844;
+      }
+      var frame = document.getElementById("preview-frame");
+      frame.width = width;
+      frame.height = height;
+      frame.src = "light-grid-preview.html?embedded=1&width=" + width + "&height=" + height;
+      frame.addEventListener("load", function () {
+        var doc = frame.contentDocument;
+        var device = doc && doc.getElementById("preview-device");
+        var overflow = device && device.scrollWidth > device.clientWidth;
+        frame.dataset.viewport = width + "x" + height;
+        frame.dataset.overflow = overflow ? "true" : "false";
+        document.title = "推广宝 R02 " + frame.dataset.viewport +
+          " overflow=" + frame.dataset.overflow +
+          " root=" + getComputedStyle(doc.documentElement).fontSize;
+      });
+    }());
+  </script>
+</body>
+</html>

@@ -91,3 +91,21 @@ evidence/
 - GitHub Actions Android 36 截图：`evidence/R01/android/github-actions/RUN_30192012488-launch-1080x2340.png`
 - GitHub Actions content URI instrumentation 最终历史全绿 run：`evidence/R01/android/github-actions/RUN_30192427296_SUCCESS.md`
 - R01 开发关版与全局漂移审计：`version-results/R01_RESULT.md`
+
+## 8. R02 品牌与共享壳层证据
+
+- R02 隔离预发布结果：`evidence/R02/staging/R02_STAGING_RESULT.md`
+- R02 共享资源与假阳性门禁：
+  `evidence/R02/network/SHARED_SHELL_ASSET_AUDIT.md`
+- R02 桌面引导真实截图：
+  `evidence/R02/after/DESKTOP-SPLASH-1265x712.jpg`
+- R02 共享组件真实响应式矩阵：
+  `evidence/R02/after/R02-LIGHT-GRID-360x800.jpg`、
+  `evidence/R02/after/R02-LIGHT-GRID-390x844.jpg`、
+  `evidence/R02/after/R02-LIGHT-GRID-430x932.jpg`
+- R02 响应式矩阵方法、数值与哈希：
+  `evidence/R02/after/RESPONSIVE_COMPONENT_MATRIX.md`
+- R02 响应式矩阵使用真实 360/390/430 iframe 视口加载旧站 CSS 与 R02
+  CSS；它证明共享组件断点和无横向溢出，不替代登录后业务页面证据。
+- R02 登录夹具限制：
+  `evidence/R02/regression/LOGIN_FIXTURE_LIMIT.md`

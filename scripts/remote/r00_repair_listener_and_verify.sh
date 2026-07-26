@@ -227,7 +227,9 @@ find "${PRODUCTION_ROOT}" -xdev -type f \
     ! -path "${PRODUCTION_ROOT}/data/attachment/*" \
     ! -path "${PRODUCTION_ROOT}/data/cache/*" \
     ! -path "${PRODUCTION_ROOT}/data/log/*" \
+    ! -path "${PRODUCTION_ROOT}/data/sysdata/*" \
     ! -path "${PRODUCTION_ROOT}/data/template/*" \
+    ! -path "${PRODUCTION_ROOT}/source/plugin/xigua_hb/pics/*" \
     ! -path "${PRODUCTION_ROOT}/uc_server/data/avatar/*" \
     ! -path "${PRODUCTION_ROOT}/uc_server/data/cache/*" \
     ! -path "${PRODUCTION_ROOT}/uc_server/data/logs/*" \
@@ -235,10 +237,13 @@ find "${PRODUCTION_ROOT}" -xdev -type f \
     -print0 |
     sort -z |
     xargs -0 sha256sum >"${BACKUP_DIR}/production-code-after.sha256"
-cmp "${BACKUP_DIR}/production-code-before.sha256" \
+STABLE_BEFORE="${STAGING_PRIVATE}/production-code-before-stable.sha256"
+grep -vE '/data/sysdata/|/source/plugin/xigua_hb/pics/' \
+    "${BACKUP_DIR}/production-code-before.sha256" >"${STABLE_BEFORE}"
+cmp "${STABLE_BEFORE}" \
     "${BACKUP_DIR}/production-code-after.sha256"
 
-PRODUCTION_MANIFEST_SHA="$(sha256sum "${BACKUP_DIR}/production-code-before.sha256" | cut -d ' ' -f 1)"
+PRODUCTION_MANIFEST_SHA="$(sha256sum "${STABLE_BEFORE}" | cut -d ' ' -f 1)"
 ARTIFACT_MANIFEST_SHA="$(sha256sum "${BACKUP_DIR}/ARTIFACTS_SHA256.txt" | cut -d ' ' -f 1)"
 
 cat >"${STAGING_PRIVATE}/R00_FACTS.txt" <<FACTS

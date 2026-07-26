@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="tgb-light-grid" lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F4F7FB">
+  <title>推广宝 R02 Light Grid Preview</title>
+  <script>
+    if (new URLSearchParams(location.search).get("embedded") === "1") {
+      document.documentElement.classList.add("preview-embedded");
+    }
+  </script>
+  <link rel="stylesheet" href="/source/plugin/xigua_hb/static/custom.css?preview-r02">
+  <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r02/light-grid-r02.css?v=20260726-r02b">
+  <style>
+    html,body{margin:0;min-height:100%;background:#dfe7f1!important}
+    body{display:grid;place-items:start center;padding:24px!important}
+    .preview-device{position:relative;overflow:hidden;background:var(--tgb-bg);border:1px solid var(--tgb-border);box-shadow:0 24px 70px rgba(14,27,42,.18)}
+    .preview-device .x_header{position:absolute;top:0;right:0;left:0}
+    .preview-title{display:flex;align-items:center;gap:10px;height:40px}
+    .preview-title img{width:32px;height:32px;padding:0!important;object-fit:contain!important}
+    .preview-title strong{color:var(--tgb-ink);font-size:18px}
+    .preview-search{height:40px;margin-top:8px;padding:0 13px;color:var(--tgb-muted);font-size:13px;line-height:40px;background:var(--tgb-surface-soft);border:1px solid var(--tgb-border);border-radius:12px}
+    .preview-content{height:100%;padding:112px 12px 82px;overflow:hidden}
+    .preview-hero{padding:18px;background:var(--tgb-surface);border:1px solid var(--tgb-border);border-radius:18px;box-shadow:var(--tgb-shadow-card)}
+    .preview-kicker{margin:0 0 6px;color:var(--tgb-primary);font-size:12px;font-weight:800;letter-spacing:.12em}
+    .preview-hero h1{margin:0;color:var(--tgb-ink);font-size:23px}
+    .preview-hero p{margin:8px 0 0;color:var(--tgb-text);font-size:13px;line-height:1.65}
+    .preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .preview-card{min-width:0;padding:14px;background:var(--tgb-surface);border:1px solid var(--tgb-border);border-radius:16px;box-shadow:var(--tgb-shadow-card)}
+    .preview-icon{display:grid;place-items:center;width:36px;height:36px;margin-bottom:10px;color:var(--tgb-primary);font-weight:800;background:var(--tgb-primary-soft);border-radius:11px}
+    .preview-card:nth-child(2) .preview-icon{color:var(--tgb-success);background:#daf7f2}
+    .preview-card strong{display:block;overflow:hidden;color:var(--tgb-ink);font-size:14px;text-overflow:ellipsis;white-space:nowrap}
+    .preview-card span{display:block;margin-top:5px;color:var(--tgb-muted);font-size:11px}
+    .preview-form{margin-top:12px!important;padding:12px}
+    .preview-form label{display:block;margin-bottom:7px;color:var(--tgb-ink);font-size:13px;font-weight:700}
+    .preview-form input{width:100%;height:44px;padding:0 12px;background:var(--tgb-surface-soft);border:1px solid var(--tgb-border);border-radius:12px}
+    .preview-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .preview-actions .weui-btn{display:grid;place-items:center;margin:0;font-size:14px;text-decoration:none}
+    .preview-status-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:13px 14px;background:#fff;border:1px solid var(--tgb-border);border-radius:16px;box-shadow:var(--tgb-shadow-card)}
+    .preview-status-row strong{color:var(--tgb-ink);font-size:13px}
+    .preview-status-row span{color:var(--tgb-muted);font-size:11px}
+    .preview-status{padding:5px 9px;color:var(--tgb-success)!important;background:#e4f8ee;border-radius:999px}
+    .preview-device .weui-tabbar{position:absolute!important;display:flex}
+    .preview-device .weui-tabbar__item{flex:1;text-align:center;text-decoration:none}
+    .preview-device[data-overflow="true"]::after{content:"OVERFLOW";position:absolute;top:4px;right:4px;z-index:99999;padding:4px;color:#fff;background:#d93f5c}
+    html.preview-embedded,html.preview-embedded body{width:100%;height:100%;min-height:0;background:var(--tgb-bg)!important}
+    html.preview-embedded body{display:block;padding:0!important}
+    html.preview-embedded .preview-device{width:100%!important;height:100%!important;border:0;box-shadow:none}
+    @media(max-height:850px){.preview-status-row{display:none}.preview-form{padding:10px}.preview-content{padding-top:108px}.preview-hero{padding:15px}}
+  </style>
+</head>
+<body>
+  <main class="preview-device" id="preview-device">
+    <header class="x_header">
+      <div class="preview-title">
+        <img src="/source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg?v=20260726-r02c" alt="">
+        <strong>推广宝</strong>
+      </div>
+      <div class="preview-search">搜索项目、资源或用户</div>
+    </header>
+    <section class="preview-content">
+      <div class="preview-hero">
+        <p class="preview-kicker">LIGHT GRID</p>
+        <h1>让推广更简单</h1>
+        <p>保留完整业务逻辑，以全新的浅色网格视觉承载推广与协作。</p>
+      </div>
+      <div class="preview-grid">
+        <article class="preview-card"><div class="preview-icon">01</div><strong>精选项目</strong><span>发现优质机会</span></article>
+        <article class="preview-card"><div class="preview-icon">02</div><strong>推广任务</strong><span>查看最新进度</span></article>
+      </div>
+      <div class="weui-cells preview-form">
+        <label for="preview-input">联系方式</label>
+        <input id="preview-input" placeholder="请输入内容">
+        <div class="preview-actions">
+          <a class="weui-btn weui-btn_default" href="javascript:;">稍后处理</a>
+          <a class="weui-btn weui-btn_primary" href="javascript:;">确认提交</a>
+        </div>
+      </div>
+      <div class="preview-status-row">
+        <div><strong>页面状态</strong><span> · 本地资源已就绪</span></div>
+        <span class="preview-status">正常</span>
+      </div>
+    </section>
+    <nav class="weui-tabbar">
+      <a class="weui-tabbar__item weui-bar__item_on" href="javascript:;"><i class="weui-tabbar__icon">⌂</i><p class="weui-tabbar__label">首页</p></a>
+      <a class="weui-tabbar__item" href="javascript:;"><i class="weui-tabbar__icon">⌕</i><p class="weui-tabbar__label">发现</p></a>
+      <a class="weui-tabbar__item" href="javascript:;"><i class="weui-tabbar__icon">＋</i><p class="weui-tabbar__label">发布</p></a>
+      <a class="weui-tabbar__item" href="javascript:;"><i class="weui-tabbar__icon">○</i><p class="weui-tabbar__label">我的</p></a>
+    </nav>
+  </main>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var width = Number(params.get("width") || 390);
+      var height = Number(params.get("height") || 844);
+      var allowed = {"360x800":1,"390x844":1,"430x932":1};
+      if (!allowed[width + "x" + height]) {
+        width = 390;
+        height = 844;
+      }
+      var device = document.getElementById("preview-device");
+      device.style.width = width + "px";
+      device.style.height = height + "px";
+      device.dataset.viewport = width + "x" + height;
+      requestAnimationFrame(function () {
+        device.dataset.overflow = device.scrollWidth > device.clientWidth ? "true" : "false";
+        document.title = "推广宝 R02 " + device.dataset.viewport +
+          " overflow=" + device.dataset.overflow;
+      });
+    }());
+  </script>
+</body>
+</html>

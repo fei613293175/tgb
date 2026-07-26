@@ -3,18 +3,18 @@ set -Eeuo pipefail
 umask 077
 
 PRODUCTION_ROOT="/www/wwwroot/tg.suewammes.com"
-STAGING_BASE="/www/staging/tg-h5-ui-r00"
+STAGING_BASE="/www/staging/tg-h5-ui-r02"
 STAGING_SITE="${STAGING_BASE}/site"
 STAGING_PRIVATE="${STAGING_BASE}/private"
-BACKUP_ROOT="/www/backup/tg-h5-ui-r00"
-NGINX_CONFIG="/www/server/panel/vhost/nginx/tg-h5-ui-r00-loopback.conf"
-LOOPBACK_PORT="18081"
+BACKUP_ROOT="/www/backup/tg-h5-ui-r02"
+NGINX_CONFIG="/www/server/panel/vhost/nginx/tg-h5-ui-r02-loopback.conf"
+LOOPBACK_PORT="18082"
 PANEL_PYTHON="/www/server/panel/pyenv/bin/python3"
-STAGE_MAIN_DB="tgb_stage_r00_main"
-STAGE_UC_DB="tgb_stage_r00_uc"
+STAGE_MAIN_DB="tgb_stage_r02_main"
+STAGE_UC_DB="tgb_stage_r02_uc"
 
 fail() {
-    printf '[R00-VERIFY] FAIL: %s\n' "$1" >&2
+    printf '[R02-VERIFY] FAIL: %s\n' "$1" >&2
     exit 61
 }
 
@@ -48,7 +48,7 @@ tar -tzf "${BACKUP_DIR}/site-code.tar.gz" >/dev/null ||
 tar -tzf "${BACKUP_DIR}/site-uploads.tar.gz" >/dev/null ||
     fail "upload archive"
 
-ROOT_CNF="$(mktemp /tmp/tgb-r00-verify.XXXXXX.cnf)"
+ROOT_CNF="$(mktemp /tmp/tgb-r02-verify.XXXXXX.cnf)"
 cleanup() {
     rm -f "${ROOT_CNF}"
 }
@@ -91,7 +91,7 @@ CONFIG_ISOLATION="$(php <<'PHP'
 include '/www/wwwroot/tg.suewammes.com/config/config_global.php';
 $prodMain = $_config['db'][1]['dbname'];
 unset($_config);
-include '/www/staging/tg-h5-ui-r00/site/config/config_global.php';
+include '/www/staging/tg-h5-ui-r02/site/config/config_global.php';
 $stageMain = $_config['db'][1]['dbname'];
 function defineValue($path, $name) {
     $text = file_get_contents($path);
@@ -106,7 +106,7 @@ $prodUc = defineValue(
     'UC_DBNAME'
 );
 $stageUc = defineValue(
-    '/www/staging/tg-h5-ui-r00/site/uc_server/data/config.inc.php',
+    '/www/staging/tg-h5-ui-r02/site/uc_server/data/config.inc.php',
     'UC_DBNAME'
 );
 echo ($prodMain !== $stageMain && $prodUc !== null &&
@@ -128,7 +128,7 @@ done
 FIRST_HTTP_CODE="$(curl -sS -D "${STAGING_PRIVATE}/home.headers" \
     -o /dev/null \
     -w '%{http_code}' \
-    -H 'Host: tg-h5-ui-r00.local' \
+    -H 'Host: tg-h5-ui-r02.local' \
     -A 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 Chrome/138.0 Mobile Safari/537.36' \
     "http://127.0.0.1:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
 case "${FIRST_HTTP_CODE}" in
@@ -137,29 +137,29 @@ case "${FIRST_HTTP_CODE}" in
 esac
 
 FOLLOW_RESULT="$(curl -sS -L --max-redirs 5 \
-    --resolve "tg-h5-ui-r00.local:${LOOPBACK_PORT}:127.0.0.1" \
+    --resolve "tg-h5-ui-r02.local:${LOOPBACK_PORT}:127.0.0.1" \
     -D "${STAGING_PRIVATE}/home-follow.headers" \
     -o "${STAGING_PRIVATE}/home-follow.html" \
     -w '%{http_code}|%{url_effective}|%{num_redirects}' \
     -A 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 Chrome/138.0 Mobile Safari/537.36' \
-    "http://tg-h5-ui-r00.local:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
+    "http://tg-h5-ui-r02.local:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
 FINAL_HTTP_CODE="${FOLLOW_RESULT%%|*}"
 FOLLOW_REST="${FOLLOW_RESULT#*|}"
 FINAL_URL="${FOLLOW_REST%%|*}"
 REDIRECT_COUNT="${FOLLOW_RESULT##*|}"
 [ "${FINAL_HTTP_CODE}" = "200" ] || fail "final HTTP ${FINAL_HTTP_CODE}"
 case "${FINAL_URL}" in
-    "http://tg-h5-ui-r00.local:${LOOPBACK_PORT}/"*) ;;
+    "http://tg-h5-ui-r02.local:${LOOPBACK_PORT}/"*) ;;
     *) fail "redirect escaped staging host" ;;
 esac
 grep -qiE '<html|<!doctype' "${STAGING_PRIVATE}/home-follow.html" ||
     fail "final response is not HTML"
-grep -qi '^X-TGB-Staging: R00' "${STAGING_PRIVATE}/home.headers" ||
+grep -qi '^X-TGB-Staging: R02' "${STAGING_PRIVATE}/home.headers" ||
     fail "staging marker header"
 
 POST_CODE="$(curl -sS -o /dev/null -w '%{http_code}' \
     -X POST \
-    -H 'Host: tg-h5-ui-r00.local' \
+    -H 'Host: tg-h5-ui-r02.local' \
     "http://127.0.0.1:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
 [ "${POST_CODE}" = "405" ] || fail "write guard HTTP ${POST_CODE}"
 
@@ -187,7 +187,7 @@ cmp "${STABLE_BEFORE}" \
 PRODUCTION_MANIFEST_SHA="$(sha256sum "${STABLE_BEFORE}" | cut -d ' ' -f 1)"
 ARTIFACT_MANIFEST_SHA="$(sha256sum "${BACKUP_DIR}/ARTIFACTS_SHA256.txt" | cut -d ' ' -f 1)"
 
-cat >"${STAGING_PRIVATE}/R00_FACTS.txt" <<FACTS
+cat >"${STAGING_PRIVATE}/R02_FACTS.txt" <<FACTS
 snapshot_id=${SNAPSHOT_ID}
 production_root=${PRODUCTION_ROOT}
 staging_root=${STAGING_SITE}
@@ -205,10 +205,10 @@ production_manifest_sha256=${PRODUCTION_MANIFEST_SHA}
 artifact_manifest_sha256=${ARTIFACT_MANIFEST_SHA}
 dangerous_public_files_copied=NO
 FACTS
-chmod 600 "${STAGING_PRIVATE}/R00_FACTS.txt"
+chmod 600 "${STAGING_PRIVATE}/R02_FACTS.txt"
 
 cat >"${BACKUP_DIR}/RESTORE_README.md" <<RESTORE
-# R00 snapshot restore
+# R02 snapshot restore
 
 Snapshot: ${SNAPSHOT_ID}
 
@@ -230,14 +230,14 @@ be supplied from the protected server source and must not be written here.
 RESTORE
 chmod 600 "${BACKUP_DIR}/RESTORE_README.md"
 
-printf '[R00-VERIFY] PASS snapshot_id=%s\n' "${SNAPSHOT_ID}"
-printf '[R00-VERIFY] STAGING_LISTENER=127.0.0.1:%s\n' "${LOOPBACK_PORT}"
-printf '[R00-VERIFY] HTTP_FIRST=%s HTTP_FINAL=%s REDIRECTS=%s HTTP_POST=%s\n' \
+printf '[R02-VERIFY] PASS snapshot_id=%s\n' "${SNAPSHOT_ID}"
+printf '[R02-VERIFY] STAGING_LISTENER=127.0.0.1:%s\n' "${LOOPBACK_PORT}"
+printf '[R02-VERIFY] HTTP_FIRST=%s HTTP_FINAL=%s REDIRECTS=%s HTTP_POST=%s\n' \
     "${FIRST_HTTP_CODE}" "${FINAL_HTTP_CODE}" "${REDIRECT_COUNT}" "${POST_CODE}"
-printf '[R00-VERIFY] MAIN_TABLES=%s UC_TABLES=%s\n' \
+printf '[R02-VERIFY] MAIN_TABLES=%s UC_TABLES=%s\n' \
     "${MAIN_TABLES}" "${UC_TABLES}"
-printf '[R00-VERIFY] PRODUCTION_CODE_UNCHANGED=PASS\n'
-printf '[R00-VERIFY] PRODUCTION_MANIFEST_SHA256=%s\n' \
+printf '[R02-VERIFY] PRODUCTION_CODE_UNCHANGED=PASS\n'
+printf '[R02-VERIFY] PRODUCTION_MANIFEST_SHA256=%s\n' \
     "${PRODUCTION_MANIFEST_SHA}"
-printf '[R00-VERIFY] ARTIFACT_MANIFEST_SHA256=%s\n' \
+printf '[R02-VERIFY] ARTIFACT_MANIFEST_SHA256=%s\n' \
     "${ARTIFACT_MANIFEST_SHA}"

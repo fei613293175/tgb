@@ -153,3 +153,25 @@
 - 决定：从本站收银台异步 JavaScript 跳转到生产插件源码中已确认的 HTTPS 支付域名时，允许页面留在 WebView 内；之后只允许从本站或这些支付页拉起 host=`platformapi`、scheme=`alipays|alipay`、package=`com.eg.android.AlipayGphone` 的支付宝。
 - 当前精确 host：`api.xunhupay.com`、`fuylink.cy253.top`、`mapi.alipay.com`、`openapi.alipay.com`、`sandcash.mixienet.com.cn`、`wappaygw.alipay.com`。
 - 边界：不允许通配后缀、尾随点、userinfo、HTTP 降级或任意 intent。新增域名必须先取得源码或脱敏真实跳转证据、补测试并更新本决定。
+
+## D-023 R02 共享壳层采用本地版本化覆盖层
+
+- 日期：2026-07-26
+- 状态：ACCEPTED
+- 决定：R02 不直接重写 278 KiB 旧 `custom.css`，而是在其后加载
+  `static/tgb-r02/light-grid-r02.css`。所有选择器受
+  `html.tgb-light-grid` 约束，品牌标志和聊天图标使用本站 SVG。
+- 原因：可逐页迁移、可独立回滚、不新增 Tailwind/公共 CDN，且不会把尚未
+  分配到 R02 的例外页面误标为已改造。
+- 边界：共享覆盖通过不代表 R03-R09 页面通过；内联页面必须在所属版本单独
+  检查和迁移。
+
+## D-024 写入型视觉测试只能使用可恢复的临时窗口
+
+- 日期：2026-07-26
+- 状态：ACCEPTED
+- 决定：R02 默认始终为 GET/HEAD-only。确需验证登录时，可在回环监听和
+  隔离数据库上临时允许 POST，并固定 Android User-Agent；必须保存原配置、
+  `nginx -t`、测试后恢复、确认 POST=405，再运行完整 staging verify。
+- 禁止：不得在生产开测试窗口，不得为通过测试重置生产密码，不得把临时
+  模式留到下一任务。

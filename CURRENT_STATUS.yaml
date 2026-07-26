@@ -29,11 +29,11 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: READ_ONLY_READY
-  snapshot_id: 20260726T125247+0800
-  site_root: /www/staging/tg-h5-ui-r00/site
-  private_evidence_root: /www/staging/tg-h5-ui-r00/private
-  listener: 127.0.0.1:18081
+  status: R02_READ_ONLY_ACTIVE
+  snapshot_id: 20260726T155049+0800
+  site_root: /www/staging/tg-h5-ui-r02/site
+  private_evidence_root: /www/staging/tg-h5-ui-r02/private
+  listener: 127.0.0.1:18082
   access: SSH_TUNNEL_ONLY
   allowed_methods:
     - GET
@@ -41,6 +41,9 @@ staging:
   post_status: 405
   final_get_status: 200
   production_code_unchanged: true
+  production_stable_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
+  r02_shared_shell_deploy_id: 20260726T170445+0800
+  r02_shared_shell_archive_sha256: 17af7af1d2d3ba0a31242cd74e5596767bde644e00cfedcaaa7bef4ef81edb8d
 
 design:
   theme: Light Grid / 晴空电光
@@ -104,12 +107,20 @@ completed:
   - production payment source inspected and exact H5 gateway host policy added with unit coverage
   - payment H5 compatibility fix rebuilt as a server-signed Release and copied to Desktop with matching SHA-256
   - R01 Android native container development closeout and global drift audit
+  - R02 isolated loopback staging snapshot and database restore
+  - R02 versioned local Light Grid CSS and local SVG asset foundation
+  - R02 desktop H5 guidance page branded as 推广宝
+  - R02 shared xigua_hb header and navigation opt-in integration
+  - R02 Nginx FastCGI header forwarding and UCenter client isolation repairs
+  - R02 static asset content gates and desktop visual evidence
+  - R02 real iframe viewport component matrix at 360x800 390x844 and 430x932 with no horizontal overflow
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
   - H5 visual implementation R02 through R09 (R02 now active)
   - controlled-write fixtures for each high-risk page family
   - production deployment
+  - R02 authenticated shared-shell visual and Android WebView safe-area evidence
 
 blockers:
   - id: B-R01-01
@@ -118,6 +129,9 @@ blockers:
   - id: B-LEGAL-01
     description: legacy MKT legal wording requires owner or legal decision before replacement
     affects: R03 legal copy only
+  - id: B-R02-LOGIN-01
+    description: provided login identifier is absent from the actual phone-login mapping and cannot create an authenticated R02 clone session; do not alter production credentials to bypass
+    affects: R02 authenticated visual evidence and later controlled-write fixtures; safe public and source work continues
 
 next_task_file: NEXT_TASK.yaml
 hard_gates_file: 06_HARD_GATES.md

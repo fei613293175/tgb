@@ -3,32 +3,32 @@ set -Eeuo pipefail
 umask 077
 
 PRODUCTION_ROOT="/www/wwwroot/tg.suewammes.com"
-STAGING_BASE="/www/staging/tg-h5-ui-r00"
+STAGING_BASE="/www/staging/tg-h5-ui-r02"
 STAGING_SITE="${STAGING_BASE}/site"
 STAGING_PRIVATE="${STAGING_BASE}/private"
-BACKUP_ROOT="/www/backup/tg-h5-ui-r00"
-NGINX_CONFIG="/www/server/panel/vhost/nginx/tg-h5-ui-r00-loopback.conf"
-LOOPBACK_PORT="18081"
+BACKUP_ROOT="/www/backup/tg-h5-ui-r02"
+NGINX_CONFIG="/www/server/panel/vhost/nginx/tg-h5-ui-r02-loopback.conf"
+LOOPBACK_PORT="18082"
 PANEL_PYTHON="/www/server/panel/pyenv/bin/python3"
 
-STAGE_MAIN_DB="tgb_stage_r00_main"
-STAGE_MAIN_USER="tgb_r00_main"
-STAGE_UC_DB="tgb_stage_r00_uc"
-STAGE_UC_USER="tgb_r00_uc"
+STAGE_MAIN_DB="tgb_stage_r02_main"
+STAGE_MAIN_USER="tgb_r02_main"
+STAGE_UC_DB="tgb_stage_r02_uc"
+STAGE_UC_USER="tgb_r02_uc"
 
 log() {
-    printf '[R00] %s\n' "$1"
+    printf '[R02] %s\n' "$1"
 }
 
 abort_if_exists() {
     if [ -e "$1" ]; then
-        printf '[R00] ABORT existing path: %s\n' "$1" >&2
+        printf '[R02] ABORT existing path: %s\n' "$1" >&2
         exit 20
     fi
 }
 
 if [ "$(id -u)" -ne 0 ]; then
-    printf '[R00] ABORT: root is required\n' >&2
+    printf '[R02] ABORT: root is required\n' >&2
     exit 21
 fi
 
@@ -44,7 +44,7 @@ command -v curl >/dev/null
 abort_if_exists "${STAGING_BASE}"
 abort_if_exists "${NGINX_CONFIG}"
 if ss -ltn | awk '{print $4}' | grep -Eq "(^|:)${LOOPBACK_PORT}$"; then
-    printf '[R00] ABORT busy loopback port: %s\n' "${LOOPBACK_PORT}" >&2
+    printf '[R02] ABORT busy loopback port: %s\n' "${LOOPBACK_PORT}" >&2
     exit 29
 fi
 
@@ -56,7 +56,7 @@ mkdir -p "${BACKUP_DIR}" "${STAGING_PRIVATE}"
 chmod 700 "${BACKUP_ROOT}" "${BACKUP_DIR}" "${STAGING_PRIVATE}"
 chmod 711 "/www/staging" "${STAGING_BASE}"
 
-ROOT_CNF="$(mktemp /tmp/tgb-r00-root.XXXXXX.cnf)"
+ROOT_CNF="$(mktemp /tmp/tgb-r02-root.XXXXXX.cnf)"
 cleanup() {
     rm -f "${ROOT_CNF}"
 }
@@ -94,7 +94,7 @@ UC_TABLE_PREFIX="$(php -r 'include "/www/wwwroot/tg.suewammes.com/uc_server/data
 
 case "${MAIN_SOURCE_DB}:${MAIN_TABLE_PREFIX}:${UC_SOURCE_DB}:${UC_TABLE_PREFIX}" in
     *[!A-Za-z0-9_:]*)
-        printf '[R00] ABORT: database identifier contains unsupported characters\n' >&2
+        printf '[R02] ABORT: database identifier contains unsupported characters\n' >&2
         exit 22
         ;;
 esac
@@ -103,7 +103,7 @@ for db_name in "${STAGE_MAIN_DB}" "${STAGE_UC_DB}"; do
     if mysql --defaults-extra-file="${ROOT_CNF}" -NBe \
         "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME='${db_name}'" |
         grep -q .; then
-        printf '[R00] ABORT existing database: %s\n' "${db_name}" >&2
+        printf '[R02] ABORT existing database: %s\n' "${db_name}" >&2
         exit 23
     fi
 done
@@ -112,7 +112,7 @@ for db_user in "${STAGE_MAIN_USER}" "${STAGE_UC_USER}"; do
     if mysql --defaults-extra-file="${ROOT_CNF}" -NBe \
         "SELECT User FROM mysql.user WHERE User='${db_user}'" |
         grep -q .; then
-        printf '[R00] ABORT existing database user: %s\n' "${db_user}" >&2
+        printf '[R02] ABORT existing database user: %s\n' "${db_user}" >&2
         exit 24
     fi
 done
@@ -225,7 +225,7 @@ tar -xzf "${BACKUP_DIR}/site-code.tar.gz" \
 tar -xzf "${BACKUP_DIR}/site-uploads.tar.gz" \
     -C "${STAGING_SITE}" --strip-components=1
 
-export STAGING_SITE STAGE_MAIN_DB STAGE_MAIN_USER STAGE_UC_DB STAGE_UC_USER
+export STAGING_SITE STAGE_MAIN_DB STAGE_MAIN_USER STAGE_UC_DB STAGE_UC_USER UC_TABLE_PREFIX
 export MAIN_STAGE_PASSWORD UC_STAGE_PASSWORD LOOPBACK_PORT
 
 log "rewrite staging-only database and local URL configuration"
@@ -253,6 +253,7 @@ main_db = php_single(os.environ["STAGE_MAIN_DB"])
 uc_user = php_single(os.environ["STAGE_UC_USER"])
 uc_password = php_single(os.environ["UC_STAGE_PASSWORD"])
 uc_db = php_single(os.environ["STAGE_UC_DB"])
+uc_table_prefix = php_single(os.environ["UC_TABLE_PREFIX"])
 local_api = f"http://127.0.0.1:{os.environ['LOOPBACK_PORT']}/uc_server"
 
 rewrite(
@@ -271,11 +272,13 @@ rewrite(
     site / "config/config_ucenter.php",
     [
         (r"define\('UC_DBUSER',\s*'[^']*'\);",
-         f"define('UC_DBUSER', '{main_user}');"),
+         f"define('UC_DBUSER', '{uc_user}');"),
         (r"define\('UC_DBPW',\s*'[^']*'\);",
-         f"define('UC_DBPW', '{main_password}');"),
+         f"define('UC_DBPW', '{uc_password}');"),
         (r"define\('UC_DBNAME',\s*'[^']*'\);",
-         f"define('UC_DBNAME', '{main_db}');"),
+         f"define('UC_DBNAME', '{uc_db}');"),
+        (r"define\('UC_DBTABLEPRE',\s*'[^']*'\);",
+         f"define('UC_DBTABLEPRE', '`{uc_db}`.{uc_table_prefix}');"),
         (r"define\('UC_API',\s*'[^']*'\);",
          f"define('UC_API', '{local_api}');"),
     ],
@@ -307,12 +310,12 @@ printf 'open_basedir=%s/:/tmp/\n' "${STAGING_SITE}" \
 log "point cloned site and UCenter application URLs at loopback staging"
 mysql --defaults-extra-file="${ROOT_CNF}" "${STAGE_MAIN_DB}" <<SQL
 UPDATE \`${MAIN_TABLE_PREFIX}common_setting\`
-SET svalue='http://127.0.0.1:${LOOPBACK_PORT}'
+SET svalue='http://tg-h5-ui-r02.local:${LOOPBACK_PORT}'
 WHERE skey IN ('siteurl', 'bburl');
 SQL
 mysql --defaults-extra-file="${ROOT_CNF}" "${STAGE_UC_DB}" <<SQL
 UPDATE \`${UC_TABLE_PREFIX}applications\`
-SET url='http://127.0.0.1:${LOOPBACK_PORT}/uc_server'
+SET url='http://tg-h5-ui-r02.local:${LOOPBACK_PORT}/uc_server'
 WHERE url <> '';
 SQL
 
@@ -329,7 +332,7 @@ for forbidden in \
     phpinfo.php \
     log.txt; do
     if [ -e "${STAGING_SITE}/${forbidden}" ]; then
-        printf '[R00] ABORT forbidden staging artifact: %s\n' "${forbidden}" >&2
+        printf '[R02] ABORT forbidden staging artifact: %s\n' "${forbidden}" >&2
         exit 25
     fi
 done
@@ -338,7 +341,7 @@ log "install loopback-only read-only Nginx virtual host"
 cat >"${NGINX_CONFIG}.new" <<NGINX
 server {
     listen 127.0.0.1:${LOOPBACK_PORT};
-    server_name tg-h5-ui-r00.local;
+    server_name tg-h5-ui-r02.local;
     root ${STAGING_SITE};
     index index.php index.html;
     charset utf-8;
@@ -347,7 +350,7 @@ server {
     error_log ${STAGING_PRIVATE}/error.log;
 
     add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
-    add_header X-TGB-Staging "R00" always;
+    add_header X-TGB-Staging "R02" always;
 
     if (\$request_method !~ ^(GET|HEAD)\$) {
         return 405;
@@ -365,7 +368,19 @@ server {
         try_files \$uri \$uri/ /index.php?\$query_string;
     }
 
-    include /www/server/nginx/conf/enable-php-74.conf;
+    location ~ [^/]\\.php(/|\$) {
+        try_files \$uri =404;
+        fastcgi_pass unix:/tmp/php-cgi-74.sock;
+        fastcgi_index index.php;
+        include /www/server/nginx/conf/fastcgi.conf;
+        include /www/server/nginx/conf/pathinfo.conf;
+        fastcgi_param HTTP_USER_AGENT \$http_user_agent;
+        fastcgi_param HTTP_COOKIE \$http_cookie;
+        fastcgi_param HTTP_ACCEPT \$http_accept;
+        fastcgi_param HTTP_ACCEPT_LANGUAGE \$http_accept_language;
+        fastcgi_param HTTP_REFERER \$http_referer;
+        fastcgi_param HTTP_X_REQUESTED_WITH \$http_x_requested_with;
+    }
 }
 NGINX
 mv "${NGINX_CONFIG}.new" "${NGINX_CONFIG}"
@@ -374,24 +389,59 @@ if ! nginx -t; then
     exit 26
 fi
 nginx -s reload
+sleep 1
 
-log "verify staging HTTP and database restore"
-HTTP_CODE="$(curl -sS -o "${STAGING_PRIVATE}/home.html" \
+log "verify staging HTTP, redirects and database restore"
+HTTP_FIRST="$(curl -sS -D "${STAGING_PRIVATE}/home.headers" \
+    -o /dev/null \
     -w '%{http_code}' \
-    -H 'Host: tg-h5-ui-r00.local' \
+    -H 'Host: tg-h5-ui-r02.local' \
     -A 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 Chrome/138.0 Mobile Safari/537.36' \
     "http://127.0.0.1:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
-if [ "${HTTP_CODE}" != "200" ]; then
-    printf '[R00] ABORT staging HTTP code: %s\n' "${HTTP_CODE}" >&2
+case "${HTTP_FIRST}" in
+    200|302) ;;
+    *)
+        printf '[R02] ABORT staging first HTTP code: %s\n' "${HTTP_FIRST}" >&2
+        exit 27
+        ;;
+esac
+FOLLOW_RESULT="$(curl -sS -L --max-redirs 5 \
+    --resolve "tg-h5-ui-r02.local:${LOOPBACK_PORT}:127.0.0.1" \
+    -D "${STAGING_PRIVATE}/home-follow.headers" \
+    -o "${STAGING_PRIVATE}/home.html" \
+    -w '%{http_code}|%{url_effective}|%{num_redirects}' \
+    -A 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 Chrome/138.0 Mobile Safari/537.36' \
+    "http://tg-h5-ui-r02.local:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
+HTTP_FINAL="${FOLLOW_RESULT%%|*}"
+FOLLOW_REST="${FOLLOW_RESULT#*|}"
+FINAL_URL="${FOLLOW_REST%%|*}"
+REDIRECT_COUNT="${FOLLOW_RESULT##*|}"
+[ "${HTTP_FINAL}" = "200" ] || {
+    printf '[R02] ABORT staging final HTTP code: %s\n' "${HTTP_FINAL}" >&2
     exit 27
-fi
+}
+case "${FINAL_URL}" in
+    "http://tg-h5-ui-r02.local:${LOOPBACK_PORT}/"*) ;;
+    *)
+        printf '[R02] ABORT staging redirect escaped isolated host\n' >&2
+        exit 27
+        ;;
+esac
+grep -qiE '<html|<!doctype' "${STAGING_PRIVATE}/home.html" || {
+    printf '[R02] ABORT staging response is not HTML\n' >&2
+    exit 27
+}
+grep -qi '^X-TGB-Staging: R02' "${STAGING_PRIVATE}/home.headers" || {
+    printf '[R02] ABORT staging marker header is absent\n' >&2
+    exit 27
+}
 
 POST_CODE="$(curl -sS -o /dev/null -w '%{http_code}' \
     -X POST \
-    -H 'Host: tg-h5-ui-r00.local' \
+    -H 'Host: tg-h5-ui-r02.local' \
     "http://127.0.0.1:${LOOPBACK_PORT}/plugin.php?id=xigua_hb")"
 if [ "${POST_CODE}" != "405" ]; then
-    printf '[R00] ABORT staging write guard code: %s\n' "${POST_CODE}" >&2
+    printf '[R02] ABORT staging write guard code: %s\n' "${POST_CODE}" >&2
     exit 28
 fi
 
@@ -421,7 +471,7 @@ cmp "${BACKUP_DIR}/production-code-before.sha256" \
 PRODUCTION_MANIFEST_SHA="$(sha256sum "${BACKUP_DIR}/production-code-before.sha256" | cut -d ' ' -f 1)"
 ARTIFACT_MANIFEST_SHA="$(sha256sum "${BACKUP_DIR}/ARTIFACTS_SHA256.txt" | cut -d ' ' -f 1)"
 
-cat >"${STAGING_PRIVATE}/R00_FACTS.txt" <<FACTS
+cat >"${STAGING_PRIVATE}/R02_FACTS.txt" <<FACTS
 snapshot_id=${SNAPSHOT_ID}
 production_root=${PRODUCTION_ROOT}
 staging_root=${STAGING_SITE}
@@ -430,15 +480,19 @@ staging_access=SSH tunnel only
 staging_write_guard=GET_HEAD_ONLY
 main_table_count=${MAIN_TABLES}
 ucenter_table_count=${UC_TABLES}
+http_first=${HTTP_FIRST}
+http_final=${HTTP_FINAL}
+redirect_count=${REDIRECT_COUNT}
+http_post=${POST_CODE}
 production_code_unchanged=PASS
 production_manifest_sha256=${PRODUCTION_MANIFEST_SHA}
 artifact_manifest_sha256=${ARTIFACT_MANIFEST_SHA}
 dangerous_public_files_copied=NO
 FACTS
-chmod 600 "${STAGING_PRIVATE}/R00_FACTS.txt"
+chmod 600 "${STAGING_PRIVATE}/R02_FACTS.txt"
 
 cat >"${BACKUP_DIR}/RESTORE_README.md" <<RESTORE
-# R00 snapshot restore
+# R02 snapshot restore
 
 Snapshot: ${SNAPSHOT_ID}
 
@@ -459,10 +513,11 @@ be supplied from the protected server source and must not be written here.
 RESTORE
 chmod 600 "${BACKUP_DIR}/RESTORE_README.md"
 
-printf '[R00] COMPLETE snapshot_id=%s\n' "${SNAPSHOT_ID}"
-printf '[R00] STAGING_LISTENER=127.0.0.1:%s\n' "${LOOPBACK_PORT}"
-printf '[R00] HTTP_GET=%s HTTP_POST=%s\n' "${HTTP_CODE}" "${POST_CODE}"
-printf '[R00] MAIN_TABLES=%s UC_TABLES=%s\n' "${MAIN_TABLES}" "${UC_TABLES}"
-printf '[R00] PRODUCTION_CODE_UNCHANGED=PASS\n'
-printf '[R00] PRODUCTION_MANIFEST_SHA256=%s\n' "${PRODUCTION_MANIFEST_SHA}"
-printf '[R00] ARTIFACT_MANIFEST_SHA256=%s\n' "${ARTIFACT_MANIFEST_SHA}"
+printf '[R02] COMPLETE snapshot_id=%s\n' "${SNAPSHOT_ID}"
+printf '[R02] STAGING_LISTENER=127.0.0.1:%s\n' "${LOOPBACK_PORT}"
+printf '[R02] HTTP_FIRST=%s HTTP_FINAL=%s REDIRECTS=%s HTTP_POST=%s\n' \
+    "${HTTP_FIRST}" "${HTTP_FINAL}" "${REDIRECT_COUNT}" "${POST_CODE}"
+printf '[R02] MAIN_TABLES=%s UC_TABLES=%s\n' "${MAIN_TABLES}" "${UC_TABLES}"
+printf '[R02] PRODUCTION_CODE_UNCHANGED=PASS\n'
+printf '[R02] PRODUCTION_MANIFEST_SHA256=%s\n' "${PRODUCTION_MANIFEST_SHA}"
+printf '[R02] ARTIFACT_MANIFEST_SHA256=%s\n' "${ARTIFACT_MANIFEST_SHA}"

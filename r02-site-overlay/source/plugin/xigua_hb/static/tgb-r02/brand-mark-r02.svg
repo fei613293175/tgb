@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-labelledby="title desc">
+  <title id="title">推广宝</title>
+  <desc id="desc">蓝色网格与薄荷色上升箭头组成的推广宝品牌标志</desc>
+  <defs>
+    <linearGradient id="brand" x1="28" y1="24" x2="164" y2="168" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2764FF"/>
+      <stop offset="1" stop-color="#7657FF"/>
+    </linearGradient>
+    <linearGradient id="growth" x1="62" y1="132" x2="139" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#19B8A9"/>
+      <stop offset="1" stop-color="#3AD5C5"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="12" width="168" height="168" rx="48" fill="#FFFFFF"/>
+  <rect x="18" y="18" width="156" height="156" rx="42" fill="url(#brand)"/>
+  <path d="M51 58h25v25H51V58Zm33 0h25v25H84V58Zm33 0h24v25h-24V58ZM51 91h25v25H51V91Zm33 0h25v25H84V91ZM51 124h25v25H51v-25Z" fill="#FFFFFF" fill-opacity=".92"/>
+  <path d="M87 140 87 123 115 95 124 104 143 70" fill="none" stroke="url(#growth)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m126 70 18-1-1 18" fill="none" stroke="#3AD5C5" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
