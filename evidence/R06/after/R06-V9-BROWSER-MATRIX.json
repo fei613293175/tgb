@@ -1,0 +1,526 @@
+{
+  "schemaVersion": 1,
+  "release": "R06",
+  "overlayRevision": "v9",
+  "generatedAt": "2026-07-26T22:27:41.285Z",
+  "deviceProfile": "Android 14 / TuiGuangBaoAndroid",
+  "viewports": [
+    {
+      "width": 360,
+      "height": 800
+    },
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 430,
+      "height": 932
+    }
+  ],
+  "summary": {
+    "pages": 8,
+    "cases": 24,
+    "overflowCases": 0,
+    "publicUiDependencyCases": 0,
+    "legacyBrandTitleCases": 0,
+    "activeLoadingCases": 0
+  },
+  "results": [
+    {
+      "pageId": "ACCOUNT-MY",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 1398,
+      "clientWidth": 360,
+      "contactBrand": "none",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=my&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 360,
+      "title": "推广宝 · 个人中心",
+      "screenshot": "evidence/R06/after/matrix-v9/account-my-360x800.png",
+      "screenshotBytes": 40769
+    },
+    {
+      "pageId": "ACCOUNT-SETTINGS",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=shezhi&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 360,
+      "title": "设置中心 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-settings-360x800.png",
+      "screenshotBytes": 24316
+    },
+    {
+      "pageId": "ACCOUNT-PROFILE",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_member:profile&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_member/images/tgb-r06-profile-light-grid.css?v=1"
+      ],
+      "scrollWidth": 360,
+      "title": "修改个人资料",
+      "screenshot": "evidence/R06/after/matrix-v9/account-profile-360x800.png",
+      "screenshotBytes": 22364
+    },
+    {
+      "pageId": "ACCOUNT-ADDRESS",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=myaddr&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 360,
+      "title": "收货地址",
+      "screenshot": "evidence/R06/after/matrix-v9/account-address-360x800.png",
+      "screenshotBytes": 10137
+    },
+    {
+      "pageId": "ACCOUNT-CONTACT",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": "\"推广宝\"",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=tb_credit&modac=userext&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "数据加载中"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [],
+      "scrollWidth": 360,
+      "title": "提示信息 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-contact-prompt-360x800.png",
+      "screenshotBytes": 11137
+    },
+    {
+      "pageId": "ACCOUNT-CERTIFICATION",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xiaomy_certification&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xiaomy_certification/static/tgb-r06-certification-light-grid.css?v=1"
+      ],
+      "scrollWidth": 360,
+      "title": "实名认证",
+      "screenshot": "evidence/R06/after/matrix-v9/account-certification-360x800.png",
+      "screenshotBytes": 22278
+    },
+    {
+      "pageId": "ACCOUNT-CANCEL",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=deluser&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/deluser/static/tgb-r06-cancel-light-grid.css?v=1"
+      ],
+      "scrollWidth": 360,
+      "title": "注销账号",
+      "screenshot": "evidence/R06/after/matrix-v9/account-cancel-360x800.png",
+      "screenshotBytes": 41072
+    },
+    {
+      "pageId": "COMMUNICATION-CHAT-LIST",
+      "viewport": "360x800",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 800,
+      "clientWidth": 360,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_lt&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_lt/static/tgb-r06/chats-list-light-grid-r06.css?v=20260727-r06-1"
+      ],
+      "scrollWidth": 360,
+      "title": "我的消息",
+      "screenshot": "evidence/R06/after/matrix-v9/chat-list-360x800.png",
+      "screenshotBytes": 8762
+    },
+    {
+      "pageId": "ACCOUNT-MY",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 1313,
+      "clientWidth": 390,
+      "contactBrand": "none",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=my&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 390,
+      "title": "推广宝 · 个人中心",
+      "screenshot": "evidence/R06/after/matrix-v9/account-my-390x844.png",
+      "screenshotBytes": 45443
+    },
+    {
+      "pageId": "ACCOUNT-SETTINGS",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=shezhi&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 390,
+      "title": "设置中心 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-settings-390x844.png",
+      "screenshotBytes": 24788
+    },
+    {
+      "pageId": "ACCOUNT-PROFILE",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_member:profile&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_member/images/tgb-r06-profile-light-grid.css?v=1"
+      ],
+      "scrollWidth": 390,
+      "title": "修改个人资料",
+      "screenshot": "evidence/R06/after/matrix-v9/account-profile-390x844.png",
+      "screenshotBytes": 22940
+    },
+    {
+      "pageId": "ACCOUNT-ADDRESS",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=myaddr&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 390,
+      "title": "收货地址",
+      "screenshot": "evidence/R06/after/matrix-v9/account-address-390x844.png",
+      "screenshotBytes": 10552
+    },
+    {
+      "pageId": "ACCOUNT-CONTACT",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": "\"推广宝\"",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=tb_credit&modac=userext&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "数据加载中"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [],
+      "scrollWidth": 390,
+      "title": "提示信息 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-contact-prompt-390x844.png",
+      "screenshotBytes": 11262
+    },
+    {
+      "pageId": "ACCOUNT-CERTIFICATION",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xiaomy_certification&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xiaomy_certification/static/tgb-r06-certification-light-grid.css?v=1"
+      ],
+      "scrollWidth": 390,
+      "title": "实名认证",
+      "screenshot": "evidence/R06/after/matrix-v9/account-certification-390x844.png",
+      "screenshotBytes": 24172
+    },
+    {
+      "pageId": "ACCOUNT-CANCEL",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=deluser&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/deluser/static/tgb-r06-cancel-light-grid.css?v=1"
+      ],
+      "scrollWidth": 390,
+      "title": "注销账号",
+      "screenshot": "evidence/R06/after/matrix-v9/account-cancel-390x844.png",
+      "screenshotBytes": 42913
+    },
+    {
+      "pageId": "COMMUNICATION-CHAT-LIST",
+      "viewport": "390x844",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 844,
+      "clientWidth": 390,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_lt&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_lt/static/tgb-r06/chats-list-light-grid-r06.css?v=20260727-r06-1"
+      ],
+      "scrollWidth": 390,
+      "title": "我的消息",
+      "screenshot": "evidence/R06/after/matrix-v9/chat-list-390x844.png",
+      "screenshotBytes": 9235
+    },
+    {
+      "pageId": "ACCOUNT-MY",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 1313,
+      "clientWidth": 430,
+      "contactBrand": "none",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=my&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 430,
+      "title": "推广宝 · 个人中心",
+      "screenshot": "evidence/R06/after/matrix-v9/account-my-430x932.png",
+      "screenshotBytes": 48896
+    },
+    {
+      "pageId": "ACCOUNT-SETTINGS",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=shezhi&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 430,
+      "title": "设置中心 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-settings-430x932.png",
+      "screenshotBytes": 26039
+    },
+    {
+      "pageId": "ACCOUNT-PROFILE",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_member:profile&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_member/images/tgb-r06-profile-light-grid.css?v=1"
+      ],
+      "scrollWidth": 430,
+      "title": "修改个人资料",
+      "screenshot": "evidence/R06/after/matrix-v9/account-profile-430x932.png",
+      "screenshotBytes": 21736
+    },
+    {
+      "pageId": "ACCOUNT-ADDRESS",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_hb&ac=myaddr&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r06-a1"
+      ],
+      "scrollWidth": 430,
+      "title": "收货地址",
+      "screenshot": "evidence/R06/after/matrix-v9/account-address-430x932.png",
+      "screenshotBytes": 11073
+    },
+    {
+      "pageId": "ACCOUNT-CONTACT",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": "\"推广宝\"",
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=tb_credit&modac=userext&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "数据加载中"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [],
+      "scrollWidth": 430,
+      "title": "提示信息 · 推广宝",
+      "screenshot": "evidence/R06/after/matrix-v9/account-contact-prompt-430x932.png",
+      "screenshotBytes": 12112
+    },
+    {
+      "pageId": "ACCOUNT-CERTIFICATION",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xiaomy_certification&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xiaomy_certification/static/tgb-r06-certification-light-grid.css?v=1"
+      ],
+      "scrollWidth": 430,
+      "title": "实名认证",
+      "screenshot": "evidence/R06/after/matrix-v9/account-certification-430x932.png",
+      "screenshotBytes": 23761
+    },
+    {
+      "pageId": "ACCOUNT-CANCEL",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=deluser&mobile=2",
+      "loading": [],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/deluser/static/tgb-r06-cancel-light-grid.css?v=1"
+      ],
+      "scrollWidth": 430,
+      "title": "注销账号",
+      "screenshot": "evidence/R06/after/matrix-v9/account-cancel-430x932.png",
+      "screenshotBytes": 47763
+    },
+    {
+      "pageId": "COMMUNICATION-CHAT-LIST",
+      "viewport": "430x932",
+      "bodyBg": "rgb(244, 247, 251)",
+      "clientHeight": 932,
+      "clientWidth": 430,
+      "contactBrand": null,
+      "finalUrl": "http://127.0.0.1:28086/plugin.php?id=xigua_lt&mobile=2",
+      "loading": [
+        {
+          "display": "none",
+          "text": "正在加载"
+        },
+        {
+          "display": "block",
+          "text": "没有更多了"
+        }
+      ],
+      "publicUi": [],
+      "r06Css": [
+        "http://127.0.0.1:28086/source/plugin/xigua_lt/static/tgb-r06/chats-list-light-grid-r06.css?v=20260727-r06-1"
+      ],
+      "scrollWidth": 430,
+      "title": "我的消息",
+      "screenshot": "evidence/R06/after/matrix-v9/chat-list-430x932.png",
+      "screenshotBytes": 9366
+    }
+  ]
+}

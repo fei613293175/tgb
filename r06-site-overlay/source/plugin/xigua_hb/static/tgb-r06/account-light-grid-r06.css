@@ -665,7 +665,8 @@
   line-height: 18px !important;
 }
 
-.tgb-r06-settings-page .fa-chevron-right {
+.tgb-r06-settings-page .fa-chevron-right,
+.tgb-r06-settings-page .ri-arrow-right-s-line {
   color: var(--tg-r06-muted) !important;
   transform: none !important;
 }

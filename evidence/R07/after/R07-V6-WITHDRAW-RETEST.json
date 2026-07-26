@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-07-26T23:26:06.489Z",
+  "cases": [
+    {
+      "id": "finance-withdraw",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 355,
+      "forms": 3,
+      "overflowX": false,
+      "scrollHeight": 901,
+      "scrollWidth": 355,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v1/finance-withdraw-360x800-v6.png"
+    },
+    {
+      "id": "finance-withdraw",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 386,
+      "forms": 3,
+      "overflowX": false,
+      "scrollHeight": 945,
+      "scrollWidth": 386,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v1/finance-withdraw-390x844-v6.png"
+    },
+    {
+      "id": "finance-withdraw",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 426,
+      "forms": 3,
+      "overflowX": false,
+      "scrollHeight": 1038,
+      "scrollWidth": 426,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v1/finance-withdraw-430x932-v6.png"
+    }
+  ]
+}

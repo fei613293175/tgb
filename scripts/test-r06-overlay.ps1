@@ -58,7 +58,9 @@ function Get-BusinessUrls([string]$Text) {
     return @([regex]::Matches($Text, '(?i)(?:plugin|forum|member|home|api|misc|connect|uc)\.php\?[^\s`"''<>()]+') | ForEach-Object Value)
 }
 function Get-BusinessScripts([string]$Text) {
-    return @([regex]::Matches($Text, '(?is)<script\b[^>]*>.*?</script>') | ForEach-Object { $_.Value.Trim() -replace "`r`n", "`n" })
+    return @([regex]::Matches($Text, '(?is)<script\b[^>]*>.*?</script>') |
+        Where-Object { $_.Value -notmatch '(?i)cdn\.tailwindcss\.com|tailwind\.config|document\.title\s*=' } |
+        ForEach-Object { $_.Value.Trim() -replace "`r`n", "`n" })
 }
 
 Assert-True (Test-Path -LiteralPath $OverlayRoot -PathType Container) 'overlay root is absent'

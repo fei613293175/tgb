@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>签到钱包 · 推广宝</title>
+    <link rel="stylesheet" href="{$static_path}/lib/weui/css/weui.css">
+    <link rel="stylesheet" href="{$static_path}/lib/weui/css/weuix.css">
+    <link rel="stylesheet" href="source/plugin/xigua_hb/static/custom.css">
+
+    <script src="{$static_path}/lib/weui/js/tbcus.js"></script>
+    <script src="{$static_path}/lib/weui/js/zepto.min.js"></script>
+    <script src="{$static_path}/lib/weui/js/zepto.weui.js"></script>
+    <script src="{$static_path}/lib/weui/js/swipe.js"></script>
+    <script src="{$static_path}/lib/weui/js/php.js"></script>
+
+    <style>
+        :root {
+            --bg-deep: #0b0f16;
+            --bg-surface: #141a24;
+            --bg-card: #1a1f2b;
+            --bg-card-hover: #1f2533;
+            --bg-input: #11161f;
+            --gold: #d4a853;
+            --gold-bright: #e8c46c;
+            --gold-soft: rgba(212, 168, 83, 0.15);
+            --gold-glow: rgba(212, 168, 83, 0.35);
+            --text-primary: #e8ecf2;
+            --text-secondary: #b0b8c4;
+            --text-tertiary: #7b8492;
+            --text-muted: #5a6372;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(212, 168, 83, 0.45);
+            --accent-red: #f87171;
+            --accent-green: #4ade80;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --nav-height: 52px;
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            max-width: 100vw;
+            overflow-x: hidden;
+            padding-top: calc(var(--nav-height) + 20px);
+            padding-bottom: calc(28px + var(--safe-bottom));
+            position: relative;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 背景纹理 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.03;
+            background-image:
+                radial-gradient(circle at 20% 15%, #fff 1px, transparent 1px),
+                radial-gradient(circle at 75% 30%, #fff 1px, transparent 1px),
+                radial-gradient(circle at 40% 60%, #fff 0.8px, transparent 0.8px),
+                radial-gradient(circle at 85% 70%, #fff 0.6px, transparent 0.6px),
+                radial-gradient(circle at 10% 80%, #fff 0.7px, transparent 0.7px);
+            background-size: 120px 120px, 160px 160px, 100px 100px, 140px 140px, 110px 110px;
+            background-position: 0 0, 40px 20px, 80px 40px, 20px 60px, 60px 80px;
+        }
+
+        /* 顶部光晕 */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 340px;
+            height: 280px;
+            background: radial-gradient(ellipse at center, rgba(212, 168, 83, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(20px);
+        }
+
+        .main-container {
+            width: 90%;
+            max-width: 440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ========== 顶部导航 ========== */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(11, 15, 22, 0.82);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px 16px 16px 16px;
+            z-index: 100;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            padding: 8px 12px 8px 4px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 24px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .nav-left i {
+            font-size: 0.85rem;
+            color: var(--text-tertiary);
+            transition: transform 0.15s;
+        }
+        .nav-left:active {
+            background: rgba(255, 255, 255, 0.04);
+            transform: scale(0.96);
+        }
+        .nav-left:active i {
+            transform: translateX(-3px);
+        }
+        .nav-title {
+            font-size: 17px;
+            font-weight: 600;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+        .nav-right {
+            width: 44px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ========== 余额 Hero 卡片 ========== */
+        .balance-hero {
+            position: relative;
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 22px 20px 20px 20px;
+            border: 1px solid var(--border-card);
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            margin-top: 6px;
+        }
+        .balance-hero::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -30px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 168, 83, 0.10) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .balance-hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.3), transparent);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .balance-label-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        .balance-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 8px var(--gold-glow);
+            animation: dotPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 6px var(--gold-glow);
+            }
+            50% {
+                box-shadow: 0 0 16px rgba(212, 168, 83, 0.6);
+            }
+        }
+        .balance-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            z-index: 1;
+        }
+        .balance-amount-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            position: relative;
+            z-index: 1;
+            margin-top: 2px;
+        }
+        .balance-currency {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            align-self: flex-start;
+            margin-top: 6px;
+        }
+        .balance-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -1px;
+            text-shadow: 0 0 40px rgba(212, 168, 83, 0.2);
+        }
+        .balance-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            margin-top: 4px;
+            letter-spacing: 0.4px;
+        }
+
+        /* ========== 主操作面板 ========== */
+        .action-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 18px 16px 20px 16px;
+            border: 1px solid var(--border-card);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .section-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--gold-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--gold-bright);
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+        }
+
+        /* 金额选择 Chips */
+        .chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .chip-item {
+            flex: 1;
+            min-width: 62px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-input);
+            border-radius: 12px;
+            border: 1.5px solid var(--border-card);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            letter-spacing: 0.3px;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .chip-item:active {
+            transform: scale(0.94);
+            transition: transform 0.08s ease;
+        }
+        .chip-item.active {
+            background: linear-gradient(145deg, #1f1a0e 0%, #1a1508 100%);
+            color: var(--gold-bright);
+            border-color: var(--border-active);
+            box-shadow: 0 0 14px rgba(212, 168, 83, 0.2), 0 0 0 1px rgba(212, 168, 83, 0.15) inset;
+            font-weight: 700;
+        }
+        .chip-item.active::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 14px;
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            pointer-events: none;
+        }
+        .chip-item span font {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: inherit;
+        }
+        .chip-item.active span font {
+            color: var(--gold-bright);
+        }
+
+        /* 支付宝信息行 */
+        .alipay-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            padding: 13px 14px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border-subtle);
+            gap: 10px;
+        }
+        .alipay-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .alipay-left img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .alipay-left span {
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .alipay-right {
+            text-align: right;
+            flex: 1;
+            min-width: 0;
+        }
+        .alipay-right a {
+            text-decoration: none;
+            display: inline-block;
+            max-width: 100%;
+        }
+        .alipay-account-tag {
+            display: inline-block;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: var(--gold-bright);
+            background: var(--gold-soft);
+            padding: 6px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            transition: all 0.2s;
+            border: 1px solid rgba(212, 168, 83, 0.2);
+        }
+        .alipay-account-tag:active {
+            background: rgba(212, 168, 83, 0.25);
+            transform: scale(0.96);
+        }
+        .alipay-account-tag.unbound {
+            color: var(--accent-red);
+            background: rgba(248, 113, 113, 0.1);
+            border-color: rgba(248, 113, 113, 0.25);
+        }
+
+        /* 提现按钮 */
+        .withdraw-btn {
+            display: block;
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #d4a853 0%, #c4943a 30%, #b8832a 60%, #d4a853 100%);
+            border-radius: 14px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+            transition: all 0.15s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .withdraw-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+            transition: left 0.4s ease;
+        }
+        .withdraw-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 10px rgba(212, 168, 83, 0.4);
+            transition: all 0.06s ease;
+        }
+        .withdraw-btn:active::before {
+            left: 100%;
+            transition: left 0.25s ease;
+        }
+        .withdraw-btn a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 未绑定提示 */
+        .unbound-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(248, 113, 113, 0.08);
+            border-radius: 14px;
+            padding: 13px 16px;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            flex-wrap: wrap;
+            text-align: center;
+        }
+        .unbound-notice span {
+            font-size: 0.8rem;
+            color: var(--accent-red);
+            font-weight: 500;
+        }
+        .unbound-notice a {
+            font-size: 0.8rem;
+            color: #fff;
+            background: linear-gradient(135deg, #d4a853, #b8832a);
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .unbound-notice a:active {
+            transform: scale(0.93);
+        }
+
+        /* ========== 温馨提示面板 ========== */
+        .notice-panel {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 16px 18px;
+            border: 1px solid var(--border-card);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .notice-panel::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            bottom: 12px;
+            width: 3px;
+            border-radius: 0 4px 4px 0;
+            background: linear-gradient(180deg, rgba(212, 168, 83, 0.6), rgba(212, 168, 83, 0.2));
+        }
+        .notice-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+        .notice-icon-circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(212, 168, 83, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+        .notice-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.3px;
+        }
+        .notice-list {
+            list-style: none;
+            padding-left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .notice-list li {
+            font-size: 0.74rem;
+            color: var(--text-tertiary);
+            line-height: 1.55;
+            position: relative;
+            padding-left: 16px;
+            letter-spacing: 0.2px;
+        }
+        .notice-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        /* ========== 提现记录 ========== */
+        .records-section-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+            margin-bottom: 2px;
+        }
+        .records-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+        .records-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .records-count {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+
+        /* 记录卡片 */
+        .record-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-card);
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        .record-card:active {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        .record-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border: 2px solid var(--border-card);
+        }
+        .record-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .record-amount {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.3px;
+        }
+        .record-amount font {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-tertiary);
+        }
+        .record-status {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            margin-top: 3px;
+            letter-spacing: 0.3px;
+        }
+        .record-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+            text-align: right;
+            align-self: flex-start;
+            margin-top: 4px;
+        }
+        .record-arrow {
+            color: var(--text-muted);
+            font-size: 0.6rem;
+            flex-shrink: 0;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+        .record-card:active .record-arrow {
+            opacity: 1;
+        }
+
+        #more {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 10px;
+            letter-spacing: 0.4px;
+        }
+
+        /* ========== WeUI 弹窗覆盖 ========== */
+        .weui-dialog {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            width: 84% !important;
+            max-width: 310px !important;
+            border-radius: 18px !important;
+            background: var(--bg-card) !important;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+            z-index: 5001 !important;
+            overflow: hidden;
+            border: 1px solid var(--border-card);
+        }
+        .weui-dialog__hd {
+            padding: 22px 20px 6px !important;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+            letter-spacing: 0.4px;
+            text-align: center;
+        }
+        .weui-dialog__bd {
+            padding: 6px 20px 20px !important;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+        .weui-dialog__ft {
+            display: flex;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .weui-dialog__ft .weui-btn {
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 0;
+            letter-spacing: 0.4px;
+            height: 46px;
+            line-height: 46px;
+        }
+        .weui-dialog__ft .weui-btn_primary {
+            background: linear-gradient(135deg, #d4a853, #b8832a) !important;
+            color: #fff;
+            border: none;
+        }
+        .weui-dialog__ft .weui-btn_default {
+            color: var(--text-tertiary);
+            background: transparent;
+        }
+        .weui-toast {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            min-width: 100px;
+            max-width: 70%;
+            background: rgba(20, 26, 36, 0.95) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 14px !important;
+            padding: 13px 20px !important;
+            z-index: 5500 !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-card);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+        .weui-mask {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+            z-index: 5000 !important;
+        }
+        .weui-loading_toast .weui-toast {
+            background: rgba(20, 26, 36, 0.9) !important;
+            border-radius: 14px !important;
+            border: 1px solid var(--border-card);
+        }
+
+        /* ========== 响应式微调 ========== */
+        @media screen and (max-width: 380px) {
+            .balance-number {
+                font-size: 2.5rem;
+            }
+            .chip-item {
+                height: 40px;
+                font-size: 0.9rem;
+                border-radius: 10px;
+                min-width: 52px;
+            }
+            .withdraw-btn {
+                height: 44px;
+                line-height: 44px;
+                font-size: 0.95rem;
+                border-radius: 12px;
+            }
+            .record-card {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+            .record-avatar {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+            }
+            .record-amount {
+                font-size: 1rem;
+            }
+            .action-panel {
+                padding: 14px 12px 16px 12px;
+            }
+            .balance-hero {
+                padding: 18px 16px 16px 16px;
+            }
+        }
+
+        @media screen and (min-width: 400px) {
+            .balance-number {
+                font-size: 3.2rem;
+            }
+            .chip-item {
+                height: 48px;
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body class="tgb-r07-sign-wallet-page">
+
+    <!-- 顶部导航 -->
+    <div class="top-nav">
+        <a href="javascript:window.history.go(-1);" class="nav-left">
+            <i class="fa fa-chevron-left"></i>
+        
+        </a>
+        <div class="nav-title">签到奖励</div>
+        <div class="nav-right"></div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-container">
+
+        <!-- 余额 Hero -->
+        <div class="balance-hero">
+            <div class="balance-label-row">
+                <div class="balance-dot"></div>
+                <span class="balance-label">总余额</span>
+            </div>
+            <div class="balance-amount-wrap" id="njum1">
+                <span class="balance-currency">¥</span>
+                <span class="balance-number">{$mymoney}</span>
+            </div>
+            <div class="balance-subtitle">可用余额 · 随时提现</div>
+        </div>
+
+        <!-- 操作面板 -->
+        <div class="action-panel">
+            <div class="section-header">
+                <div class="section-icon">💎</div>
+                <span class="section-title">选择提现金额</span>
+            </div>
+
+            <!-- 金额选择 Chips -->
+            <div class="chips-row">
+                {eval $akey= 31;}
+                <!--{loop $txprice $key $value}-->
+                <div class="chip-item {if $key==$akey} active {/if}" data-id="{$key}">
+                    <span><font>¥ </font>{$value[0]}</span>
+                </div>
+                <!--{/loop}-->
+                <input type="hidden" id="txid" value="{$akey}">
+            </div>
+
+            <!-- 支付宝信息 -->
+            <div class="alipay-info-row">
+                <div class="alipay-left">
+                    <span class="local-wallet-mark" aria-hidden="true"></span>
+                    <span>提现至</span>
+                </div>
+                <div class="alipay-right">
+                    <a href='plugin.php?id=xigua_hb&ac=mytx&from=&idu=1'>
+                        <!--{if $xigua_user['alipay_account']}-->
+                        <span class="alipay-account-tag">{$xigua_user['alipay_account']}</span>
+                        <!--{else}-->
+                        <span class="alipay-account-tag unbound">点击绑定账号</span>
+                        <!--{/if}-->
+                    </a>
+                </div>
+            </div>
+
+            <!-- 提现按钮 / 未绑定提示 -->
+            <!--{if $xigua_user['alipay_account']}-->
+            <div class="withdraw-btn" id="btn">
+                <a>立即提现</a>
+            </div>
+            <!--{else}-->
+            <div class="unbound-notice">
+                <span>⚠ 未绑定兑换方式</span>
+                <a href="plugin.php?id=xigua_hb&ac=mytx&from=&idu=1">立即绑定</a>
+            </div>
+            <!--{/if}-->
+        </div>
+
+        <!-- 温馨提示 -->
+        <div class="notice-panel">
+            <div class="notice-title-row">
+                <div class="notice-icon-circle">📌</div>
+                <span class="notice-title">温馨提示</span>
+            </div>
+            <ul class="notice-list">
+                <li>普通会员服务费50%，推广宝会员提现服务费永久7%，推荐开通会员提现更划算；</li>
+                <li>提现 24 小时内审核到账，节假日顺延</li>
+                <li>请在每天 10:00 ~ 18:00 之间提现</li>
+            </ul>
+        </div>
+
+        <!-- 提现记录 -->
+        <div class="records-section-header">
+            <div class="records-dot"></div>
+            <span class="records-title">提现记录</span>
+            <span class="records-count">最近记录</span>
+        </div>
+        <div id="rank-list"></div>
+    </div>
+
+    {template tb_cus_adv:myadvshow}
+
+    <!-- 记录模板 -->
+    <script id="tpl" type="text/html">
+        <% for(var i in list) { %>
+        <a class="record-card">
+            <img class="record-avatar"
+            src="https://img.imehui.com/20250118/1737202620678b9bbc3bcea.png"
+            alt="记录">
+            <div class="record-body">
+                <div class="record-amount"><font>¥ </font><%=list[i].money%></div>
+                <div class="record-status"><%=list[i].ostatusstr%></div>
+            </div>
+            <span class="record-date"><%=list[i].dateline%></span>
+            <span class="record-arrow">›</span>
+        </a>
+        <% } %>
+    </script>
+
+    <script>
+        var formhash = "{FORMHASH}";
+        let start = 0,
+            pagesize = 20,
+            flag = true,
+            loading = false;
+
+        function ajaxpage(start1) {
+            $.ajax({
+                type: "POST",
+                url: 'plugin.php?id=tb_cus_xiguahh:tx',
+                data: { "start": start1, "pagesize": pagesize, submodac: 'getdata' },
+                dataType: "json",
+                beforeSend: function() { $("#more").show(); },
+                success: function(rs) {
+                    if (rs.list == null) { $("#more").html(""); return true; }
+                    start = start1 + rs.list.length;
+                    if (rs.list.length < pagesize) { flag = false;
+                        $("#more").html(""); }
+                    $("#rank-list").append(tpl(document.getElementById('tpl').innerHTML, rs));
+                }
+            });
+        }
+
+        $(window).scroll(function() {
+            var scrollTop = $(this).scrollTop();
+            var scrollHeight = $(document).height();
+            var windowHeight = $(this).height();
+            if (scrollTop > scrollHeight - windowHeight - 5) {
+                if (loading) return;
+                loading = true;
+                setTimeout(function() {
+                    if (flag) ajaxpage(start);
+                    loading = false;
+                }, 500);
+            }
+        });
+        ajaxpage(start);
+    </script>
+
+    <script>
+        $(document).on('click', ".chip-item", function() {
+            $(this).siblings('.chip-item').removeClass('active');
+            $(this).addClass('active');
+            var txid = $(this).attr("data-id");
+            $("#txid").val(txid);
+        });
+
+        $(document).on('click', "#btn", function() {
+            $.showLoading();
+            var txid = $("#txid").val();
+            var formData = new FormData();
+            formData.append("submodac", 'txsubmit');
+            formData.append("formhash", '{FORMHASH}');
+            formData.append("txid", txid);
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                url: "plugin.php?id=tb_cus_xiguahh:tx",
+                processData: false,
+                contentType: false,
+                async: false,
+                success: function(data) {
+                    $.hideLoading();
+                    if (data.rs != 200) {
+                        $.alert(data.msg, "提示");
+                    } else {
+                        $.alert(data.msg, "提示", function() {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    $.hideLoading();
+                    $.alert("网络繁忙，请稍候再试", "提示");
+                }
+            });
+        });
+    </script>
+    <link rel="stylesheet" href="source/plugin/tb_cus_xiguahh/static/tgb-r07/sign-wallet-light-grid-r07.css?20260727-r07-a1">
+</body>
+</html>

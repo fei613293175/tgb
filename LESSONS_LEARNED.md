@@ -375,9 +375,24 @@
 - 规则：数据库回滚门禁比较行集时必须使用确定排序、主键集合或规范化集合哈希，不能把数据库未承诺的返回顺序当成数据差异。
 - 证据边界：首次真实浏览量增量没有在第一次重试前单独保留，最终只能声明相关计数和行集已恢复，不能追溯声称精确的初始增量。
 
+## L-066 页面映射必须核对最终渲染模板和可见弹层
+
+- 现象：刷新卡路由最初只映射到 `refresh.php`，但真实购买页由 `sxtc.php` 渲染，`refresh.php` 只是同页“立即使用”后的可见弹层。
+- 规则：模板映射不能只看控制器文件名；必须在改前运行时记录最终编译模板或页面独有文本，并把可见入口打开的弹层与主页面一起登记。发现映射错误时先纠正台账，再改 UI。
+
+## L-067 移动端验收截图必须验证输出像素和稳定帧
+
+- 现象：普通截图接口会受滚动条和浏览器工具栏影响，输出尺寸小于声明视口；页面 `domcontentloaded` 后立即截图还可能抓到本地 CSS 应用前的中间帧。
+- 规则：使用设备指标覆盖和页面像素截图，逐张验证 PNG 宽高；等待 `load` 和短暂稳定后再保存，同时以 DOM 几何证明无溢出。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。
 - 当前底部四导航的业务信息架构清晰，可保留顺序和功能，仅换视觉。
 - WeUI 的部分交互行为可保留，外观通过受控覆盖统一。
 - 页面族按公共、发现、内容、账户、资金、增长划分后，可共享组件并降低 164 模板重复劳动。
+# 2026-07-27 R06 production-manifest runtime log
+
+- Production root `operation.log` can be created after a clean baseline and is runtime output, not application code.
+- Stable production-code manifests must exclude `${PRODUCTION_ROOT}/operation.log`; otherwise an unchanged production tree is reported as drift.
+- A manifest hash mismatch must be resolved with a file-level diff before deciding that production code changed.

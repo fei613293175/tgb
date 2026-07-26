@@ -1,0 +1,833 @@
+{
+  "generatedAt": "2026-07-26T23:31:40.406Z",
+  "cases": [
+    {
+      "id": "finance-wallet",
+      "route": "/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "title": "我的钱包",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "tgb-r07-wallet-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 305,
+          "y": 840
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 927,
+      "scrollWidth": 360,
+      "text": "我的资产 账户余额 0.00 提现到 未绑定提现方式 立即绑定 ¥ 20 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 ¥ 2000 未绑定提现方式 立即绑定 1、推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 2、提现24小时内审核到账，节假日顺延 3、请在每天10点~18点提现 收益记录 提现记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-wallet-360x800.png"
+    },
+    {
+      "id": "finance-withdraw",
+      "route": "/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 305,
+          "y": 840
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 901,
+      "scrollWidth": 360,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-withdraw-360x800.png"
+    },
+    {
+      "id": "finance-sign-withdraw",
+      "route": "/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "title": "签到钱包 · 推广宝",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "top-nav",
+          "h": 52,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1196,
+      "scrollWidth": 360,
+      "text": "签到奖励 总余额 ¥ 0 可用余额 · 随时提现 💎 选择提现金额 ¥ 0.3 ¥ 2 ¥ 30 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 提现至 点击绑定账号 ⚠ 未绑定兑换方式 立即绑定 📌 温馨提示 普通会员服务费50%，推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 提现 24 小时内审核到账，节假日顺延 请在每天 10:00 ~ 18:00 之间提现 提现记录 最近记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-sign-withdraw-360x800.png"
+    },
+    {
+      "id": "membership-vip",
+      "route": "/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "title": "推广宝会员 · VIP尊享中心",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "modal-overlay",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1106,
+      "scrollWidth": 360,
+      "text": "推广宝VIP会员 开通推广宝VIP会员 200%获客效率 · 签到奖励翻倍 · 消费5折 签到翻倍 优先审核 手续费减免 🔥 超值年包 年度会员 有效期 365 天 原价¥328 ¥88 立即开通 💎 终身尊享 永久会员 一次开通 · 永久有效 原价¥568 ¥98 立即开通 VIP专属权益 签到25元/天 现金滑落加持 直推30%提成 好友消费返利 间推5%提成 二级好友消费返利 提现手续费7% 永久优惠费率 广告服务5折 年/永久赠99/200刷新卡 VIP尊贵标识 专属身份特权 秒级到账 平台保障 叠加权益 高收益人脉 * 开通后立即生效，权益仅限推广宝平台使用，支付后不支持退款。 永久会员 ¥138 开通须知 开通会员属于消费，不是投资！会员主要是获取平台特权（例如消费5折等），请根据自己需求开通。",
+      "screenshot": "evidence/R07/after/matrix-v6-final/membership-vip-360x800.png"
+    },
+    {
+      "id": "content-refresh-pack",
+      "route": "/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 305,
+          "y": 840
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1100,
+      "scrollWidth": 360,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v6-final/content-refresh-pack-360x800.png"
+    },
+    {
+      "id": "promotion-headline",
+      "route": "/plugin.php?id=tb_toutiao&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 360,
+          "x": 0,
+          "y": 735
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 800,
+      "scrollWidth": 360,
+      "text": "首页 签到 分红 我的 推广宝头条 选择时长 3天 138 元 7天 310 元 15天 650 元 30天 999元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-headline-360x800.png"
+    },
+    {
+      "id": "promotion-super-headline",
+      "route": "/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 360,
+          "x": 0,
+          "y": 735
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 800,
+          "tag": "DIV",
+          "w": 360,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 800,
+      "scrollWidth": 360,
+      "text": "首页 签到 分红 我的 推广宝超级头条 暂无有效项目，请先发布信息 选择时长 3天 90元 7天 198元 15天 368元 30天 698元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-super-headline-360x800.png"
+    },
+    {
+      "id": "finance-wallet",
+      "route": "/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "title": "我的钱包",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "tgb-r07-wallet-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 335,
+          "y": 884
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 871,
+      "scrollWidth": 390,
+      "text": "我的资产 账户余额 0.00 提现到 未绑定提现方式 立即绑定 ¥ 20 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 ¥ 2000 未绑定提现方式 立即绑定 1、推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 2、提现24小时内审核到账，节假日顺延 3、请在每天10点~18点提现 收益记录 提现记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-wallet-390x844.png"
+    },
+    {
+      "id": "finance-withdraw",
+      "route": "/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 335,
+          "y": 884
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 945,
+      "scrollWidth": 390,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-withdraw-390x844.png"
+    },
+    {
+      "id": "finance-sign-withdraw",
+      "route": "/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "title": "签到钱包 · 推广宝",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "top-nav",
+          "h": 52,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1115,
+      "scrollWidth": 390,
+      "text": "签到奖励 总余额 ¥ 0 可用余额 · 随时提现 💎 选择提现金额 ¥ 0.3 ¥ 2 ¥ 30 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 提现至 点击绑定账号 ⚠ 未绑定兑换方式 立即绑定 📌 温馨提示 普通会员服务费50%，推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 提现 24 小时内审核到账，节假日顺延 请在每天 10:00 ~ 18:00 之间提现 提现记录 最近记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-sign-withdraw-390x844.png"
+    },
+    {
+      "id": "membership-vip",
+      "route": "/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "title": "推广宝会员 · VIP尊享中心",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "modal-overlay",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 942,
+      "scrollWidth": 390,
+      "text": "推广宝VIP会员 开通推广宝VIP会员 200%获客效率 · 签到奖励翻倍 · 消费5折 签到翻倍 优先审核 手续费减免 🔥 超值年包 年度会员 有效期 365 天 原价¥328 ¥88 立即开通 💎 终身尊享 永久会员 一次开通 · 永久有效 原价¥568 ¥98 立即开通 VIP专属权益 签到25元/天 现金滑落加持 直推30%提成 好友消费返利 间推5%提成 二级好友消费返利 提现手续费7% 永久优惠费率 广告服务5折 年/永久赠99/200刷新卡 VIP尊贵标识 专属身份特权 秒级到账 平台保障 叠加权益 高收益人脉 * 开通后立即生效，权益仅限推广宝平台使用，支付后不支持退款。 永久会员 ¥138 开通须知 开通会员属于消费，不是投资！会员主要是获取平台特权（例如消费5折等），请根据自己需求开通。",
+      "screenshot": "evidence/R07/after/matrix-v6-final/membership-vip-390x844.png"
+    },
+    {
+      "id": "content-refresh-pack",
+      "route": "/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 40,
+          "tag": "DIV",
+          "w": 40,
+          "x": 335,
+          "y": 884
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1100,
+      "scrollWidth": 390,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v6-final/content-refresh-pack-390x844.png"
+    },
+    {
+      "id": "promotion-headline",
+      "route": "/plugin.php?id=tb_toutiao&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 390,
+          "x": 0,
+          "y": 779
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 844,
+      "scrollWidth": 390,
+      "text": "首页 签到 分红 我的 推广宝头条 选择时长 3天 138 元 7天 310 元 15天 650 元 30天 999元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-headline-390x844.png"
+    },
+    {
+      "id": "promotion-super-headline",
+      "route": "/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 390,
+          "x": 0,
+          "y": 779
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 844,
+          "tag": "DIV",
+          "w": 390,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 844,
+      "scrollWidth": 390,
+      "text": "首页 签到 分红 我的 推广宝超级头条 暂无有效项目，请先发布信息 选择时长 3天 90元 7天 198元 15天 368元 30天 698元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-super-headline-390x844.png"
+    },
+    {
+      "id": "finance-wallet",
+      "route": "/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=qianbao&mobile=2",
+      "title": "我的钱包",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "tgb-r07-wallet-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "backtotop",
+          "h": 44,
+          "tag": "DIV",
+          "w": 44,
+          "x": 370,
+          "y": 976
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 932,
+      "scrollWidth": 430,
+      "text": "我的资产 账户余额 0.00 提现到 未绑定提现方式 立即绑定 ¥ 20 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 ¥ 2000 未绑定提现方式 立即绑定 1、推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 2、提现24小时内审核到账，节假日顺延 3、请在每天10点~18点提现 收益记录 提现记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-wallet-430x932.png"
+    },
+    {
+      "id": "finance-withdraw",
+      "route": "/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=mytx&from=&idu=1&idu=11946638&mobile=2",
+      "title": "提现设置",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 44,
+          "tag": "DIV",
+          "w": 44,
+          "x": 370,
+          "y": 976
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1038,
+      "scrollWidth": 430,
+      "text": "返回 钱包 提现设置 绑定收款账户 请填写真实信息以便顺利提现 *收款账号必须和账号实名认证人一致 真实姓名： 支付宝账号： 确定",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-withdraw-430x932.png"
+    },
+    {
+      "id": "finance-sign-withdraw",
+      "route": "/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_cus_xiguahh:tx&mobile=2",
+      "title": "签到钱包 · 推广宝",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "top-nav",
+          "h": 52,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1130,
+      "scrollWidth": 430,
+      "text": "签到奖励 总余额 ¥ 0 可用余额 · 随时提现 💎 选择提现金额 ¥ 0.3 ¥ 2 ¥ 30 ¥ 100 ¥ 300 ¥ 500 ¥ 1000 提现至 点击绑定账号 ⚠ 未绑定兑换方式 立即绑定 📌 温馨提示 普通会员服务费50%，推广宝会员提现服务费永久7%，推荐开通会员提现更划算； 提现 24 小时内审核到账，节假日顺延 请在每天 10:00 ~ 18:00 之间提现 提现记录 最近记录",
+      "screenshot": "evidence/R07/after/matrix-v6-final/finance-sign-withdraw-430x932.png"
+    },
+    {
+      "id": "membership-vip",
+      "route": "/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=vip&mobile=2",
+      "title": "推广宝会员 · VIP尊享中心",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "modal-overlay",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 942,
+      "scrollWidth": 430,
+      "text": "推广宝VIP会员 开通推广宝VIP会员 200%获客效率 · 签到奖励翻倍 · 消费5折 签到翻倍 优先审核 手续费减免 🔥 超值年包 年度会员 有效期 365 天 原价¥328 ¥88 立即开通 💎 终身尊享 永久会员 一次开通 · 永久有效 原价¥568 ¥98 立即开通 VIP专属权益 签到25元/天 现金滑落加持 直推30%提成 好友消费返利 间推5%提成 二级好友消费返利 提现手续费7% 永久优惠费率 广告服务5折 年/永久赠99/200刷新卡 VIP尊贵标识 专属身份特权 秒级到账 平台保障 叠加权益 高收益人脉 * 开通后立即生效，权益仅限推广宝平台使用，支付后不支持退款。 永久会员 ¥138 开通须知 开通会员属于消费，不是投资！会员主要是获取平台特权（例如消费5折等），请根据自己需求开通。",
+      "screenshot": "evidence/R07/after/matrix-v6-final/membership-vip-430x932.png"
+    },
+    {
+      "id": "content-refresh-pack",
+      "route": "/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "backtotop",
+          "h": 44,
+          "tag": "DIV",
+          "w": 44,
+          "x": 370,
+          "y": 976
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 1108,
+      "scrollWidth": 430,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v6-final/content-refresh-pack-430x932.png"
+    },
+    {
+      "id": "promotion-headline",
+      "route": "/plugin.php?id=tb_toutiao&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 430,
+          "x": 0,
+          "y": 867
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 932,
+      "scrollWidth": 430,
+      "text": "首页 签到 分红 我的 推广宝头条 选择时长 3天 138 元 7天 310 元 15天 650 元 30天 999元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-headline-430x932.png"
+    },
+    {
+      "id": "promotion-super-headline",
+      "route": "/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=tb_toutiao&modac=super_main&mobile=2",
+      "title": "头条置顶",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "fixed": [
+        {
+          "cls": "qmn-nav",
+          "h": 65,
+          "tag": "NAV",
+          "w": 430,
+          "x": 0,
+          "y": 867
+        },
+        {
+          "cls": "tgb-r07-promotion-header",
+          "h": 52,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "cls": "",
+          "h": 932,
+          "tag": "DIV",
+          "w": 430,
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollHeight": 932,
+      "scrollWidth": 430,
+      "text": "首页 签到 分红 我的 推广宝超级头条 暂无有效项目，请先发布信息 选择时长 3天 90元 7天 198元 15天 368元 30天 698元",
+      "screenshot": "evidence/R07/after/matrix-v6-final/promotion-super-headline-430x932.png"
+    }
+  ]
+}

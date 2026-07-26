@@ -190,3 +190,13 @@ evidence/
   `evidence/R05/after/R05-V5-BROWSER-MATRIX.json`
 
 v5 制品 `deliverables/r05-click-proven-overlay-v5.tar.gz` 共 12 个文件，SHA-256 为 `b6fd61f320b1f15726608abf69f610a27ea744e37e42fdf62108769b42f09de9`。浏览器矩阵覆盖 360x800、390x844、430x932，三个详情视口的超范围可见操作均为空；390x844 首页旧分类可见数为 0。
+
+## 12. R06-R07 点击范围 UI 证据
+
+- R06 账户与沟通关版：`version-results/R06_RESULT.md`
+- R06 三视口矩阵：`evidence/R06/after/R06-V9-BROWSER-MATRIX.json`
+- R07 资金、会员与推广关版：`version-results/R07_RESULT.md`
+- R07 最终 7 页 x 3 视口矩阵：`evidence/R07/after/R07-V6-FINAL-BROWSER-MATRIX.json`
+- R07 21 张精确像素截图：`evidence/R07/after/matrix-v6-final/`
+
+R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文件，SHA-256 为 `7114c2eecf4151c709fdea3ea8e5e6fd0fa36cbb57a9b416ef71d21fb327dd6c`。订单、收银台和未获点击证明的页面不在覆盖包内。

@@ -94,6 +94,7 @@
 	<!--{/if}-->
 <!--{else}-->
 	<title>提示信息 · 推广宝</title>
+	<script>document.title = '提示信息 · 推广宝';</script>
 	<style>
 		:root {
 			--pri: #FF6B35;

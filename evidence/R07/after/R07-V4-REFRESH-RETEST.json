@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-07-26T23:18:58.532Z",
+  "cases": [
+    {
+      "id": "content-refresh-pack",
+      "width": 360,
+      "height": 800,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 355,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "overflowX": false,
+      "scrollHeight": 1100,
+      "scrollWidth": 355,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v1/content-refresh-pack-360x800-v4.png"
+    },
+    {
+      "id": "content-refresh-pack",
+      "width": 390,
+      "height": 844,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 386,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowX": false,
+      "scrollHeight": 1100,
+      "scrollWidth": 386,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v1/content-refresh-pack-390x844-v4.png"
+    },
+    {
+      "id": "content-refresh-pack",
+      "width": 430,
+      "height": 932,
+      "url": "http://127.0.0.1:18087/plugin.php?id=xigua_hb&ac=refresh&do=sxtc&mobile=2",
+      "title": "购买刷新套餐",
+      "bg": "rgb(244, 247, 251)",
+      "clientWidth": 426,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowX": false,
+      "scrollHeight": 1108,
+      "scrollWidth": 426,
+      "text": "返回 我的 购买刷新套餐 升级推广宝会员 5折购买刷新次数，降低推广成本 50元25次 支付50元购买25次刷新机会 90元100次 支付90元购买100次刷新机会 168元200次 支付168元购买200次刷新机会 300元350次 支付300元购买350次刷新机会 500元800次 支付500元购买800次刷新机会 1000元2000次 支付1000元购买2000次刷新机会 立即购买 您当前已使用0次刷新次数，还剩余 5次 立即使用",
+      "screenshot": "evidence/R07/after/matrix-v1/content-refresh-pack-430x932-v4.png"
+    }
+  ]
+}

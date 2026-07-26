@@ -2,9 +2,9 @@ schema_version: 1
 project_id: TG-H5-UI-REDESIGN
 product_name: 推广宝
 snapshot_date: 2026-07-27
-current_release: R06
+current_release: R08
 release_status: IN_PROGRESS
-active_task_id: TASK-R06-001
+active_task_id: TASK-R08-001
 active_mode: UI_IMPLEMENTATION
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
@@ -38,13 +38,13 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: R06_ACTIVE
-  owner_release: R06
-  source_release: R05
-  snapshot_id: 20260727T060741+0800
-  site_root: /www/staging/tg-h5-ui-r06/site
-  private_evidence_root: /www/staging/tg-h5-ui-r06/private
-  listener: 127.0.0.1:18086
+  status: R07_ACTIVE
+  owner_release: R07
+  source_release: R06
+  snapshot_id: 20260727T065354+0800
+  site_root: /www/staging/tg-h5-ui-r07/site
+  private_evidence_root: /www/staging/tg-h5-ui-r07/private
+  listener: 127.0.0.1:18087
   access: SSH_TUNNEL_ONLY
   allowed_methods:
     - GET
@@ -61,7 +61,7 @@ staging:
   r05_create_gate: PASS
   r05_independent_verify: PASS
   auth_bridge: OFF
-  auth_test_fixture: NOT_CREATED
+  auth_test_fixture: OFF
   mobile_ua_test_mode: OFF
   r05_v3_scope_validity: INVALIDATED_SCOPE_DRIFT
   r05_v4_scope_validity: SUPERSEDED_BY_V5_AFTER_DETAIL_CLICK_PROOF
@@ -71,13 +71,21 @@ staging:
   r05_v5_overlay_archive_sha256: b6fd61f320b1f15726608abf69f610a27ea744e37e42fdf62108769b42f09de9
   r05_v5_overlay_archive: deliverables/r05-click-proven-overlay-v5.tar.gz
   r05_v5_backup_dir: /www/staging/tg-h5-ui-r05/private/change-backups/20260727T051035+0800-click-proven-v5
-  r06_overlay_revision: v7
+  r06_overlay_revision: v9
   r06_overlay_files: 13
-  r06_overlay_archive: deliverables/r06-account-communication-overlay-v7.tar.gz
-  r06_overlay_archive_sha256: b5c50e99b7040d75ddad0bc64c3d29e63dce74f9e12f127134f62d9165989a0d
-  r06_deploy_id: 20260727T061010+0800
+  r06_overlay_archive: deliverables/r06-account-communication-overlay-v9.tar.gz
+  r06_overlay_archive_sha256: 5b12f061d32632d0d0a1114962cb7790b1a706805f9715cbdf48dfcd2d356761
+  r06_deploy_id: 20260727T062617+0800
   r06_contact_runtime_scope: MOBILE_FALLBACK_PROMPT_NOT_HIDDEN_FORM
-  r06_contact_390x844: PASS
+  r06_browser_matrix: 8_PAGES_X_3_VIEWPORTS_PASS
+  r07_overlay_revision: v6
+  r07_overlay_files: 12
+  r07_overlay_archive: deliverables/r07-click-proven-overlay-v6.tar.gz
+  r07_overlay_archive_sha256: 7114c2eecf4151c709fdea3ea8e5e6fd0fa36cbb57a9b416ef71d21fb327dd6c
+  r07_deploy_id: 20260727T072400+0800
+  r07_backup_dir: /www/staging/tg-h5-ui-r07/private/change-backups/20260727T072400+0800-click-proven-v1
+  r07_browser_matrix: 7_PAGES_X_3_VIEWPORTS_PASS
+  r07_refresh_template_correction: SXTC_PAGE_PLUS_REFRESH_POPUP
   browser_origin_bridge: OFF
   reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
 
@@ -185,14 +193,19 @@ completed:
   - R05 v5 local scope gate and independent staging verifier passed with POST 405 and production stable code unchanged
   - R05 browser regression proved hidden home categories zero-visible zero-hit and detail passed the three mobile viewports without overflow or hidden-action exposure
   - R05 development closeout and global drift correction
-  - R06 seven account and communication pages retain prior three-viewport evidence with v7 brand and palette corrections
+  - R06 eight click-proven account and communication pages passed the final v9 three-viewport matrix
   - R06 contact scope corrected from the non-rendered userext form to the real mobile fallback prompt
-  - R06 contact prompt verified at 390x844 with no overflow no public UI CDN and visible 推广宝 branding
+  - R06 contact prompt verified at 360x800 390x844 and 430x932 with no overflow no public UI CDN and visible 推广宝 branding
+  - R06 development closeout with production stable-code hash unchanged
+  - R07 seven click-proven finance membership and promotion pages passed the final v6 three-viewport matrix
+  - R07 refresh package mapping corrected to the real sxtc page plus its visible refresh popup
+  - R07 temporary certification fixture and all browser bridges removed with POST 405 restored
+  - R07 development closeout with production stable-code hash unchanged
   - chat detail and member detail preserved only as visible-entry candidates pending isolated replay
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 visual implementation R06 through R09 (R06 active)
+  - H5 visual implementation R08 through R09 (R08 ready)
   - controlled-write fixtures for each high-risk page family
   - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>设置中心 · 推广宝</title>
-    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- R06 uses local compiled styles. -->
+    <link href="/source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css" rel="stylesheet">
     
     <script>
+        window.tailwind = window.tailwind || {};
         tailwind.config = {
             theme: {
                 extend: {
@@ -234,7 +235,7 @@
     <header class="crypto-glass fixed top-0 left-0 right-0 z-30" style="padding:15px 0 0 0; box-shadow: 0 2px 20px rgba(255,150,30,0.06);">
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <button id="backBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
-                <i class="fa fa-arrow-left text-crypto-primary"></i>
+                <i class="ri-arrow-left-line text-crypto-primary"></i>
             </button>
             <h1 class="text-xl font-bold text-crypto-text">设置中心</h1>
             <div class="w-10 h-10"></div>
@@ -254,14 +255,14 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon crypto-gradient-primary" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-user text-white"></i>
+                                    <i class="ri-user-3-line text-white"></i>
                                 </div>
                                 <div>
                                     <p class="setting-title">资料设置</p>
                                     <p class="setting-description">头像、用户名等</p>
                                 </div>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -271,14 +272,14 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon crypto-gradient-secondary" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-map-marker text-white"></i>
+                                    <i class="ri-map-pin-line text-white"></i>
                                 </div>
                                 <div>
                                     <p class="setting-title">收货地址</p>
                                     <p class="setting-description">后续商城需要收货地址</p>
                                 </div>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -292,14 +293,14 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-phone text-white"></i>
+                                    <i class="ri-phone-line text-white"></i>
                                 </div>
                                 <div>
                                     <p class="setting-title">联系方式</p>
                                     <p class="setting-description">手机号、微信、QQ等</p>
                                 </div>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -317,11 +318,11 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-file-text-o text-white"></i>
+                                    <i class="ri-file-text-line text-white"></i>
                                 </div>
                                 <p class="setting-title">服务协议</p>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -331,11 +332,11 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-user-secret text-white"></i>
+                                    <i class="ri-shield-user-line text-white"></i>
                                 </div>
                                 <p class="setting-title">隐私政策</p>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -345,11 +346,11 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-shopping-cart text-white"></i>
+                                    <i class="ri-shopping-cart-2-line text-white"></i>
                                 </div>
                                 <p class="setting-title">消费协议</p>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>
@@ -370,11 +371,11 @@
                         <div class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <div class="setting-icon" style="background: linear-gradient(135deg, #ff7b00, #e63946);">
-                                    <i class="fa fa-user-circle text-white"></i>
+                                    <i class="ri-user-settings-line text-white"></i>
                                 </div>
                                 <p class="setting-title">注销账号</p>
                             </div>
-                            <i class="fa fa-chevron-right text-crypto-text-secondary transition-transform"></i>
+                            <i class="ri-arrow-right-s-line text-crypto-text-secondary transition-transform"></i>
                         </div>
                     </div>
                 </a>

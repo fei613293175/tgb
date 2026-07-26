@@ -1,0 +1,585 @@
+{template tb_toutiao:header}
+<!--{template xigua_hb:tab4}-->
+<style>
+/* ===== 趣赚汇 · 暖白珊瑚红渐变风格 (购买超级头条页) ===== */
+:root {
+    --bg: #fff9f5;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --primary: #ff7b00;
+    --primary-dark: #e63946;
+    --primary-gradient: linear-gradient(135deg, #ff7b00, #e63946);
+    --text-primary: #3d2b1a;
+    --text-secondary: #8b6f5c;
+    --text-tertiary: #b08968;
+    --border-light: rgba(255, 200, 120, 0.35);
+    --border-card: rgba(255, 190, 90, 0.35);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 20px 45px rgba(255,140,30,0.10), 0 4px 12px rgba(0,0,0,0.03);
+    --shadow-red: 0 5px 15px rgba(255,50,0,0.25);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 22px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(180deg, #fef9f0 0%, #fff5e6 30%, #fef3e2 60%, #fdf0db 100%) !important;
+    color: var(--text-primary) !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif !important;
+    overflow-x: hidden;
+}
+
+.z {
+    float: left;
+}
+
+/* weui 组件边框颜色 */
+.weui-cells::before,
+.weui-cells::after,
+.weui-cell::before {
+    border-color: var(--border-light) !important;
+}
+
+.pr {
+    position: relative;
+}
+
+em {
+    font-style: normal;
+}
+
+/* 脉冲动画 - 红橙光效 */
+.price-desc-btn {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: buttonAnimate;
+    animation-timing-function: ease;
+}
+
+@keyframes buttonAnimate {
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* 主要内容区域 */
+.main-content {
+    margin-top: 100px;
+    padding: 20px;
+}
+
+/* 任务列表容器 - 玻璃态白色卡片 */
+.weui-cells.weui-cells_checkbox.mt0 {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: var(--radius-lg) !important;
+    margin: 15px !important;
+    overflow-y: scroll;
+    box-shadow: var(--shadow-md) !important;
+    max-height: 300px;
+    padding: 10px;
+}
+
+/* 任务项样式 */
+.pr {
+    margin-bottom: 12px;
+}
+
+.weui-cell.weui-check__label {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 16px !important;
+    margin-bottom: 12px;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+}
+
+.weui-cell.weui-check__label:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: #ff7b00 !important;
+}
+
+/* 复选框选中样式 - 红橙主色调 */
+.weui-check:checked + .weui-icon-checked:before {
+    color: #ff7b00 !important;
+    text-shadow: 0 0 5px rgba(255, 123, 0, 0.3);
+}
+
+.weui-icon-checked:before {
+    color: var(--text-tertiary) !important;
+}
+
+/* 信息内容区域 */
+.itc.c3 {
+    background: transparent !important;
+    padding: 10px !important;
+    margin-bottom: 0 !important;
+    border-radius: var(--radius-md) !important;
+}
+
+.f14 {
+    display: flex;
+    color: var(--text-primary) !important;
+}
+
+.c9 {
+    color: var(--text-tertiary) !important;
+    font-size: 12px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* 已购买状态样式 - 红橙调 */
+[style*="color:#16a34a"] {
+    color: var(--primary-dark) !important;
+    background: rgba(255, 123, 0, 0.08) !important;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+    margin-top: 4px;
+    font-weight: 500;
+    border: 1px solid rgba(255, 123, 0, 0.25);
+}
+
+/* 选择时长标题 */
+.weui-cells__title.main_color {
+    font-weight: 700 !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    color: var(--text-primary) !important;
+    font-size: 20px !important;
+    padding-left: 15px;
+    border-left: 3px solid #ff7b00;
+    display: inline-block;
+    background: none;
+    -webkit-text-fill-color: initial;
+    color: var(--text-primary) !important;
+}
+
+/* 时长选择容器 */
+.cl {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid var(--border-card) !important;
+    border-radius: var(--radius-lg) !important;
+    margin: 15px !important;
+    padding: 15px !important;
+    box-shadow: var(--shadow-md);
+}
+
+/* 时长选项项 */
+.z {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.z:last-child {
+    margin-bottom: 0;
+}
+
+.z .weui-cell {
+    background: rgba(255,245,235,0.7) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+    padding: 16px !important;
+    transition: all 0.2s;
+}
+
+.z .weui-cell:hover {
+    border-color: #ff7b00 !important;
+    box-shadow: var(--shadow-sm);
+}
+
+/* 价格显示 - 红橙 */
+[style*="color:#2888ff"] {
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    color: var(--primary-dark) !important;
+    font-weight: 700 !important;
+}
+
+/* 购买按钮 - 红橙渐变 */
+.fix-bottom {
+    position: relative !important;
+    margin-top: 30px !important;
+    margin-bottom: 65px !important;
+    padding: 0 15px;
+}
+
+.weui-btn.weui-btn_primary.stt {
+    width: 100% !important;
+    height: 56px !important;
+    border-radius: 60px !important;
+    background: var(--primary-gradient) !important;
+    border: none !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    color: white !important;
+    box-shadow: var(--shadow-red) !important;
+    transition: all 0.2s !important;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.weui-btn.weui-btn_primary.stt:active {
+    transform: scale(0.96);
+    box-shadow: var(--shadow-red);
+}
+
+/* 滚动条 - 红橙 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fef9f0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff7b00;
+    border-radius: 10px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    #header {
+        height: 70px;
+        padding: 0 15px;
+    }
+    
+    #header-title {
+        font-size: 18px;
+    }
+    
+    .main-content {
+        margin-top: 90px;
+        padding: 15px 0px;
+    }
+    
+    .weui-cells.weui-cells_checkbox.mt0 {
+        max-height: 250px;
+    }
+}
+
+/* 脉冲光效动画 - 红橙 */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(255, 123, 0, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s infinite;
+}
+
+/* 额外细节：选中时长时复选框光效 */
+.weui-check:checked + .weui-icon-checked {
+    filter: drop-shadow(0 0 4px #ff7b00);
+}
+
+/* 信息ID 样式微调 */
+.c9 b {
+    font-weight: 500;
+    color: var(--text-tertiary);
+}
+
+/* 任务描述文字 */
+.weui-cell__bd .f14 div div {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+</style>
+
+<style>
+/* ===== 头部栏暖白珊瑚风格 ===== */
+#header {
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border-bottom: 1px solid rgba(255,200,120,0.35);
+    width: 100%;
+    height: 90px;
+    font-size: 18px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+}
+
+/* 返回按钮样式 */
+#back-button {
+    margin-top: 150px;  
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* 返回按钮文字样式 */
+#back-button span {
+    margin-right: 30px;
+}
+
+/* 标题样式 */
+#header-title {
+    color: var(--text-primary);
+    font-weight: 800;
+    font-size: 20px;
+    margin: 0;
+    margin-top: 30px;
+    background: none;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    color: var(--text-primary) !important;
+}
+</style>
+
+<!-- ========== 新增：引导弹窗样式（白色卡片+红橙渐变） ========== -->
+<style>
+.super-modal-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+.super-modal-container {
+    width: 85%;
+    max-width: 320px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-lg);
+    padding: 24px 20px 30px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    animation: slideUp 0.3s ease;
+}
+.super-modal-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 16px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-red);
+}
+.super-modal-icon svg {
+    width: 36px;
+    height: 36px;
+    fill: white;
+}
+.super-modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    background: none;
+    -webkit-text-fill-color: initial;
+}
+.super-modal-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+.super-modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.super-modal-btn {
+    flex: 1;
+    padding: 12px 0;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    border: none;
+}
+.super-modal-btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: var(--shadow-red);
+}
+.super-modal-btn-primary:active {
+    transform: scale(0.96);
+}
+.super-modal-btn-secondary {
+    background: rgba(255,245,235,0.7);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+}
+.super-modal-btn-secondary:active {
+    background: rgba(255,220,180,0.8);
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+</style>
+<!-- ===================================================== -->
+
+<div id="header" class="tgb-r07-promotion-header" style="margin-top:0px;">
+    <a href="javascript:window.history.go(-1);"><span class="tgb-r07-local-chevron" aria-hidden="true"></span></a>
+    <h1 id="header-title">推广宝超级头条</h1>
+    <div style="width:20px;"></div>
+</div>
+<div class="main-content tgb-r07-promotion-page tgb-r07-super-page" style="margin-top:75px;">
+    <div class="weui-cells weui-cells_checkbox mt0 tgb-r07-project-options" style="border-radius:20px;margin:0px;overflow-y:scroll;">
+        <!--{loop $dalist $_k $_v}-->
+        <div class="pr">
+            <label class="weui-cell weui-check__label" for="super_proj_{$_k}">
+                <div class="weui-cell__hd"><input type="radio" class="weui-check" name="pubid" value="{$_v['id']}" id="super_proj_{$_k}"><span class="weui-icon-checked"></span></div>
+                <div class="weui-cell__bd itc c3" style="padding:10px;border-radius:10px;">
+                    <div class="f14" style="display:flex;flex-direction:column;">
+                        <div style="line-height:20px;">
+                            <b class="c9">[信息ID:{$_v['id']}]</b>
+                            <!--{if $_v['super_bought']}-->
+                            <div class="pulse-glow" style="color:var(--primary-dark);margin-top:4px;">[ 已购买超级头条，{eval echo dgmdate($_v['super_endtime'])}到期 ]</div>
+                            <!--{/if}-->
+                            <div style="margin-top:8px;color:var(--text-secondary);line-height:1.5;">{echo cutstr(strip_tags($_v['description']), 60)}</div>
+                        </div>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <!--{/loop}-->
+        <!--{if !$dalist}--><div style="text-align:center;padding:40px;color:var(--text-tertiary);font-size:16px;">暂无有效项目，请先发布信息</div><!--{/if}-->
+    </div>
+    <div class="weui-cells__title main_color">选择时长</div>
+    <div class="weui-cells weui-cells_checkbox mt0 cl tgb-r07-package-options" style="margin:15px;border-radius:20px;">
+        <!--{loop $packages_with_discount $pkg}-->
+        <label class="weui-cell weui-check__label z" for="super_days_{$pkg['days']}">
+            <div class="weui-cell__hd"><input type="radio" class="weui-check" name="days" value="{$pkg['days']}" id="super_days_{$pkg['days']}" {if $pkg['days']==3}checked{/if}><span class="weui-icon-checked"></span></div>
+            <div class="weui-cell__bd c3">
+                <div class="f14"><span style="font-size:18px;font-weight:700;color:var(--text-primary);">{$pkg['days']}天</span>
+                <span style="font-size:18px;font-weight:700;margin-left:15px;color:var(--primary-dark);">
+                <!--{if $pkg['has_discount']}--><s style="font-size:12px;color:var(--text-tertiary);margin-right:8px;">{$pkg['original_price']}元</s> {$pkg['discount_price']}元<!--{else}-->{$pkg['original_price']}元<!--{/if}--></span></div>
+            </div>
+        </label>
+        <!--{/loop}-->
+    </div>
+    <div class="fix-bottom mt10" style="margin-bottom:100px;"><input type="button" class="weui-btn weui-btn_primary stt" style="margin-bottom:100px;" value="立即购买" id="super_buy_btn"></div>
+</div>
+
+<!-- ========== 修改：增强 AJAX 回调，支持引导弹窗 ========== -->
+<script>
+$(document).ready(function(){
+    // 自定义美观弹窗函数
+    function showGuideModal(jumpUrl) {
+        // 移除已存在的弹窗
+        $('.super-modal-mask').remove();
+        var modalHtml = `
+            <div class="super-modal-mask">
+                <div class="super-modal-container">
+                    <div class="super-modal-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                    </div>
+                    <div class="super-modal-title">需要先购买普通头条</div>
+                    <div class="super-modal-desc" style="text-align:left;">购买超级头条前需要保持任意1个项目购买了普通头条且未过期</div>
+                    <div class="super-modal-buttons">
+                        <button class="super-modal-btn super-modal-btn-secondary" id="modal_cancel">取消</button>
+                        <button class="super-modal-btn super-modal-btn-primary" id="modal_confirm">立即购买</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        $('body').append(modalHtml);
+        // 绑定事件
+        $('#modal_confirm').on('click', function() {
+            window.location.href = jumpUrl;
+        });
+        $('#modal_cancel').on('click', function() {
+            $('.super-modal-mask').remove();
+        });
+        // 点击遮罩关闭
+        $('.super-modal-mask').on('click', function(e) {
+            if ($(e.target).hasClass('super-modal-mask')) {
+                $(this).remove();
+            }
+        });
+    }
+
+    $('#super_buy_btn').on('click', function(){
+        var pubid = $('input[name="pubid"]:checked').val();
+        var days = $('input[name="days"]:checked').val();
+        if(!pubid){layer.msg('请选择要推广的项目');return;}
+        if(!days){layer.msg('请选择套餐');return;}
+        var formdata = new FormData();
+        formdata.append('formhash', '{FORMHASH}');
+        formdata.append('pubid', pubid);
+        formdata.append('days', days);
+        $.ajax({
+            type: 'post',
+            url: 'plugin.php?id=tb_toutiao&modac=super_main&submodac=fabu',
+            data: formdata,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success: function(res){
+                if(res.rs != 200){
+                    // 检查是否需要显示引导弹窗（后端返回格式：错误信息|跳转URL）
+                    if(res.msg && res.msg.indexOf('|') > 0){
+                        var parts = res.msg.split('|');
+                        var errMsg = parts[0];
+                        var jumpUrl = parts[1];
+                        // 调用自定义弹窗
+                        showGuideModal(jumpUrl);
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                } else {
+                    window.location.href = res.msg;
+                }
+            },
+            error: function(){layer.msg('网络错误，请稍后重试');}
+        });
+    });
+});
+</script>
+<!-- =================================================== -->
+<link rel="stylesheet" href="source/plugin/tb_toutiao/static/tgb-r07/promotion-light-grid-r07.css?20260727-r07-a1">
+</body>
+</html>
