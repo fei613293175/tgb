@@ -74,7 +74,9 @@ evidence/
 
 - 首包实体机反馈：`evidence/R01/android/device/PHYSICAL_DEVICE_FEEDBACK_20260726.md`
 - 首包截图：`evidence/R01/android/device/R01-first-apk-loading-feedback-20260726.jpg`
+- 去除顶部进度条实体机复验：`evidence/R01/android/device/NO_PROGRESS_RETEST_20260726.md`
 - 服务器 AAPT/APKSigner/SHA-256 原始报告：`evidence/R01/android/server/`
 - 去除顶部进度条的服务器重建：`evidence/R01/android/server-no-progress/SERVER_BUILD_RESULT_20260726.md`
 - GitHub Actions 首次失败与修复：`evidence/R01/android/github-actions/RUN_30191417131_FAILURE.md`
+- GitHub Actions 第二次失败与修复：`evidence/R01/android/github-actions/RUN_30191460571_FAILURE.md`
 - GitHub Actions 首个全绿 run：待修复重跑后补入 `evidence/R01/android/github-actions/`

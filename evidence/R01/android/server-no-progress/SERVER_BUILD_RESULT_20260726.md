@@ -25,7 +25,7 @@
 - `onProgressChanged`
 - `progressBarStyleHorizontal`
 
-因此该 APK 不包含首包截图所示的原生顶部线性页面加载进度实现。最终视觉通过仍需负责人覆盖安装后截图确认。
+因此该 APK 不包含首包截图所示的原生顶部线性页面加载进度实现。负责人随后完成实体机复验并确认该进度条已经消失，结果 PASS；见 `../device/NO_PROGRESS_RETEST_20260726.md`。
 
 ## 原始报告
 
@@ -46,4 +46,3 @@ keystore 与四个签名环境变量保存在服务器 root-only 私有目录，
 2. `20260726T143400+0800`：签名环境固定指向 `/run/tgb-signing`，首次通用脚本挂载到 `/signing`，`validateSigningRelease` 正确停止。
 
 修复为向镜像 entrypoint 直接传 `-lc`，并把 root-only 私有目录只读挂载到 `/run/tgb-signing`。未关闭或绕过签名验证。
-

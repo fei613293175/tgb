@@ -69,7 +69,7 @@ android:
   server_build_id: 20260726T143800+0800
   native_top_loading_progress_visible: false
   github_actions_repository: https://github.com/fei613293175/tgb
-  github_actions_status: RUN_30191417131_FAILED_FIX_PREPARED
+  github_actions_status: RUN_30191460571_FAILED_SETUP_ACTION_FIX_PREPARED
 
 completed:
   - R00 production read-only source and database baseline
@@ -89,10 +89,10 @@ completed:
   - first server APK physically installed, launched and reached the H5 site
   - physical-device blue native loading bar feedback recorded and source fix implemented
   - replacement no-progress signed Release rebuilt on server and copied to the local Desktop
+  - replacement APK physically verified with the native top progress bar absent
 
 not_completed:
   - GitHub Actions first clean run and artifact review
-  - replacement APK physical-device confirmation that the top progress bar is gone
   - Android device photo upload and external-payment return tests
   - H5 visual implementation R02 through R09
   - controlled-write fixtures for each high-risk page family

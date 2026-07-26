@@ -180,7 +180,12 @@
 ## L-036 GitHub Android runner 不保证 sdkmanager 裸命令在 PATH
 
 - 现象：首个 Actions run 在 Android SDK 安装步骤以退出码 127 停止，runner 有 `$ANDROID_HOME`，但无法直接执行 `sdkmanager`。
-- 规则：从 `$ANDROID_HOME/cmdline-tools/**/bin/sdkmanager` 定位并断言可执行文件；`yes | sdkmanager --licenses` 需单独取管道中 sdkmanager 的退出码，不能用 `|| true` 吞错。前序失败没有产物时 Artifact 只警告，避免二次错误遮蔽根因。
+- 初步处理：曾尝试从 `$ANDROID_HOME/cmdline-tools/**/bin/sdkmanager` 定位并断言可执行文件，但第二次 run 证明 runner 可能根本未预装 cmdline-tools；最终规则由 L-037 加固。前序失败没有产物时 Artifact 只警告，避免二次错误遮蔽根因。
+
+## L-037 runner 没有 cmdline-tools 时不要继续猜路径
+
+- 现象：在 `$ANDROID_HOME/cmdline-tools` 递归寻找 `sdkmanager` 的第二次 CI 尝试仍找不到可执行文件，以退出码 1 停止。
+- 规则：runner 缺少命令行工具时使用固定完整 commit SHA 的 `android-actions/setup-android` v4 安装官方 Command-line Tools，并在 Action 输入中锁定平台/Build Tools；不要再假定预装目录结构。
 
 ## 可复用优点
 
