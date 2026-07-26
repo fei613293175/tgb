@@ -6,6 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $manifest = Join-Path $root 'MANIFEST_SHA256.txt'
+. (Join-Path $PSScriptRoot 'manifest-canonical.ps1')
 $excludedPrefixes = @(
     '.git/',
     'ci-artifacts/',
@@ -93,7 +94,7 @@ function Test-Manifest {
             $failures += "文件缺失：$relative"
             continue
         }
-        $actual = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+        $actual = (Get-CanonicalManifestHash -Path $path -RelativePath $relative).ToUpperInvariant()
         if ($actual -ne $expected) {
             $failures += "哈希不匹配：$relative"
         }

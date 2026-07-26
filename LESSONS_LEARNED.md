@@ -312,6 +312,15 @@
   执行与截图。清理残留进程、保留失败结论，按 D-020 将设备专属证据留在累计
   门禁；不得恢复 GitHub Actions 自动测试或伪造 App 截图。
 
+## L-057 交接 manifest 必须跨 CRLF/LF 保持同一语义哈希
+
+- 现象：Windows 工作树的 `gradlew.bat` 和依赖校验 XML 含 CRLF/混合行尾，
+  Git archive 按 `.gitattributes` 导出 LF；直接哈希工作树字节会让本机通过、
+  干净导出失败。
+- 规则：manifest 对文本文件先将 CRLF 规范化为 LF，再计算 SHA-256；明确登记
+  二进制扩展，重建和验证共用同一函数。关版必须把归档文件放在验证根目录外，
+  再用干净 Git 导出执行 verify 和 drift-audit。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

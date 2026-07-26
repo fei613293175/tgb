@@ -4,6 +4,7 @@ $ErrorActionPreference = 'Stop'
 $root = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $manifest = Join-Path $root 'MANIFEST_SHA256.txt'
 $rootPrefix = $root.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+. (Join-Path $PSScriptRoot 'manifest-canonical.ps1')
 
 $excludedPrefixes = @(
     '.git/',
@@ -35,7 +36,7 @@ $lines = Get-ChildItem -LiteralPath $root -Recurse -File |
     Sort-Object FullName |
     ForEach-Object {
         $relative = $_.FullName.Substring($rootPrefix.Length).Replace('\', '/')
-        $hash = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        $hash = Get-CanonicalManifestHash -Path $_.FullName -RelativePath $relative
         "$hash  $relative"
     }
 
