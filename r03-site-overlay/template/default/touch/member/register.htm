@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>推广宝 - 注册账号</title>
+    <link rel="stylesheet" href="/source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-r03.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-light-grid-r03.css?v=20260726-r03">
+    <script src="/source/plugin/tb_cus_base/static/js/jquery-3.3.1.min.js"></script>
+</head>
+{eval $hhidu = getcookie('hhidu')}
+<body class="tgb-auth-page tgb-auth-page-register font-sans bg-bg text-sec min-h-screen flex flex-col items-center justify-center p-5 relative">
+
+    <div class="tgb-auth-grid" aria-hidden="true"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast-wrap">
+        <i class="fa fa-check-circle text-pri text-lg"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="tgb-auth-shell w-full max-w-md relative z-10 flex flex-col gap-6">
+        <!-- Logo区域 -->
+        <div class="tgb-auth-brand text-center mb-2">
+            <div class="tgb-auth-brand-row">
+                <img class="tgb-auth-brand-mark" src="/source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg" alt="">
+                <span>推广宝</span>
+            </div>
+            <h2 class="text-xl font-bold text-sec">创建您的账户</h2>
+         
+        </div>
+
+        <!-- 主卡片 -->
+        <div class="bg-white rounded-3xl p-6 shadow-card border border-border">
+            <!-- 邀请信息卡片 -->
+            <div class="bg-orange-50/50 rounded-2xl p-4 mb-6 border border-orange-100">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-xl bg-pri flex items-center justify-center text-white text-lg shadow-btn">
+                        <i class="fa fa-user-plus"></i>
+                    </div>
+                    <span class="font-bold text-sec text-base">欢迎注册推广宝</span>
+                </div>
+                <div class="border-t border-orange-100 pt-3">
+                    <div class="text-sm text-muted">
+                        邀请人ID: <span class="text-pri font-bold text-base">{$hhidu}</span>
+                    </div>
+                    <p class="text-xs text-muted mt-1.5">请仔细确认上级是否正确，如果上级UID不显示必须重新扫码，否则无上级！</p>
+                </div>
+            </div>
+
+            <!-- 注册表单 -->
+            <form method="post" autocomplete="off" name="register" id="registerform" action="member.php?mod={$_G[setting][regname]}">
+                <input type="hidden" name="regsubmit" value="yes" />
+                <input type="hidden" name="formhash" value="{FORMHASH}" />
+                <!--{eval $dreferer = str_replace('&amp;', '&', dreferer());}-->
+                <input type="hidden" name="referer" value="$dreferer" />
+                <input type="hidden" name="activationauth" value="{if $_GET[action] == 'activation'}$activationauth{/if}" />
+                <input type="hidden" name="agreebbrule" value="$bbrulehash" id="agreebbrule" checked="checked" />
+                <!--{if $_G['setting']['sendregisterurl']}-->
+                <input type="hidden" name="hash" value="$_GET[hash]" />
+                <!--{/if}-->
+
+                <!-- 昵称输入 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">设置昵称</label>
+                    <input type="text"
+                           id="username"
+                           name="{$_G['setting']['reginput']['username']}"
+                           placeholder="设置您的昵称(最多7个字)"
+                           class="input-field"
+                           onblur="checkuser()"
+                           autocomplete="off">
+                    <p id="username_error" class="text-danger text-xs mt-1.5 hidden"></p>
+                </div>
+
+                <!-- 手机号输入 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">手机号码</label>
+                    <input type="tel"
+                           id="pnumber"
+                           name="pnumber"
+                           placeholder="请输入手机号（乱填无法登录）"
+                           class="input-field"
+                           pattern="[0-9]*"
+                           inputmode="numeric"
+                           maxlength="11"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                           autocomplete="off">
+                    <p id="errorinfo" class="text-danger text-xs mt-1.5 hidden"></p>
+                </div>
+
+                <!-- 密码输入 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">设置密码</label>
+                    <input type="password"
+                           id="pwd1"
+                           name="{$_G['setting']['reginput']['password']}"
+                           placeholder="最好包含字母和数字（至少6位）"
+                           class="input-field"
+                           autocomplete="off">
+                </div>
+
+                <!-- 确认密码 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">确认密码</label>
+                    <input type="password"
+                           id="pwd2"
+                           name="{$_G['setting']['reginput']['password2']}"
+                           placeholder="请再次输入密码"
+                           class="input-field"
+                           autocomplete="off">
+                </div>
+
+                <!-- 协议同意 -->
+                <div class="flex items-start gap-2 mb-6">
+                    <label class="tgb-checkbox-hit" for="check1">
+                        <input id="check1" type="checkbox" class="w-4 h-4 mt-0.5 accent-pri flex-shrink-0">
+                    </label>
+                    <span class="text-sm text-muted leading-relaxed">
+                        我已阅读并同意
+                        <a href="m/xy.html" class="text-pri font-medium underline">《服务协议》</a>
+                        与
+                        <a href="m/yszc.html" class="text-pri font-medium underline">《隐私政策》</a>
+                    </span>
+                </div>
+
+                <!-- 注册按钮 -->
+                <button type="submit" onclick="return checkxieyi()" class="btn-primary">
+                    立即注册 <i class="fa fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 其他功能选项 -->
+        <div class="flex items-center gap-3 my-1">
+            <div class="flex-1 h-px bg-border"></div>
+            <span class="text-muted text-xs font-medium">其他功能</span>
+            <div class="flex-1 h-px bg-border"></div>
+        </div>
+        <div class="flex justify-center gap-8">
+            <a href="member.php?mod=logging&action=login" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-sign-in"></i>
+                </div>
+                <span class="text-xs font-medium">登录账号</span>
+            </a>
+            <a href="member.php?mod=register" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <span class="text-xs font-medium">注册账号</span>
+            </a>
+            <a href="https://kkkk.zz-yihao.com/chat/index?noCanClose=1&token=61d4c34590b608c3b43da92e5258edcf&kefu_id=12" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <span class="text-xs font-medium">在线客服</span>
+            </a>
+        </div>
+
+        <!-- 底部登录提示 -->
+        <div class="text-center text-sm text-muted pb-4">
+            已有账号？
+            <a href="member.php?mod=logging&action=login" class="text-pri font-semibold">
+                立即登录 <i class="fa fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 验证码弹窗 -->
+    <div id="mask" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] hidden"></div>
+    <div id="ntcmsg_popmenu" class="fixed z-[120] hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm">
+        <div class="bg-white rounded-3xl p-6 shadow-xl border border-border">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl bg-pri flex items-center justify-center text-white text-lg shadow-btn">
+                    <i class="fa fa-shield"></i>
+                </div>
+                <h3 class="font-bold text-lg text-sec">安全验证</h3>
+            </div>
+            <p class="text-muted text-sm mb-4">请完成以下验证以继续</p>
+
+            <!--{eval $secqaacheck=1;}-->
+            <!--{subtemplate common/seccheck}-->
+
+            <div class="flex gap-3 mt-5">
+                <button type="button" onclick="closehongbao()" class="flex-1 py-3 rounded-full border border-border bg-white text-muted font-semibold text-sm active:bg-gray-50 transition-colors">取消</button>
+                <button type="button" id="wqformdialog" onclick="submitsendmsg()" class="flex-1 py-3 rounded-full bg-pri text-white font-bold text-sm shadow-btn active:scale-95 transition-transform">验证</button>
+            </div>
+        </div>
+    </div>
+
+    <!--{eval updatesession();}-->
+    <!--{hook/global_footer_mobile}-->
+
+    <script src="source/plugin/tb_cus_base/static/layer/layer.js">
+    </script>
+    <script>
+        var jq = jQuery.noConflict();
+    </script>
+
+    <script>
+        let isUsernameValid = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 始终启用按钮，不依赖昵称检测结果
+            const submitBtn = document.querySelector('.btn-primary');
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+
+            window.showError = function(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.classList.remove('hidden');
+                const inputId = elementId.replace('_error', '');
+                const inputElement = document.getElementById(inputId);
+                if (inputElement) {
+                    inputElement.classList.add('input-error');
+                }
+            };
+
+            window.clearError = function(elementId) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = '';
+                errorElement.classList.add('hidden');
+                const inputId = elementId.replace('_error', '');
+                const inputElement = document.getElementById(inputId);
+                if (inputElement) {
+                    inputElement.classList.remove('input-error');
+                }
+            };
+
+            // 该函数仅更新检测状态，不再影响按钮的禁用/启用
+            window.updateSubmitButton = function(valid) {
+                isUsernameValid = valid;
+                // 按钮状态不再根据检测结果改变，始终保持可用
+            };
+
+            const usernameInput = document.getElementById('username');
+            usernameInput.addEventListener('input', function() {
+                clearError('username_error');
+                updateSubmitButton(false); // 仅重置内部状态
+            });
+        });
+
+        function checkuser() {
+            const usernameInput = document.getElementById('username');
+            const usernameVal = usernameInput.value.trim();
+
+            if (usernameVal === '') {
+                showError('username_error', '请输入昵称');
+                updateSubmitButton(false);
+                return;
+            }
+            if (usernameVal.length > 7) {
+                showError('username_error', '昵称不能超过7个字符');
+                updateSubmitButton(false);
+                return;
+            }
+
+            const url = `plugin.php?id=tb_cus_mobilereg:checkname&username=${encodeURIComponent(usernameVal)}`;
+            fetch(url, {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error(`请求失败，状态码：${response.status}`);
+                    return response.text();
+                })
+                .then(resp => {
+                    const response = resp.trim();
+                    if (response) {
+                        showError('username_error', response);
+                        updateSubmitButton(false);
+                    } else {
+                        clearError('username_error');
+                        updateSubmitButton(true);
+                    }
+                })
+                .catch(error => {
+                    showError('username_error', '昵称检测失败，请重试');
+                    updateSubmitButton(false);
+                    console.error('检测请求异常：', error);
+                });
+        }
+
+        function checkxieyi() {
+            // 不再依赖 isUsernameValid 阻止提交，仅保留昵称非空校验
+            if (document.getElementById('username').value.trim() === "") {
+                layer.msg("请输入正确昵称", { shade: 0.01 });
+                document.getElementById('username').focus();
+                return false;
+            }
+            if (!checkPhonenew(document.getElementById('pnumber').value)) {
+                layer.msg("请输入正确手机号", { shade: 0.01 });
+                document.getElementById('pnumber').focus();
+                return false;
+            }
+            var pwd1 = document.getElementById('pwd1').value;
+            var pwd2 = document.getElementById('pwd2').value;
+            if (pwd1.trim() === "") {
+                layer.msg("请输入密码", { shade: 0.01 });
+                document.getElementById('pwd1').focus();
+                return false;
+            }
+            if (pwd1.length < 6) {
+                layer.msg("密码不能小于6位", { shade: 0.01 });
+                document.getElementById('pwd1').focus();
+                return false;
+            }
+            if (pwd1 !== pwd2) {
+                layer.msg("两次密码输入不一致", { shade: 0.01 });
+                document.getElementById('pwd2').focus();
+                return false;
+            }
+            if (!document.getElementById('check1').checked) {
+                layer.msg("请阅读并同意服务协议和隐私政策", { shade: 0.01 });
+                return false;
+            }
+            document.getElementById('registerform').classList.add('submitting');
+            const submitButton = document.querySelector('.btn-primary');
+            const originalHTML = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 正在提交...';
+            submitButton.disabled = true;
+            setTimeout(() => {
+                document.getElementById('registerform').submit();
+            }, 500);
+            return false;
+        }
+
+        function checkPhonenew(phone) {
+            return /^1[3|4|5|6|7|8|9]\d{9}$/.test(phone);
+        }
+
+        function sendsmsnew() {
+            if (!checkPhonenew(document.getElementById('pnumber').value)) {
+                layer.msg("请输入正确手机号", { shade: 0.01 });
+                document.getElementById('pnumber').focus();
+                return false;
+            }
+            const getCodeBtn = document.getElementById('getcode1');
+            if (getCodeBtn && getCodeBtn.classList.contains('counting')) {
+                return;
+            }
+            document.getElementById('mask').classList.remove('hidden');
+            document.getElementById('mask').style.display = 'block';
+            document.getElementById('ntcmsg_popmenu').classList.remove('hidden');
+            document.getElementById('ntcmsg_popmenu').style.display = 'block';
+        }
+
+        function closehongbao() {
+            document.getElementById('mask').style.display = 'none';
+            document.getElementById('mask').classList.add('hidden');
+            document.getElementById('ntcmsg_popmenu').style.display = 'none';
+            document.getElementById('ntcmsg_popmenu').classList.add('hidden');
+        }
+
+        function submitsendmsg() {
+            closehongbao();
+            const getCodeBtn = document.getElementById('getcode1');
+            if (!getCodeBtn) return;
+            let countdown = 60;
+            getCodeBtn.disabled = true;
+            getCodeBtn.classList.add('counting');
+            getCodeBtn.innerHTML = `${countdown}s后重新发送`;
+            const timer = setInterval(() => {
+                countdown--;
+                getCodeBtn.innerHTML = `${countdown}s后重新发送`;
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    getCodeBtn.disabled = false;
+                    getCodeBtn.classList.remove('counting');
+                    getCodeBtn.innerHTML = '发送验证码';
+                }
+            }, 1000);
+            layer.msg("验证码已发送，请注意查收", { shade: 0.01, icon: 1 });
+        }
+    </script>
+
+    {template tb_cus_mobilereg:captcha}
+</body>
+</html>

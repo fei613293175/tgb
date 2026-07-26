@@ -1,0 +1,473 @@
+{
+  "viewport": "430x932",
+  "pages": [
+    {
+      "id": "PUBLIC-LOGIN",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": 44,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [
+        "16px"
+      ],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 2,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "推广宝 - 登录账号",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": 44,
+      "visibleInputMinHeight": 48,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 1,
+          "image": 1,
+          "other": 0,
+          "script": 2,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 8
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "PUBLIC-REGISTER",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": 44,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [
+        "16px"
+      ],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 2,
+      "scroll": [
+        430,
+        1098
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "推广宝 - 注册账号",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": 44,
+      "visibleInputMinHeight": 48,
+      "redacted": true,
+      "assetSummary": {
+        "byKind": {
+          "font": 1,
+          "image": 3,
+          "other": 3,
+          "script": 5,
+          "stylesheet": 5,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 17
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "PUBLIC-SMS-LOGIN",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": 44,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [
+        "16px"
+      ],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 2,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "推广宝 - 验证码登录",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": 44,
+      "visibleInputMinHeight": 48,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 1,
+          "image": 2,
+          "other": 3,
+          "script": 5,
+          "stylesheet": 5,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 16
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-SERVICE-AGREEMENT",
+      "bodyBackground": "rgba(241, 241, 241, 0.58)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        4842
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "平台用户服务协议",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-PRIVACY",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "MKT用户隐私政策",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-USER-AGREEMENT",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "MKT用户协议",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-CONSUMER-AGREEMENT",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "MKT用户消费协议",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-ANTI-FRAUD",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "用户防骗提醒与免责声明",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-MEMBER-AGREEMENT",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "会员充值开通用户协议",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": null,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 0,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 5
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-HELP",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "推广宝 - 帮助中心",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": 44,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 4,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 9
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    },
+    {
+      "id": "LEGAL-ABOUT",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "checkboxHitMinHeight": null,
+      "client": [
+        430,
+        932
+      ],
+      "inputFonts": [],
+      "onlineUiCdn": 0,
+      "overflowX": false,
+      "r03Styles": 1,
+      "scroll": [
+        430,
+        932
+      ],
+      "sensitiveVisibleInput": false,
+      "title": "推广宝 - 关于我们",
+      "viewport": [
+        430,
+        932
+      ],
+      "visibleControlMinHeight": 44,
+      "visibleInputMinHeight": null,
+      "redacted": false,
+      "assetSummary": {
+        "byKind": {
+          "font": 0,
+          "image": 4,
+          "other": 0,
+          "script": 1,
+          "stylesheet": 4,
+          "video": 0
+        },
+        "inlineSvgCount": 0,
+        "totalCount": 9
+      },
+      "badHttp": 0,
+      "networkFailures": 0,
+      "exceptions": 0,
+      "logErrors": 0
+    }
+  ]
+}

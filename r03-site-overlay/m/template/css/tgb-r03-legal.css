@@ -1,0 +1,284 @@
+/* TG Light Grid R03 legal, help and about pages */
+:root {
+    --tg-bg: #f4f7fb;
+    --tg-surface: #ffffff;
+    --tg-surface-soft: #edf3fa;
+    --tg-ink: #0e1b2a;
+    --tg-text: #405166;
+    --tg-muted: #718096;
+    --tg-border: #d8e1ec;
+    --tg-primary: #2764ff;
+    --tg-mint: #19b8a9;
+    --tg-violet: #7657ff;
+}
+
+html,
+body {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: var(--tg-text) !important;
+    background: var(--tg-bg) !important;
+    background-image: none !important;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui,
+        -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box !important;
+    max-width: 100%;
+    letter-spacing: 0 !important;
+}
+
+html > div[style*="font-size:16px"] {
+    width: 100% !important;
+    max-width: 760px !important;
+    min-height: 100vh;
+    margin: 0 auto !important;
+    padding: calc(24px + env(safe-area-inset-top)) 16px
+        calc(32px + env(safe-area-inset-bottom)) !important;
+    color: var(--tg-text) !important;
+    background: var(--tg-surface) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.75 !important;
+    overflow-wrap: anywhere;
+}
+
+html > div[style*="font-size:16px"] > div:first-child {
+    margin: 0 0 24px !important;
+    padding-bottom: 16px !important;
+    color: var(--tg-ink) !important;
+    border-bottom: 1px solid var(--tg-border);
+    font-size: 22px !important;
+    line-height: 30px !important;
+    font-weight: 600 !important;
+    text-align: left !important;
+}
+
+html > div[style*="font-size:16px"] font {
+    color: inherit !important;
+    font-family: inherit !important;
+    line-height: inherit !important;
+}
+
+html > div[style*="font-size:16px"] > font:first-of-type {
+    display: block;
+    margin: 0 0 20px !important;
+    padding: 12px 14px;
+    color: var(--tg-muted) !important;
+    background: var(--tg-surface-soft);
+    border-left: 3px solid var(--tg-mint);
+    border-radius: 0 6px 6px 0;
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
+
+html > div[style*="font-size:16px"] > div:last-child {
+    margin-top: 28px;
+    color: var(--tg-muted) !important;
+    font-size: 14px !important;
+}
+
+#root,
+.mobile___3touz {
+    width: 100% !important;
+    min-height: 100vh;
+    color: var(--tg-text) !important;
+    background: var(--tg-bg) !important;
+}
+
+.top-content___1-px4 {
+    height: auto !important;
+    min-height: 168px !important;
+    padding: calc(24px + env(safe-area-inset-top)) 16px 24px !important;
+    color: var(--tg-ink) !important;
+    background: var(--tg-surface) !important;
+    background-image: none !important;
+    border-bottom: 1px solid var(--tg-border);
+}
+
+.top-content___1-px4 .logo___2JBdG {
+    margin: 0 auto 12px !important;
+}
+
+.top-content___1-px4 .logo___2JBdG img {
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 12px !important;
+}
+
+.top-content___1-px4 .title___vZvj6 {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: var(--tg-ink) !important;
+    font-size: 22px !important;
+    line-height: 30px !important;
+    font-weight: 600 !important;
+}
+
+.top-content___1-px4 .desc___1bUF- {
+    margin-top: 6px;
+    color: var(--tg-muted) !important;
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] {
+    margin: 16px !important;
+    color: var(--tg-text) !important;
+    background: var(--tg-surface) !important;
+    border: 1px solid var(--tg-border);
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] > div {
+    min-height: 52px;
+    padding: 14px 16px !important;
+    color: var(--tg-ink) !important;
+    background: var(--tg-surface) !important;
+    border-color: var(--tg-border) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] > div[onclick] {
+    cursor: pointer;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] > div[onclick]:active {
+    background: var(--tg-surface-soft) !important;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] > div font {
+    color: var(--tg-muted) !important;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] > div[style*="border: 0.3px"] {
+    min-height: 1px !important;
+    height: 1px !important;
+    margin: 0 16px !important;
+    padding: 0 !important;
+    background: var(--tg-border) !important;
+    border: 0 !important;
+}
+
+.mobile___3touz > div[style*="background-color:#212330"] img {
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 8px 0 0 !important;
+    vertical-align: -5px !important;
+}
+
+.mobile___3touz .invite-container {
+    position: static !important;
+    width: auto !important;
+    margin: 16px !important;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom)) !important;
+    color: var(--tg-muted) !important;
+    background: transparent !important;
+}
+
+.mobile___3touz .invite-container a {
+    min-height: 44px;
+    padding: 8px 4px;
+    color: var(--tg-primary) !important;
+    line-height: 28px !important;
+}
+
+.mobile___3touz .invite-container > div:last-child {
+    color: var(--tg-muted) !important;
+}
+
+.rule-popup {
+    top: 50% !important;
+    width: calc(100% - 32px) !important;
+    max-width: 430px !important;
+    height: min(70vh, 560px) !important;
+    padding: 16px !important;
+    color: var(--tg-text) !important;
+    background: var(--tg-surface) !important;
+    border: 1px solid var(--tg-border);
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(12, 27, 51, 0.14) !important;
+    line-height: 1.75 !important;
+}
+
+.rule-popup > div {
+    height: 100% !important;
+    padding-right: 4px;
+    overflow-y: auto !important;
+}
+
+.rule-popup p,
+.rule-popup font,
+.rule-popup div {
+    color: var(--tg-text) !important;
+    font-family: inherit !important;
+}
+
+.close-popup {
+    bottom: -56px !important;
+    width: 44px;
+    height: 44px;
+    margin: 0 !important;
+    color: #fff;
+    background: var(--tg-primary);
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 44px;
+    text-align: center;
+}
+
+.close-popup::before {
+    content: "×";
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.close-popup img {
+    display: none !important;
+}
+
+#mask {
+    background: rgba(14, 27, 42, 0.38) !important;
+    backdrop-filter: none !important;
+}
+
+img,
+video,
+iframe,
+table {
+    height: auto;
+    max-width: 100% !important;
+}
+
+a:focus-visible,
+[onclick]:focus-visible,
+.close-popup:focus-visible {
+    outline: 3px solid rgba(39, 100, 255, 0.24);
+    outline-offset: 2px;
+}
+
+@media (max-width: 374px) {
+    html > div[style*="font-size:16px"] {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    .mobile___3touz > div[style*="background-color:#212330"],
+    .mobile___3touz .invite-container {
+        margin-right: 12px !important;
+        margin-left: 12px !important;
+    }
+}

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+        <link rel="shortcut icon" type="image/x-icon" href="./template/img/logo.png">
+        <link rel="stylesheet" type="text/css" href="./template/css/umi.css">
+        <link rel="stylesheet" type="text/css" href="./template/css/download.css">
+        <script src="./template/js/jquery-1.9.1.min.js"></script>
+        <link rel="stylesheet" href="./template/css/main.css">
+        <link rel="stylesheet" href="./template/css/tgb-r03-legal.css?v=20260726-r03">
+        <title>推广宝 - 帮助中心</title>
+    </head>
+    <style>
+    body {
+            background-image: url('/img/bg-dt1.gif');
+            background-size: 100%; /* 背景图片覆盖整个容器 */
+            background-repeat: no-repeat; /* 背景图片不重复 */
+            font-size: 0.35rem!important;
+            background-color: #000;
+            width: 100%;
+        }
+  .fixed-buttons {
+
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+  .button {
+        display: inline-block;
+        border: 2px solid #000;
+        height: 45px;
+        width: 220px;
+        background-color: rgba(0, 0, 0, 0.2);
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 50px;
+        margin-top: 75px;
+        background-image: linear-gradient(90deg, #3f3cff 1%, #5468ff 99%);
+      }
+
+#mask {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px); /* 这是关键属性，用于模糊背景 */
+    background-color: rgba(0, 0, 0, 0.5);
+    z - index: 9998;
+}
+
+  .rule-popup {
+        display: none;
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding:10px;
+ 
+        z-index: 9999;
+        border-radius: 10px;
+        text-align: center;
+      }
+  .close-popup {
+        position: absolute;
+        bottom: -50px;
+        margin-top:40px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: pointer;
+      }
+        /* 按钮容器样式 */
+   .invite-container {
+      position: fixed;
+      margin-left:0px;
+      height: 90px;
+      width: 100%;
+      bottom: 0;
+      background-color: #fff0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      box-shadow: 0 -2px 5px 0 rgba(0, 0, 0,.1);
+    }
+         /* 邀请按钮样式 */
+   .invite-button {
+      color: #fff;
+      background-image: linear-gradient(90deg, #3f3cff 1%, #5468ff 99%);
+      padding: 20px 15px;
+      border-radius: 30px;
+
+      width: 40%;
+  margin-left:-0px;
+      margin-right:30px;
+      margin-top: 0px;
+      text-align: center;
+      font-weight: 550;
+      font-size: 20px;
+      line-height: 10px;
+    }
+    </style>
+    
+    
+    <body _c_t_j1="1">
+        <div id="root">
+            <div class="mobile___3touz">
+                <div class="top-content___1-px4">
+                    <div class="title___vZvj6" style="font-size:35px;margin-top:-45px;">
+                        帮助中心
+                    </div>
+                    
+                    <div class="desc___1bUF-" style="color:#fff;font-size:18px;">
+                        共建万物互联 全民价值共享
+                    </div>
+                </div>
+          
+                
+         <div style="background-color:#212330;border-radius:15px;height:auto;margin:15px;margin-top:25px;">
+    <div style="font-size:18px;color:#12e4c4;text-align:left;padding:15px;display:inline-block;vertical-align:middle;font-weight:500;"> <img style="width:26px;height:26px;margin-top:-5px;display:inline-block;vertical-align:middle;" src="https://img.imehui.com/20250205/173868805867a2463a26263.png"> 关于平台常见问题解答</div>   
+    
+                 <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">1、创脉引擎是做什么的？</div>
+    
+    
+    <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup1')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">2、创脉引擎是怎么规划的？</div>
+             
+             
+             <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+            <div onclick="showRulePopup('rule-popup2')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">3、创脉引擎的愿景是什么？</div>     
+           
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+        <div onclick="showRulePopup('rule-popup3')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">4、创脉引擎有哪些业务模式规划？</div>
+             
+      
+               
+               
+                </div>
+                
+  
+             <div style="background-color:#212330;border-radius:15px;height:auto;margin:15px;margin-bottom:60px;">
+    <div style="font-size:18px;color:#12e4c4;text-align:left;padding:15px;display:inline-block;vertical-align:middle;font-weight:500;"> <img style="width:25px;height:25px;margin-top:-5px;display:inline-block;vertical-align:middle;" src="https://img.imehui.com/20250205/173868868267a248aa96b51.png"> 关于平台机制的问题解答</div>      
+    
+       
+             <div onclick="showRulePopup('rule-popup7')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">1、怎么发布自己的项目进行推广？</div> 
+             
+           
+          
+             
+             <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+     <div onclick="showRulePopup('rule-popup11')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">3、是否可以解除邀请关系？</div>     
+          
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup12')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">4、怎么绑定下级好友？</div>     
+  
+           
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup14')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">6、怎么修改个人信息？</div>       
+            
+             <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup15')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">7、怎么反馈问题或建议？</div>     
+           
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+     <div onclick="showRulePopup('rule-popup16')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">8、怎么查看全部团队成员？</div>     
+                 
+  
+            <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup18')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">9、创脉引擎“星脉”板块的信息真实吗？</div>        
+
+   
+                    <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+             <div onclick="showRulePopup('rule-popup21')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">10、注册时收不到验证码</div> 
+             
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+            <div onclick="showRulePopup('rule-popup22')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">11、验证码正确还是提示不正确</div>    
+             
+             <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+            <div onclick="showRulePopup('rule-popup23')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">12、登录忘记密码或多次提示密码错误</div>     
+          
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+             <div onclick="showRulePopup('rule-popup24')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">13、如何注销账号</div>        
+             
+             <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+     <div onclick="showRulePopup('rule-popup27')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">14、为什么封号，能否解封</div>     
+          
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup26')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">15、下级消费的弹窗什么时候到账</div>     
+           
+           <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup28')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">16、在平台消费了能否申请退款</div>     
+           
+            <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup30')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">17、如何查看团队下的好友是否完成实名？</div> 
+    
+     <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup111')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">18、一人可以实名认证几个账号？</div>    
+    
+     <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup222')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">19、一个手机可以绑定几个账号？</div>  
+    
+         <div style="border: 0.3px solid #3f3f3f; margin:0 15px;"></div>
+    <div onclick="showRulePopup('rule-popup333')" style="font-size:16px;color:#fff;text-align:left;padding:15px;">20、为什么提示登录设备异常，怎么解决？</div>    
+    <div class="invite-container">
+        
+      <a class="invite-button price-desc-btn" href="https://rmxq666.imehui.com/forum.php?mod=forumdisplay&fid=72&mobile=2">
+        意见反馈
+      </a>
+      <div onclick="showRulePopup('rule-popup20')" class="invite-button price-desc-btn">
+        联系客服
+      </div>
+    </div>
+        
+ 
+
+    <div id="rule-popup" class="rule-popup"style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+        
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                         创脉引擎是国内首家基于区块链技术打造的共益型社交电商、人脉获客、信息推广平台，也是首家真正践行共益商业模式的科技型创新平台，计划将平台90%利润收入共享给全平台用户，共同打造一个全民共同富裕的高新技术标杆平台。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+                
+         
+
+    </div>
+    
+        <div id="rule-popup1" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+ 创脉引擎致力于打造一个共建共管、共创共有、共享共益的创新平台，让全球普通用户都能够零门槛、零投资进行互联网创业，和官方专业团队一起，共同参与和见证一家伟大的互联网公司从创业到成功的全过程，最终和全球用户共享平台商业价值和财富，助力共同富裕，引领商业向善，重新定义商业领域的成功。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup1')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup2" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+      创脉引擎的愿景是成为一家人人受益、值得尊敬的社交电商、人脉获客、信息推广平台，践行商业向善精神，成为共益商业模式标杆示范企业。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup2')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup3" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+      创脉引擎产品规划有短视频、直播、电商、社交、游戏、教育、生活等核心业务功能；技术规划有区块链、元宇宙、AI等前沿技术；战略规划有中文版、外文版(覆盖全球主要国家和地区）；商业路径规划为：共建共管→成功上市→共享财富→创新探索→资产并购→共建共管，如此良性循环。平台未来还将利用共益模式的独特优势，基于底层核心的区块链技术，积极探索尝试更多创新产品和业务规划。
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup3')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup4" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         创脉引擎基于区块链技术限量发行核心积分粒子积分，用于平台全生态应用场景，粒子积分限量发行1000万亿，其中70%免费发放给早期用户，30%用于激励内容创作用户。</br> 粒子积分可通过每天完成平台任务轻松赚取，邀请好友注册并实名可以获得粒子积分收益，邀请越多收益越多。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup4')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    <div id="rule-popup5" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                          星脉积分是创脉引擎基于区块链技术产生的核心积分，也是量化平台用户行为价值的最终积分，星脉积分限量发放1万亿个。
+星脉积分持有越多证明贡献度越大、财富值越大、星脉积分可随时在平台兑换商品使用。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup5')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+    <div id="rule-popup6" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                   打开“创脉引擎APP”——底部导航点击“星脉”——右下角点击“发布”图标，选择需要发布推广的信息类型，根据流程编辑文字、上传图片等，发布信息需要审核，可在“我的”页面，右上角“发布管理”进入进行查看管理信息。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup6')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+   <div id="rule-popup7" class="rule-popup"style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+              打开“创脉引擎APP”——底部导航点击“星脉”——右下角点击“发布”图标，选择需要发布推广的信息类型，根据流程编辑文字、上传图片等，发布信息需要审核，可在“我的”页面，右上角“发布管理”进入进行查看管理信息。
+
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup7')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+        <div id="rule-popup8" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                      打开“创脉引擎APP”，点击底部“创脉引擎”，进入星球界面，点击“立即启动”，星球则开始运转24小时，24小时后重新启动，星球运行时，每1小时释放1次粒子积分漂浮在“星球”周围，粒子积分有效期“24小时”，超过24小时不收取则销毁。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup8')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup9" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                   每日参与升级星球可获取星脉积分。
+
+
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup9')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+
+    
+    
+        <div id="rule-popup11" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+          平台不支持解除上下级关系。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup11')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    <div id="rule-popup12" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+   
+①、好友通过扫描你的二维码注册。</br>
+②、好友注册后，没有师傅的，可以在“邀请好友”页面，复制你的邀请码发送给他，对方进入“团队中心”、点击：“绑邀请码”，即可绑定。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup12')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+    <div id="rule-popup13" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+  
+1、邀请直推、间推、团队好友注册并完成实名认证，每新增1名实名好友，可在“团队中心”开1个粒子红包。</br>
+2、好友在平台消费，可获得相应的元宝订单提成。</br>
+3、积极参与平台推出的福利任务、不定时获得等。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup13')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+        <div id="rule-popup14" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                 进入“我的”页面，点击右上角“设置图标”，“个人资料”
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup14')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup15" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                 你可以进入“我的”页面，找到“帮助中心”并进入提交反馈问题。也可以进入“我的”页面，找到“星脉社区”进入创脉引擎社区服务中心发布相关帖子。
+
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup15')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup16" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                   APP内点击底部“我的”——“团队中心”——“我的好友”
+
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup16')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+  
+    <div id="rule-popup18" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+              
+该版块内容由互联网用户自行发布，用户的行为动机无法了解，建立合作之前，请务必签订合同，创脉引擎作为信息共享平台，虽然严格审核内容，但仍然无法完全对信息的真实性及准确性做出判断，因此不承担任何财产损失和法律责任，若您不同意该提示，请关闭页面且不要在本平台拓展任何商业合作，否则造成的任何损失由您个人承担，您继续使用即代表同意该风险。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup18')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+
+    <div id="rule-popup20" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+    <div style="overflow-y: scroll;height: 100%;">
+        <p style="font-size:20px;color:#000;text-align:center;font-weight:500;margin-bottom:15px;">
+            </br>
+            QQ客服</br><font style="font-size:16px;">加群后有问题联系管理员</font></br>
+            <img id="randomImage" style="border-radius:5px;width:100%; height:100%;margin-bottom:10px;margin-top:10px;">
+            <div style="padding:15px;">
+            </div>
+        </p >
+    </div>
+    <span class="close-popup" onclick="hideRulePopup('rule-popup20')"><img
+            style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+            src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+</div>
+
+<script>
+    // 定义图片数组
+    var imageUrls = [
+        "https://img.imehui.com/20250616/1750049634684fa36299920.jpg",
+        "https://img.imehui.com/20250510/1746870299681f201bf124e.jpg"
+    ];
+
+    // 随机选择一张图片的索引
+    var randomIndex = Math.floor(Math.random() * imageUrls.length);
+
+    // 获取图片元素并设置随机选择的图片源
+    var imageElement = document.getElementById("randomImage");
+    imageElement.src = imageUrls[randomIndex];
+</script>
+
+   <div id="rule-popup21" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+   您可以根据以下三种情况来检查。</br>
+1、检查您的手机号码是否输入有误；</br>
+2、检查您的手机号是否正常使用中（是否停机、没信号等）;</br>
+3、检查验证码是否被安全软件（如360安全卫士、百度卫士）拦截了。</br>
+
+4、境外以及港澳台或某些手机号或虚拟运营商的手机号可能收不到验证码，例如某些167开头的手机号，建议你换个手机号注册。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup21')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+        <div id="rule-popup22" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+               由于版本问题，可能会导致验证码个别出错。也有可能网速较慢，导致收到验证码超时，您可以过一分钟再次申请验证码，如还是不成功，请联系我们的QQ客服或者微信客服人员协助处理。</br>
+
+a、在APP【我的】-【帮助中心】-【点击联系客服】;
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup22')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup23" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                   忘记密码，或者多次输入密码，系统提示密码错误而无法登陆怎么办？</br>
+
+您可以在登录页面点击验证码登录，输入手机号获取验证码进行登录。
+</br>a、进入平台后在：“我的” “设置”中心修改密码。；
+</br>b、还可以再帮助中心联系客服介入处理。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup23')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    
+        <div id="rule-popup24" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                    我不想使用了，怎么注销账户？</br>
+账号暂时不支持自主注销，一个手机号只能注册一个账号。若需注销，请联系在线客服</br>
+不注销有什么影响？</br>
+
+没有任何影响，平台将会严格保密你的所有信息，绝不透露。</br>
+
+app首页右下角-【我的】-【帮助中心】
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup24')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+    <div id="rule-popup26" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                        实行T0到账，也就是实时消费，随后10分钟左右陆续入账。
+                            </p>
+        </div>
+        
+        
+        <span class="close-popup" onclick="hideRulePopup('rule-popup26')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+    <div id="rule-popup28" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                出商城商品外因质量问题可换货外，其余消费不可退款，平台大部分属于虚拟服务平台，同时不对任何项目的推广效果而作出承诺，不承诺能达到你的预期，也不对任何消费作出一成不变的保证，他会根据平台的发展运营作出灵活的改变，总而言之，所有的消费一旦付款，除了掉单而该有的服务没有生效或到账以外，不支持以任何理由退款，因此在消费前，请仔细确认我们的服务是否符合你的需求。
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup28')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+    
+     <div id="rule-popup29" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+                         
+                 创脉引擎将收益分为两个账户进行储存收益，团队账户储存好友注册拆出的红包、好友每日上线拆出的红包，以及邀请好友达标奖励的余额；除此之外的收益则储存在综合账户。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup29')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+    
+       <div id="rule-popup27" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+               为了提高平台的信息质量,严厉打击违法和虚假信息,保护有了用户的根本利益和体验,有了特制定《平台信息审核规定》的内容,对于违反审核规定的内容,都是一律禁止的。平台审核人员是经过多层审批才会做出封号或禁止部分功能决定,若不是出现严重违规都不会采取该处理,一旦封号或功能禁止某个功能,则不得解封!</br>
+
+</br>包含但不限于以下内容平台是禁止发布：
+
+</br>1、无意义信息
+
+</br>1)主题不明或描述不清,可能会引起用户浏览体验。
+
+</br>2)在标题和内容里堆积关键词,严重影响用户浏览体验的信息。
+
+</br>3)标题、內容、图片之间没有任何关联,明显偏离主题的信息。
+
+</br>4)无法确定意图或影响用户浏览的信息,如:输入无意义的文字、符号、表情等
+
+</br>2、多账号操作，同一用户注册多个账户发布信息,或者使用接码平台恶意注册多个账号发布信息,则视为刷屏信息,一经检查发现均全部封禁帐号处理
+
+</br>3、违反微信使用规范信息
+
+</br>1)以骗取钱财为目的的欺诈广告(例如网赚、中奖类信息);虚假夸大减肥、增高、丰胸、美白效果但明显无效的保健品、药品、食品类广告;推广销售假冒伪劣商品的广告信息
+
+</br>2)诱导分享、诱导关注类内容信息,诸如关注后对用户有奖励,包括但不限于:邀请好友拆礼盒,集赞,分享可增加一次抽奖机会、互粉红包等。
+
+</br>3)销售外挂刷粉软件或帮助人爆粉,诸如一键转发、微信多开、自动爆粉、自动添加附件人、人脉客源神器等
+
+</br>4)三级及以上层级分销信息
+
+</br>5)二元期权类诈骗金融违法信息,(如微交易、微盘)
+
+</br>6)虚假宣传帮他清货、推广,拉拢代理人头等疑似传销
+
+</br>4、违法/虚假夸张信息
+
+</br>1)提供的电话、QQ、微信等联系方式根本不存在,信息一律删除。
+
+</br>2)标题、内容、图片不相符或是物品的图片与实物严重不符,删除信息。
+
+</br>3)其他刻意隐瞒事实的行为,情节严重者直接删除信息封号。
+
+</br>4)内容夸张,诸如一天带你如月上万等信息,信息一律删除
+
+</br>5)违反广告法,诸如全球第一、最大、最强等字眼或图片信息,删除信
+
+</br>5违法信息
+
+</br>非法信息是指涉嫌欺诈或违反社会道德规范或法律法规的信息。有了审核人员如发现此类信息可以在不事先通知的情况下删除,查封当前账号及相关账号,并要求发布者澄清事实,必要时有了将会全力协助公安机关进行查处。
+
+</br>1)侮辱性语言信息:粗口或侮辱、恐吓、中伤他人、庸俗淫秽的词句
+
+</br>2)侵犯他人隐私。如在未经过当事人同意的情况下,利用他人的联系方式(电话、QQ、微信等等)进行信息发布的行为
+
+</br>3)冒充他人、商品来源非法、刻意隐瞒事实、欺诈等行为的信息
+
+</br>4)发布了不良信息,诸如传播网络赚钱、坐等收成、涉及非法传销、三级及三级以上分销、金字塔系统、多层市场推广以及"快速致富计划"等通过发展上下线的传销方式等,拉人头发展会员服务等传销模式。
+
+</br>此类信息一律删除情节严重查封当前账号及相关账号,必要时有了将会全力协助公安机关进行查处
+
+</br>其他违法行为
+
+</br>1、所有的发布内容不得包含下述的任一信息
+
+</br>(1)煽动抵抗或违反中华人民共和国宪法、法律或行政法规执行的
+
+</br>(2)煽动颠覆政府或社会主义制度的;
+
+</br>(3)煽动分裂国家、破坏祖国统一的;
+
+</br>(4)煽动民族仇恨、民族歧视,破坏民族团结的
+
+</br>(5)制造谎言或歪曲事实、散布谣言、破坏社会秩序的
+
+</br>(6)宣扬封建迷信、传播有性挑逗性质的材料、涉及发布疑似色情、赌博、暴力或凶杀的信息
+
+</br>(7)宣扬恐怖主义或唆使他人犯罪;公开侮辱他人或歪曲事实诽谤他人的
+
+</br>(8)损害国家机关声誉的;
+
+</br>(9)其它违反中华人民共和国宪法、法律和行政法规的内容。
+
+</br>5、分类不当
+</br>
+用户审核协议最终解释权归平台所有。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup27')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+       <div id="rule-popup30" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+               进入：我的——我的团队——我的好友，在好友列表看到显示了“实”的勋章图标好友，就是完成实名的好友。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup30')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+  <div id="rule-popup31" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+               我们运用先进的AI数据算法，根据实时用户注册量、用户活跃量、平台运营收入情况、链能积分产量、星脉积分产量和星脉积分交易市场等诸多维度来进行计算得出的，用于体现星脉积分在平台此时此刻的服务兑换价值参考，但不作为最终收益保证。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup31')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+  <div id="rule-popup32" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+              关于星脉积分性质的郑重公告
+ </br>
+尊敬的创脉引擎平台用户：
+  </br>
+您好！
+  </br>
+近期，平台留意到部分用户对粒子积分、星脉积分的性质存在一些误解，为了维护平台的健康生态，保障全体用户的合法权益，现特发布本公告，予以郑重声明：
+  </br>
+一、粒子积分、星脉积分的本质 </br>
+粒子积分、星脉积分仅为创脉引擎平台推出的一种积分形式，其唯一用途是在平台内部兑换购买相关服务以及商品，平台展示的星脉积分价值，仅仅体现的是星脉积分兑换平台特定服务或商品时的比例关系，与任何法定货币毫无关联，不具备法定货币的价值尺度、流通手段等职能。
+  </br>
+二、平台规则与限制
+  </br>
+粒子积分、星脉积分的获取途径主要是用户通过完成平台设定的任务等方式免费奖励获得，这是平台为回馈用户支持与参与所提供的福利机制。
+  </br>
+在平台规则允许的范围内，用户之间可以进行星脉积分的赠送操作，此功能旨在方便当部分用户积分不足而又需兑换平台特定服务时，能够向其他有余力的用户请求友好赠送，以提升用户体验，但所有交互行为必须在创脉引擎平台内完成。
+  </br>
+三、严正警示 </br>
+创脉引擎平台坚决不支持、不允许任何形式的星脉积分私下交易、买卖及流通行为，此类行为不仅违反平台、国家的的使用规则以及相关法律法规，还可能引发一系列不可控的风险，包括但不限于个人信息泄露、遭遇诈骗、财产损失等。若用户执意进行私下交易等违规操作，由此产生的一切后果均由涉事用户自行承担，平台对此不承担任何责任，同时平台保留对违规账号采取包括但不限于警告、封禁等处罚措施的权利。
+  </br>
+请各位用户务必遵守平台规则，正确认识和使用粒子积分、星脉积分，携手共创一个公平、有序、健康的创脉引擎平台环境。如有任何疑问或建议，欢迎随时联系平台客服。
+  </br>
+感谢您一直以来对创脉引擎平台的信任与支持！
+  </br>
+创脉引擎平台运营团队
+
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup32')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+  <div id="rule-popup111" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+              一人只能实名一个账号，如因自行注册多号实名认证失败，预付实名费用不退款。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup111')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+
+
+  <div id="rule-popup222" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+               一个手机只能绑定一个创脉引擎账号。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup222')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+  <div id="rule-popup333" class="rule-popup" style="width:80%;text-align:left;height:350px;z-index:999;line-height:30px;">
+<div style="overflow-y: scroll;height: 100%;">
+         <p style="font-size:14px;color:#000;">
+              出现设备异常提示原因：平台实行一人一号，一机一号的原则。
+ </br>
+第一种情况：你的账号之前使用其他手机登录该账号并绑定了其他手机，但你现在试图在现在这台手机登录。 </br>
+第二种情况：你现在登录这个账号的手机被其他账号绑定了。 </br>
+
+解决办法： </br>
+第一种情况：你需要使用首次登录这个账号的手机登录这个账号。 </br>
+第二种情况：你需要换一台没有被其他账号绑定的手机进行登录，或者使用首次绑定该账号的手机进行登录。 </br>
+
+能否解绑手机？ </br>
+账号或手机被绑定后无特殊情况，30内无法解绑，30天后可联系客服解绑1次。
+                            </p>
+        </div>
+        <span class="close-popup" onclick="hideRulePopup('rule-popup333')"><img
+                style="width:35px; height:35px;background-color:#fff0;border-radius:50%;margin-top:30px;"
+                src="https://img.imehui.com/20250203/173858123167a0a4ef40db8.png"></span>
+    </div>
+
+
+<div id="mask"></div>
+
+
+
+
+
+
+    <script>
+     function showRulePopup(popupId) {
+    var popup = document.getElementById(popupId);
+    var mask = document.getElementById('mask');
+    if (popup && mask) {
+        popup.style.display = 'block';
+        mask.style.display = 'block';
+    }
+}
+function hideRulePopup(popupId) {
+    var popup = document.getElementById(popupId);
+    var mask = document.getElementById('mask');
+    if (popup && mask) {
+        popup.style.display = 'none';
+        mask.style.display = 'none';
+    }
+}
+
+    </script>

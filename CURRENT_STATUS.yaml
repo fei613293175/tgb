@@ -2,9 +2,9 @@ schema_version: 1
 project_id: TG-H5-UI-REDESIGN
 product_name: 推广宝
 snapshot_date: 2026-07-26
-current_release: R03
+current_release: R04
 release_status: IN_PROGRESS
-active_task_id: TASK-R03-001
+active_task_id: TASK-R04-001
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -29,12 +29,12 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: R02_CLOSED_R03_STAGING_REQUIRED
-  owner_release: R02
-  snapshot_id: 20260726T155049+0800
-  site_root: /www/staging/tg-h5-ui-r02/site
-  private_evidence_root: /www/staging/tg-h5-ui-r02/private
-  listener: 127.0.0.1:18082
+  status: R03_CLOSED_R04_STAGING_REQUIRED
+  owner_release: R03
+  snapshot_id: 20260726T192810+0800
+  site_root: /www/staging/tg-h5-ui-r03/site
+  private_evidence_root: /www/staging/tg-h5-ui-r03/private
+  listener: 127.0.0.1:18083
   access: SSH_TUNNEL_ONLY
   allowed_methods:
     - GET
@@ -43,11 +43,13 @@ staging:
   final_get_status: 200
   production_code_unchanged: true
   production_stable_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
-  r02_shared_shell_deploy_id: 20260726T184740+0800
-  r02_shared_shell_archive_sha256: bb77e85e27607c130ba7303874f4f1ab5e72f4564775d187a1fd0d7ca739d042
-  r02_overlay_files: 19
-  r02_overlay_hash_parity: PASS
-  auth_visual_fixture: ACTIVE_BRIDGE_OFF
+  r03_auth_legal_deploy_id: 20260726T204235+0800
+  r03_auth_legal_archive_sha256: 87c52be0333750dbfcb7f7cd69b0d12ad34e5c506b63c0601abedf56e6c944b4
+  r03_artifact_manifest_sha256: 8245062f87b3b87fe50cfdae648887d7f125ab12ef1c0218a5095a262115f614
+  r03_overlay_files: 14
+  r03_overlay_hash_parity: PASS
+  r03_controlled_auth_run: 20260726T203757+0800
+  auth_test_fixture: REMOVED
   mobile_ua_test_mode: OFF
 
 design:
@@ -85,7 +87,7 @@ android:
   github_actions_status: RETIRED_AFTER_RUN_30192427296_PASS
   github_actions_artifact_id: 8629065339
   github_actions_artifact_sha256: fc113dd032f6d54485dc4918ec8f1396cfa3503643063af3ac2081f4a7785880
-  ci_visual_review: NATIVE_PASS_LEGACY_H5_BRAND_PENDING_R02_R03
+  ci_visual_review: NATIVE_PASS_H5_R02_R03_COMPLETE_R04_R09_PENDING
   owner_device_feedback_mode: ASYNC_DO_NOT_WAIT
 
 completed:
@@ -127,10 +129,18 @@ completed:
   - R02 44px search touch target 16px input and Light Grid scrollbar runtime gates
   - R02 Android inset ownership instrumentation source and Debug build gates
   - R02 development closeout and global drift audit
+  - R03 isolated loopback staging snapshot preserving the closed R02 shared shell
+  - R03 login registration and SMS login Light Grid redesign with unchanged form protocols
+  - R03 local compiled authentication CSS local icon font and early local jQuery loading
+  - R03 legal help and about reading surfaces with legal and business copy frozen
+  - R03 11 pages at 360x800 390x844 and 430x932 with no overflow CDN or console errors
+  - R03 controlled password and mocked-SMS authentication success and failure tests
+  - R03 temporary fixture and POST window removed with production stable hash unchanged
+  - R03 development closeout and global drift audit
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 visual implementation R03 through R09 (R03 now active)
+  - H5 visual implementation R04 through R09 (R04 now active)
   - controlled-write fixtures for each high-risk page family
   - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)
@@ -141,7 +151,7 @@ blockers:
     affects: cumulative external payment end-to-end release gate before R09 production release
   - id: B-LEGAL-01
     description: legacy MKT legal wording requires owner or legal decision before replacement
-    affects: R03 legal copy only
+    affects: future legal copy replacement and production review only; R03 visual closeout is complete
 
 next_task_file: NEXT_TASK.yaml
 hard_gates_file: 06_HARD_GATES.md

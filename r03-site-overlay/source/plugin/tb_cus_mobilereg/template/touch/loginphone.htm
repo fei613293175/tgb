@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>推广宝 - 验证码登录</title>
+    <link rel="stylesheet" href="/source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-r03.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-light-grid-r03.css?v=20260726-r03">
+    <script src="/source/plugin/tb_cus_base/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body class="tgb-auth-page tgb-auth-page-sms font-sans bg-bg text-sec min-h-screen flex flex-col items-center justify-center p-5 relative">
+
+    <div class="tgb-auth-grid" aria-hidden="true"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast-wrap">
+        <i class="fa fa-check-circle text-pri text-lg"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <!-- 加载骨架屏 -->
+    <div id="loading-skeleton" class="fixed inset-0 z-[999] flex items-center justify-center bg-bg transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-14 h-14 rounded-full bg-pri flex items-center justify-center shadow-btn mx-auto">
+                <i class="fa fa-circle-o-notch fa-spin text-white text-2xl"></i>
+            </div>
+            <p class="mt-3 text-muted text-sm">正在加载...</p>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="tgb-auth-shell w-full max-w-md relative z-10 flex flex-col gap-6">
+        <!-- 顶部返回与标题 -->
+        <div class="tgb-auth-topbar flex items-center justify-between mb-2">
+            <a href="javascript:history.back()" class="w-10 h-10 rounded-full bg-white border border-border flex items-center justify-center shadow-sm active:scale-95 transition-transform text-sec">
+                <i class="fa fa-arrow-left text-base"></i>
+            </a>
+            <h1 class="text-xl font-bold text-sec">验证码登录</h1>
+            <div class="w-10 h-10"></div> <!-- 占位保持居中 -->
+        </div>
+
+        <!-- 主卡片 -->
+        <div class="bg-white rounded-3xl p-6 shadow-card border border-border">
+            <form id="loginform" method="post" action="plugin.php?id=tb_cus_mobilereg:mobilelogin">
+                <input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
+                <input type="hidden" name="action" value='login' />
+                <input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php?mobile=2<!--{/if}-->" />
+                <input type="hidden" name="fastloginfield" value="username">
+                <input type="hidden" name="cookietime" value="2592000">
+                <input type="hidden" id="codetype" value="login">
+
+                <!-- 手机号输入 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">手机号码</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted font-medium text-sm z-10">+86</span>
+                        <input type="tel"
+                               id="pnumber"
+                               name="pnumber"
+                               placeholder="请输入11位手机号码"
+                               class="input-field pl-16"
+                               pattern="[0-9]*"
+                               inputmode="numeric"
+                               maxlength="11"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                               autocomplete="off">
+                    </div>
+                </div>
+
+                <!-- 验证码输入 -->
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">验证码</label>
+                    <div class="flex gap-3">
+                        <input type="text"
+                               id="mobilecode"
+                               name="mobilecode"
+                               placeholder="8位验证码"
+                               class="code-input flex-1"
+                               maxlength="8"
+                               autocomplete="off">
+                        <button type="button"
+                                id="getcode1"
+                                onclick="sendsmsnew()"
+                                class="btn-code">
+                            <span id="code-text">获取验证码</span>
+                        </button>
+                    </div>
+                    <p id="errorinfo" class="text-danger text-xs mt-1.5 hidden"></p>
+                </div>
+
+                <!-- 协议同意 -->
+                <div class="flex items-start gap-2 mb-6">
+                    <label class="tgb-checkbox-hit" for="check1">
+                        <input type="checkbox" id="check1" class="w-4 h-4 mt-0.5 accent-pri flex-shrink-0" checked>
+                    </label>
+                    <span class="text-sm text-muted leading-relaxed">
+                        已阅且同意
+                        <a href="m/xy.html" class="text-pri font-medium underline">【服务协议】</a>
+                        +
+                        <a href="m/yszc.html" class="text-pri font-medium underline">【隐私政策】</a>
+                    </span>
+                </div>
+
+                <!-- 登录按钮 -->
+                <button type="submit" onclick="return checkxieyi()" class="btn-primary">
+                    <i class="fa fa-sign-in"></i> 立即登录
+                </button>
+            </form>
+        </div>
+
+        <!-- 快速导航 -->
+        <div class="flex items-center gap-3 my-1">
+            <div class="flex-1 h-px bg-border"></div>
+            <span class="text-muted text-xs font-medium">快捷入口</span>
+            <div class="flex-1 h-px bg-border"></div>
+        </div>
+        <div class="flex justify-center gap-8">
+            <a href="member.php?mod=logging&action=login" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-sign-in"></i>
+                </div>
+                <span class="text-xs font-medium">账号登录</span>
+            </a>
+            <a href="member.php?mod=register" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <span class="text-xs font-medium">注册账号</span>
+            </a>
+            <a href="https://kkkk.zz-yihao.com/chat/index?noCanClose=1&token=61d4c34590b608c3b43da92e5258edcf&kefu_id=12" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <span class="text-xs font-medium">在线客服</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- 验证码弹窗 -->
+    <div id="mask" class="fixed inset-0 modal-overlay z-[2000] hidden"></div>
+    <div id="ntcmsg_popmenu" class="fixed z-[2100] hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-sm">
+        <div class="modal-panel p-6">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-xl bg-pri flex items-center justify-center text-white text-lg shadow-btn">
+                    <i class="fa fa-shield"></i>
+                </div>
+                <h3 class="font-bold text-lg text-sec">安全验证</h3>
+            </div>
+            <p class="text-muted text-sm mb-4">请完成验证以获取验证码</p>
+            <div class="mb-4">
+                <div class="wq_pic_code_icon">
+                    <!--{eval $secqaacheck=1;}-->
+                    <!--{subtemplate common/seccheck}-->
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="closehongbao()" class="flex-1 py-3 rounded-full border border-border bg-white text-muted font-semibold text-sm active:bg-gray-50 transition-colors">取消</button>
+                <button type="button" id="wqformdialog" onclick="submitsendmsg()" class="flex-1 py-3 rounded-full bg-pri text-white font-bold text-sm shadow-btn active:scale-95 transition-transform">确认验证</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QQ客服弹窗 -->
+    <div id="qq-service-mask" class="fixed inset-0 modal-overlay z-[2200] hidden" onclick="closeQQService()"></div>
+    <div id="qq-service-modal" class="fixed z-[2300] hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] max-w-sm">
+        <div class="modal-panel p-6 relative">
+            <button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-gray-100 border border-border flex items-center justify-center text-muted hover:text-sec transition-colors" onclick="closeQQService()">
+                <i class="fa fa-times"></i>
+            </button>
+            <div class="flex flex-col items-center text-center">
+                <div class="w-14 h-14 rounded-2xl bg-pri flex items-center justify-center text-white text-2xl shadow-btn mb-4">
+                    <i class="fa fa-qq"></i>
+                </div>
+                <h3 class="font-bold text-xl text-sec mb-3">联系客服</h3>
+                <div class="bg-orange-50/60 rounded-2xl p-4 w-full border border-orange-100 mb-5">
+                    <p class="text-xs text-muted mb-1">官方交流群</p>
+                    <p class="text-2xl font-extrabold text-pri tracking-wider" id="qq-group-number">244260563</p>
+                </div>
+                <button id="copy-qq-btn" class="btn-outline w-full" onclick="copyQQGroupNumber()">
+                    <i class="fa fa-clipboard"></i> 点击复制群号
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!--{eval updatesession();}-->
+    <!--{hook/global_footer_mobile}-->
+
+    <script src="source/plugin/tb_cus_base/static/layer/layer.js">
+    </script>
+    <script>
+        var jq = jQuery.noConflict();
+    </script>
+
+    <script>
+        var countdown = 120;
+        var countdownTimer = null;
+
+        // 骨架屏隐藏
+        window.addEventListener('load', function() {
+            const skeleton = document.getElementById('loading-skeleton');
+            if (skeleton) {
+                skeleton.style.opacity = '0';
+                setTimeout(() => { skeleton.style.display = 'none'; }, 500);
+            }
+            setTimeout(() => {
+                const phoneInput = document.getElementById('pnumber');
+                if (phoneInput) phoneInput.focus();
+            }, 300);
+        });
+
+        // QQ客服弹窗
+        function showQQService() {
+            document.getElementById('qq-service-modal').classList.remove('hidden');
+            document.getElementById('qq-service-modal').style.display = 'block';
+            document.getElementById('qq-service-mask').classList.remove('hidden');
+            document.getElementById('qq-service-mask').style.display = 'block';
+        }
+
+        function closeQQService() {
+            document.getElementById('qq-service-modal').style.display = 'none';
+            document.getElementById('qq-service-modal').classList.add('hidden');
+            document.getElementById('qq-service-mask').style.display = 'none';
+            document.getElementById('qq-service-mask').classList.add('hidden');
+            const copyBtn = document.getElementById('copy-qq-btn');
+            copyBtn.innerHTML = '<i class="fa fa-clipboard"></i> 点击复制群号';
+            copyBtn.classList.remove('copied');
+        }
+
+        function copyQQGroupNumber() {
+            const qqNumber = document.getElementById('qq-group-number').textContent;
+            const copyBtn = document.getElementById('copy-qq-btn');
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(qqNumber).then(() => {
+                    copyBtn.innerHTML = '<i class="fa fa-check"></i> 已复制到剪贴板';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fa fa-clipboard"></i> 点击复制群号';
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(() => fallbackCopyText(qqNumber, copyBtn));
+            } else {
+                fallbackCopyText(qqNumber, copyBtn);
+            }
+        }
+
+        function fallbackCopyText(text, copyBtn) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                if (document.execCommand('copy')) {
+                    copyBtn.innerHTML = '<i class="fa fa-check"></i> 已复制到剪贴板';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fa fa-clipboard"></i> 点击复制群号';
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                } else {
+                    layer.msg("复制失败，请手动复制", { shade: 0.01, icon: 2 });
+                }
+            } catch (err) {
+                layer.msg("复制失败，请手动复制", { shade: 0.01, icon: 2 });
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // 发送验证码
+        function sendsmsnew() {
+            var phone = document.getElementById('pnumber');
+            if (!checkPhone(phone)) {
+                layer.msg("请输入正确手机号", { shade: 0.01, icon: 2 });
+                jq('#pnumber').focus();
+                return false;
+            }
+            const getCodeBtn = document.getElementById('getcode1');
+            if (getCodeBtn.disabled) return;
+            document.getElementById('mask').classList.remove('hidden');
+            document.getElementById('mask').style.display = 'block';
+            document.getElementById('ntcmsg_popmenu').classList.remove('hidden');
+            document.getElementById('ntcmsg_popmenu').style.display = 'block';
+        }
+
+        function startCountdown() {
+            const getCodeBtn = document.getElementById('getcode1');
+            const codeText = document.getElementById('code-text');
+            getCodeBtn.disabled = true;
+            countdown = 120;
+            countdownTimer = setInterval(function() {
+                countdown--;
+                codeText.textContent = `${countdown}s后重发`;
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    getCodeBtn.disabled = false;
+                    codeText.textContent = "重新发送";
+                }
+            }, 1000);
+        }
+
+        function submitsendmsg() {
+            var phone = document.getElementById('pnumber');
+            if (!checkPhone(phone)) { closehongbao(); return false; }
+            var seccodehash = document.getElementsByName("secqaahash");
+            var seccodehash_val = seccodehash[0].value;
+            var secanswer = document.getElementsByName("secanswer");
+            var secanswer_val = secanswer[0].value;
+            var xmyFORMHASH = "{FORMHASH}";
+            var url = 'plugin.php?id=tb_cus_mobilereg:mobilereg&sendphone=' + phone.value + "&formhash=" + xmyFORMHASH +
+                "&seccodeverify=" + secanswer_val + "&seccodehash=" + seccodehash_val + "&type=login";
+            jq.ajax({
+                url: url,
+                async: false,
+                dataType: 'json',
+                success: function(result) {
+                    closehongbao();
+                    if (result.code == 100) {
+                        startCountdown();
+                        secanswer.value = "";
+                        jq("#errorinfo").text("").hide();
+                        layer.msg("验证码已发送，请注意查收", { shade: 0.01, icon: 1 });
+                    } else {
+                        jq("#errorinfo").text(result.msg).show();
+                        window.setTimeout(function() { window.location.reload(); }, 1000);
+                    }
+                }
+            });
+        }
+
+        function checkPhone(phone) {
+            return /^1[3|4|5|7|8|6|9]\d{9}$/.test(phone.value);
+        }
+
+        function checkxieyi() {
+            var check1 = document.getElementById('check1');
+            if (jq('#pnumber').val().trim() === "") {
+                layer.msg("请输入手机号", { shade: 0.01, icon: 2 });
+                jq('#pnumber').focus();
+                return false;
+            }
+            if (!checkPhone(jq('#pnumber')[0])) {
+                layer.msg("请输入正确手机号", { shade: 0.01, icon: 2 });
+                jq('#pnumber').focus();
+                return false;
+            }
+            if (jq('#mobilecode').val().trim() === "") {
+                layer.msg("请输入验证码", { shade: 0.01, icon: 2 });
+                jq('#mobilecode').focus();
+                return false;
+            }
+            if (!check1.checked) {
+                layer.msg("请阅读并同意服务协议和隐私政策", { shade: 0.01, icon: 2 });
+                return false;
+            }
+            const submitButton = document.querySelector('.btn-primary');
+            submitButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 登录中...';
+            submitButton.disabled = true;
+            setTimeout(() => { document.getElementById('loginform').submit(); }, 1500);
+            return false;
+        }
+
+        function closehongbao() {
+            document.getElementById("ntcmsg_popmenu").style.display = "none";
+            document.getElementById("ntcmsg_popmenu").classList.add('hidden');
+            document.getElementById("mask").style.display = "none";
+            document.getElementById("mask").classList.add('hidden');
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.target.type.includes('button')) {
+                event.preventDefault();
+                document.querySelector('.btn-primary')?.click();
+            }
+        });
+
+        document.getElementById('mobilecode')?.addEventListener('input', function(e) {
+            if (this.value.length === 8) {
+                setTimeout(() => { document.querySelector('.btn-primary').click(); }, 300);
+            }
+        });
+    </script>
+
+    {template tb_cus_mobilereg:captcha}
+</body>
+</html>

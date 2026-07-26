@@ -117,3 +117,26 @@ evidence/
   `evidence/R02/android/INSET_EVIDENCE_STATUS.md`
 - R02 开发关版与全局漂移审计：
   `version-results/R02_RESULT.md`
+
+## 9. R03 认证与法律信息证据
+
+- R03 隔离舞台与生产不变性：
+  `evidence/R03/staging/R03_STAGING_RESULT.md`
+- R03 本地资源、网络和控制台审计：
+  `evidence/R03/network/R03_RESOURCE_AUDIT.md`
+- R03 表单协议、法律正文冻结和受控认证：
+  `evidence/R03/regression/R03_PROTOCOL_AND_AUTH_EQUIVALENCE.md`
+- R03 11 页 x 3 视口运行时和截图审计：
+  `evidence/R03/after/R03_RUNTIME_SCREENSHOT_AUDIT.md`
+- R03 三档机器可读浏览器数据：
+  `evidence/R03/after/R03-BROWSER-360x800.json`、
+  `evidence/R03/after/R03-BROWSER-390x844.json`、
+  `evidence/R03/after/R03-BROWSER-430x932.json`
+- R03 14 文件逐项哈希：
+  `evidence/R03/after/R03-OVERLAY-SHA256.txt`
+- R03 部署、备份和白名单回滚：
+  `evidence/R03/rollback/R03_DEPLOYMENT_ROLLBACK.md`
+- R03 开发关版与全局漂移审计：
+  `version-results/R03_RESULT.md`
+
+注册页三张截图已在保存前将邀请编号替换为 `[已脱敏]`。不得尝试恢复或输出原值。

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>推广宝 - 登录账号</title>
+    <link rel="stylesheet" href="/source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-r03.css?v=20260726-r03">
+    <link rel="stylesheet" href="/source/plugin/xigua_hb/static/tgb-r03/auth-light-grid-r03.css?v=20260726-r03">
+    <script src="/source/plugin/tb_cus_base/static/js/jquery-3.3.1.min.js"></script>
+</head>
+<body class="tgb-auth-page tgb-auth-page-login font-sans bg-bg text-sec min-h-screen flex flex-col items-center justify-center p-5 relative">
+    <div class="tgb-auth-grid" aria-hidden="true"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast-wrap">
+        <i class="fa fa-check-circle text-pri text-lg"></i>
+        <span id="toastMessage">操作成功</span>
+    </div>
+
+    <!-- 加载骨架屏 -->
+    <div id="loading-skeleton" class="fixed inset-0 z-[999] flex items-center justify-center bg-bg transition-opacity duration-500">
+        <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-pri flex items-center justify-center shadow-btn mx-auto">
+                <i class="fa fa-circle-o-notch fa-spin text-white text-2xl"></i>
+            </div>
+            <p class="mt-3 text-muted text-sm">加载中...</p>
+        </div>
+    </div>
+
+    <!-- 主容器 -->
+    <div class="tgb-auth-shell w-full max-w-md relative z-10 flex flex-col gap-6">
+        <!-- Logo区域 -->
+        <div class="tgb-auth-brand text-center mb-2">
+            <div class="tgb-auth-brand-row">
+                <img class="tgb-auth-brand-mark" src="/source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg" alt="">
+                <span>推广宝</span>
+            </div>
+            <h2 class="text-xl font-bold text-sec">登录您的账户</h2>
+       
+        </div>
+
+        <!-- 主卡片 -->
+        <div class="bg-white rounded-3xl p-6 shadow-card border border-border">
+            <form id="loginform" method="post" action="member.php?mod=logging&action=login&loginsubmit=yes&loginhash=$loginhash&mobile=2" onsubmit="{if $_G['setting']['pwdsafety']}pwmd5('password3_$loginhash');{/if}">
+                <input type="hidden" name="formhash" id="formhash" value='{FORMHASH}' />
+                <input type="hidden" name="referer" id="referer" value="<!--{if dreferer()}-->{echo dreferer()}<!--{else}-->forum.php?mobile=2<!--{/if}-->" />
+                <input type="hidden" name="fastloginfield" value="username">
+                <input type="hidden" name="cookietime" value="2592000">
+                <!--{if $auth}-->
+                <input type="hidden" name="auth" value="$auth" />
+                <!--{/if}-->
+
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">手机号</label>
+                    <input type="tel"
+                           id="username"
+                           name="username"
+                           placeholder="请输入注册手机号"
+                           class="input-field"
+                           autocomplete="off"
+                           inputmode="numeric"
+                           pattern="[0-9]*"
+                           maxlength="11"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-sec mb-2">登录密码</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="请输入登录密码"
+                           class="input-field"
+                           autocomplete="off">
+                </div>
+
+                <!-- 协议同意 -->
+                <div class="flex items-start gap-2 mb-6">
+                    <label class="tgb-checkbox-hit" for="check1">
+                        <input id="check1" type="checkbox" checked class="w-4 h-4 mt-0.5 accent-pri flex-shrink-0">
+                    </label>
+                    <span class="text-sm text-muted leading-relaxed">
+                        我已阅读并同意
+                        <a href="m/xy.html" class="text-pri font-medium underline">《服务协议》</a>
+                        与
+                        <a href="m/yszc.html" class="text-pri font-medium underline">《隐私政策》</a>
+                    </span>
+                </div>
+
+                <!-- 登录按钮 -->
+                <button type="submit" onclick="return checkxieyi()" class="btn-primary mb-4">
+                    <i class="fa fa-sign-in"></i> 立即登录
+                </button>
+
+                <!-- 分割线 -->
+                <div class="flex items-center gap-3 my-5">
+                    <div class="flex-1 h-px bg-border"></div>
+                    <span class="text-muted text-xs font-medium">快速登录方式</span>
+                    <div class="flex-1 h-px bg-border"></div>
+                </div>
+
+                <!-- 验证码登录入口 -->
+                <a href="plugin.php?id=tb_cus_mobilereg:mobilelogin" class="btn-outline">
+                    <i class="fa fa-mobile text-xl"></i> 验证码登录
+                </a>
+            </form>
+        </div>
+
+        <!-- 底部操作图标 -->
+        <div class="flex justify-center gap-8 mt-2">
+            <a href="member.php?mod=register" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+                <span class="text-xs font-medium">注册账号</span>
+            </a>
+            <a href="https://qm.suewammes.com/done/app.html" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-download"></i>
+                </div>
+                <span class="text-xs font-medium">下载APP</span>
+            </a>
+            <a href="https://kkkk.zz-yihao.com/chat/index?noCanClose=1&token=61d4c34590b608c3b43da92e5258edcf&kefu_id=12" class="flex flex-col items-center gap-1.5 text-muted hover:text-pri transition-colors">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center shadow-sm text-xl text-pri">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+                <span class="text-xs font-medium">在线客服</span>
+            </a>
+        </div>
+
+        <!-- 底部注册提示 -->
+        <div class="text-center text-sm text-muted mt-2 pb-4">
+            还没有账号？
+            <a href="member.php?mod=register" class="text-pri font-semibold">
+                立即注册 <i class="fa fa-arrow-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+
+    <!--{eval updatesession();}-->
+    <!--{hook/global_footer_mobile}-->
+
+    <script src="source/plugin/tb_cus_base/static/layer/layer.js">
+    </script>
+    <script>
+        var jq = jQuery.noConflict();
+    </script>
+
+    <script>
+        // 骨架屏隐藏
+        window.addEventListener('load', function() {
+            var skeleton = document.getElementById('loading-skeleton');
+            if (skeleton) {
+                skeleton.style.opacity = '0';
+                setTimeout(function() { skeleton.remove(); }, 500);
+            }
+        });
+
+        // 自动聚焦
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var u = document.getElementById('username');
+                if (u) u.focus();
+            }, 350);
+        });
+
+        // 表单验证
+        function checkxieyi() {
+            var check1 = document.getElementById('check1');
+            var username = jq('#username').val().trim();
+            if (username === "") {
+                layer.msg("请输入手机号", { shade: 0.01, icon: 2 });
+                jq('#username').focus();
+                return false;
+            }
+            if (username.length !== 11 || !/^1[3-9]\d{9}$/.test(username)) {
+                layer.msg("请输入正确的手机号码", { shade: 0.01, icon: 2 });
+                jq('#username').focus();
+                return false;
+            }
+            if (jq('#password').val().trim() === "") {
+                layer.msg("请输入密码", { shade: 0.01, icon: 2 });
+                jq('#password').focus();
+                return false;
+            }
+            if (!check1.checked) {
+                layer.msg("请阅读并同意服务协议和隐私政策", { shade: 0.01, icon: 2 });
+                return false;
+            }
+
+            var submitButton = document.querySelector('.btn-primary');
+            var originalHTML = submitButton.innerHTML;
+            submitButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 登录中...';
+            submitButton.disabled = true;
+
+            // 简单进度条
+            var progressDiv = document.createElement('div');
+            progressDiv.style.cssText =
+                'width:100%; height:4px; margin-top:10px; background:#EDE8E2; border-radius:10px; overflow:hidden;';
+            progressDiv.innerHTML =
+                '<div style="height:100%; background:#FF6B35; width:0; border-radius:10px; animation: progressAnim 1.5s forwards;"></div>';
+            submitButton.parentNode.appendChild(progressDiv);
+
+            if (!document.getElementById('progress-style')) {
+                var style = document.createElement('style');
+                style.id = 'progress-style';
+                style.textContent = '@keyframes progressAnim { from { width: 0; } to { width: 100%; } }';
+                document.head.appendChild(style);
+            }
+
+            setTimeout(function() {
+                document.getElementById('loginform').submit();
+            }, 1500);
+
+            return false;
+        }
+
+        // 回车提交
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter' && !event.target.type.includes('button')) {
+                event.preventDefault();
+                var submitBtn = document.querySelector('.btn-primary');
+                if (submitBtn) submitBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,23 +1,22 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
-task_id: TASK-R03-001
-release: R03
+task_id: TASK-R04-001
+release: R04
 status: IN_PROGRESS
-title: 开发公共认证与法律信息页面
+title: 开发首页与发现页面
 
 preconditions:
-  - R02_RESULT.md conclusion is PASS for development closeout
-  - R02 production-stability hash and staging rollback evidence remain valid
-  - create a new R03 staging code and database snapshot from the verified R02 staging baseline
+  - R03_RESULT.md conclusion is PASS for development closeout
+  - R03 production-stability hash staging backup and controlled-auth cleanup remain valid
+  - create a new R04 staging code and database snapshot from the verified R03 staging baseline
   - production stays unchanged and all write windows remain loopback-only and recoverable
-  - no credentials cookies tokens formhash or real identity data enter source evidence or screenshots
+  - no credentials cookies tokens formhash real UID query or private content enter evidence
 
 read_first:
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
   - 04_VISUAL_SYSTEM.md
-  - 11_BRAND_GUIDE.md
   - STYLE_TOKENS.json
   - 02_PAGE_EXPERIENCE_LOG.md
   - 03_PAGE_LEDGER.csv
@@ -25,58 +24,67 @@ read_first:
   - 13_SIDE_EFFECT_TEST_PLAN.md
   - DECISIONS.md
   - LESSONS_LEARNED.md
-  - version-results/R02_RESULT.md
+  - version-results/R03_RESULT.md
 
 scope:
-  - PUBLIC-LOGIN
-  - PUBLIC-REGISTER
-  - PUBLIC-SMS-LOGIN
-  - LEGAL-SERVICE-AGREEMENT
-  - LEGAL-PRIVACY
-  - LEGAL-USER-AGREEMENT
-  - LEGAL-CONSUMER-AGREEMENT
-  - LEGAL-ANTI-FRAUD
-  - LEGAL-MEMBER-AGREEMENT
-  - LEGAL-HELP
-  - LEGAL-ABOUT
+  - AUTH-HOME
+  - DISCOVERY-SEARCH
+  - DISCOVERY-CATEGORY
+  - DISCOVERY-ARTICLE-LIST
+
+source_focus:
+  - source/plugin/xigua_hb/template/touch/index.php
+  - source/plugin/xigua_hb/template/touch/search.php
+  - source/plugin/xigua_hb/template/touch/c_cat.php
+  - source/plugin/xigua_hb/template/touch/article_li.php
+  - source/plugin/xigua_hb/include/city.inc.php
+  - source/plugin/xigua_hb/include/cat.inc.php
+  - source/plugin/xigua_hb/include/c_search.php
+  - source/plugin/xigua_hb/include/c_article_li.php
+  - source/plugin/xigua_hb/static/app.js
 
 actions:
-  - Create and verify an isolated R03 staging snapshot that preserves the closed R02 shared shell.
-  - Inventory route form hidden-field script and legal-copy baselines before editing each page.
-  - Apply the Light Grid authentication and long-form reading components with light backgrounds only.
-  - Remove online Tailwind and public UI CDN dependencies from R03 pages using versioned local assets.
-  - Fix the 390px narrow-column and dollar-is-not-defined failures without changing authentication or SMS protocols.
-  - Keep legal主体 contract payment备案 and historical MKT wording frozen until owner or legal approval.
-  - Use a staging-only reversible account and mocked outbound SMS before any controlled POST test.
-  - Verify success failure empty validation permission and long-content states where safely reachable.
-  - Capture 360x800 390x844 and 430x932 screenshots and overflow touch contrast console and resource evidence.
-  - Compare routes query parameters actions methods fields hidden values hooks and side effects before and after.
+  - Create and verify an isolated R04 staging snapshot that preserves closed R02 and R03 overlays.
+  - Inventory runtime routes query parameters templates AJAX contracts sorting filters and GET side effects before edits.
+  - Capture sanitized before evidence for home search category and article-list states at real H5 viewports.
+  - Apply the Light Grid discovery system to header search tabs cards lists pagination empty and loading states.
+  - Preserve the bottom navigation order destinations active-state logic publish entry and App WebView safe-area contract.
+  - Keep headline promotion display and publish entry behavior unchanged; do not enter purchase or publish flows.
+  - Remove public UI CDN dependencies from R04-owned templates using versioned local CSS icons and fonts.
+  - Fix all R04-owned JavaScript and console errors without editing R05-R09 controllers or templates.
+  - Verify initial HTML and AJAX fragments for default query filter category pagination empty and error states.
+  - Compare list ordering item IDs hrefs query strings request methods field names response fragment hooks and database counters.
+  - Use only GET and isolated fixtures unless a documented reversible write window is strictly necessary.
+  - Capture 360x800 390x844 and 430x932 screenshots plus overflow touch contrast console network and resource evidence.
   - Keep GitHub Actions manual-only and do not wait for asynchronous device feedback.
   - Build a server-signed Android APK only if native production source or packaged resources change.
   - Put every newly built server-signed APK on the Desktop; never deliver Debug as formal release.
   - Update ledger source map evidence decisions lessons status next task result and manifest.
-  - Run full global drift audit before R03 closeout then continue to R04.
+  - Run full global drift audit before R04 closeout then continue to R05.
 
 forbidden:
-  - Do not edit the production site or reuse the R02 staging directory as an unversioned R03 workspace.
-  - Do not reset production passwords send real SMS register a real user or weaken authentication.
-  - Do not rename routes parameters form fields hidden values or legal business meanings.
-  - Do not replace legal主体 merchant备案 contract or MKT wording without written owner or legal approval.
+  - Do not edit the production site or reuse the R03 staging directory as an unversioned R04 workspace.
+  - Do not change list ranking exposure category membership pagination semantics or promoted-content logic.
+  - Do not click publish purchase reward favorite comment message or other write actions.
+  - Do not rename routes ac values query parameters template variables AJAX hooks or bottom-nav destinations.
+  - Do not expose search terms UID content owner identity private counters or authenticated cookies in evidence.
   - Do not use online Tailwind public Font Awesome public iconfont or another runtime UI CDN.
-  - Do not introduce dark page surfaces warm-orange branding or oversized pill-only composition.
+  - Do not introduce dark page surfaces warm-orange branding oversized marketing heroes or decorative card nesting.
+  - Do not modify R05-R09 page templates merely because they share legacy CSS or scripts.
   - Do not restore GitHub Actions automatic triggers or wait for asynchronous owner feedback.
 
 acceptance:
-  - All 11 R03 page IDs have exact source protocol and visual evidence or a documented owner/legal blocker.
-  - Login register and SMS login retain business behavior and no longer have narrow-column or missing-dollar failures.
-  - Long legal pages are readable at all three viewports with no horizontal overflow or word-by-word columns.
-  - Product UI brand is 推广宝 while frozen legal主体 and merchant meanings remain unchanged.
-  - R03 runtime assets use local versioned CSS icons and fonts with no new public UI CDN.
-  - Controlled authentication tests use only staging fixtures and restore POST=405 afterward.
-  - Production code and data remain unchanged.
-  - R03_RESULT.md and the global drift audit pass.
+  - All 4 R04 page IDs have exact source protocol visual and state evidence.
+  - Home search category and article list retain ordering routes filters pagination and AJAX behavior.
+  - Default populated empty loading and safely reachable error states use the same business meanings.
+  - Three H5 viewports have no horizontal overflow clipped controls status-bar overlap or text below 16px in inputs.
+  - Header search tabs cards lists pagination and bottom navigation use the approved light visual system.
+  - R04 runtime assets use local versioned CSS icons and fonts with no new public UI CDN.
+  - R04-owned console errors and resource failures are zero or have a source-hash-proven cross-version owner.
+  - Database counters and production stable-code hash prove no unauthorized side effects or production changes.
+  - R04_RESULT.md and the global drift audit pass.
   - CURRENT_STATUS.yaml NEXT_TASK.yaml evidence decisions lessons and manifest are synchronized.
 
 on_success:
-  next_release: R04
-  next_task_title: 开发首页与发现页面
+  next_release: R05
+  next_task_title: 开发内容详情与发布页面
