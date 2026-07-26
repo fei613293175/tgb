@@ -177,6 +177,11 @@
 - 现象：`hhy-android-toolchain:r08-api36-cache` 自带 `/bin/bash` entrypoint；重复传 `bash -lc` 会把 Bash 二进制当脚本。既有签名 env 又把 keystore 固定为 `/run/tgb-signing/...`，换挂载点会在 `validateSigningRelease` 停止。
 - 规则：先用 `docker image inspect` 记录 entrypoint/Cmd，只向现有 Bash 传 `-lc`；签名私有目录始终只读挂载到 env 声明的固定容器路径。不得为了通用脚本修改或输出签名秘密。
 
+## L-036 GitHub Android runner 不保证 sdkmanager 裸命令在 PATH
+
+- 现象：首个 Actions run 在 Android SDK 安装步骤以退出码 127 停止，runner 有 `$ANDROID_HOME`，但无法直接执行 `sdkmanager`。
+- 规则：从 `$ANDROID_HOME/cmdline-tools/**/bin/sdkmanager` 定位并断言可执行文件；`yes | sdkmanager --licenses` 需单独取管道中 sdkmanager 的退出码，不能用 `|| true` 吞错。前序失败没有产物时 Artifact 只警告，避免二次错误遮蔽根因。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

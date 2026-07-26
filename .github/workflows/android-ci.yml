@@ -43,8 +43,18 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          yes | sdkmanager --licenses >/dev/null
-          sdkmanager \
+          SDKMANAGER="$(
+            find "$ANDROID_HOME/cmdline-tools" -type f -path '*/bin/sdkmanager' \
+              | sort \
+              | tail -n 1
+          )"
+          test -x "$SDKMANAGER"
+          set +o pipefail
+          yes | "$SDKMANAGER" --licenses >/dev/null
+          LICENSE_STATUS="${PIPESTATUS[1]}"
+          set -o pipefail
+          test "$LICENSE_STATUS" -eq 0
+          "$SDKMANAGER" \
             "platform-tools" \
             "platforms;android-37" \
             "build-tools;36.0.0"
@@ -95,14 +105,13 @@ jobs:
 
       - name: Upload APK, screenshots, reports and logs
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: tuiguangbao-android-ci-${{ github.run_number }}
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
           path: |
             android-app/app/build/outputs/apk/debug/app-debug.apk
             android-app/app/build/reports/
             android-app/app/build/test-results/
             ci-artifacts/
-

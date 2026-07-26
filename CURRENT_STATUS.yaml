@@ -69,7 +69,7 @@ android:
   server_build_id: 20260726T143800+0800
   native_top_loading_progress_visible: false
   github_actions_repository: https://github.com/fei613293175/tgb
-  github_actions_status: WORKFLOW_PREPARED_NOT_YET_RUN
+  github_actions_status: RUN_30191417131_FAILED_FIX_PREPARED
 
 completed:
   - R00 production read-only source and database baseline
