@@ -1,10 +1,6 @@
-name: Android build, emulator smoke, screenshots
+name: Android historical manual regression (automatic runs retired)
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
   workflow_dispatch:
 
 permissions:

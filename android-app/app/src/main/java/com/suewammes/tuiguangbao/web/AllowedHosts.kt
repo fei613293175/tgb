@@ -3,11 +3,15 @@ package com.suewammes.tuiguangbao.web
 import android.net.Uri
 
 object AllowedHosts {
-    private val internalHosts = setOf("tg.suewammes.com")
-
     fun isInternalHttps(uri: Uri): Boolean {
         return uri.scheme.equals("https", ignoreCase = true) &&
-            uri.host?.lowercase() in internalHosts &&
+            HostPolicy.isInternalHost(uri.host) &&
+            uri.userInfo == null
+    }
+
+    fun isPaymentHttps(uri: Uri): Boolean {
+        return uri.scheme.equals("https", ignoreCase = true) &&
+            HostPolicy.isPaymentHost(uri.host) &&
             uri.userInfo == null
     }
 
@@ -15,5 +19,9 @@ object AllowedHosts {
         isInternalHttps(Uri.parse(url))
     }.getOrDefault(false)
 
-    fun isInternalHost(host: String?): Boolean = host?.lowercase() in internalHosts
+    fun isInternalHost(host: String?): Boolean = HostPolicy.isInternalHost(host)
+
+    fun isTrustedPaymentOrigin(host: String?): Boolean {
+        return HostPolicy.isTrustedPaymentOrigin(host)
+    }
 }

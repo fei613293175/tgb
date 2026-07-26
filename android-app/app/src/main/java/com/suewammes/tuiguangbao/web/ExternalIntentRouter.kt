@@ -18,6 +18,16 @@ class ExternalIntentRouter(
     fun route(uri: Uri, currentPage: Uri?, hasUserGesture: Boolean): Boolean {
         if (AllowedHosts.isInternalHttps(uri)) return false
 
+        if (AllowedHosts.isPaymentHttps(uri)) {
+            if (AllowedHosts.isTrustedPaymentOrigin(currentPage?.host)) {
+                // Keep approved H5 cashier pages inside this WebView so their
+                // later Alipay deep link is still intercepted by this router.
+                return false
+            }
+            onBlocked()
+            return true
+        }
+
         if (uri.scheme.equals("https", ignoreCase = true)) {
             return openExternalHttps(uri, hasUserGesture)
         }
@@ -30,7 +40,7 @@ class ExternalIntentRouter(
 
         if (
             paymentUri == null ||
-            !AllowedHosts.isInternalHost(currentPage?.host) ||
+            !AllowedHosts.isTrustedPaymentOrigin(currentPage?.host) ||
             paymentUri.scheme?.lowercase() !in alipaySchemes ||
             paymentUri.host?.lowercase() !in alipayHosts
         ) {
