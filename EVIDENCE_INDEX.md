@@ -80,4 +80,5 @@ evidence/
 - GitHub Actions 首次失败与修复：`evidence/R01/android/github-actions/RUN_30191417131_FAILURE.md`
 - GitHub Actions 第二次失败与修复：`evidence/R01/android/github-actions/RUN_30191460571_FAILURE.md`
 - GitHub Actions 第三次失败与修复：`evidence/R01/android/github-actions/RUN_30191530737_FAILURE.md`
+- GitHub Actions 第四次失败与修复：`evidence/R01/android/github-actions/RUN_30191686953_FAILURE.md`
 - GitHub Actions 首个全绿 run：待修复重跑后补入 `evidence/R01/android/github-actions/`

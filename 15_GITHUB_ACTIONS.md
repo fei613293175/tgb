@@ -22,8 +22,8 @@ GitHub CI 的 Debug APK 不替代服务器正式签名包。正式签名材料�
 
 - 使用固定提交 SHA 的 GitHub Actions；
 - Temurin JDK 21；
-- 固定 Command-line Tools；稳定通道安装 Platform/Build Tools，API 37 编译平台通过
-  显式 `--channel=3` 安装并断言 `android.jar`；
+- 固定 Command-line Tools；稳定通道安装 Platform/Build Tools，API 37 编译平台按
+  SDK Manager 精确包名 `platforms;android-37.0` 安装并断言 `android.jar`；
 - Gradle Wrapper 完整性校验和依赖严格校验；
 - `testDebugUnitTest`；
 - `lintDebug`；
@@ -51,8 +51,9 @@ GitHub CI 的 Debug APK 不替代服务器正式签名包。正式签名材料�
 
 不得使用 `continue-on-error`、删除失败断言、关闭依赖验证或扩大权限来制造绿灯。
 
-API 37 在稳定通道不可见时，不得把 `compileSdk`/依赖版本静默降级。工作流必须保留
-已冻结的 `compileSdk 37 / targetSdk 36`，并显式选择可提供该编译平台的 SDK 通道。
+API 37 不得从 Gradle 的整数 `compileSdk = 37` 猜测包名；当前精确 SDK Manager
+标识为 `platforms;android-37.0`。若 SDK 仓库变化，必须先通过 `sdkmanager --list`
+或已通过环境交叉核验，不能静默降级 `compileSdk`、依赖或 target 行为。
 
 ## 4. 截图和 UI 复核
 

@@ -51,8 +51,8 @@ jobs:
         shell: bash
         run: |
           set -Eeuo pipefail
-          sdkmanager --channel=3 "platforms;android-37"
-          test -f "${ANDROID_SDK_ROOT}/platforms/android-37/android.jar"
+          sdkmanager --channel=3 "platforms;android-37.0"
+          test -f "${ANDROID_SDK_ROOT}/platforms/android-37.0/android.jar"
 
       - name: Unit tests, lint and Debug APK
         working-directory: android-app

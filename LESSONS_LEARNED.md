@@ -187,10 +187,10 @@
 - 现象：在 `$ANDROID_HOME/cmdline-tools` 递归寻找 `sdkmanager` 的第二次 CI 尝试仍找不到可执行文件，以退出码 1 停止。
 - 规则：runner 缺少命令行工具时使用固定完整 commit SHA 的 `android-actions/setup-android` v4 安装官方 Command-line Tools，并在 Action 输入中锁定平台/Build Tools；不要再假定预装目录结构。
 
-## L-038 编译预览平台必须显式选择 SDK 通道
+## L-038 SDK 平台包名不能从 compileSdk 整数猜测
 
-- 现象：固定版 `setup-android` 已正确安装并执行 `sdkmanager`，但默认稳定通道返回 `Failed to find package 'platforms;android-37'`。
-- 规则：稳定工具与 Build Tools 先由固定 Action 安装；尚未进入稳定通道的编译平台再用 `sdkmanager --channel=3` 显式安装，并断言对应 `android.jar`。不得通过静默降低 `compileSdk`、依赖或 target 行为来绕过环境差异。
+- 现象：固定版 `setup-android` 已正确安装并执行 `sdkmanager`；默认通道和 `--channel=3` 都返回 `Failed to find package 'platforms;android-37'`。服务器已通过镜像的实际条目为 `platforms;android-37.0`。
+- 规则：先用 `sdkmanager --list` 或已通过环境确定精确包 ID，再安装并断言实际 `android.jar` 路径。Gradle 的 `compileSdk = 37` 不代表 SDK 包一定名为 `android-37`；不得通过静默降低 `compileSdk`、依赖或 target 行为绕过包名错误。
 
 ## 可复用优点
 
