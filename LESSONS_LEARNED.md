@@ -195,7 +195,7 @@
 ## L-039 依赖校验必须覆盖干净 Linux 首次解析的父 POM 与 module
 
 - 现象：本机和服务器缓存构建已通过，但 GitHub 干净 Linux 环境首次解析 `guava-parent` POM 与 `junit-bom` module 时，严格校验正确停止。
-- 规则：不能关闭 dependency verification。对每个新出现的 POM/module 从两个 Maven Central HTTPS 端点下载并确认字节 SHA-256 一致，只追加精确 artifact；随后用新的干净 CI run 证明元数据闭合。
+- 规则：不能关闭 dependency verification。对每个新出现的 POM/module（包括 Kotlin Build Tools classpath 间接解析的 BOM）从两个 Maven Central HTTPS 端点下载并确认字节 SHA-256 一致，只追加精确 artifact；随后用新的干净 CI run 证明元数据闭合。
 
 ## 可复用优点
 
