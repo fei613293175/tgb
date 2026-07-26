@@ -77,6 +77,7 @@ evidence/
 - 去除顶部进度条实体机复验：`evidence/R01/android/device/NO_PROGRESS_RETEST_20260726.md`
 - 服务器 AAPT/APKSigner/SHA-256 原始报告：`evidence/R01/android/server/`
 - 去除顶部进度条的服务器重建：`evidence/R01/android/server-no-progress/SERVER_BUILD_RESULT_20260726.md`
+- H5 选图上传 content URI 修复：`evidence/R01/android/upload/CONTENT_URI_FIX_20260726.md`
 - GitHub Actions 首次失败与修复：`evidence/R01/android/github-actions/RUN_30191417131_FAILURE.md`
 - GitHub Actions 第二次失败与修复：`evidence/R01/android/github-actions/RUN_30191460571_FAILURE.md`
 - GitHub Actions 第三次失败与修复：`evidence/R01/android/github-actions/RUN_30191530737_FAILURE.md`

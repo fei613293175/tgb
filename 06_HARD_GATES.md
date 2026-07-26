@@ -94,6 +94,10 @@ App 名、H5 页面标题、登录/注册、桌面引导、启动页、图标、
 
 优先使用系统 Photo Picker/Storage Access Framework，按 Android 版本请求最小权限。不得申请无必要的全盘存储权限。H5 `input[type=file]` 的 MIME、单/多选、取消和回调必须完整保留。
 
+系统选择器返回的受限 `content://` URI 必须能被 WebView 读取并用于上传；
+`allowContentAccess` 不得关闭。同时必须保持 `allowFileAccess=false`，不能为修复
+上传而开放 raw `file://`。
+
 ### G17 第三方 App 拉起（MUST）
 
 只允许白名单 scheme/intent（包括支付宝实际支付链路）。解析失败时回退到安全 H5 或明确错误；禁止任意 scheme、`javascript:` 外跳和忽略 SSL 错误。必须验证 App→支付宝→App/H5 返回与订单状态刷新。

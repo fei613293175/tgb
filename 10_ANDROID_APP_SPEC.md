@@ -104,8 +104,10 @@ H5 入口：
 4. Android 12 及以下仅在回退路径请求 `READ_EXTERNAL_STORAGE`，并限制 `maxSdkVersion`；
 5. 不请求 `WRITE_EXTERNAL_STORAGE`，不申请所有文件访问；
 6. 使用 Activity Result API，将最终 `Uri[]` 回传 `WebChromeClient.FileChooserParams`；
-7. 正确处理 `content://`、MIME、文件大小、取消和权限拒绝；
-8. 不把相册路径、图片或 EXIF 私密信息写入日志。
+7. WebView 保持 `allowFileAccess=false`，但必须启用 `allowContentAccess=true`，
+   使系统只授予当前选择项的 `content://` URI 能被 H5 上传读取；
+8. 正确处理 `content://`、MIME、文件大小、取消和权限拒绝；
+9. 不把相册路径、图片或 EXIF 私密信息写入日志。
 
 测试矩阵：
 

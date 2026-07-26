@@ -65,7 +65,8 @@ jobs:
             --stacktrace \
             testDebugUnitTest \
             lintDebug \
-            assembleDebug
+            assembleDebug \
+            assembleDebugAndroidTest
 
       - name: APK package, permission, size and secret gates
         shell: bash
@@ -109,4 +110,5 @@ jobs:
             android-app/app/build/outputs/apk/debug/app-debug.apk
             android-app/app/build/reports/
             android-app/app/build/test-results/
+            android-app/app/build/outputs/androidTest-results/
             ci-artifacts/

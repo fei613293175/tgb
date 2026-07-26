@@ -60,7 +60,7 @@ if ($Variant -eq 'release') {
 $tasks = if ($Variant -eq 'release') {
     @('testDebugUnitTest', 'lintRelease', 'assembleRelease')
 } else {
-    @('testDebugUnitTest', 'lintDebug', 'assembleDebug')
+    @('testDebugUnitTest', 'lintDebug', 'assembleDebug', 'assembleDebugAndroidTest')
 }
 Push-Location $projectRoot
 try {

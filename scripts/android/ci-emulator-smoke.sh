@@ -9,6 +9,12 @@ COMPONENT="$PACKAGE/com.suewammes.tuiguangbao.MainActivity"
 
 mkdir -p "$OUT"
 adb wait-for-device
+
+(
+  cd "$ROOT_DIR/android-app"
+  ./gradlew --no-daemon --stacktrace connectedDebugAndroidTest
+)
+
 adb logcat -c
 
 adb install -r -t "$APK" | tee "$OUT/adb-install.txt"
@@ -69,4 +75,3 @@ curl --fail --silent --show-error --location \
 grep -Eq '^200$' "$OUT/public-entry-status.txt"
 
 echo "Emulator smoke passed: pid=$PID screenshot=$OUT/launch-1080x2340.png"
-

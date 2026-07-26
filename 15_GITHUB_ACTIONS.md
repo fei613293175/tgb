@@ -32,6 +32,8 @@ GitHub CI 的 Debug APK 不替代服务器正式签名包。正式签名材料�
 - 包名、App 名、minSdk、targetSdk、权限与 Debug 签名检查；
 - 数据库标识和明显明文凭据扫描；
 - Android 36 / Pixel 5 / x86_64 模拟器安装；
+- Android instrumentation 断言 WebView 允许受限 `content://` 读取、禁止
+  `file://` 访问并禁止 mixed content；
 - 启动 `MainActivity` 并确认进程存活；
 - 保存启动截图、UI hierarchy、Activity/Window/Package dumpsys；
 - 保存全量与 App 进程日志，并拦截 crash/ANR；

@@ -202,6 +202,11 @@
 - 现象：首个全绿 Android CI 已证明原生容器、截图与日志链路正常，但截图仍真实显示尚未改造的生产 H5 旧品牌“签米”和暖橙视觉。
 - 规则：自动 run 可登记 PASS，同时人工截图必须把跨版本待改项写成 OPEN；不得把旧 H5 误报为 G13/G14 通过。R02/R03 改造后该项升级为阻断性回归，R09 前必须清零。
 
+## L-041 系统选图不申请存储权限仍需要 WebView content 读取
+
+- 现象：Photo Picker/SAF 会返回当前选择项的受限 `content://` URI；若 WebView 设置 `allowContentAccess=false`，原生选择器可能正常出现，但 H5 无法可靠读取内容完成上传。
+- 规则：保持 `allowFileAccess=false` 和无广泛媒体权限，同时设置 `allowContentAccess=true`。Android 36 instrumentation 必须断言三项配置：content URI 可读、raw file 禁止、mixed content 禁止；真实四类上传入口仍需实体机端到端证据。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

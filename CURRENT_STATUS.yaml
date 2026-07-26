@@ -51,7 +51,7 @@ design:
   approved_logo: assets/brand/tuiguangbao-app-icon-master-light-v2.png
 
 android:
-  status: SERVER_RELEASE_BUILT_CI_PASS_DEVICE_FLOWS_PENDING
+  status: CONTENT_URI_FIX_CI_AND_SERVER_REBUILD_PENDING
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin

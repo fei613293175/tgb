@@ -34,6 +34,7 @@ actions:
   - Implement back navigation target-blank download offline and SSL error handling.
   - Keep WebView page loading automatic and remove the native top progress bar per physical-device feedback.
   - Implement H5 file chooser with Photo Picker or SAF and no broad storage permission.
+  - Keep scoped content URI access enabled for picker uploads while raw file access remains disabled.
   - Implement external-app routing with exact scheme host package allowlists and reject arbitrary intents.
   - Generate the formal RSA 4096 keystore outside the handoff and wire signing through environment variables.
   - Build and inspect signed Release APK and ensure size is at least 10485760 bytes without post-sign padding.
@@ -62,6 +63,7 @@ acceptance:
   - Light splash adaptive icons and system bars pass visual checks.
   - WebView loading navigation offline SSL and allowlist behavior pass.
   - File chooser works through the minimum-permission system picker path.
+  - Android 36 instrumentation proves scoped content URI access is enabled while raw file and mixed content remain blocked.
   - Approved external payment routing and safe fallback pass with a sandbox or sanitized sample.
   - Signed Release APK is at least 10485760 bytes and install/launch is verified.
   - GitHub Actions clean run is green and its APK screenshot test reports and logs are reviewed.

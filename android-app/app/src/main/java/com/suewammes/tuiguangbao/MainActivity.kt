@@ -160,7 +160,9 @@ class MainActivity : ComponentActivity() {
             javaScriptEnabled = true
             domStorageEnabled = true
             allowFileAccess = false
-            allowContentAccess = false
+            // Photo Picker/SAF returns a scoped content:// URI. WebView must be
+            // able to read that granted URI in order to stream an H5 upload.
+            allowContentAccess = true
             mixedContentMode = WebSettings.MIXED_CONTENT_NEVER_ALLOW
             javaScriptCanOpenWindowsAutomatically = false
             setSupportMultipleWindows(true)
