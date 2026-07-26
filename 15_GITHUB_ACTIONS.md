@@ -1,6 +1,7 @@
 # GitHub Actions 自动构建与回归
 
-文档状态：R01 已接入，等待首次远程运行证据  
+文档状态：R01 已接入，正在完成首次全绿远程运行
+
 仓库：`https://github.com/fei613293175/tgb`
 
 ## 1. 角色
@@ -21,6 +22,8 @@ GitHub CI 的 Debug APK 不替代服务器正式签名包。正式签名材料�
 
 - 使用固定提交 SHA 的 GitHub Actions；
 - Temurin JDK 21；
+- 固定 Command-line Tools；稳定通道安装 Platform/Build Tools，API 37 编译平台通过
+  显式 `--channel=3` 安装并断言 `android.jar`；
 - Gradle Wrapper 完整性校验和依赖严格校验；
 - `testDebugUnitTest`；
 - `lintDebug`；
@@ -47,6 +50,9 @@ GitHub CI 的 Debug APK 不替代服务器正式签名包。正式签名材料�
 6. 只有替代运行全绿且截图人工检查无明显视觉偏差，才可关闭问题。
 
 不得使用 `continue-on-error`、删除失败断言、关闭依赖验证或扩大权限来制造绿灯。
+
+API 37 在稳定通道不可见时，不得把 `compileSdk`/依赖版本静默降级。工作流必须保留
+已冻结的 `compileSdk 37 / targetSdk 36`，并显式选择可提供该编译平台的 SDK 通道。
 
 ## 4. 截图和 UI 复核
 

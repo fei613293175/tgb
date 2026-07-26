@@ -39,13 +39,20 @@ jobs:
           cache-provider: basic
           validate-wrappers: true
 
-      - name: Install locked Android SDK packages
+      - name: Set up locked Android SDK tools
         uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4
         with:
           cmdline-tools-version: "14742923"
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
-          packages: "platform-tools platforms;android-37 build-tools;36.0.0"
+          packages: "platform-tools build-tools;36.0.0"
+
+      - name: Install locked Android 37 compile SDK
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          sdkmanager --channel=3 "platforms;android-37"
+          test -f "${ANDROID_SDK_ROOT}/platforms/android-37/android.jar"
 
       - name: Unit tests, lint and Debug APK
         working-directory: android-app

@@ -187,6 +187,11 @@
 - 现象：在 `$ANDROID_HOME/cmdline-tools` 递归寻找 `sdkmanager` 的第二次 CI 尝试仍找不到可执行文件，以退出码 1 停止。
 - 规则：runner 缺少命令行工具时使用固定完整 commit SHA 的 `android-actions/setup-android` v4 安装官方 Command-line Tools，并在 Action 输入中锁定平台/Build Tools；不要再假定预装目录结构。
 
+## L-038 编译预览平台必须显式选择 SDK 通道
+
+- 现象：固定版 `setup-android` 已正确安装并执行 `sdkmanager`，但默认稳定通道返回 `Failed to find package 'platforms;android-37'`。
+- 规则：稳定工具与 Build Tools 先由固定 Action 安装；尚未进入稳定通道的编译平台再用 `sdkmanager --channel=3` 显式安装，并断言对应 `android.jar`。不得通过静默降低 `compileSdk`、依赖或 target 行为来绕过环境差异。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。
