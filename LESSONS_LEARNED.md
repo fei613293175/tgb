@@ -192,6 +192,11 @@
 - 现象：固定版 `setup-android` 已正确安装并执行 `sdkmanager`；默认通道和 `--channel=3` 都返回 `Failed to find package 'platforms;android-37'`。服务器已通过镜像的实际条目为 `platforms;android-37.0`。
 - 规则：先用 `sdkmanager --list` 或已通过环境确定精确包 ID，再安装并断言实际 `android.jar` 路径。Gradle 的 `compileSdk = 37` 不代表 SDK 包一定名为 `android-37`；不得通过静默降低 `compileSdk`、依赖或 target 行为绕过包名错误。
 
+## L-039 依赖校验必须覆盖干净 Linux 首次解析的父 POM 与 module
+
+- 现象：本机和服务器缓存构建已通过，但 GitHub 干净 Linux 环境首次解析 `guava-parent` POM 与 `junit-bom` module 时，严格校验正确停止。
+- 规则：不能关闭 dependency verification。对每个新出现的 POM/module 从两个 Maven Central HTTPS 端点下载并确认字节 SHA-256 一致，只追加精确 artifact；随后用新的干净 CI run 证明元数据闭合。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。
