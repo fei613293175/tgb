@@ -78,6 +78,9 @@ evidence/
 - 服务器 AAPT/APKSigner/SHA-256 原始报告：`evidence/R01/android/server/`
 - 去除顶部进度条的服务器重建：`evidence/R01/android/server-no-progress/SERVER_BUILD_RESULT_20260726.md`
 - H5 选图上传 content URI 修复：`evidence/R01/android/upload/CONTENT_URI_FIX_20260726.md`
+- content URI 修复服务器正式构建：`evidence/R01/android/server-content-uri/SERVER_BUILD_RESULT_20260726.md`
+- 支付 H5 网关生产源码审计：`evidence/R01/android/payment/PAYMENT_GATEWAY_SOURCE_AUDIT_20260726.md`
+- 支付 H5 兼容修复服务器正式构建：`evidence/R01/android/server-payment-h5/SERVER_BUILD_RESULT_20260726.md`
 - GitHub Actions 首次失败与修复：`evidence/R01/android/github-actions/RUN_30191417131_FAILURE.md`
 - GitHub Actions 第二次失败与修复：`evidence/R01/android/github-actions/RUN_30191460571_FAILURE.md`
 - GitHub Actions 第三次失败与修复：`evidence/R01/android/github-actions/RUN_30191530737_FAILURE.md`
@@ -86,3 +89,5 @@ evidence/
 - GitHub Actions 第六次失败与修复：`evidence/R01/android/github-actions/RUN_30191901834_FAILURE.md`
 - GitHub Actions 首个全绿 run：`evidence/R01/android/github-actions/RUN_30192012488_SUCCESS.md`
 - GitHub Actions Android 36 截图：`evidence/R01/android/github-actions/RUN_30192012488-launch-1080x2340.png`
+- GitHub Actions content URI instrumentation 最终历史全绿 run：`evidence/R01/android/github-actions/RUN_30192427296_SUCCESS.md`
+- R01 开发关版与全局漂移审计：`version-results/R01_RESULT.md`

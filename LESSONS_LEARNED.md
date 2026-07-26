@@ -207,6 +207,21 @@
 - 现象：Photo Picker/SAF 会返回当前选择项的受限 `content://` URI；若 WebView 设置 `allowContentAccess=false`，原生选择器可能正常出现，但 H5 无法可靠读取内容完成上传。
 - 规则：保持 `allowFileAccess=false` 和无广泛媒体权限，同时设置 `allowContentAccess=true`。Android 36 instrumentation 必须断言三项配置：content URI 可读、raw file 禁止、mixed content 禁止；真实四类上传入口仍需实体机端到端证据。
 
+## L-042 PowerShell 文本管道会破坏跨平台源码归档
+
+- 现象：Windows 工作树中的 `gradlew` 为 LF，但经文本管道生成的 tar 包在服务器解压后变成 CRLF，容器执行时报 `./gradlew: cannot execute: required file not found`。
+- 规则：tar/gzip/APK 等二进制流不得经过 PowerShell 文本管道。服务器源码包从 Git 跟踪的工作树文件直接用归档工具生成；上传前后核对字节数、SHA-256，并在 Linux 端检查 `gradlew` 头部字节为 `0a`。大文件网络不稳定时使用固定大小分片，合并后再次校验。
+
+## L-043 异步真机反馈不能变成遗忘的验收项
+
+- 现象：负责人明确要求 APK 放桌面后自行测试，反馈异步返回，开发不等待。
+- 规则：每版仍先通过本机与服务器门禁并交付桌面 APK；未返回的实体机结果不阻塞下一开发版，但必须留在 `CURRENT_STATUS.yaml` 的累计发布门禁。任何反馈到达时立即登记并进入修复闭环，R09 生产发布前必须清零相册真实上传、支付拉起/返回等设备专属验收。
+
+## L-044 异步 JavaScript 支付跳转不能依赖最终请求的 user gesture
+
+- 现象：生产收银台在用户点击后先发 AJAX，再用 `window.location.href=data.msg` 跳到外部 H5 网关；WebView 最终导航可能不再携带 `hasGesture=true`。旧路由会把这类真实支付跳转当作任意无手势外链拦截。
+- 规则：不能全局取消手势门禁。只允许从本站或已批准支付页进入源码证据中登记的精确 HTTPS 网关，让收银台留在 WebView 内；支付宝 deep link 继续锁定 scheme、host、package。域名相似后缀、尾随点和未登记来源必须由单元测试证明被拒绝。
+
 ## 可复用优点
 
 - `xigua_hb` 已具备统一 touch 模板目录，可建立令牌层渐进迁移。

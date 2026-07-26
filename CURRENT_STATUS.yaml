@@ -2,9 +2,9 @@ schema_version: 1
 project_id: TG-H5-UI-REDESIGN
 product_name: 推广宝
 snapshot_date: 2026-07-26
-current_release: R01
+current_release: R02
 release_status: IN_PROGRESS
-active_task_id: TASK-R01-001
+active_task_id: TASK-R02-001
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -51,7 +51,7 @@ design:
   approved_logo: assets/brand/tuiguangbao-app-icon-master-light-v2.png
 
 android:
-  status: CONTENT_URI_FIX_CI_AND_SERVER_REBUILD_PENDING
+  status: R01_LATEST_SERVER_SIGNED_APK_DELIVERED_ASYNC_DEVICE_FEEDBACK
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin
@@ -64,15 +64,19 @@ android:
   sdk_ready: true
   server_build_image: hhy-android-toolchain:r08-api36-cache
   server_release_apk_built: true
-  server_release_apk_bytes: 18153898
-  server_release_apk_sha256: a03066bae79f67bafe5f0061d9cba88017839a9efd2690a83f196bbcf0c93bb8
-  server_build_id: 20260726T143800+0800
+  server_release_apk_bytes: 18154781
+  server_release_apk_sha256: 0f2b8c1dbdbab544623a214d002b7a4611e03fde806f7f534de6712cfbdfa975
+  server_build_id: 20260726T155100+0800
+  server_source_commit: 3692ec4f1487533e3f17d54f0f6360e8265bcc29
+  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R01-支付H5兼容修复.apk
   native_top_loading_progress_visible: false
   github_actions_repository: https://github.com/fei613293175/tgb
-  github_actions_status: RUN_30192012488_PASS_ARTIFACT_REVIEWED
-  github_actions_artifact_id: 8628928965
-  github_actions_artifact_sha256: b0370aca9d66c595c257d1b993e778b84e9fb136a7191fb526d15c7dcc97e194
+  github_actions_automatic_testing_enabled: false
+  github_actions_status: RETIRED_AFTER_RUN_30192427296_PASS
+  github_actions_artifact_id: 8629065339
+  github_actions_artifact_sha256: fc113dd032f6d54485dc4918ec8f1396cfa3503643063af3ac2081f4a7785880
   ci_visual_review: NATIVE_PASS_LEGACY_H5_BRAND_PENDING_R02_R03
+  owner_device_feedback_mode: ASYNC_DO_NOT_WAIT
 
 completed:
   - R00 production read-only source and database baseline
@@ -94,17 +98,23 @@ completed:
   - replacement no-progress signed Release rebuilt on server and copied to the local Desktop
   - replacement APK physically verified with the native top progress bar absent
   - GitHub Actions clean build, APK gates, Android 36 emulator install/start, screenshot, log and artifact review
+  - Android 36 instrumentation verified scoped content URI access while raw file and mixed content remain blocked
+  - content URI fix rebuilt as a server-signed Release and copied to the local Desktop with matching SHA-256
+  - GitHub Actions automatic triggers retired by owner decision; historical workflow retained as manual-only
+  - production payment source inspected and exact H5 gateway host policy added with unit coverage
+  - payment H5 compatibility fix rebuilt as a server-signed Release and copied to Desktop with matching SHA-256
+  - R01 Android native container development closeout and global drift audit
 
 not_completed:
-  - Android device photo upload and external-payment return tests
-  - H5 visual implementation R02 through R09
+  - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
+  - H5 visual implementation R02 through R09 (R02 now active)
   - controlled-write fixtures for each high-risk page family
   - production deployment
 
 blockers:
   - id: B-R01-01
     description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
-    affects: R01 external payment end-to-end test
+    affects: cumulative external payment end-to-end release gate before R09 production release
   - id: B-LEGAL-01
     description: legacy MKT legal wording requires owner or legal decision before replacement
     affects: R03 legal copy only

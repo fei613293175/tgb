@@ -130,3 +130,26 @@
 - 决定：R02 起的新设计不使用在线 Tailwind CSS。旧页已有在线 Tailwind 在对应页面迁移时移除，不能继续作为新视觉依赖。
 - 图标策略：优先本地 SVG sprite/内联 SVG；保留 iconfont 时，从现有授权字体裁出实际使用字符的 WOFF2 子集，部署到本站版本化静态目录并配置长期缓存。禁止为了图标新增公共 CDN。
 - 性能门禁：首屏图标不得因外网 CDN 阻塞；记录字体/精灵体积、缓存头、404 和加载时序。
+
+## D-020 停止 GitHub Actions 自动测试，真机反馈异步化
+
+- 日期：2026-07-26
+- 状态：ACCEPTED，覆盖 D-017 中“自动运行和关版依赖”的部分
+- 负责人决定：从现在起不再使用 GitHub Actions 自动测试；开发完成的服务器正式签名 APK 放到桌面，由负责人亲自测试并异步返回问题，开发期间不等待反馈，继续按文档顺序推进。
+- 实施：工作流删除 `push`、`pull_request` 和定时触发，只保留历史 `workflow_dispatch`；后续关版不依赖 Actions。
+- 质量边界：本机自动检查和服务器隔离正式构建仍是必做门禁；收到异步反馈必须登记并完成修复、重建、重交付。相册真实上传和第三方支付拉起/返回保留为 R09 生产发布前必须清零的累计实体机门禁。
+
+## D-021 服务器源码归档必须保持 Unix 脚本字节
+
+- 日期：2026-07-26
+- 状态：ACCEPTED
+- 决定：从 Windows 向 Linux 服务器传源码时，归档必须从受 Git 跟踪的工作树文件生成，并在构建前检查 `gradlew` 首行使用 LF；禁止让 PowerShell 文本管道处理 tar 字节流。
+- 原因：PowerShell 文本管道生成的首个归档把 `gradlew` 变为 CRLF，服务器容器报“required file not found”。重新以二进制归档、分片传输并核对大小和 SHA-256 后构建通过。
+
+## D-022 支付 H5 采用源码证据驱动的精确域名白名单
+
+- 日期：2026-07-26
+- 状态：ACCEPTED
+- 决定：从本站收银台异步 JavaScript 跳转到生产插件源码中已确认的 HTTPS 支付域名时，允许页面留在 WebView 内；之后只允许从本站或这些支付页拉起 host=`platformapi`、scheme=`alipays|alipay`、package=`com.eg.android.AlipayGphone` 的支付宝。
+- 当前精确 host：`api.xunhupay.com`、`fuylink.cy253.top`、`mapi.alipay.com`、`openapi.alipay.com`、`sandcash.mixienet.com.cn`、`wappaygw.alipay.com`。
+- 边界：不允许通配后缀、尾随点、userinfo、HTTP 降级或任意 intent。新增域名必须先取得源码或脱敏真实跳转证据、补测试并更新本决定。

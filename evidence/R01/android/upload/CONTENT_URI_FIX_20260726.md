@@ -1,7 +1,7 @@
 # H5 选图上传 content URI 修复
 
 - 日期：2026-07-26
-- 状态：源码与本机构建 PASS，等待 GitHub Android 36 instrumentation 和新服务器签名包
+- 状态：源码、本机、历史 Android 36 instrumentation、服务器正式签名构建 PASS；真实上传等待负责人异步真机反馈
 
 ## 问题
 
@@ -26,5 +26,16 @@
 - Debug APK SHA-256：
   `b19a34cab43790ed96010f80c549cf10ddd84bbf4cfe6dfaed90e60d8048affa`
 
+## 独立与服务器证据
+
+- GitHub Actions 历史 Run `30192427296`：PASS
+- Android 36 instrumentation：1 项，0 failure，0 error，0 skip
+- 服务器 build ID：`20260726T152600+0800`
+- 正式 APK 字节数：`18153952`
+- 正式 APK SHA-256：
+  `7b83c986ffc47481f0f8613a82ea22c80100b8a7fa55066825e3dbefa9e21398`
+- 桌面交付：`推广宝-1.0.0-R01-相册上传修复.apk`
+
 真正的发布、头像、名片、聊天四入口上传仍必须使用隔离数据在实体机完成端到端
-验证；配置与 instrumentation 通过不能替代服务端收到文件的证据。
+验证；配置与 instrumentation 通过不能替代服务端收到文件的证据。依据 D-020，
+该反馈异步返回且不阻塞后续版本开发，但在 R09 生产发布前必须关闭。

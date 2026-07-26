@@ -50,7 +50,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 两者必须指向同一项目、当前版本和兼容任务。
 - 文档中的未来路线不能被误认为已完成。
 - 聊天中说过但未写入状态/决定的内容不具有接续效力。
-- 本项目已有 D-013 的连续开发授权；关版通过后自动切换到下一版，不再等待重复授权，但任何高风险动作仍受 G00-G24 约束。
+- 本项目已有 D-013 的连续开发授权；关版通过后自动切换到下一版，不再等待重复授权。D-020 进一步明确负责人真机反馈异步返回，开发不得因等待反馈停滞，但任何高风险动作仍受 G00-G25 约束。
 
 ## 4. 开发前检查
 
@@ -60,7 +60,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 当前任务边界和验收条件完整；
 - 页面台账状态准确；
 - Android 包名/签名连续性材料可用（涉及 App 时）；
-- GitHub 远程、当前 commit 和最近一次 Actions 结果明确（涉及 App/自动化时）；
+- GitHub 远程和当前 commit 明确；不得误把历史 Actions 结果当作当前版本门禁；
 - 备份、回滚和隔离测试数据可用；
 - 未发现另一个 `IN_PROGRESS` 大版本。
 
@@ -99,7 +99,8 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode drift-au
 - 是否复用了正确的视觉/组件优点；
 - 是否引入深色大块、暖橙旧风格或品牌混用；
 - Android 权限、支付、状态栏、体积和签名是否漂移；
-- 服务器正式包与 GitHub Actions 独立复验是否都有可追溯证据；
+- 服务器正式包、桌面交付与本机自动检查是否都有可追溯证据；
+- 异步真机待验项是否保留在累计发布门禁，已返回的问题是否全部进入缺陷闭环；
 - 踩坑是否沉淀；
 - 规则是否需要加固；
 - 当前状态、下一任务和校验和是否同步。

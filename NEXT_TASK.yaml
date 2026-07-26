@@ -1,77 +1,80 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
-task_id: TASK-R01-001
-release: R01
+task_id: TASK-R02-001
+release: R02
 status: IN_PROGRESS
-title: 开发推广宝 Android 原生容器并交付首个签名测试 APK
+title: 开发推广宝品牌与 H5 公共浅色壳层
 
 preconditions:
-  - MANIFEST_SHA256.txt verification passes
-  - R00_RESULT.md is PASS
-  - Android toolchain verification passes
-  - no credentials or signing passwords enter the handoff or source
-  - H5 work remains on read-only staging and production is unchanged
+  - MANIFEST_SHA256.txt verification passes after the R01 closeout commit
+  - R01_RESULT.md conclusion is PASS for development closeout
+  - production remains unchanged and all edits occur in an isolated R02 staging copy
+  - staging write access is limited to code/assets; business POST and real user data writes remain blocked
+  - no credentials cookies tokens or signing secrets enter source evidence or screenshots
 
 read_first:
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
-  - 10_ANDROID_APP_SPEC.md
-  - 14_ANDROID_TOOLCHAIN.md
-  - 15_GITHUB_ACTIONS.md
+  - 04_VISUAL_SYSTEM.md
+  - 11_BRAND_GUIDE.md
+  - STYLE_TOKENS.json
+  - 02_PAGE_EXPERIENCE_LOG.md
+  - 03_PAGE_LEDGER.csv
   - 12_PAGE_SOURCE_MAP.csv
   - 13_SIDE_EFFECT_TEST_PLAN.md
   - LESSONS_LEARNED.md
   - DECISIONS.md
-  - version-results/R00_RESULT.md
+  - version-results/R01_RESULT.md
+
+scope:
+  - DESKTOP-SPLASH
+  - shared H5 token stylesheet and versioned local asset foundation
+  - shared header footer bottom navigation card button input label empty loading toast and dialog primitives
+  - browser safe-area behavior and Android WebView compatibility contract
+  - local SVG or subset iconfont foundation with no public CDN dependency
 
 actions:
-  - Create android-app Kotlin project with applicationId com.suewammes.tuiguangbao.
-  - Lock Gradle Wrapper AGP Kotlin compileSdk targetSdk minSdk and dependency verification.
-  - Implement a light-only branded splash and adaptive icons from the approved logo.
-  - Implement a single-activity WebView with HTTPS host allowlist and safe browser fallback.
-  - Apply WindowInsets so status and navigation bars never overlap H5 content.
-  - Implement back navigation target-blank download offline and SSL error handling.
-  - Keep WebView page loading automatic and remove the native top progress bar per physical-device feedback.
-  - Implement H5 file chooser with Photo Picker or SAF and no broad storage permission.
-  - Keep scoped content URI access enabled for picker uploads while raw file access remains disabled.
-  - Implement external-app routing with exact scheme host package allowlists and reject arbitrary intents.
-  - Generate the formal RSA 4096 keystore outside the handoff and wire signing through environment variables.
-  - Build and inspect signed Release APK and ensure size is at least 10485760 bytes without post-sign padding.
-  - Run unit lint static secret and APK metadata checks.
-  - Run available emulator or device smoke tests; record any unavailable hardware test as an explicit closure blocker.
-  - Push the complete handoff and Android source to the authorized GitHub repository.
-  - Run GitHub Actions clean build, Android 36 emulator install/start, screenshot, log and regression gates.
-  - Treat every CI failure as a fix, rebuild and retest loop; never waive a failed gate to obtain green status.
-  - Update native page rows evidence and create version-results/R01_RESULT.md.
-  - Run global drift audit and rebuild manifest only after review.
+  - Create a new immutable R02 server staging snapshot from the verified R00 baseline or current production snapshot without editing production.
+  - Record staging source hash backup rollback path listener and method restrictions before edits.
+  - Inventory the exact shared header footer navigation CSS and icon entry points used by R03 through R09.
+  - Implement STYLE_TOKENS.json as a versioned local CSS custom-property layer.
+  - Implement the Light Grid shared page shell and components with light backgrounds only.
+  - Create a local icon strategy using SVG sprite inline SVG or a verified WOFF2 subset; do not add public CDN dependencies.
+  - Redesign DESKTOP-SPLASH as a light 推广宝 H5 guidance page while preserving its mobile redirect behavior.
+  - Add browser safe-area CSS without double-applying Android native status-bar insets.
+  - Keep legacy pages not yet assigned to R02 visually and functionally stable; shared assets must be opt-in or compatibility-scoped.
+  - Capture 360x800 390x844 and 430x932 screenshots plus Android-WebView-safe layout evidence where applicable.
+  - Check CSS JS icon font and image requests for 404 mixed content external CDN and cache-header regressions.
+  - Compare routes query parameters forms hidden fields and side effects before and after; business behavior must remain identical.
+  - Run applicable static screenshot console overflow touch-target contrast and manifest gates.
+  - Build a new server-signed Android APK only if R02 H5/App integration requires native source or packaged-resource changes; otherwise record why R01 APK remains current.
+  - Put every newly built test APK on the local Desktop; do not wait for owner feedback.
+  - Update page ledger source map evidence decisions lessons CURRENT_STATUS NEXT_TASK and manifest.
+  - Run the full global drift audit before R02 closeout, then immediately continue to R03.
 
 forbidden:
   - Do not edit /www/wwwroot/tg.suewammes.com in place.
-  - Do not begin R02 H5 visual implementation before R01 closeout.
-  - Do not embed site login database payment or signing credentials.
-  - Do not ignore SSL errors or load arbitrary non-HTTPS hosts in WebView.
-  - Do not accept arbitrary custom schemes intent components selectors or javascript external navigation.
-  - Do not request MANAGE_EXTERNAL_STORAGE or unnecessary broad media permissions.
-  - Do not treat a debug or unsigned APK as the signed release deliverable.
-  - Do not create real payment withdrawal purchase reward or cancellation transactions.
-  - Do not upload keystore passwords site credentials cookies tokens or authenticated screenshots to GitHub.
-  - Do not treat the GitHub Debug artifact as the formal server-signed Release deliverable.
+  - Do not change login registration legal finance reward upload payment or other business behavior.
+  - Do not mark R03 through R09 pages visually verified merely because they consume shared assets.
+  - Do not use online Tailwind Font Awesome Google Fonts or another public runtime UI CDN.
+  - Do not add dark page backgrounds large dark surfaces warm-orange primary branding or old 签米 product copy.
+  - Do not submit SMS login payment withdrawal purchase reward delete certification or account-cancellation actions.
+  - Do not restore GitHub Actions automatic testing.
+  - Do not wait for asynchronous owner device feedback before continuing safe documented development.
 
 acceptance:
-  - Application label and package are 推广宝 and com.suewammes.tuiguangbao.
-  - Light splash adaptive icons and system bars pass visual checks.
-  - WebView loading navigation offline SSL and allowlist behavior pass.
-  - File chooser works through the minimum-permission system picker path.
-  - Android 36 instrumentation proves scoped content URI access is enabled while raw file and mixed content remain blocked.
-  - Approved external payment routing and safe fallback pass with a sandbox or sanitized sample.
-  - Signed Release APK is at least 10485760 bytes and install/launch is verified.
-  - GitHub Actions clean run is green and its APK screenshot test reports and logs are reviewed.
-  - No native top page-loading progress line is visible in the replacement APK.
-  - APK metadata SHA-256 certificate SHA-256 and signing custody are recorded without secrets.
-  - R01 closeout and global drift audit pass.
-  - CURRENT_STATUS.yaml NEXT_TASK.yaml native ledger rows decisions lessons and manifest are updated.
+  - DESKTOP-SPLASH uses the 推广宝 name and approved light visual system while preserving mobile redirect behavior.
+  - Shared tokens and components are versioned local assets and do not require Tailwind or a public icon CDN.
+  - 360x800 390x844 and 430x932 have no horizontal overflow clipping status-bar overlap or large dark surfaces.
+  - Text controls touch targets focus states and contrast meet the frozen gates.
+  - Legacy pages outside R02 retain routes parameters forms and business behavior.
+  - Browser and Android safe-area paths do not double-offset the header.
+  - Runtime asset checks show no new 404 mixed content or blocking public UI CDN.
+  - Production code and data remain unchanged.
+  - R02_RESULT.md and the global drift audit pass.
+  - CURRENT_STATUS.yaml NEXT_TASK.yaml evidence decisions lessons and manifest are synchronized.
 
 on_success:
-  next_release: R02
-  next_task_title: 开发推广宝品牌与 H5 公共浅色壳层
+  next_release: R03
+  next_task_title: 开发公共认证与法律信息页面

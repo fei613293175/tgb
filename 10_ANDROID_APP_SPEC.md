@@ -126,6 +126,11 @@ H5 入口：
 - 支付宝白名单 scheme 使用 `Intent.ACTION_VIEW`；
 - `intent://` 使用安全解析，必须移除显式组件/选择器等危险覆盖并加 `CATEGORY_BROWSABLE`；
 - 只允许预先批准的 scheme、host、package 组合；
+- 从本站经异步 JavaScript 跳转到已核验的 HTTPS 支付网关时，不要求 WebView 的
+  最终导航请求仍携带瞬时用户手势；只允许生产插件源码中登记的精确 host，并让
+  该 H5 收银台留在 WebView 内，以便继续拦截支付宝 deep link；
+- 支付网关之间只允许已登记的精确 HTTPS host；相似后缀、尾随点、userinfo、
+  HTTP 降级和未登记跳转必须拦截；
 - 无可处理 App 时打开支付方提供的 HTTPS 回退或展示可理解错误；
 - `javascript:`、`file:`、`content:`、未知自定义 scheme 不得外跳；
 - 不允许 `onReceivedSslError` 中直接 `proceed()`。
@@ -187,6 +192,7 @@ if ($apk.Length -lt 10485760) { throw "APK 小于 10 MiB：$($apk.Length) bytes"
 - applicationId、versionCode、versionName；
 - 签名证书 SHA-256；
 - `aapt dump badging` 或等价包信息；
-- 真机启动、相册、上传、支付宝拉起/返回、状态栏截图；
+- 真机启动、相册、上传、支付宝拉起/返回、状态栏截图；负责人可异步返回，但
+  未完成项必须留在累计发布门禁，R09 生产发布前清零；
 - WebView 控制台和 Android logcat 脱敏结果；
 - 回滚到上一 APK 的验证记录。
