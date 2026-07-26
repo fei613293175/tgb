@@ -34,8 +34,17 @@
 - Both headline templates emit an existing `Unexpected token '}'` browser error.
 - Their script blocks are byte-equivalent to the R06 baseline after reversing approved visual-only changes; R07 did not change or mask this business-script behavior.
 
+## Global drift audit
+
+- Requirement: only seven click-proven pages changed; orders, checkout and hidden routes remain excluded.
+- Hard gates: light UI, business protocol unchanged and staged rollback all passed.
+- Progress: R07 is closed and `TASK-R08-001` is the unique `IN_PROGRESS` task.
+- Reuse: local Light Grid tokens, local icon fonts, scoped CSS and exact-pixel CDP screenshots remain the standard path.
+- Lessons: final-template mapping and stable-frame screenshot rules were added as L-066 and L-067.
+- Automation: GitHub Actions remains manual `workflow_dispatch` only; owner device feedback remains asynchronous.
+- Result: no unresolved requirement drift remains in R07.
+
 ## Evidence
 
 - `evidence/R07/after/R07-V6-FINAL-BROWSER-MATRIX.json`
 - `evidence/R07/after/matrix-v6-final/`
-
