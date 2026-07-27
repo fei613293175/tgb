@@ -1,0 +1,383 @@
+:root {
+    --tg-bg: #f4f7fb;
+    --tg-surface: #ffffff;
+    --tg-surface-soft: #edf3fa;
+    --tg-ink: #0e1b2a;
+    --tg-text: #405166;
+    --tg-muted: #718096;
+    --tg-border: #d8e1ec;
+    --tg-primary: #2764ff;
+    --tg-primary-pressed: #1847cc;
+    --tg-mint: #19b8a9;
+}
+
+html,
+body {
+    background: var(--tg-bg) !important;
+    color: var(--tg-text) !important;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body {
+    padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+}
+
+.tech-grid {
+    opacity: 0 !important;
+    background-image: none !important;
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+}
+
+.glow-orb,
+.particles-container,
+.btn-shine,
+.app-icon-glow {
+    display: none !important;
+}
+
+.container {
+    max-width: 500px !important;
+    padding: 0 16px 32px !important;
+}
+
+.nav {
+    width: auto !important;
+    margin: 0 -16px !important;
+    padding: max(12px, env(safe-area-inset-top)) 16px 12px !important;
+    background: rgba(255, 255, 255, .96) !important;
+    border-bottom: 1px solid var(--tg-border) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.nav-title,
+.nav-title i,
+.app-name,
+.app-icon-inner {
+    background: none !important;
+    color: var(--tg-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.nav-title {
+    min-height: 44px !important;
+    font-size: 18px !important;
+    letter-spacing: 0 !important;
+}
+
+.nav-title i,
+.app-icon-inner {
+    color: var(--tg-primary) !important;
+}
+
+.hero-section {
+    padding: 24px 0 12px !important;
+}
+
+.app-icon {
+    width: 84px !important;
+    height: 84px !important;
+    border: 1px solid #cbd9ff !important;
+    border-radius: 8px !important;
+    background: #eaf0ff !important;
+    box-shadow: 0 8px 24px rgba(12, 27, 51, .08) !important;
+}
+
+.app-icon::before {
+    display: none !important;
+}
+
+.app-name {
+    font-size: 28px !important;
+    letter-spacing: 0 !important;
+}
+
+.app-tagline,
+.app-version,
+.btn-hint,
+.alt-desc,
+.step-desc,
+.footer-info {
+    color: var(--tg-muted) !important;
+}
+
+.app-version,
+.guide-badge {
+    color: var(--tg-primary) !important;
+    background: #eaf0ff !important;
+    border: 1px solid #cbd9ff !important;
+    border-radius: 6px !important;
+}
+
+.download-section {
+    gap: 12px !important;
+}
+
+.download-btn {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) 24px !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.download-btn,
+.alt-download-section,
+.guide-section,
+.wechat-tip-card,
+.speed-modal {
+    color: var(--tg-text) !important;
+    background: var(--tg-surface) !important;
+    border: 1px solid var(--tg-border) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.download-btn {
+    min-height: 64px !important;
+    padding: 12px 16px !important;
+}
+
+.download-btn:active {
+    transform: none !important;
+    background: var(--tg-surface-soft) !important;
+}
+
+.btn-android {
+    border-color: #b9ddd6 !important;
+}
+
+.btn-ios {
+    border-color: #cbd9ff !important;
+}
+
+.btn-icon-wrap {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--tg-primary) !important;
+    background: #eaf0ff !important;
+    border: 0 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+}
+
+.btn-android .btn-icon-wrap {
+    color: #168f84 !important;
+    background: #e5f7f4 !important;
+}
+
+.btn-text-group {
+    min-width: 0;
+}
+
+.btn-platform,
+.btn-hint {
+    overflow-wrap: anywhere;
+}
+
+.btn-platform,
+.alt-download-header,
+.guide-title,
+.step-title,
+.wechat-tip-title {
+    color: var(--tg-ink) !important;
+}
+
+.btn-arrow,
+.alt-download-header i,
+.guide-title i,
+.guide-toggle,
+.web-link,
+.highlight {
+    color: var(--tg-primary) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.copy-link-btn,
+.speed-btn,
+.wechat-tip-btn,
+.modal-copy-btn {
+    min-height: 44px !important;
+    color: #fff !important;
+    background: var(--tg-primary) !important;
+    border: 1px solid var(--tg-primary) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.copy-link-btn:active,
+.speed-btn:active,
+.wechat-tip-btn:active,
+.modal-copy-btn:active {
+    background: var(--tg-primary-pressed) !important;
+}
+
+.guide-step,
+.modal-link-item {
+    background: var(--tg-surface-soft) !important;
+    border: 1px solid var(--tg-border) !important;
+    border-radius: 8px !important;
+}
+
+.guide-header {
+    min-height: 52px !important;
+    padding: 12px 14px !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto 24px !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.guide-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.guide-toggle {
+    width: 24px;
+    height: 24px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.guide-content {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+}
+
+.guide-step {
+    padding: 12px !important;
+}
+
+.step-num {
+    flex: 0 0 30px;
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 6px !important;
+}
+
+.step-info {
+    min-width: 0;
+}
+
+.step-num {
+    color: #fff !important;
+    background: var(--tg-primary) !important;
+    box-shadow: none !important;
+}
+
+.wechat-overlay,
+.speed-modal-overlay {
+    background: rgba(14, 27, 42, .38) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.wechat-overlay.hidden,
+.speed-modal-overlay.hidden {
+    display: none !important;
+}
+
+.wechat-tip-card,
+.speed-modal {
+    width: min(calc(100vw - 32px), 420px) !important;
+    max-height: calc(100vh - 32px) !important;
+    overflow-y: auto !important;
+    padding: 18px 16px !important;
+}
+
+.wechat-tip-icon {
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 auto 10px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    background: var(--tg-surface-soft) !important;
+    box-shadow: none !important;
+}
+
+.wechat-tip-desc {
+    color: var(--tg-text) !important;
+    line-height: 1.7 !important;
+}
+
+.wechat-arrow {
+    color: var(--tg-primary) !important;
+    border-color: var(--tg-primary) !important;
+}
+
+.modal-close {
+    top: 10px !important;
+    right: 10px !important;
+    width: 44px !important;
+    height: 44px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tg-border) !important;
+    border-radius: 6px !important;
+    background: var(--tg-surface) !important;
+    color: var(--tg-primary) !important;
+    box-shadow: none !important;
+}
+
+.modal-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 220px !important;
+    margin: 38px 0 12px !important;
+    object-fit: cover;
+    border: 1px solid var(--tg-border) !important;
+    border-radius: 8px !important;
+}
+
+.modal-links {
+    display: grid !important;
+    gap: 8px !important;
+}
+
+.modal-links > .modal-links {
+    display: contents !important;
+}
+
+.modal-link-item {
+    min-width: 0;
+    padding: 12px !important;
+}
+
+.modal-link-url {
+    min-width: 0;
+    color: var(--tg-text) !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.footer-info {
+    padding: 12px 0 calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    line-height: 1.7;
+}
+
+.toast {
+    color: #fff !important;
+    background: #0e1b2a !important;
+    border-radius: 8px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

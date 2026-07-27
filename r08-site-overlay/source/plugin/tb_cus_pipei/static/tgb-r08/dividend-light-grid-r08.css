@@ -1,0 +1,297 @@
+:root {
+    --tgb-r08-blue: #146ef5;
+    --tgb-r08-cyan: #00a8cc;
+    --tgb-r08-ink: #172033;
+    --tgb-r08-muted: #68758a;
+    --tgb-r08-line: #dbe3ef;
+    --tgb-r08-bg: #f4f7fb;
+    --tgb-r08-surface: #ffffff;
+    --tgb-r08-danger: #d9363e;
+    --tgb-r08-success: #17845d;
+}
+
+.tgb-r08-dividend-page {
+    min-height: 100vh;
+    margin: 0 !important;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+    background: var(--tgb-r08-bg) !important;
+    color: var(--tgb-r08-ink) !important;
+    letter-spacing: 0 !important;
+}
+
+.tgb-r08-dividend-page .nav-header {
+    box-sizing: border-box;
+    min-height: calc(56px + env(safe-area-inset-top));
+    margin: 0 !important;
+    padding: calc(8px + env(safe-area-inset-top)) 14px 8px !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 14px rgba(35, 53, 78, 0.06) !important;
+    backdrop-filter: blur(12px);
+}
+
+.tgb-r08-dividend-page .nav-avatar,
+.tgb-r08-dividend-page .nav-icon-btn {
+    width: 40px !important;
+    height: 40px !important;
+    background: #eef5ff !important;
+    color: var(--tgb-r08-blue) !important;
+    border: 1px solid #cfe0f7 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .nav-brand-name {
+    color: var(--tgb-r08-ink) !important;
+    font-weight: 750 !important;
+    letter-spacing: 0 !important;
+}
+
+.tgb-r08-dividend-page .nav-brand-tag {
+    color: var(--tgb-r08-muted) !important;
+}
+
+.tgb-r08-dividend-page .nav-dot {
+    background: var(--tgb-r08-danger) !important;
+    border-radius: 4px !important;
+}
+
+.tgb-r08-dividend-page .app-container {
+    box-sizing: border-box;
+    max-width: 620px !important;
+    margin: 0 auto !important;
+    padding: 14px !important;
+}
+
+.tgb-r08-dividend-page .hero-banner {
+    margin: 0 !important;
+    padding: 20px 18px !important;
+    background: #eef5ff !important;
+    border: 1px solid #cfe0f7 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .hero-banner::before,
+.tgb-r08-dividend-page .hero-banner::after,
+.tgb-r08-dividend-page .dividend-card::before,
+.tgb-r08-dividend-page .vip-modal::before,
+.tgb-r08-dividend-page .vip-modal::after {
+    display: none !important;
+}
+
+.tgb-r08-dividend-page .hero-eyebrow,
+.tgb-r08-dividend-page .hero-subtitle {
+    color: #52647c !important;
+    letter-spacing: 0 !important;
+}
+
+.tgb-r08-dividend-page .hero-main-amount,
+.tgb-r08-dividend-page .hero-main-amount .unit {
+    background: none !important;
+    color: var(--tgb-r08-blue) !important;
+    -webkit-text-fill-color: var(--tgb-r08-blue) !important;
+}
+
+.tgb-r08-dividend-page .hero-pill {
+    min-height: 40px;
+    padding: 0 11px !important;
+    display: inline-flex !important;
+    align-items: center;
+    background: var(--tgb-r08-blue) !important;
+    color: #fff !important;
+    border: 1px solid var(--tgb-r08-blue) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .hero-pill.outline {
+    background: var(--tgb-r08-surface) !important;
+    color: var(--tgb-r08-blue) !important;
+    border-color: #b9d2f6 !important;
+}
+
+.tgb-r08-dividend-page .metrics-strip {
+    gap: 10px !important;
+    margin-top: 12px !important;
+}
+
+.tgb-r08-dividend-page .metric-item {
+    padding: 15px 12px !important;
+    background: var(--tgb-r08-surface) !important;
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .metric-icon-circle {
+    width: 36px !important;
+    height: 36px !important;
+    background: #eef5ff !important;
+    color: var(--tgb-r08-blue) !important;
+    border-radius: 6px !important;
+}
+
+.tgb-r08-dividend-page .metric-value,
+.tgb-r08-dividend-page .metric-label {
+    color: var(--tgb-r08-ink) !important;
+}
+
+.tgb-r08-dividend-page .metric-sub {
+    color: var(--tgb-r08-muted) !important;
+}
+
+.tgb-r08-dividend-page .list-section-header {
+    margin-top: 18px !important;
+}
+
+.tgb-r08-dividend-page .list-title-bar {
+    background: var(--tgb-r08-blue) !important;
+    border-radius: 3px !important;
+}
+
+.tgb-r08-dividend-page .list-title {
+    color: var(--tgb-r08-ink) !important;
+    letter-spacing: 0 !important;
+}
+
+.tgb-r08-dividend-page .list-live-tag {
+    background: #eaf7f2 !important;
+    color: var(--tgb-r08-success) !important;
+    border-radius: 6px !important;
+}
+
+.tgb-r08-dividend-page .dividend-card {
+    margin-top: 10px !important;
+    padding: 15px !important;
+    background: var(--tgb-r08-surface) !important;
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 20px rgba(35, 53, 78, 0.06) !important;
+}
+
+.tgb-r08-dividend-page .amount-label,
+.tgb-r08-dividend-page .amount-number,
+.tgb-r08-dividend-page .amount-number.yuan {
+    color: var(--tgb-r08-blue) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-dividend-page .timer-chip,
+.tgb-r08-dividend-page .status-tag {
+    border-radius: 6px !important;
+}
+
+.tgb-r08-dividend-page .btn-claim,
+.tgb-r08-dividend-page .btn-disabled,
+.tgb-r08-dividend-page .btn-claimed {
+    min-height: 40px;
+    padding: 0 12px !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .btn-claim {
+    background: var(--tgb-r08-blue) !important;
+    color: #fff !important;
+    border: 1px solid var(--tgb-r08-blue) !important;
+}
+
+.tgb-r08-dividend-page .btn-disabled,
+.tgb-r08-dividend-page .btn-claimed {
+    background: #edf1f6 !important;
+    color: var(--tgb-r08-muted) !important;
+    border: 1px solid #d6dfeb !important;
+}
+
+.tgb-r08-dividend-page .card-meta-row {
+    color: var(--tgb-r08-muted) !important;
+    border-color: #edf1f6 !important;
+}
+
+.tgb-r08-dividend-page .overlay,
+.tgb-r08-dividend-page .vip-overlay {
+    background: rgba(23, 32, 51, 0.38) !important;
+    backdrop-filter: blur(4px);
+}
+
+.tgb-r08-dividend-page .rule-drawer,
+.tgb-r08-dividend-page .vip-modal {
+    background: var(--tgb-r08-surface) !important;
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px 8px 0 0 !important;
+    box-shadow: 0 -12px 32px rgba(23, 32, 51, 0.16) !important;
+}
+
+.tgb-r08-dividend-page .vip-modal {
+    border-radius: 8px !important;
+}
+
+.tgb-r08-dividend-page .vip-modal-header {
+    padding: 20px 18px !important;
+    background: #eef5ff !important;
+    color: var(--tgb-r08-ink) !important;
+    border-bottom: 1px solid #cfe0f7 !important;
+}
+
+.tgb-r08-dividend-page .vip-modal-header h2,
+.tgb-r08-dividend-page .vip-modal-header p {
+    color: var(--tgb-r08-ink) !important;
+    letter-spacing: 0 !important;
+}
+
+.tgb-r08-dividend-page .instant-claim,
+.tgb-r08-dividend-page .miss-amount,
+.tgb-r08-dividend-page .detail-box,
+.tgb-r08-dividend-page .rule-item {
+    background: #f8fafc !important;
+    color: #52647c !important;
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .btn-open-vip,
+.tgb-r08-dividend-page .btn-close-drawer {
+    min-height: 46px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: var(--tgb-r08-blue) !important;
+    color: #fff !important;
+    border: 1px solid var(--tgb-r08-blue) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-dividend-page .btn-detail,
+.tgb-r08-dividend-page .btn-back {
+    min-height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc !important;
+    color: var(--tgb-r08-blue) !important;
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+}
+
+.tgb-r08-dividend-page .rule-drawer-handle {
+    background: #c8d3e0 !important;
+    border-radius: 3px !important;
+}
+
+.tgb-r08-dividend-page .rule-drawer-header h3,
+.tgb-r08-dividend-page .rule-item strong {
+    color: var(--tgb-r08-ink) !important;
+    letter-spacing: 0 !important;
+}
+
+@media (max-width: 360px) {
+    .tgb-r08-dividend-page .app-container {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+}

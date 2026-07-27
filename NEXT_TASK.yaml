@@ -1,60 +1,52 @@
 schema_version: 1
 project_id: TG-H5-UI-REDESIGN
-task_id: TASK-R08-001
-release: R08
+task_id: TASK-R09-001
+release: R09
 status: IN_PROGRESS
-title: 批量开发增长奖励与站内 App 落地真实可达页面
+title: 全站最终复核并准备生产发布
 
 read_first:
-  - 16_RUNTIME_CLICK_AUDIT.md
-  - 17_RUNTIME_CLICK_GRAPH.csv
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
-  - version-results/R07_RESULT.md
-  - evidence/R07/after/R07-V6-FINAL-BROWSER-MATRIX.json
-  - 04_VISUAL_SYSTEM.md
-  - STYLE_TOKENS.json
+  - version-results/R08_RESULT.md
+  - evidence/R08/after/R08-V2-FINAL-BROWSER-MATRIX.json
   - 03_PAGE_LEDGER.csv
-  - 12_PAGE_SOURCE_MAP.csv
+  - 17_RUNTIME_CLICK_GRAPH.csv
+  - 04_VISUAL_SYSTEM.md
   - DECISIONS.md
   - LESSONS_LEARNED.md
 
-click_proven_in_scope:
-  - GROWTH-INVITE
-  - GROWTH-TEAM
-  - REWARD-SIGNIN
-  - REWARD-MATCH-DIVIDEND
-  - APP-DOWNLOAD-LANDING
+scope:
+  - run one final regression over all completed real-reachable page families
+  - confirm R09 residual plugins remain out of visual scope because they have no visible parent entry
+  - verify local assets light UI branding business equivalence rollback and production package readiness
+  - resolve only defects found on already in-scope pages
 
-implementation_batches:
-  - lane_a: invite poster and team list
-  - lane_b: sign-in and match-dividend read surfaces
-  - lane_c: internal App download landing only
+out_of_scope_plugins:
+  - xigua_hs
+  - xigua_sp
+  - tb_jjd
+  - tb_cus_adv
+  - tb_cus_taojing
 
 actions:
-  - create R08 staging from the closed R07 staging snapshot
-  - export the exact final templates rendered by the five click-proven pages
-  - preserve invite relationships reward balances claim state routes fields and handlers
-  - apply local light UI only to the five click-proven pages
-  - run one combined 360x800 390x844 and 430x932 browser matrix
-  - close all temporary fixtures bridges and write windows after testing
+  - assemble the closed R02 through R08 overlays into one production candidate
+  - run global static and mobile viewport regression once
+  - verify Android container compatibility without rebuilding the APK when native source is unchanged
+  - prepare production backup deployment and rollback scripts
+  - keep owner device upload payment and safe-area feedback asynchronous
 
 forbidden:
-  - do not edit production
-  - do not automate external sharing or downstream binary downloads
-  - do not click real sign-in dividend claim reward or task actions
-  - do not change relationship reward wallet or claim calculations
+  - do not redesign source-only hidden or direct-URL pages
+  - do not change business scripts forms routes values balances claims or payment protocols
   - do not restore GitHub Actions automatic triggers
+  - do not deploy production until the complete production candidate and rollback verification pass
 
 acceptance:
-  - every redesigned page has a CLICK_PROVEN parent edge
-  - forms links routes fields handlers and business scripts match the R07 baseline
-  - three mobile viewports have no horizontal overflow overlap or clipped controls
-  - all pages remain light and use local versioned UI assets
-  - staging POST returns 405 and production stable-code hash is unchanged
-  - R08_RESULT.md status next task decisions lessons and manifest are synchronized
-
-on_success:
-  next_release: R09
-  next_task_title: 开发剩余真实可达页面并完成全局关版
+  - every visual file belongs to a real-reachable page already approved in R02 through R08
+  - no hidden page or dormant plugin is added to the production candidate
+  - global mobile matrix has no horizontal overflow overlap clipped controls or dark page background
+  - public UI CDN count is zero for redesigned pages
+  - production candidate is reproducible and has a verified rollback package
+  - R09 result status decisions lessons and manifest are synchronized

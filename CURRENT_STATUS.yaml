@@ -2,10 +2,10 @@ schema_version: 1
 project_id: TG-H5-UI-REDESIGN
 product_name: 推广宝
 snapshot_date: 2026-07-27
-current_release: R08
+current_release: R09
 release_status: IN_PROGRESS
-active_task_id: TASK-R08-001
-active_mode: UI_IMPLEMENTATION
+active_task_id: TASK-R09-001
+active_mode: GLOBAL_CLOSEOUT
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -38,13 +38,13 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: R07_ACTIVE
-  owner_release: R07
-  source_release: R06
-  snapshot_id: 20260727T065354+0800
-  site_root: /www/staging/tg-h5-ui-r07/site
-  private_evidence_root: /www/staging/tg-h5-ui-r07/private
-  listener: 127.0.0.1:18087
+  status: R08_ACTIVE
+  owner_release: R08
+  source_release: R07
+  snapshot_id: 20260727T074523+0800
+  site_root: /www/staging/tg-h5-ui-r08/site
+  private_evidence_root: /www/staging/tg-h5-ui-r08/private
+  listener: 127.0.0.1:18088
   access: SSH_TUNNEL_ONLY
   allowed_methods:
     - GET
@@ -86,6 +86,13 @@ staging:
   r07_backup_dir: /www/staging/tg-h5-ui-r07/private/change-backups/20260727T072400+0800-click-proven-v1
   r07_browser_matrix: 7_PAGES_X_3_VIEWPORTS_PASS
   r07_refresh_template_correction: SXTC_PAGE_PLUS_REFRESH_POPUP
+  r08_overlay_revision: v2
+  r08_overlay_files: 10
+  r08_overlay_archive: deliverables/r08-click-proven-overlay-v2.tar.gz
+  r08_overlay_archive_sha256: 3d62e35884e920dd9d168c262beb99e4eb134711e0a25bc65ce7fef903659060
+  r08_deploy_id: 20260727T080940+0800
+  r08_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T080940+0800-click-proven-v1
+  r08_browser_matrix: 5_PAGES_X_3_VIEWPORTS_PASS
   browser_origin_bridge: OFF
   reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
 
@@ -201,11 +208,14 @@ completed:
   - R07 refresh package mapping corrected to the real sxtc page plus its visible refresh popup
   - R07 temporary certification fixture and all browser bridges removed with POST 405 restored
   - R07 development closeout with production stable-code hash unchanged
+  - R08 five click-proven growth reward and App landing pages passed the final v2 three-viewport matrix
+  - R08 forms links routes template flow and business scripts remained unchanged with public UI CDN count zero
+  - R08 exact-pixel screenshots passed with zero horizontal overflow and production stable-code hash unchanged
   - chat detail and member detail preserved only as visible-entry candidates pending isolated replay
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 visual implementation R08 through R09 (R08 ready)
+  - H5 R09 global closeout and production release preparation
   - controlled-write fixtures for each high-risk page family
   - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)

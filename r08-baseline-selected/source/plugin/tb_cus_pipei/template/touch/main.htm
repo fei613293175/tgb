@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>签米会员分红系统</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    {template tb_cus_pipei:header}
+    <script src="source/plugin/tb_cus_base/static/js/jquery-3.3.1.min.js"></script>
+    <script src="source/plugin/tb_cus_base/static/layer/layer.js"></script>
+
+    <style>
+        :root {
+            --bg: #f0f2f5;
+            --surface: #ffffff;
+            --accent: #4f6ef7;
+            --accent-soft: #eef1ff;
+            --accent-deep: #3a54d4;
+            --accent-gradient: linear-gradient(160deg, #5b7fff 0%, #4f6ef7 40%, #3d56e0 100%);
+            --danger: #f04b4b;
+            --danger-soft: #fff0f0;
+            --success: #2ea87a;
+            --success-soft: #eafaf3;
+            --warning: #f5a623;
+            --warning-soft: #fff9f0;
+            --text-main: #1a1d28;
+            --text-secondary: #5f6478;
+            --text-muted: #9298ab;
+            --border: #e8ebf3;
+            --border-soft: #f3f4f8;
+            --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.06), 0 4px 10px rgba(0, 0, 0, 0.03);
+            --shadow-accent: 0 12px 24px -6px rgba(79, 110, 247, 0.3);
+            --radius-2xl: 22px;
+            --radius-xl: 18px;
+            --radius-lg: 14px;
+            --radius-md: 10px;
+            --radius-sm: 8px;
+            --radius-full: 999px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        body {
+            background: var(--bg);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+            color: var(--text-main);
+            padding-bottom: 40px;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== 顶部导航 ========== */
+        .nav-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px; margin: 16px 16px 0 16px;
+            background: var(--surface); border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-sm); position: sticky; top: 30px; z-index: 30;
+            border: 1px solid var(--border-soft);
+        }
+        .nav-brand-group { display: flex; align-items: center; gap: 10px; }
+        .nav-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent-gradient); display: flex; align-items: center;
+            justify-content: center; color: #fff; font-weight: 700; font-size: 1rem;
+            box-shadow: var(--shadow-accent);
+        }
+        .nav-brand-text { display: flex; flex-direction: column; }
+        .nav-brand-name {
+            font-size: 1.1rem; font-weight: 700; color: var(--text-main);
+            letter-spacing: -0.02em; line-height: 1.2;
+        }
+        .nav-brand-tag {
+            font-size: 0.7rem; color: var(--accent); font-weight: 600;
+            background: var(--accent-soft); padding: 2px 10px;
+            border-radius: var(--radius-full); width: fit-content; margin-top: 2px;
+        }
+        .nav-actions { display: flex; gap: 8px; }
+        .nav-icon-btn {
+            width: 38px; height: 38px; border-radius: 50%;
+            background: #f7f8fc; border: 1px solid var(--border-soft);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-secondary); font-size: 1.05rem; cursor: pointer;
+            position: relative; transition: all 0.2s;
+        }
+        .nav-icon-btn:active { background: #eef0f8; transform: scale(0.94); }
+        .nav-dot {
+            position: absolute; top: 8px; right: 8px; width: 7px; height: 7px;
+            background: var(--danger); border-radius: 50%; border: 2px solid #fff;
+        }
+
+        .app-container { max-width: 540px; margin: 0 auto; padding: 0 16px; }
+
+        /* ========== Hero 横幅 ========== */
+        .hero-banner {
+            margin-top: 18px; background: var(--accent-gradient);
+            border-radius: var(--radius-2xl); padding: 28px 22px 22px;
+            color: #fff; position: relative; overflow: hidden; box-shadow: var(--shadow-accent);
+        }
+        .hero-banner::before {
+            content: ''; position: absolute; top: -50px; right: -40px;
+            width: 180px; height: 180px; background: rgba(255,255,255,0.06); border-radius: 50%;
+        }
+        .hero-banner::after {
+            content: ''; position: absolute; bottom: -30px; left: -20px;
+            width: 100px; height: 100px; background: rgba(255,255,255,0.04); border-radius: 50%;
+        }
+        .hero-eyebrow {
+            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.08em; opacity: 0.85; margin-bottom: 6px; position: relative; z-index: 1;
+        }
+        .hero-main-amount {
+            font-size: 3.2rem; font-weight: 800; line-height: 1;
+            letter-spacing: -0.03em; position: relative; z-index: 1; margin-bottom: 4px;
+        }
+        .hero-main-amount .unit { font-size: 1.2rem; font-weight: 500; opacity: 0.8; margin-left: 2px; }
+        .hero-subtitle {
+            font-size: 0.82rem; opacity: 0.8; position: relative; z-index: 1;
+            margin-bottom: 16px; letter-spacing: 0.02em;
+        }
+        .hero-action-row { display: flex; gap: 10px; position: relative; z-index: 1; flex-wrap: wrap; }
+        .hero-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.18); backdrop-filter: blur(6px);
+            padding: 9px 18px; border-radius: var(--radius-full);
+            font-size: 0.78rem; font-weight: 600; color: #fff;
+            cursor: pointer; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.25);
+        }
+        .hero-pill:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
+        .hero-pill.outline { background: transparent; border: 1px solid rgba(255,255,255,0.5); }
+
+        /* ========== 双指标卡片 ========== */
+        .metrics-strip { display: flex; gap: 10px; margin-top: 16px; margin-bottom: 20px; }
+        .metric-item {
+            flex: 1; background: var(--surface); border-radius: var(--radius-xl);
+            padding: 16px 14px; text-align: center; box-shadow: var(--shadow-xs);
+            border: 1px solid var(--border-soft); position: relative; overflow: hidden;
+        }
+        .metric-item .metric-icon-circle {
+            width: 34px; height: 34px; border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; margin: 0 auto 8px auto; font-size: 0.9rem;
+        }
+        .metric-item .metric-icon-circle.earn { background: #eef1ff; color: var(--accent); }
+        .metric-item .metric-icon-circle.miss { background: #fff0f0; color: var(--danger); }
+        .metric-value {
+            font-size: 1.7rem; font-weight: 800; color: var(--text-main);
+            letter-spacing: -0.02em; line-height: 1;
+        }
+        .metric-value .metric-unit { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+        .metric-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.03em; }
+        .metric-sub { font-size: 0.65rem; color: var(--text-muted); margin-top: 2px; opacity: 0.7; }
+
+        /* ========== 列表头部 ========== */
+        .list-section-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin: 6px 4px 14px 4px;
+        }
+        .list-title-group { display: flex; align-items: center; gap: 8px; }
+        .list-title-bar {
+            width: 4px; height: 22px; background: var(--accent-gradient); border-radius: 4px; flex-shrink: 0;
+        }
+        .list-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); }
+        .list-live-tag {
+            font-size: 0.68rem; font-weight: 600; color: var(--accent);
+            background: var(--accent-soft); padding: 5px 12px;
+            border-radius: var(--radius-full); display: inline-flex; align-items: center;
+            gap: 5px; animation: pulse-dot 2s infinite;
+        }
+        @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* ========== 分红卡片 ========== */
+        .dividend-card {
+            background: var(--surface); border-radius: var(--radius-xl);
+            margin-bottom: 14px; padding: 16px 18px; box-shadow: var(--shadow-xs);
+            border: 1px solid var(--border-soft); transition: all 0.15s ease;
+        }
+        .dividend-card:active { transform: scale(0.985); box-shadow: var(--shadow-sm); }
+        .dividend-card .card-inner-top {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            gap: 14px; flex-wrap: wrap;
+        }
+        .dividend-card .amount-block { display: flex; align-items: baseline; gap: 2px; flex-shrink: 0; }
+        .dividend-card .amount-number {
+            font-size: 2.2rem; font-weight: 800; color: var(--text-main);
+            letter-spacing: -0.03em; line-height: 1;
+        }
+        .dividend-card .amount-number.yuan {
+            font-size: 0.9rem; font-weight: 500; color: var(--text-muted); margin-left: 2px;
+        }
+        .dividend-card .amount-label {
+            font-size: 0.68rem; color: var(--text-muted); display: block; margin-bottom: 2px; letter-spacing: 0.03em;
+        }
+        .dividend-card .timer-chip {
+            display: inline-flex; align-items: center; gap: 6px; background: #f7f8fc;
+            padding: 7px 14px; border-radius: var(--radius-full); font-size: 0.72rem;
+            font-weight: 600; color: var(--text-secondary); white-space: nowrap;
+        }
+        .dividend-card .timer-chip.urgent {
+            background: #fff5f5; color: #d94444; animation: urgent-pulse 1.5s infinite;
+        }
+        @keyframes urgent-pulse { 0%,100% { background: #fff5f5; } 50% { background: #ffe8e8; } }
+        .dividend-card .timer-num {
+            font-family: 'SF Mono', 'JetBrains Mono', 'Consolas', monospace;
+            font-weight: 700; font-size: 0.85rem; letter-spacing: 0.04em;
+        }
+        .dividend-card .timer-num.expired { color: #b0b5c0; }
+
+        .btn-claim {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--accent-gradient); color: #fff; border: none;
+            padding: 10px 20px; border-radius: var(--radius-full); font-weight: 700;
+            font-size: 0.8rem; cursor: pointer; box-shadow: var(--shadow-accent);
+            transition: all 0.15s; white-space: nowrap; letter-spacing: 0.02em;
+        }
+        .btn-claim:active { transform: scale(0.93); opacity: 0.85; }
+        .btn-disabled {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #e9ecf3; color: #9aa1b5; border: none;
+            padding: 10px 20px; border-radius: var(--radius-full); font-weight: 600;
+            font-size: 0.8rem; cursor: not-allowed; white-space: nowrap;
+        }
+        .btn-claimed {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: #eafaf3; color: #2ea87a; border: 1px solid #c8e9d8;
+            padding: 10px 20px; border-radius: var(--radius-full); font-weight: 600;
+            font-size: 0.8rem; cursor: default; white-space: nowrap;
+        }
+
+        .dividend-card .card-meta-row {
+            display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+            margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);
+            font-size: 0.7rem; color: var(--text-muted);
+        }
+        .meta-user {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #f7f8fc; padding: 4px 10px; border-radius: var(--radius-full);
+            font-weight: 500; color: var(--text-secondary); font-size: 0.7rem;
+        }
+        .meta-order { color: var(--text-muted); font-size: 0.68rem; }
+        .status-tag {
+            display: inline-flex; align-items: center; gap: 3px; padding: 4px 10px;
+            border-radius: var(--radius-full); font-weight: 600; font-size: 0.68rem;
+        }
+        .status-tag.pending { background: #fff9f0; color: #c07d1a; }
+        .status-tag.expired-tag { background: #fff0f0; color: #c94040; }
+        .status-tag.claimed-tag { background: #eafaf3; color: #2ea87a; }
+
+        /* ========== 非会员强制弹窗（全新强化版） ========== */
+        .vip-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(12px);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .vip-modal {
+            background: #fff; width: 90%; max-width: 400px; height: 80vh;
+            border-radius: 36px; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; overflow: hidden;
+            animation: popIn 0.35s cubic-bezier(0.21, 1.02, 0.58, 1);
+            position: relative;
+        }
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .vip-modal-header {
+            background: linear-gradient(135deg, #6b2fa0, #f5a623, #ff6b6b);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            padding: 24px 20px 18px;
+            color: #fff; text-align: center;
+            flex-shrink: 0; position: relative; overflow: hidden;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .vip-modal-header::before {
+            content: ''; position: absolute; top: -40px; right: -30px;
+            width: 120px; height: 120px; background: rgba(255,255,255,0.2); border-radius: 50%;
+            pointer-events: none;
+        }
+        .vip-modal-header::after {
+            content: ''; position: absolute; bottom: -20px; left: -20px;
+            width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%;
+            pointer-events: none;
+        }
+        .vip-modal-header .coin-icon {
+            font-size: 2.8rem; margin-bottom: 6px;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+            display: inline-block;
+            animation: floatCoin 3s ease-in-out infinite;
+        }
+        @keyframes floatCoin {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .vip-modal-header h2 {
+            font-size: 1.8rem; font-weight: 800; margin: 0;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .vip-modal-header p {
+            font-size: 0.85rem; opacity: 0.95; margin-top: 4px;
+            font-weight: 500; letter-spacing: 0.5px;
+        }
+
+        .vip-modal-body {
+            flex: 1; overflow-y: auto; padding: 20px 20px 10px;
+            background: #fff; color: #333;
+        }
+        /* 立即领取区块 */
+        .instant-claim {
+            background: linear-gradient(135deg, #ffe9a7, #ffd966);
+            border-radius: 20px; padding: 16px; margin-bottom: 16px;
+            text-align: center; border: 1px solid #f0c040;
+            box-shadow: 0 4px 12px rgba(245,166,35,0.3);
+        }
+        .instant-claim .instant-icon { font-size: 2rem; margin-bottom: 4px; }
+        .instant-claim .instant-text {
+            font-size: 1.2rem; font-weight: 800; color: #8b4513;
+        }
+        .instant-claim .instant-text strong {
+            font-size: 2rem; color: #d4380d; display: block; margin-top: 4px;
+        }
+        .miss-amount {
+            background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+            border-radius: 20px; padding: 16px; margin-bottom: 16px;
+            border: 1px solid #ffc9c9; text-align: center;
+        }
+        .miss-amount span { font-size: 0.8rem; color: #b33; display: block; }
+        .miss-amount strong {
+            font-size: 2.6rem; color: #d32f2f; font-weight: 900; display: block;
+            margin: 2px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .miss-amount .sub { font-size: 0.75rem; color: #b33; }
+        .desc {
+            font-size: 0.82rem; color: #444; line-height: 1.7; margin-bottom: 14px;
+            text-align: left; padding: 0 4px;
+        }
+        .detail-box {
+            background: #f7f5fc; border-radius: 16px; padding: 14px;
+            margin: 12px 0; font-size: 0.78rem; color: #4a3b6e;
+            line-height: 1.7; text-align: left;
+            border-left: 4px solid #6b2fa0;
+            display: none; /* 由 JS 控制展开 */
+        }
+        .vip-modal-footer {
+            padding: 12px 20px 20px; flex-shrink: 0;
+            display: flex; flex-direction: column; gap: 10px;
+            background: #fff; border-top: 1px solid #f0f0f0;
+        }
+        .btn-detail {
+            display: block; background: #f5f5f5; border-radius: 40px;
+            padding: 10px; font-weight: 600; font-size: 0.82rem; color: #5a3e85;
+            text-align: center; cursor: pointer; text-decoration: none;
+            border: 1px solid #e0d5f0; transition: 0.2s;
+        }
+        .btn-detail:active { background: #ebe4f5; }
+        .btn-open-vip {
+            display: block; background: linear-gradient(135deg, #f5a623, #f76b1c);
+            border-radius: 40px; padding: 14px; font-weight: 800; font-size: 1rem;
+            color: #fff; text-align: center; text-decoration: none;
+            box-shadow: 0 10px 20px -8px rgba(245,166,35,0.5);
+            letter-spacing: 1px; transition: all 0.2s;
+        }
+        .btn-open-vip:active { transform: scale(0.96); opacity: 0.9; }
+        .btn-back {
+            display: block; text-align: center; padding: 8px;
+            color: #ff0000; font-size: 0.78rem; text-decoration: none;
+            border-radius: 20px; transition: 0.2s;
+        }
+        .btn-back:hover { color: #666; background: #fafafa; }
+
+        /* ========== 规则抽屉 ========== */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.55); z-index: 998; backdrop-filter: blur(3px);
+        }
+        .rule-drawer {
+            display: none; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 540px; background: var(--surface);
+            border-radius: 28px 28px 0 0; z-index: 999;
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.15); max-height: 75vh; overflow-y: auto;
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+        }
+        .rule-drawer-handle {
+            width: 36px; height: 5px; background: #d5d8e2; border-radius: 8px;
+            margin: 12px auto 8px auto;
+        }
+        .rule-drawer-header {
+            padding: 10px 22px 16px; text-align: center; border-bottom: 1px solid var(--border-soft);
+        }
+        .rule-drawer-header h3 {
+            font-size: 1.3rem; font-weight: 700; color: var(--text-main);
+        }
+        .rule-drawer-header .sub { font-size: 0.75rem; color: var(--text-muted); }
+        .rule-drawer-body { padding: 18px 20px; }
+        .rule-drawer-body .rule-item {
+            background: #f8f9fd; padding: 14px 16px; border-radius: var(--radius-lg);
+            margin-bottom: 12px; font-size: 0.8rem; color: var(--text-secondary);
+            line-height: 1.5; border-left: 3px solid var(--accent);
+        }
+        .rule-drawer-footer { padding: 14px 20px 20px; text-align: center; }
+        .btn-close-drawer {
+            display: inline-block; background: var(--accent-gradient); color: #fff;
+            padding: 12px 36px; border-radius: var(--radius-full); font-weight: 700;
+            cursor: pointer; box-shadow: var(--shadow-accent);
+        }
+
+        /* layer 适配 */
+        .modal-crypto .layui-layer-title {
+            background: #f8f9fd !important; color: #1a1d28 !important;
+            border-bottom: 1px solid #e8ebf3 !important; font-weight: 700 !important;
+        }
+        .modal-crypto .layui-layer-content { background: #fff !important; color: #1a1d28 !important; }
+        .modal-crypto .layui-layer-btn { background: #fafbfd !important; }
+        .modal-crypto .layui-layer-btn a {
+            background: var(--accent-gradient) !important; border-radius: 50px !important;
+            color: #fff !important; font-weight: 600 !important;
+        }
+
+        .bottom-spacer { height: 20px; }
+
+        @media (max-width: 400px) {
+            .hero-main-amount { font-size: 2.6rem; }
+            .dividend-card .amount-number { font-size: 1.7rem; }
+            .btn-claim, .btn-disabled, .btn-claimed { padding: 8px 15px; font-size: 0.72rem; }
+            .dividend-card { padding: 14px; }
+            .nav-header { margin: 10px 10px 0 10px; padding: 10px 14px; }
+            .vip-modal { width: 95%; max-height: 75vh; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ========== 非签米会员强制弹窗（不可关闭） ========== -->
+    <!--{if !$is_qm_vip}-->
+    <div class="vip-overlay">
+        <div class="vip-modal">
+            <div class="vip-modal-header">
+              
+                <h2 style="font-size:1.8rem;">开通签米会员解锁</h2>
+                <p>开通后可进入分红中心，共享平台利润分红</p>
+            </div>
+            <div class="vip-modal-body">
+              <!-- 待领取分红高亮提示 -->
+<!--{if $pending_amount > 0}-->
+<div class="instant-claim">
+    <div class="instant-icon">🎁</div>
+    <div class="instant-text">
+        现在开通，可立即领取<br>
+        <strong>{$pending_amount} 元</strong>
+    </div>
+</div>
+<!--{/if}-->
+
+                <div class="miss-amount">
+                    <span>自你注册以来，你已错过分红收益：</span>
+                    <strong><!--{$cgprice}-->元</strong>
+                </div>
+                <div class="desc">
+                    平台利润分红系统，您只需注册占位升级会员，平台的每一笔收益利润，系统自动分红给您，早注册，早升级，早收益，观望只会流失分红收益！该收益满20元即可提现，100%无任何限制！
+                </div>
+                <div class="detail-box" id="detailBox">
+                    1、平台如何分红的？简单来说就是我们将平台的每一笔订单收入，按照该笔订单利润的40%分配给平台所有年费、永久签米会员，实现与会员共享平台收入红利的玩法；<br><br>
+                    2、每笔分红收益产生后需在<strong>2小时内</strong>手动领取，超时作废，不再补发。<br><br>
+                    3、单笔分红最低0.01元，最高300元封顶,首笔额外随机1-10元分红收益。<br><br>
+                     4、签米会员属于虚拟商品，也是属于消费购买平台消费折扣特权，非投资理财，切勿轻信外部夸大收益，一旦付款不支持任何理由退款；
+                    
+                </div>
+               
+            </div>
+            <div class="vip-modal-footer">
+                <a class="btn-detail" onclick="toggleDetail()">📖 了解分红规则</a>
+                <a href="plugin.php?id=xigua_hb&ac=vip" class="btn-open-vip">立即开通会员 · 领分红</a>
+                <a href="plugin.php?id=xigua_hb&ac=my" class="btn-back">← 返回个人中心</a>
+            </div>
+        </div>
+    </div>
+    <!--{/if}-->
+
+    <!-- ========== 会员可见内容 ========== -->
+    <!--{if $is_qm_vip}-->
+    <div class="nav-header">
+        <div class="nav-brand-group">
+            <div class="nav-avatar">米</div>
+            <div class="nav-brand-text">
+                <span class="nav-brand-name">签米</span>
+                <span class="nav-brand-tag">现金分红</span>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <div class="nav-icon-btn" onclick="showRulePopup()" title="分红规则">
+                <i class="fa fa-question-circle"></i>
+                <span class="nav-dot"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container" style="margin-top:35px;">
+        <div class="hero-banner">
+            <div class="hero-eyebrow"><i class="fa fa-cny"></i> 分红总收益</div>
+            <div class="hero-main-amount">{$zprice}<span class="unit">元</span></div>
+            <div class="hero-subtitle">自动公排分红 · 年费/永久会员坐享分红</div>
+            <div class="hero-action-row">
+                <div class="hero-pill" onclick="showRulePopup()"><i class="fa fa-info-circle"></i> 分红规则</div>
+                <div class="hero-pill outline" onclick="scrollToList()"><i class="fa fa-arrow-down"></i> 查看收益记录</div>
+            </div>
+        </div>
+
+        <div class="metrics-strip">
+            <div class="metric-item">
+                <div class="metric-icon-circle earn"><i class="fa fa-gift"></i></div>
+                <div class="metric-value">{$zprice}<span class="metric-unit">元</span></div>
+                <div class="metric-label">已到账收益</div>
+                <div class="metric-sub">累计分红总额</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-icon-circle miss"><i class="fa fa-hourglass-end"></i></div>
+                <div class="metric-value">{$cgprice}<span class="metric-unit">元</span></div>
+                <div class="metric-label">错过分红</div>
+                <div class="metric-sub">未及时领取失效</div>
+            </div>
+        </div>
+
+        <div class="list-section-header" id="listAnchor">
+            <div class="list-title-group">
+                <div class="list-title-bar"></div>
+                <div class="list-title">你的分红收益</div>
+            </div>
+            <div class="list-live-tag"><i class="fa fa-refresh fa-spin"></i> 实时</div>
+        </div>
+
+        <div id="rank-list"></div>
+        <div class="bottom-spacer"></div>
+    </div>
+    <!--{/if}-->
+
+    <!-- 分红卡片模板 -->
+    <script id="tpl" type="text/html">
+        <% for(var i in list) { %>
+        <div class="dividend-card">
+            <div class="card-inner-top">
+                <div>
+                    <span class="amount-label"><i class="fa fa-gem"></i> 本次分红</span>
+                    <div class="amount-block">
+                        <span class="amount-number"><%=list[i].price%></span>
+                        <span class="amount-number yuan">元</span>
+                    </div>
+                </div>
+                <div class="timer-chip <%= list[i].sstatus==1 ? 'urgent' : '' %>">
+                    <i class="fa fa-hourglass-start"></i>
+                    <% if(list[i].sstatus==1) { %><span class="timer-num" id="timeleft">0:0:0</span>
+                    <% }else{ %><span class="timer-num expired">--:--:--</span><% } %>
+                </div>
+                <div>
+                    <% if(list[i].sstatus==1) { %><button class="btn-claim" onclick="getcrash(<%=list[i].id%>)"><i class="fa fa-gift"></i> 立即领取</button>
+                    <% }else if(list[i].sstatus==2){ %><button class="btn-disabled" disabled><i class="fa fa-clock-o"></i> 已失效</button>
+                    <% }else if(list[i].sstatus==3){ %><button class="btn-claimed" disabled><i class="fa fa-check-circle"></i> 已领取</button><% } %>
+                </div>
+            </div>
+            <div class="card-meta-row">
+                <span class="meta-user"><i class="fa fa-user-o"></i> <%=list[i].xlphone%></span>
+                <span class="meta-order"><i class="fa fa-shopping-cart"></i> 订单 ¥<%=list[i].buyprice%> <%=list[i].buystr%></span>
+                <span style="flex:1;"></span>
+                <span><i class="fa fa-calendar-check-o"></i> <%=list[i].dateline%></span>
+                <% if(list[i].sstatus==1) { %><span class="status-tag pending"><i class="fa fa-bolt"></i> 待领取</span>
+                <% } else if(list[i].sstatus==2) { %><span class="status-tag expired-tag"><i class="fa fa-exclamation-triangle"></i> 已失效</span>
+                <% } else if(list[i].sstatus==3) { %><span class="status-tag claimed-tag"><i class="fa fa-check-circle-o"></i> 已领取</span><% } %>
+            </div>
+        </div>
+        <% } %>
+    </script>
+
+    <div style="margin-bottom:80px;"></div>
+
+    <!-- 规则抽屉 -->
+    <div class="overlay" id="ruleOverlay"></div>
+    <div class="rule-drawer" id="ruleDrawer">
+        <div class="rule-drawer-handle"></div>
+        <div class="rule-drawer-header">
+            <h3><i class="fa fa-diamond"></i> 现金分红规则</h3>
+            <div class="sub">年费/永久会员专属权益</div>
+        </div>
+        <div class="rule-drawer-body">
+            <div class="rule-item">
+                <strong><i class="fa fa-calculator"></i> 什么是现金分红？</strong>
+                平台分红系统，您只需注册占位升级，您上级团队收益和平台收益利润，系统每天自动分红给您，早注册，早升级，早收益，观望只会流失分红收益！如何分红的？简单来说就是我们将平台的每1笔订单收入，按照该笔订单利润的40%分配给平台所有年费、永久签米会员，实现与会员共享平台收入红利的玩法。
+            </div>
+            <div class="rule-item">
+                <strong><i class="fa fa-clock-o"></i> 收益时效</strong>
+                每笔分红收益产生后需在<strong>2小时内</strong>手动领取，超时作废，不再补发。
+            </div>
+            <div class="rule-item">
+                <strong><i class="fa fa-arrow-up"></i> 金额规则</strong>
+                单笔分红最低0.01元，最高300元封顶。首笔额外随机1-10元分红收益。
+            </div>
+            <div class="rule-item">
+                <strong><i class="fa fa-shield"></i> 温馨提示</strong>
+                签米会员属于虚拟消费特权，非投资理财，切勿轻信外部夸大收益。
+            </div>
+        </div>
+        <div class="rule-drawer-footer">
+            <div class="btn-close-drawer" onclick="hideRulePopup()">我知道了</div>
+        </div>
+    </div>
+
+    <script>
+        // ========== 倒计时 ==========
+        if ("{$sstatus}" == 1) {
+            var timeleft = "{$timeleft}";
+            setInterval(function () {
+                if (timeleft > 0) {
+                    timeleft2 = timeleft--;
+                    var hours = timeleft2 > 3600 ? parseInt(timeleft2 / 3600) : 0;
+                    var minutes = timeleft2 > 60 ? parseInt((timeleft2 % 3600) / 60) : 0;
+                    var seconds = timeleft2 % 60;
+                    var timeString = (hours > 0 ? hours + ':' : '') + (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                    document.querySelectorAll('#timeleft').forEach(el => el.innerHTML = timeString);
+                } else {
+                    document.querySelectorAll('#timeleft').forEach(el => {
+                        el.innerHTML = '00:00:00'; el.style.color = '#d94444';
+                        var chip = el.closest('.timer-chip');
+                        if (chip) { chip.classList.remove('urgent'); chip.style.background = '#fff0f0'; chip.style.color = '#d94444'; }
+                    });
+                }
+            }, 1000);
+        }
+
+        // ========== 领取分红 ==========
+        function getcrash(opid) {
+            var formData = new FormData();
+            formData.append('formhash', "{FORMHASH}");
+            formData.append("submodac", "getcrash");
+            formData.append("opid", opid);
+            layer.msg('<div style="display:flex;align-items:center;justify-content:center;"><i class="fa fa-spinner fa-spin" style="margin-right:10px;color:#4f6ef7;"></i>领取中...</div>', {
+                shade: [0.3, '#000'], time: 0, skin: 'modal-crypto', anim: 2
+            });
+            $.ajax({
+                url: "plugin.php?id=tb_cus_pipei", type: 'POST', cache: false,
+                data: formData, processData: false, contentType: false, dataType: "json",
+                success: function (data) {
+                    layer.closeAll();
+                    if (data.rs == 800) {
+                        layer.open({
+                            type: 1,
+                            title: '<i class="fa fa-check-circle" style="color:#2ea87a;"></i> 领取成功',
+                            content: '<div style="padding:30px;text-align:center;"><div style="background:#eafaf3;padding:10px;border-radius:14px;">分红收益已到账余额</div></div>',
+                            skin: 'modal-crypto', area: ['90%', 'auto'], maxWidth: '400px',
+                            btn: ['确定'], yes: function(index){ layer.close(index); window.location.reload(); }
+                        });
+                    } else if (data.rs == 700 || data.rs == 600) {
+                        layer.open({
+                            type: 1,
+                            title: '<i class="fa fa-exclamation-triangle" style="color:#f04b4b;"></i> 领取失败',
+                            content: '<div style="padding:30px;">'+ (data.msg || '领取失败') +'</div>',
+                            skin: 'modal-crypto', area: ['90%', 'auto'], maxWidth: '400px', btn: ['关闭']
+                        });
+                    } else {
+                        layer.msg(data.msg || '操作失败', { icon: 2, time: 2000, skin: 'modal-crypto' });
+                    }
+                },
+                error: function () { layer.closeAll(); layer.msg('网络不稳定', { time: 2000, skin: 'modal-crypto' }); }
+            });
+        }
+
+        function alert_tbcus(msg) { layer.open({ title: '提示', content: '<div style="padding:20px;">'+msg+'</div>', skin: 'modal-crypto', btn: ['确定'] }); }
+        function alert_tbcus_tips(msg, url) { layer.open({ title: '提示', content: '<div style="padding:20px;">'+msg+'</div>', skin: 'modal-crypto', btn: ['确定'], yes: function(i){ layer.close(i); window.location.href=url; } }); }
+
+        let start = 0, pagesize = 10, flag = true, loading = false;
+        function ajaxpage(start1) {
+            $.ajax({
+                type: "POST", url: 'plugin.php?id=tb_cus_pipei&submodac=getdata',
+                data: { "start": start1, "pagesize": pagesize }, dataType: "json",
+                beforeSend: function () { $("#more").show(); },
+                success: function (rs) {
+                    if (rs.list == null) { $("#more").html(""); return; }
+                    start = start1 + rs.list.length;
+                    if (rs.list.length < pagesize) { flag = false; $("#more").html(""); }
+                    $("#rank-list").append(tpl(document.getElementById('tpl').innerHTML, rs));
+                }
+            });
+        }
+        $(window).scroll(function () {
+            var st = $(this).scrollTop(), sh = $(document).height(), wh = $(this).height();
+            if (st > sh - wh - 5) {
+                if (loading) return;
+                loading = true;
+                setTimeout(function () { if (flag) ajaxpage(start); loading = false; }, 500);
+            }
+        });
+        ajaxpage(start);
+
+        function showRulePopup() { $('#ruleOverlay,#ruleDrawer').fadeIn(250); }
+        function hideRulePopup() { $('#ruleOverlay,#ruleDrawer').fadeOut(200); }
+        $(document).on('click', '#ruleOverlay', hideRulePopup);
+
+        function scrollToList() {
+            var a = document.getElementById('listAnchor'); if (a) a.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleDetail() {
+            var box = document.getElementById('detailBox');
+            if (box) box.style.display = box.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+
+    {template xigua_hb:tab4}
+    <div style="height:20px;"></div>
+</body>
+</html>
