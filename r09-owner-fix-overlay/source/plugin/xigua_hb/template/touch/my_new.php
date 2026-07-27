@@ -6,7 +6,7 @@
     <title>推广宝 · 个人中心</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
      <link rel="stylesheet" href="source/plugin/tb_cus_admin/template/layuimini/lib/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260728-r09-owner-v8">
+    <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260728-r09-owner-v9">
 
 </head>
 {eval}

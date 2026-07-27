@@ -401,6 +401,9 @@
   box-shadow: none !important;
   -webkit-text-fill-color: currentColor !important;
   transform: none !important;
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  -webkit-text-decoration: none !important;
 }
 
 .tgb-r06-account-page .vip-upgrade-btn i,
@@ -440,6 +443,17 @@
   color: var(--tg-r06-violet) !important;
   background: none !important;
   -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .vip-priv-item span {
+  max-width: 100% !important;
+  color: var(--tg-r06-text) !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 14px !important;
+  letter-spacing: 0 !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
 }
 
 .tgb-r06-account-page .assets-grid {
@@ -503,6 +517,25 @@
 
 .tgb-r06-account-page .tools-grid[style] {
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.tgb-r06-account-page .tools-grid[style] > .tool-item {
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-align: center !important;
+}
+
+.tgb-r06-account-page .tools-grid[style] > .tool-item > .tool-icon-wrap {
+  flex: 0 0 40px !important;
+  margin: 0 !important;
+}
+
+.tgb-r06-account-page .tools-grid[style] > .tool-item > .tool-name {
+  width: auto !important;
+  min-height: 0 !important;
+  flex: 0 0 auto !important;
+  white-space: nowrap !important;
 }
 
 .tgb-r06-account-page .tool-item,
