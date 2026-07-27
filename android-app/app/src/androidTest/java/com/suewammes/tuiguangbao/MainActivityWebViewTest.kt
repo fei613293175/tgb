@@ -58,6 +58,10 @@ class MainActivityWebViewTest {
                     "Raw file:// access must remain disabled",
                     webView.settings.allowFileAccess
                 )
+                assertTrue(
+                    "WebView must expose the native long-press image action",
+                    webView.hasOnLongClickListeners()
+                )
                 assertEquals(
                     WebSettings.MIXED_CONTENT_NEVER_ALLOW,
                     webView.settings.mixedContentMode

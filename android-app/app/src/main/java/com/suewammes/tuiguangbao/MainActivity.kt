@@ -1,11 +1,14 @@
 package com.suewammes.tuiguangbao
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -21,6 +24,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -30,6 +35,8 @@ import androidx.webkit.WebViewFeature
 import com.suewammes.tuiguangbao.web.AllowedHosts
 import com.suewammes.tuiguangbao.web.ExternalIntentRouter
 import com.suewammes.tuiguangbao.web.FileChooserCoordinator
+import com.suewammes.tuiguangbao.web.ImageGallerySaver
+import com.suewammes.tuiguangbao.web.ImageSaveSource
 import com.suewammes.tuiguangbao.web.TgbChromeClient
 import com.suewammes.tuiguangbao.web.TgbWebViewClient
 
@@ -39,7 +46,19 @@ class MainActivity : ComponentActivity() {
     private lateinit var errorPanel: View
     private lateinit var chromeClient: TgbChromeClient
     private lateinit var router: ExternalIntentRouter
+    private lateinit var imageGallerySaver: ImageGallerySaver
+    private var pendingImageRequest: ImageGallerySaver.Request? = null
     private var refreshAfterExternalApp = false
+    private val storagePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        val request = pendingImageRequest.also { pendingImageRequest = null }
+        if (granted && request != null) {
+            saveImage(request)
+        } else if (!granted) {
+            toast(R.string.storage_permission_denied)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -184,6 +203,55 @@ class MainActivity : ComponentActivity() {
         webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
             enqueueTrustedDownload(url, userAgent, contentDisposition, mimeType)
         }
+        imageGallerySaver = ImageGallerySaver(applicationContext)
+        webView.setOnLongClickListener { view ->
+            val hit = (view as WebView).hitTestResult
+            if (
+                hit.type != WebView.HitTestResult.IMAGE_TYPE &&
+                hit.type != WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE
+            ) {
+                return@setOnLongClickListener false
+            }
+            val source = ImageSaveSource.parse(hit.extra) ?: return@setOnLongClickListener false
+            showImageActions(source)
+            true
+        }
+    }
+
+    private fun showImageActions(source: ImageSaveSource) {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.image_action_title)
+            .setItems(arrayOf(getString(R.string.save_to_gallery))) { _, _ ->
+                val sourceUrl = (source as? ImageSaveSource.Https)?.url
+                val request = ImageGallerySaver.Request(
+                    source = source,
+                    userAgent = webView.settings.userAgentString,
+                    cookie = sourceUrl?.let { CookieManager.getInstance().getCookie(it) },
+                    referer = webView.url
+                )
+                saveImageWithPermission(request)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun saveImageWithPermission(request: ImageGallerySaver.Request) {
+        if (
+            Build.VERSION.SDK_INT <= Build.VERSION_CODES.P &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingImageRequest = request
+            storagePermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            return
+        }
+        saveImage(request)
+    }
+
+    private fun saveImage(request: ImageGallerySaver.Request) {
+        imageGallerySaver.save(request) { result ->
+            toast(if (result.isSuccess) R.string.image_saved else R.string.image_save_failed)
+        }
     }
 
     private fun enqueueTrustedDownload(
@@ -253,6 +321,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         if (::chromeClient.isInitialized) chromeClient.cancelPendingFileChooser()
+        if (::imageGallerySaver.isInitialized) imageGallerySaver.close()
         if (::webView.isInitialized) {
             webView.stopLoading()
             webView.webChromeClient = null

@@ -3,6 +3,9 @@ if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 
+require DISCUZ_ROOT . './source/plugin/view/module/site/sign_task.php';
+exit;
+
 require_once DISCUZ_ROOT . './source/plugin/tb_credit/credit.core.php';
 require_once DISCUZ_ROOT . './source/plugin/tb_cus_base/common.php';
 require_once DISCUZ_ROOT . './source/plugin/view/function.core.php';
