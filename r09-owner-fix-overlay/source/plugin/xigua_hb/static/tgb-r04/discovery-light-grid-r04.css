@@ -916,9 +916,12 @@ html.tgb-android-app body .tech-header {
   padding-left: 0 !important;
 }
 
-.tgb-android-app body div[style*="margin-top:100px"],
-.tgb-android-app body div[style*="margin-top: 125px"] {
+.tgb-android-app body div[style*="margin-top:100px"] {
   margin-top: calc(64px + var(--tgb-owner-top-inset)) !important;
+}
+
+body div[style*="margin-top: 125px"] {
+  margin-top: 12px !important;
 }
 
 .tgb-light-grid body .feed-list .tgb-headline-card {

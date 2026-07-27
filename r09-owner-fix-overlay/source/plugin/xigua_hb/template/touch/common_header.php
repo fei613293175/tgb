@@ -55,6 +55,21 @@ endif;
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="theme-color" content="#F4F7FB">
 <meta name="color-scheme" content="light">
+<style id="tgb-render-guard">
+html.tgb-light-grid body { visibility: hidden !important; }
+html.tgb-light-grid.tgb-ui-ready body { visibility: visible !important; }
+</style>
+<script>
+(function () {
+    var reveal = function () { document.documentElement.classList.add('tgb-ui-ready'); };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', reveal, { once: true });
+    } else {
+        reveal();
+    }
+    window.setTimeout(reveal, 1500);
+})();
+</script>
 <link rel="icon" type="image/svg+xml" href="source/plugin/xigua_hb/static/tgb-r02/brand-mark-r02.svg?v=20260726-r02c">
 <title>{$navtitle}</title>
 

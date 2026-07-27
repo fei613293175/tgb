@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="{CHARSET}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
+    <title>支付结果 - 推广宝</title>
+    <style>
+        :root {
+            --page-bg: #f4f7fb;
+            --surface: #ffffff;
+            --soft: #edf3fa;
+            --ink: #0e1b2a;
+            --text: #405166;
+            --muted: #718096;
+            --border: #d8e1ec;
+            --primary: #2764ff;
+            --primary-pressed: #1847cc;
+            --success: #168f84;
+            --danger: #d74949;
+            --pending: #b7791f;
+            --safe-top: env(safe-area-inset-top, 0px);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; letter-spacing: 0; }
+        html { min-width: 0; background: var(--page-bg); }
+        body {
+            min-width: 0;
+            min-height: 100vh;
+            margin: 0;
+            padding: calc(68px + var(--safe-top)) 16px calc(88px + env(safe-area-inset-bottom, 0px));
+            overflow-x: hidden;
+            background: var(--page-bg);
+            color: var(--text);
+            font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        body.tgb-android-app { --safe-top: 36px; }
+
+        .result-nav {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 20;
+            height: calc(52px + var(--safe-top));
+            padding: var(--safe-top) 12px 0;
+            display: grid;
+            grid-template-columns: 44px minmax(0, 1fr) 44px;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, .98);
+        }
+        .result-back {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .result-back::before {
+            content: "";
+            width: 11px;
+            height: 11px;
+            border-bottom: 2px solid currentColor;
+            border-left: 2px solid currentColor;
+            transform: rotate(45deg);
+        }
+        .result-nav-title {
+            color: var(--ink);
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 26px;
+            text-align: center;
+        }
+
+        .result-main {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+        .result-panel {
+            width: 100%;
+            padding: 30px 20px 26px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            text-align: center;
+        }
+        .result-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #e7f7f4;
+            color: var(--success);
+        }
+        .result-icon::before {
+            content: "";
+            width: 27px;
+            height: 14px;
+            border-bottom: 4px solid currentColor;
+            border-left: 4px solid currentColor;
+            transform: translateY(-3px) rotate(-45deg);
+        }
+        .result-state-failed .result-icon {
+            position: relative;
+            background: #fdeeee;
+            color: var(--danger);
+        }
+        .result-state-failed .result-icon::before,
+        .result-state-failed .result-icon::after {
+            position: absolute;
+            content: "";
+            width: 30px;
+            height: 4px;
+            border: 0;
+            border-radius: 2px;
+            background: currentColor;
+            transform: rotate(45deg);
+        }
+        .result-state-failed .result-icon::after { transform: rotate(-45deg); }
+        .result-state-pending .result-icon {
+            position: relative;
+            background: #fff7e6;
+            color: var(--pending);
+        }
+        .result-state-pending .result-icon::before {
+            width: 28px;
+            height: 28px;
+            border: 3px solid currentColor;
+            border-radius: 50%;
+            transform: none;
+        }
+        .result-state-pending .result-icon::after {
+            position: absolute;
+            content: "";
+            width: 2px;
+            height: 10px;
+            border-radius: 2px;
+            background: currentColor;
+            box-shadow: 5px 8px 0 -0.5px currentColor;
+            transform: translateY(-4px);
+        }
+        .result-message {
+            color: var(--ink);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 28px;
+        }
+        .result-price {
+            margin-top: 18px;
+            color: var(--primary);
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 44px;
+            overflow-wrap: anywhere;
+        }
+        .result-currency { margin-right: 3px; font-size: 20px; }
+        .result-extra {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 20px;
+        }
+        .result-extra a { color: var(--primary) !important; font-weight: 700; }
+
+        .result-actions {
+            position: fixed;
+            inset: auto 0 0;
+            z-index: 20;
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, .98);
+        }
+        .result-done {
+            width: 100%;
+            max-width: 520px;
+            min-height: 48px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .result-done:active { background: var(--primary-pressed); }
+        .result-back:focus-visible,
+        .result-done:focus-visible { outline: 3px solid rgba(39, 100, 255, .24); outline-offset: 2px; }
+    </style>
+</head>
+<!--{eval $tgb_android_app = strpos($_SERVER['HTTP_USER_AGENT'], 'TuiGuangBaoAndroid/') !== false;}-->
+<!--{eval $tgb_result_state = $result['paytype'] == 10 ? 'pending' : ($result['ostatus'] == 1 ? 'success' : 'failed');}-->
+<body class="result-state-{$tgb_result_state}<!--{if $tgb_android_app}--> tgb-android-app<!--{/if}-->">
+    <header class="result-nav">
+        <a href="javascript:window.history.go(-1);" class="result-back" aria-label="返回"></a>
+        <div class="result-nav-title">支付结果</div>
+        <div></div>
+    </header>
+
+    <main class="result-main">
+        <section class="result-panel">
+            <div class="result-icon" aria-hidden="true"></div>
+            <div class="result-message">{$tipssuccess}</div>
+            <div class="result-price"><span class="result-currency">¥</span>{$result['price']}</div>
+            <!--{if $tipssuccess01}--><div class="result-extra">{$tipssuccess01}</div><!--{/if}-->
+        </section>
+    </main>
+
+    <footer class="result-actions">
+        <a href="javascript:;" class="result-done">完成</a>
+    </footer>
+
+    <script>
+        document.querySelector('.result-done').addEventListener('click', function () {
+            <!--{if $result['plugin']=='xiaomy_certification'}-->
+            window.location.href = "{$_G['siteurl']}plugin.php?id=xiaomy_certification";
+            <!--{elseif $result['plugin']=='duobao'}-->
+            window.location.href = "{$_G['siteurl']}plugin.php?id=duobao&vip=2";
+            <!--{else}-->
+            window.location.href = "{$_G['siteurl']}plugin.php?id=xigua_hb&ac=my";
+            <!--{/if}-->
+        });
+    </script>
+</body>
+</html>
