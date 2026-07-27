@@ -48,9 +48,18 @@ progress:
   production_deployed: true
   production_deploy_id: 20260727T090142+0800
   online_smoke: PASS
+  owner_inset_feedback_received: true
+  native_inset_root_cause: DUPLICATED_NATIVE_WINDOW_INSETS_PADDING
+  native_inset_source_fix: COMPLETE
+  h5_inset_browser_check_390x844: PASS_HOME_AND_SIGN
+  server_signed_apk_build_id: 20260727T095500+0800
+  server_signed_apk_sha256: 5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f
+  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk
+  owner_replacement_apk_test: PENDING_ASYNC
 
 next_action:
   - wait only for concrete owner feedback while keeping the task resumable
+  - verify the R09 compact-top-inset APK only from owner-provided device evidence; Codex must not install or run it
   - when feedback arrives fix and verify only the affected real-reachable page family
 
 forbidden:

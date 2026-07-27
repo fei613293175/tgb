@@ -55,7 +55,8 @@
 ## L-011 App 安全区必须只有一个所有者
 
 - 风险：原生和 H5 同时加状态栏高度会出现双空白；都不加会重叠。
-- 决定：原生宿主拥有系统栏 insets，H5 App 环境不重复添加。
+- 历史决定：原生宿主拥有系统栏 insets，H5 App 环境不重复添加。
+- 2026-07-27 纠正：负责人真机证明原生 inset 与现有 H5 顶栏形成双空白；现由 D-037/L-069 覆盖，采用 WebView edge-to-edge、原生零 padding、H5 单一负责页面安全区。
 
 ## L-012 相册权限应按系统版本最小化
 
@@ -403,3 +404,10 @@
 - Production root `operation.log` can be created after a clean baseline and is runtime output, not application code.
 - Stable production-code manifests must exclude `${PRODUCTION_ROOT}/operation.log`; otherwise an unchanged production tree is reported as drift.
 - A manifest hash mismatch must be resolved with a file-level diff before deciding that production code changed.
+
+## L-069 原生与 H5 不能同时占用状态栏高度
+
+- 现象：真机截图中首页搜索区和签到标题栏上方都多出一整段空白；独立 H5 浏览器中对应顶栏只有 `68.8px` 和 `56px`，证明页面 CSS 本身不是主要增高来源。
+- 根因：edge-to-edge 已开启，但原生根容器仍把 `statusBars.top` 加为 `paddingTop` 并消费 insets；H5 顶栏同时保留自身高度和安全区规则，形成双层占位。
+- 规则：推广宝 App 的 WebView 必须从窗口顶部铺开，原生根容器和 WebView 四边 padding 固定为 `0`；后续不得重新引入 `updatePadding(top = bars.top)` 或等价实现。H5 单一负责页面内安全区，真机关键控件遮挡由负责人异步反馈。
+- 证据：服务器构建 `20260727T095500+0800` 通过单元测试、Release Lint、正式签名、包名、SDK 和体积门禁；浏览器证据见 `evidence/R09/after/R09_ANDROID_INSET_BROWSER_CHECK.md`。

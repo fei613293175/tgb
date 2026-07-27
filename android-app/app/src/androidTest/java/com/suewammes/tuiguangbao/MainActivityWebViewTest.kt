@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainActivityWebViewTest {
     @Test
-    fun nativeRootOwnsSystemBarInsetsWithoutDoublePaddingTheWebView() {
+    fun webViewExtendsBehindSystemBarsWithoutNativeInsetPadding() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 val content = activity.findViewById<ViewGroup>(android.R.id.content)
@@ -34,12 +34,12 @@ class MainActivityWebViewTest {
                         WindowInsetsCompat.Type.navigationBars()
                 )
                 assertTrue("status bar inset must be non-zero", bars.top > 0)
-                assertEquals(bars.left, root.paddingLeft)
-                assertEquals(bars.top, root.paddingTop)
-                assertEquals(bars.right, root.paddingRight)
-                assertEquals(bars.bottom, root.paddingBottom)
-                assertEquals("WebView must not add a second top inset", 0, webView!!.paddingTop)
-                assertEquals("WebView must not add a second bottom inset", 0, webView.paddingBottom)
+                assertEquals("native root must not duplicate the H5 left inset", 0, root.paddingLeft)
+                assertEquals("native root must not duplicate the H5 top inset", 0, root.paddingTop)
+                assertEquals("native root must not duplicate the H5 right inset", 0, root.paddingRight)
+                assertEquals("native root must not duplicate the H5 bottom inset", 0, root.paddingBottom)
+                assertEquals("WebView must not add a native top inset", 0, webView!!.paddingTop)
+                assertEquals("WebView must not add a native bottom inset", 0, webView.paddingBottom)
             }
         }
     }

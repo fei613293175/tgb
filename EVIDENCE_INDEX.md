@@ -208,5 +208,6 @@ R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文
 - R09 81 文件候选清单：`evidence/R09/preflight/R09_FILES_SHA256.txt`
 - R09 预期覆盖关系：`evidence/R09/preflight/R09_LAYER_OVERRIDES.tsv`
 - R09 上线结果和回滚位置：`version-results/R09_RESULT.md`
+- R09 原生顶部双空白根因与 H5 首页/签到浏览器几何截图：`evidence/R09/after/R09_ANDROID_INSET_BROWSER_CHECK.md`
 
-R09 候选 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`，生产部署 ID 为 `20260727T090142+0800`。后续普通 UI 返修按 D-035 只验证受影响页面，不再生成重复全量截图矩阵。
+R09 候选 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`，生产部署 ID 为 `20260727T090142+0800`。顶部双空白返修服务器签名 APK SHA-256 为 `5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f`，真机验证由负责人异步完成。后续普通 UI 返修按 D-035 只验证受影响页面，不再生成重复全量截图矩阵。

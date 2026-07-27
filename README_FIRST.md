@@ -58,7 +58,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 当前版本：`R09`，H5 已于 2026-07-27 部署生产，状态保持 `IN_PROGRESS` 以接收负责人异步真机反馈。
 - 当前唯一任务：线上轻量冒烟和异步问题快速返修；`xigua_hs`、`xigua_sp`、`tb_jjd`、广告、淘金等没有真实前端入口的插件继续保持视觉范围外，不再开发隐藏页面。
 - 后续普通 UI 返修固定采用三门禁快速通道：真实入口、业务协议不变、可回滚。默认只跑 `390x844` 主视口和受影响页面，不再重复全量三视口截图。
-- R01 服务器签名包仍是当前 Android 包；R02/R03 未改正式 App 源码，因此未重建 APK。GitHub Actions 自动测试已按 D-020 停用，负责人真机反馈异步返回且不阻塞持续开发。
+- 负责人反馈旧 R01 App 的原生 WindowInsets 使所有 H5 顶栏出现双空白；R09 已按 D-037 改为 WebView edge-to-edge、原生零 inset padding，并在服务器生成新签名 APK `C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk`，等待负责人异步真机核验。GitHub Actions 自动测试仍停用。
 - 按 D-036，Codex 不得在本机安装 Android/ADB/模拟器环境，也不得安装或测试 APK；只负责原生源码开发、必要时服务器签名构建并把 APK 放到桌面，真机测试由负责人完成。
 - 上述限制不适用于 H5：每个修改页面必须由 Codex 在浏览器中实际打开体验，逐页检查几何，并通过代表页截图比对变形、错位、溢出和遮挡。
 - 本交接包不保存任何站点账号、数据库密码、验证码、Cookie、formhash、真实 UID、真实金额或身份资料。

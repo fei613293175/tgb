@@ -116,32 +116,36 @@ design:
   approved_logo: assets/brand/tuiguangbao-app-icon-master-light-v2.png
 
 android:
-  status: R01_LATEST_SERVER_SIGNED_APK_DELIVERED_ASYNC_DEVICE_FEEDBACK
+  status: R09_COMPACT_TOP_INSET_SERVER_SIGNED_APK_DELIVERED_OWNER_TEST_PENDING
   apk_function_test_owner: OWNER_ONLY
   codex_local_android_environment_allowed: false
   codex_apk_install_or_runtime_test_allowed: false
   h5_browser_experience_and_screenshot_required: true
-  rebuild_required_for_r09_h5_release: false
+  rebuild_required_for_r09_h5_release: COMPLETE_FOR_OWNER_INSET_FEEDBACK
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin
   release_apk_min_bytes: 10485760
   gallery_upload_required: true
   external_payment_app_required: true
-  status_bar_overlap_forbidden: true
+  webview_edge_to_edge_required: true
+  native_system_bar_padding_forbidden: true
+  status_bar_critical_control_overlap_forbidden: true
+  h5_safe_area_owner: true
   signing_material_in_handoff: false
   jdk: Microsoft OpenJDK 21.0.12+8-LTS
   sdk_ready: true
   server_build_image: hhy-android-toolchain:r08-api36-cache
   server_release_apk_built: true
-  server_release_apk_bytes: 18154781
-  server_release_apk_sha256: 0f2b8c1dbdbab544623a214d002b7a4611e03fde806f7f534de6712cfbdfa975
-  server_build_id: 20260726T155100+0800
-  server_source_commit: 3692ec4f1487533e3f17d54f0f6360e8265bcc29
-  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R01-支付H5兼容修复.apk
-  handoff_apk: deliverables/android/R01/tuiguangbao-1.0.0-R01-payment-h5.apk
+  server_release_apk_bytes: 18154540
+  server_release_apk_sha256: 5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f
+  server_build_id: 20260727T095500+0800
+  server_source_archive_sha256: 5e57c1437d267a4cf4d39336a1c424dc045d1de6ac4530f5b64bf6ac9974398f
+  server_source_revision: ffb3945_PLUS_R09_NATIVE_INSET_FIX
+  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk
+  handoff_apk: deliverables/android/R09/tuiguangbao-1.0.0-R09-compact-top-inset.apk
   native_top_loading_progress_visible: false
-  r02_inset_instrumentation: COMPILED_DEVICE_EXECUTION_PENDING
+  r09_inset_instrumentation: SOURCE_UPDATED_SERVER_COMPILED_OWNER_DEVICE_EXECUTION_PENDING
   r02_debug_apk_sha256: 4c99e43aa3f85015f92d8586be24d7eef99c01a12a9c8b1a46f1d0073556820b
   github_actions_repository: https://github.com/fei613293175/tgb
   github_actions_automatic_testing_enabled: false
@@ -231,12 +235,16 @@ completed:
   - R09 v2 production candidate assembled from 81 real-scope visual files with 12 expected layer overrides
   - R09 single-pass 390x844 regression completed with no overflow login redirect public UI CDN or old visible branding
   - R09 production deployment 20260727T090142+0800 completed with file-hash verification backup and five-page online smoke PASS
+  - R09 owner status-bar blank-space feedback isolated to duplicated native WindowInsets padding
+  - R09 native root inset padding removed and edge-to-edge WebView ownership contract updated
+  - R09 home and sign H5 headers verified at 390x844 with no horizontal overflow
+  - R09 compact-top-inset signed APK built on server and copied to Desktop with matching SHA-256
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
   - H5 R09 asynchronous owner feedback and any targeted visual defect repair
   - controlled-write fixtures for each high-risk page family
-  - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)
+  - R09 compact-top-inset replacement APK owner device screenshot and runtime confirmation (asynchronous)
 
 blockers:
   - id: B-R06-CHAT-01

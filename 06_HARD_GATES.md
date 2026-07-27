@@ -106,7 +106,7 @@ App 名、H5 页面标题、登录/注册、桌面引导、启动页、图标、
 
 ### G18 状态栏不重叠（MUST）
 
-原生端统一处理 edge-to-edge/insets，H5 使用协商后的 `safe-area-inset-top`。不得同时重复加高或完全不加，浏览器和 App 两种环境分别截图验证。
+WebView 必须 edge-to-edge 铺到系统栏后方，原生根容器和 WebView 四边不得添加 WindowInsets padding；H5 单一负责页面自身的 `safe-area-inset-top/bottom`。状态栏可覆盖浅色顶栏背景，但关键控件不得被系统图标遮挡，且状态栏下不得出现第二段空白。浏览器由 Codex 截图验证，App 由负责人真机异步验证。
 
 ### G18A 无可视化页面加载进度（MUST）
 

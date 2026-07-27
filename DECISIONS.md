@@ -56,7 +56,7 @@
 ## D-009 状态栏安全区由原生管理
 
 - 日期：2026-07-26
-- 状态：ACCEPTED
+- 状态：SUPERSEDED_BY_D-037
 - 决定：Android 原生宿主为 WebView 应用系统栏 insets，H5 在 App 内不重复叠加状态栏高度；浏览器环境仍使用 CSS safe-area。
 
 ## D-010 品牌图标
@@ -292,3 +292,12 @@
 - H5 边界：页面设计完成后，Codex 必须自己用浏览器逐页打开体验，并通过截图人工比对变形、错位、溢出、遮挡、品牌和浅色视觉；“不测试 APK”不能成为跳过 H5 浏览器验收的理由。
 - 反馈闭环：负责人异步返回 APK 截图或问题后，Codex 直接分析、修复、重新构建并交付新的桌面 APK，不代替负责人进行真机测试。
 - 当前事实：2026-07-27 本机未发现 Android SDK、ADB 或模拟器进程；本轮 R09 仅改 H5，Android 生产源码未变化，因此继续使用现有服务器签名 APK，不重建。
+
+## D-037 WebView 穿透系统栏，H5 单一负责页面安全区
+
+- 日期：2026-07-27
+- 状态：ACCEPTED，覆盖 D-009、L-011 和旧版 G18 中“原生根容器拥有系统栏 inset”的实现规则
+- 负责人真机反馈：所有 App 页面在状态栏下方出现过高空白；旧 App 的 WebView 可铺到状态栏后方，新 App 又在根容器添加 `statusBars.top`，与 H5 顶栏和 `safe-area-inset-top` 叠加。
+- 决定：保留 `WindowCompat.setDecorFitsSystemWindows(window, false)`；移除原生根容器 WindowInsets listener、四边 padding 和 inset 消费。WebView 从窗口 `top: 0` 开始，H5 继续单一负责各页面安全区。
+- 视觉边界：浅色顶栏背景允许延伸到状态栏后方；不得再出现状态栏下第二段原生空白。关键标题、返回键和输入控件是否被具体机型系统图标遮挡，由负责人真机截图异步验收并按当前 R09 快速返修。
+- 验证边界：Codex 不安装或运行 APK；服务器只执行单元测试、Release Lint、签名、包名、SDK、体积和 SHA-256 门禁。H5 浏览器 `390x844` 首页顶栏 `68.8px`、签到页顶栏 `56px`，均无横向溢出。

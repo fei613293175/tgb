@@ -22,13 +22,9 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.Insets
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updatePadding
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.suewammes.tuiguangbao.web.AllowedHosts
@@ -72,19 +68,6 @@ class MainActivity : ComponentActivity() {
         root = FrameLayout(this).apply {
             setBackgroundColor(getColor(R.color.tgb_background))
         }
-        ViewCompat.setOnApplyWindowInsetsListener(root) { view, windowInsets ->
-            val bars = windowInsets.getInsets(
-                WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars()
-            )
-            view.updatePadding(left = bars.left, top = bars.top, right = bars.right, bottom = bars.bottom)
-            WindowInsetsCompat.Builder(windowInsets)
-                .setInsets(
-                    WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars(),
-                    Insets.NONE
-                )
-                .build()
-        }
-
         webView = WebView(this).apply {
             setBackgroundColor(getColor(R.color.tgb_background))
         }
@@ -107,7 +90,6 @@ class MainActivity : ComponentActivity() {
             )
         }
         setContentView(root)
-        ViewCompat.requestApplyInsets(root)
     }
 
     private fun buildErrorPanel(): View {
