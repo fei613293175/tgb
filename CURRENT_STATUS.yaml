@@ -12,11 +12,11 @@ production_direct_edit_allowed: false
 
 progress_guard:
   self_check_interval_minutes: 30
-  last_material_progress: R09_GLOBAL_H5_CLOSEOUT_39_OF_39_PASS
-  last_self_check: 2026-07-27T18:30:00+08:00
+  last_material_progress: FINAL_PROJECT_READINESS_GATE_FORMALIZED
+  last_self_check: 2026-07-27T19:15:00+08:00
   repeated_analysis_without_new_artifact_limit: 2
   current_loop_state: ADVANCING
-  next_concrete_output: MANIFEST_CONTINUITY_COMMIT_AND_PUSH
+  next_concrete_output: FINAL_READINESS_EXPECTED_FAIL_EVIDENCE_AND_CHECKPOINT
 
 scope:
   h5_visual_redesign: true
@@ -46,7 +46,9 @@ facts:
   database_identifier_stored_in_current_tree: false
   database_identifier_present_in_git_history: true
   database_credential_rotation_required: true
-  credentials_stored_in_handoff: false
+  database_history_exposed_commit: 8823028cc7a36781ef626e1d544957801ea4c06b
+  database_credential_rotation_evidence: PENDING_OWNER_ACTION
+  credentials_stored_in_current_tree: false
 
 staging:
   status: R09_GLOBAL_H5_CLOSEOUT_PASS_OWNER_ASYNC_PENDING
@@ -219,6 +221,16 @@ android:
   github_actions_artifact_sha256: fc113dd032f6d54485dc4918ec8f1396cfa3503643063af3ac2081f4a7785880
   ci_visual_review: HISTORICAL_ONLY_GITHUB_ACTIONS_RETIRED_OWNER_TESTS_APK_CODEX_TESTS_H5
   owner_device_feedback_mode: ASYNC_DO_NOT_WAIT
+
+final_readiness:
+  status: FAIL_PENDING_OWNER_AND_SECURITY
+  gate: scripts/test-final-project-readiness.ps1
+  owner_matrix: evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
+  audit: evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md
+  owner_checks_total: 6
+  owner_checks_passed: 0
+  h5_development_closeout: PASS
+  final_tag_allowed: false
 
 completed:
   - R00 production read-only source and database baseline

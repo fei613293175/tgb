@@ -1,0 +1,7 @@
+check_id,requirement,status,evidence_path,notes
+APK-INSTALL-LAUNCH,"replacement signed APK installs and cold-launches to the production H5","PENDING_OWNER_VERIFICATION",,"owner device only; Codex must not install or launch the APK"
+APP-SAFE-AREA,"status and gesture bars have no duplicate blank area or critical-control overlap","PENDING_OWNER_VERIFICATION",,"replacement compact-top-inset APK screenshot required"
+GALLERY-UPLOAD,"gallery permission allow deny cancel and a real H5 image upload complete correctly","PENDING_OWNER_VERIFICATION",,"real device and real H5 upload result required"
+ALIPAY-ROUNDTRIP,"approved checkout launches Alipay and cancel or completion returns before server order refresh","PENDING_OWNER_VERIFICATION",,"approved real or sandbox checkout sample required"
+TRUSTED-DOWNLOAD,"trusted download completes with the expected notification and file result","PENDING_OWNER_VERIFICATION",,"real device DownloadManager result required"
+OFFLINE-RETRY,"offline state is light themed and retry restores the H5 after network recovery","PENDING_OWNER_VERIFICATION",,"real device network toggle required"

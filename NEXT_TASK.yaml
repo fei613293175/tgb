@@ -17,6 +17,8 @@ read_first:
   - evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
   - evidence/R09/cashier/R09_CASHIER_PROGRESS.md
   - evidence/R09/global-closeout/R09_GLOBAL_CLOSEOUT_AUDIT.md
+  - evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md
+  - evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -110,10 +112,13 @@ progress:
   final_staging_post: 405
   current_tree_exact_credential_scan: PASS
   production_database_identifier_in_git_history: DETECTED_ONE_COMMIT_OWNER_REMEDIATION_REQUIRED
+  final_project_readiness: FAIL_PENDING_OWNER_AND_SECURITY
+  final_project_readiness_gate: scripts/test-final-project-readiness.ps1
+  owner_verification_matrix: evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
 
 self_correction:
   interval_minutes: 30
-  last_material_output: R09_GLOBAL_H5_CLOSEOUT_39_OF_39_PASS
+  last_material_output: FINAL_PROJECT_READINESS_GATE_FORMALIZED
   current_state: ADVANCING
   loop_rule: after two checks without a new artifact test result deployment or resolved fact change method and execute the next concrete action
 
@@ -144,3 +149,4 @@ acceptance:
   - synthetic user message visit logs cashier orders bridges and tunnel are all removed with staging POST 405
   - owner-device gallery upload Alipay return and compact-top-inset checks remain PENDING_OWNER_VERIFICATION and must not be represented as PASS without owner evidence
   - final project security signoff remains pending until the owner rotates the exposed database credential and authorizes or performs Git-history remediation
+  - scripts/test-final-project-readiness.ps1 must return PASS before release_status can leave IN_PROGRESS or a final tag can be created

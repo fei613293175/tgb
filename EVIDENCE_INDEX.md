@@ -255,3 +255,11 @@ R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30
 - 发布页生产修复：`20260727T181343+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-publish-visual-backups/20260727T181343+0800`
 
 R09 非 Android 视觉集合为 39/39 `REDESIGNED_VERIFIED`，其中包含 38 个业务 H5 页面和 1 个桌面兼容入口。安卓真机安全区、相册上传和支付宝拉起/返回仍为 `PENDING_OWNER_VERIFICATION`，不得用上述浏览器证据替代。
+
+## 17. R09 最终项目就绪门禁
+
+- 最终就绪审计：`evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md`
+- 负责人六项真机证据矩阵：`evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv`
+- 强制非零门禁：`scripts/test-final-project-readiness.ps1`
+
+当前预期结果为 `FAIL_PENDING_OWNER_AND_SECURITY`。只有安装启动、安全区、相册真实上传、支付宝拉起/返回、可信下载、离线重试全部引用脱敏证据并 PASS，且数据库凭据轮换与 Git 历史整改通过后，才能将整个项目标记最终完成。
