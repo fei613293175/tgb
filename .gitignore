@@ -24,9 +24,9 @@ deliverables/**/*.apk
 .runtime/
 ci-artifacts/
 captures/
+r09-production-candidate/
 
 # OS/editor files
 .DS_Store
 Thumbs.db
 desktop.ini
-

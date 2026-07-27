@@ -37,6 +37,18 @@ actions:
   - prepare production backup deployment and rollback scripts
   - keep owner device upload payment and safe-area feedback asynchronous
 
+progress:
+  candidate_assembled: true
+  candidate_files: 81
+  candidate_matches_r08_staging: true
+  static_release_gates_r02_through_r08: PASS
+  production_script_verify_only: PASS
+  production_deployed: false
+
+next_action:
+  - run the final read-only browser regression across the completed real-reachable page set
+  - apply the production candidate only after the global regression and rollback preflight pass
+
 forbidden:
   - do not redesign source-only hidden or direct-URL pages
   - do not change business scripts forms routes values balances claims or payment protocols

@@ -93,6 +93,13 @@ staging:
   r08_deploy_id: 20260727T080940+0800
   r08_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T080940+0800-click-proven-v1
   r08_browser_matrix: 5_PAGES_X_3_VIEWPORTS_PASS
+  r09_candidate_archive: deliverables/r09-production-candidate-v1.tar.gz
+  r09_candidate_archive_sha256: f176d0c2279f361182bac932db98631f200ed8e176a4b2b45ffdb431e017f998
+  r09_candidate_site_files: 81
+  r09_expected_layer_overrides: 4
+  r09_candidate_matches_r08_staging: true
+  r09_production_verify_only: PASS
+  r09_production_deployed: false
   browser_origin_bridge: OFF
   reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
 
@@ -219,6 +226,7 @@ not_completed:
   - controlled-write fixtures for each high-risk page family
   - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)
+  - R09 final all-page browser regression and production deployment
 
 blockers:
   - id: B-R06-CHAT-01
