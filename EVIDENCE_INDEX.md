@@ -212,3 +212,14 @@ R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文
 - R09 Android H5 UA 公开登录、搜索、防诈骗点击与三页范围纠偏：`evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md`
 
 R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`，生产部署 ID 为 `20260727T090142+0800`。范围纠偏后的确定性候选 v3 为 78 文件，连续两次构建 SHA-256 均为 `a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389`；三页恢复部署 ID 为 `20260727T113640+0800`。顶部双空白返修服务器签名 APK SHA-256 为 `5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f`，真机验证由负责人异步完成。后续普通 UI 返修按 D-035 只验证受影响页面，不再生成重复全量截图矩阵。
+
+## 14. R09 私信详情与成员详情
+
+- 隔离真实点击、四文件实现、静态门禁、失败部署回滚和准确续点：`evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`
+- 改前截图：`evidence/R09/member-chat/before/CHAT-DETAIL-390x844.png`、`evidence/R09/member-chat/before/MEMBER-DETAIL-390x844.png`
+- 本地覆盖：`r09-member-chat-overlay/`
+- 原始模板与共享样式基线：`r09-member-chat-baseline-selected/`
+- 静态协议门禁：`scripts/test-r09-member-chat-overlay.ps1`
+- 四文件制品：`deliverables/r09-member-chat-overlay-v1.tar.gz`，SHA-256 `da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e`
+
+本批尚无改后截图，视觉状态为 `PENDING`。隔离站已恢复原模板，不能引用静态门禁或网络探针宣称页面视觉通过。

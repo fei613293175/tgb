@@ -1,6 +1,6 @@
 # R09 Result
 
-- Status: `H5 DEPLOYED / ASYNC OWNER FEEDBACK OPEN`
+- Status: `IN PROGRESS / MEMBER AND CHAT VISUAL ACCEPTANCE OPEN`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
 - Current reproducible candidate: v3, 78 files
@@ -43,8 +43,21 @@ bash /tmp/r09_rollback_production.sh --apply-rollback /www/staging/tg-h5-ui-r08/
 - Alipay launch and return from a real checkout.
 - Android replacement APK status-bar and bottom-safe-area visual feedback.
 - Any owner-reported H5 visual defect.
+- Chat detail and member detail are now real-click-proven and locally redesigned, but their Android-H5 after screenshots and geometry verification remain open. The attempted staging deployment was rolled back, so they are not production changes.
 
 These items do not trigger another global matrix. Each report is handled as a targeted repair under D-035.
+
+## Member And Chat Addendum
+
+- Click proof: PASS for chat list -> chat detail and chat avatar -> member detail with a synthetic isolated peer.
+- Local overlay: four files under `r09-member-chat-overlay/`.
+- Archive: `deliverables/r09-member-chat-overlay-v1.tar.gz`.
+- Archive SHA-256: `da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e`.
+- Static business-protocol gate: PASS.
+- Attempted staging deploy ID: `20260727T123509+0800`.
+- Visual gate: PENDING because the in-app Browser error tab was blocked by Browser Use security policy.
+- Safety response: staging restored to original member/chat template hashes; synthetic peer, message, visit log, auth bridge, browser-origin bridge and local tunnel removed; POST returned `405`.
+- Exact resume instructions: `evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`.
 
 ## Android Inset Repair
 

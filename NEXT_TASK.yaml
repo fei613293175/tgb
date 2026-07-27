@@ -3,7 +3,7 @@ project_id: TG-H5-UI-REDESIGN
 task_id: TASK-R09-001
 release: R09
 status: IN_PROGRESS
-title: R09 线上异步反馈与快速返修
+title: R09 私信详情与成员详情视觉闭环
 
 read_first:
   - 06_HARD_GATES.md
@@ -12,6 +12,7 @@ read_first:
   - version-results/R09_RESULT.md
   - evidence/R09/R09_QUICK_BROWSER_REGRESSION.md
   - evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md
+  - evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -19,8 +20,8 @@ read_first:
   - LESSONS_LEARNED.md
 
 scope:
-  - accept owner screenshots and device feedback asynchronously
-  - resolve only defects found on already in-scope real-reachable pages
+  - finish the two newly click-proven real-reachable pages: chat detail and member detail
+  - accept owner screenshots and device feedback asynchronously without waiting
   - use the three-gate fast path: real entry, unchanged business protocol, verified rollback
   - keep all hidden routes and dormant plugins out of visual scope
 
@@ -32,10 +33,16 @@ out_of_scope_plugins:
   - tb_cus_taojing
 
 actions:
-  - identify the exact visible page and source template from each owner report
-  - edit the affected template or CSS directly without creating unrelated versions
-  - run the affected page at 390x844 plus static protocol and rollback checks
-  - open every affected H5 page in a real browser and compare representative screenshots for deformation misalignment overflow and overlap
+  - start a fresh in-app Browser session before opening the SSH tunnel URL; never reuse the blocked data error document
+  - enable only the documented synthetic peer fixture authentication bridge and browser-origin bridge
+  - rebuild and deploy the four-file r09-member-chat-overlay with the existing backup-first script
+  - run scripts/test-r09-member-chat-overlay.ps1 and verify the deployed archive SHA-256
+  - open chat detail and member detail at 390x844 with the exact Android H5 UA
+  - save after screenshots and geometry JSON only after checking deformation misalignment overflow overlap clipping and safe areas
+  - inspect long chat bubbles input bar attachment panel member cover avatar statistics actions tabs and remote asset requests
+  - run 360x800 and 430x932 only if the main viewport reveals a shared breakpoint or safe-area defect
+  - clean the fixture bridges and tunnel and verify POST 405
+  - deploy the same minimal package to production only after browser acceptance and a production backup
   - rebuild the APK only when Android native source or packaged resources change
   - keep owner device upload payment and safe-area feedback asynchronous
 
@@ -64,11 +71,21 @@ progress:
   public_auth_search_anti_fraud_click_edges: PROVEN
   direct_url_legal_pages_restored: 3
   production_scope_restore_deploy_id: 20260727T113640+0800
+  member_chat_click_proof: PASS_TWO_PAGES
+  member_chat_overlay_implemented: true
+  member_chat_overlay_files: 4
+  member_chat_archive_sha256: da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e
+  member_chat_static_protocol_gate: PASS
+  member_chat_visual_gate: PENDING
+  member_chat_staging_deployed: false
+  member_chat_failed_attempt_rolled_back: true
+  member_chat_fixture_cleanup: PASS
+  staging_post_after_cleanup: 405
 
 next_action:
-  - wait only for concrete owner feedback while keeping the task resumable
-  - verify the R09 compact-top-inset APK only from owner-provided device evidence; Codex must not install or run it
-  - when feedback arrives fix and verify only the affected real-reachable page family
+  - resume at the fresh-browser deployment and visual verification step in evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
+  - do not wait for owner APK feedback
+  - do not mark either page redesigned verified until after screenshots and geometry pass
 
 forbidden:
   - do not redesign source-only hidden or direct-URL pages
@@ -80,9 +97,10 @@ forbidden:
   - do not deploy a repair until its affected-page check and rollback verification pass
 
 acceptance:
-  - every visual file belongs to a real-reachable page already approved in R02 through R08
+  - every visual file belongs to the two real-reachable pages proven in the R09 synthetic isolated click chain
   - no hidden page or dormant plugin is added to the production candidate
   - affected-page 390x844 regression has no horizontal overflow overlap clipped controls or dark page background
   - public UI CDN count is zero for redesigned pages
   - production candidate is reproducible and has a verified rollback package
   - each repair updates R09 result status decisions lessons and manifest once
+  - synthetic user message visit logs bridges and tunnel are all removed with staging POST 405
