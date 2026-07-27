@@ -37,9 +37,9 @@ function _tgb_task_is_vip($uid) {
         array('xigua_hh_member', $uid)
     );
     if (!$member || intval($member['status']) !== 1 || intval($member['endts']) <= TIMESTAMP) return false;
-    if (isset($member['hyname']) && $member['hyname'] === '签米会员') return true;
+    if (isset($member['hyname']) && $member['hyname'] === '推广宝会员') return true;
     $info = @unserialize($member['joininfo']);
-    return is_array($info) && isset($info['name']) && $info['name'] === '签米会员';
+    return is_array($info) && isset($info['name']) && $info['name'] === '推广宝会员';
 }
 
 function _tgb_task_ensure_wallet($uid, $username) {
@@ -162,6 +162,7 @@ function _tgb_task_create_tables() {
     $supportCache = DB::table('view_invite_activity_cache');
     $supportReward = DB::table('view_invite_activity_reward');
     $supportClaim = DB::table('view_ad_support_claim');
+    $userStats = DB::table('view_ad_user_stats');
     DB::query("CREATE TABLE IF NOT EXISTS `{$progress}` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `uid` int(11) NOT NULL,
@@ -234,6 +235,14 @@ function _tgb_task_create_tables() {
         PRIMARY KEY (`id`),
         UNIQUE KEY `uid_reward_count` (`uid`,`reward_count`),
         KEY `uid_status` (`uid`,`status`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    DB::query("CREATE TABLE IF NOT EXISTS `{$userStats}` (
+        `uid` int(11) NOT NULL,
+        `completed_ads` int(11) unsigned NOT NULL DEFAULT '0',
+        `withdraw_spent_ads` int(11) unsigned NOT NULL DEFAULT '0',
+        `created_at` int(11) NOT NULL DEFAULT '0',
+        `updated_at` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`uid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
 
@@ -431,6 +440,10 @@ if ($submodac === 'complete_ad') {
     DB::query('UPDATE %t SET status=%s,completed_at=%d WHERE id=%d AND status=%s', array('view_ad_task_impression', 'completed', TIMESTAMP, intval($impression['id']), 'pending'));
     if (DB::affected_rows() > 0) {
         DB::query('UPDATE %t SET viewed_count=LEAST(target_count,viewed_count+1),updated_at=%d WHERE uid=%d AND task_date=%s', array('view_ad_task_progress', TIMESTAMP, $uid, $impression['task_date']));
+        DB::query(
+            'INSERT INTO %t (uid,completed_ads,withdraw_spent_ads,created_at,updated_at) VALUES (%d,1,0,%d,%d) ON DUPLICATE KEY UPDATE completed_ads=completed_ads+1,updated_at=VALUES(updated_at)',
+            array('view_ad_user_stats', $uid, TIMESTAMP, TIMESTAMP)
+        );
     }
     DB::query('COMMIT');
     discuz_process::unlock($process);
@@ -616,7 +629,11 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <a class="hero-upgrade" href="plugin.php?id=xigua_hb&ac=vip"><span><strong>开通会员，每天多赚 ¥<?php echo number_format(($taskConfig['vip_ad_count'] - $taskConfig['regular_ad_count']) * $taskConfig['unit_reward'], 2); ?></strong><small>每日广告任务提升至<?php echo intval($taskConfig['vip_ad_count']); ?>条</small></span><b>立即开通 <i class="ri-arrow-right-s-line"></i></b></a>
         <?php endif; ?>
     </section>
-
+    <button class="support-band" id="supportButton" type="button">
+        <span><i class="ri-shield-star-line"></i></span>
+        <span><strong>官方888元现金扶持奖励</strong><small>实名直推连续完成3天，达标可手动领取现金</small></span>
+        <i class="ri-arrow-right-s-line"></i>
+    </button>
     <section class="task-panel" aria-labelledby="todayTaskTitle">
         <div class="section-heading">
             <div><span class="section-kicker">TODAY</span><h2 id="todayTaskTitle">今日观看任务</h2></div>
@@ -647,11 +664,6 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
     </section>
 
-    <button class="support-band" id="supportButton" type="button">
-        <span><i class="ri-shield-star-line"></i></span>
-        <span><strong>推广宝官方扶持奖励</strong><small>实名直推连续完成3天，达标可手动领取现金</small></span>
-        <i class="ri-arrow-right-s-line"></i>
-    </button>
 </main>
 
 <nav class="task-bottom-nav" aria-label="底部导航">

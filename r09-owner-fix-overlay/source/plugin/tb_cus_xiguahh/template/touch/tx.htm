@@ -356,6 +356,26 @@
         .chip-item.active span font {
             color: var(--gold-bright);
         }
+        .chip-item.disabled {
+            cursor: not-allowed;
+            color: #7c828d;
+            background: #252a32;
+            border-color: #343a44;
+            box-shadow: none;
+            filter: grayscale(1);
+            opacity: 0.56;
+        }
+        .chip-item.disabled::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: rgba(155, 161, 170, 0.16);
+            pointer-events: none;
+        }
+        .chip-item.disabled:active {
+            transform: none;
+        }
 
         /* 支付宝信息行 */
         .alipay-info-row {
@@ -473,6 +493,13 @@
             height: 100%;
             position: relative;
             z-index: 1;
+        }
+        .withdraw-btn.disabled {
+            cursor: not-allowed;
+            background: #8b9098;
+            box-shadow: none;
+            filter: grayscale(1);
+            opacity: 0.62;
         }
 
         /* 未绑定提示 */
@@ -823,7 +850,7 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="source/plugin/tb_cus_xiguahh/static/tgb-r07/sign-wallet-light-grid-r07.css?20260728-owner-v5">
+    <link rel="stylesheet" href="source/plugin/tb_cus_xiguahh/static/tgb-r07/sign-wallet-light-grid-r07.css?20260728-owner-v6">
 </head>
 <body class="tgb-r07-sign-wallet-page">
 
@@ -862,13 +889,12 @@
 
             <!-- 金额选择 Chips -->
             <div class="chips-row">
-                {eval $akey= 31;}
                 <!--{loop $txprice $key $value}-->
-                <div class="chip-item {if $key==$akey} active {/if}" data-id="{$key}">
+                <div class="chip-item<!--{if !$txAvailability[$key]}--> disabled<!--{elseif $key==$defaultTxid}--> active<!--{/if}-->" data-id="{$key}" data-disabled="<!--{if $txAvailability[$key]}-->0<!--{else}-->1<!--{/if}-->" aria-disabled="<!--{if $txAvailability[$key]}-->false<!--{else}-->true<!--{/if}-->">
                     <span><font>¥ </font>{$value[0]}</span>
                 </div>
                 <!--{/loop}-->
-                <input type="hidden" id="txid" value="{$akey}">
+                <input type="hidden" id="txid" value="{$defaultTxid}">
             </div>
 
             <!-- 支付宝信息 -->
@@ -890,7 +916,7 @@
 
             <!-- 提现按钮 / 未绑定提示 -->
             <!--{if $xigua_user['alipay_account']}-->
-            <div class="withdraw-btn" id="btn">
+            <div class="withdraw-btn<!--{if !$defaultTxid}--> disabled<!--{/if}-->" id="btn" data-disabled="<!--{if $defaultTxid}-->0<!--{else}-->1<!--{/if}-->">
                 <a>立即提现</a>
             </div>
             <!--{else}-->
@@ -911,6 +937,8 @@
                 <li>普通会员服务费50%，推广宝会员提现服务费永久7%，推荐开通会员提现更划算；</li>
                 <li>提现 24 小时内审核到账，节假日顺延</li>
                 <li>请在每天 10:00 ~ 18:00 之间提现</li>
+                <li>提现资格按成功观看广告累计：10元需{$requiredAdViews[10]}条、30元需{$requiredAdViews[30]}条，其他档位按原配置换算</li>
+                <li>当前累计成功观看 {$totalCompletedAds} 条，可用于提现 {$availableWithdrawAds} 条</li>
             </ul>
         </div>
 
@@ -984,6 +1012,7 @@
 
     <script>
         $(document).on('click', ".chip-item", function() {
+            if ($(this).attr('data-disabled') === '1') return;
             $(this).siblings('.chip-item').removeClass('active');
             $(this).addClass('active');
             var txid = $(this).attr("data-id");
@@ -991,6 +1020,10 @@
         });
 
         $(document).on('click', "#btn", function() {
+            if ($(this).attr('data-disabled') === '1' || !$("#txid").val()) {
+                $.alert("当前余额不足，没有可选择的提现金额", "提示");
+                return;
+            }
             $.showLoading();
             var txid = $("#txid").val();
             var formData = new FormData();
