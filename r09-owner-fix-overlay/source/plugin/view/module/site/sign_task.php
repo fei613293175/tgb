@@ -268,6 +268,25 @@ function _tgb_task_get_progress($uid, $username, $config) {
         ));
         $row = DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND task_date=%s', array('view_ad_task_progress', $uid, $date));
     }
+    if ($row && intval($row['claimed']) === 0) {
+        $isVip = _tgb_task_is_vip($uid);
+        $target = $isVip ? intval($config['vip_ad_count']) : intval($config['regular_ad_count']);
+        $unit = round(floatval($config['unit_reward']), 2);
+        $reward = round($target * $unit, 2);
+        if (intval($row['is_vip']) !== ($isVip ? 1 : 0)
+            || intval($row['target_count']) !== $target
+            || round(floatval($row['unit_reward']), 2) !== $unit
+            || round(floatval($row['reward_money']), 2) !== $reward) {
+            DB::update('view_ad_task_progress', array(
+                'is_vip' => $isVip ? 1 : 0,
+                'target_count' => $target,
+                'unit_reward' => $unit,
+                'reward_money' => $reward,
+                'updated_at' => TIMESTAMP,
+            ), "uid={$uid} AND task_date='" . addslashes($date) . "' AND claimed=0");
+            $row = DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND task_date=%s', array('view_ad_task_progress', $uid, $date));
+        }
+    }
     _tgb_task_ensure_wallet($uid, $username);
     return $row;
 }
@@ -609,7 +628,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-3" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-4" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -621,10 +640,11 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 <main class="task-page">
     <section class="earnings-hero <?php echo $isVip ? 'vip' : 'regular'; ?>">
         <div class="hero-topline"><span><?php echo $isVip ? '推广宝会员专属任务' : '普通会员任务'; ?></span><span class="hero-badge"><i class="<?php echo $isVip ? 'ri-vip-crown-2-fill' : 'ri-flashlight-fill'; ?>"></i> <?php echo $isVip ? '会员已生效' : '每日可领'; ?></span></div>
+        <div class="hero-earning-label" id="heroEarningLabel">今日完成<?php echo intval($task['target_count']); ?>个广告，可赚</div>
         <div class="hero-money"><small>¥</small><span id="taskReward"><?php echo number_format($task['reward_money'], 2); ?></span></div>
         <div class="hero-meta"><span>每条 ¥<?php echo number_format($task['unit_reward'], 2); ?></span><span>奖励发放至签到钱包</span></div>
         <?php if ($isVip): ?>
-        <div class="hero-member-state"><i class="ri-checkbox-circle-fill"></i><span><strong>推广宝会员权益已解锁</strong><small>每天可看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成最高领<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元</small></span></div>
+        <div class="hero-member-state"><i class="ri-checkbox-circle-fill"></i><span><strong>推广宝会员权益已解锁</strong><small>每天可看<?php echo intval($task['target_count']); ?>条，完成最高领<?php echo number_format($task['reward_money'], 2); ?>元</small></span></div>
         <?php else: ?>
         <a class="hero-upgrade" href="plugin.php?id=xigua_hb&ac=vip"><span><strong>开通会员，每天多赚 ¥<?php echo number_format(($taskConfig['vip_ad_count'] - $taskConfig['regular_ad_count']) * $taskConfig['unit_reward'], 2); ?></strong><small>每日广告任务提升至<?php echo intval($taskConfig['vip_ad_count']); ?>条</small></span><b>立即开通 <i class="ri-arrow-right-s-line"></i></b></a>
         <?php endif; ?>
@@ -824,6 +844,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         $('viewedCount').textContent = payload.viewed_count;
         $('targetCount').textContent = payload.target_count;
         $('taskReward').textContent = payload.reward_money;
+        $('heroEarningLabel').textContent = '今日完成' + payload.target_count + '个广告，可赚';
         var percent = payload.target_count ? Math.min(100, Math.round(payload.viewed_count * 100 / payload.target_count)) : 0;
         $('progressBar').style.width = percent + '%';
         var button = $('taskMainButton');

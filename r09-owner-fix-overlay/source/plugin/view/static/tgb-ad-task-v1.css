@@ -31,8 +31,9 @@ button { font: inherit; }
 .earnings-hero.vip .hero-badge { border-color: #ead39e; background: #fff; color: var(--task-gold); }
 .hero-topline, .hero-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .hero-topline { font-size: 13px; color: #526985; }
+.hero-earning-label { margin-top: 14px; color: #526985; font-size: 13px; font-weight: 650; }
 .hero-badge { padding: 5px 8px; border: 1px solid #bfe0d5; border-radius: 6px; color: var(--task-green); background: var(--task-green-soft); }
-.hero-money { margin: 14px 0 12px; display: flex; align-items: baseline; color: #17458f; }
+.hero-money { margin: 2px 0 12px; display: flex; align-items: baseline; color: #17458f; }
 .hero-money small { margin-right: 5px; font-size: 22px; font-weight: 650; }
 .hero-money span { font-size: 48px; line-height: 54px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .hero-meta { justify-content: flex-start; color: #60738d; font-size: 12px; }

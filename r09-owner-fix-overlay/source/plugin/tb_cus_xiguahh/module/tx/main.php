@@ -13,19 +13,19 @@ $xigua_user = DB::fetch_first('SELECT curtxsxf,realname,alipay_account,bank_card
 
 $xigua_hb_config = $_G['cache']['plugin']['xigua_hb'];
 
-// 保留原提现档位参数，固定按每个原档位单位10条成功广告换算。
-$withdrawLevelUnits = array(
-    10 => 5,
-    30 => 15,
-    100 => 45,
-    300 => 120,
-    500 => 300,
-    1000 => 600,
-);
-$adsPerUnit = 10;
-$requiredAdViews = array();
-foreach ($withdrawLevelUnits as $amount => $units) {
-    $requiredAdViews[$amount] = $units * $adsPerUnit;
+// 每个提现金额的广告要求均可在统一配置文件中独立调整。
+$adTaskConfig = require DISCUZ_ROOT . './source/plugin/view/sign_task_config.php';
+$requiredAdViews = isset($adTaskConfig['withdraw_ad_requirements']) && is_array($adTaskConfig['withdraw_ad_requirements'])
+    ? $adTaskConfig['withdraw_ad_requirements']
+    : array();
+foreach ($requiredAdViews as $amount => $requiredViews) {
+    $amount = intval($amount);
+    $requiredViews = intval($requiredViews);
+    if ($amount <= 0 || $requiredViews <= 0) {
+        unset($requiredAdViews[$amount]);
+        continue;
+    }
+    $requiredAdViews[$amount] = $requiredViews;
 }
 
 DB::query("CREATE TABLE IF NOT EXISTS " . DB::table('view_ad_user_stats') . " (
@@ -108,7 +108,6 @@ if ($submodac == "txsubmit") {
         json_echo(-1, "签到奖励将于5月18日早上10点（明日）正式开放");
     }
 
-   
      // 工作日提现时间
     $currentHour = intval(date('H', TIMESTAMP));
     $currentWeekday = intval(date('N', TIMESTAMP));
@@ -117,7 +116,7 @@ if ($submodac == "txsubmit") {
     }
     if ($currentWeekday == 6 || $currentWeekday == 7) {
         json_echo(-1, "提现仅限工作日周1~周5");
-    } 
+    }
 
     if ($txmoney > $mymoney) {
         json_echo(-1, "金额不足!");
@@ -131,7 +130,7 @@ if ($submodac == "txsubmit") {
     if ($cur_tx1) {
         json_echo(-1, "你每天总的只能在平台提现一次");
     }
-   
+
     // 注意：原代码中 xigua_hb_tixian 表可能也需要排除失败，如果该表有 ostatus 字段可同样排除，
     // 若没有则不处理（保留原逻辑）
 

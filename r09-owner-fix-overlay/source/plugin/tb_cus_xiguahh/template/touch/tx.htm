@@ -1012,7 +1012,10 @@
 
     <script>
         $(document).on('click', ".chip-item", function() {
-            if ($(this).attr('data-disabled') === '1') return;
+            if ($(this).attr('data-disabled') === '1') {
+                $.alert("余额不足", "提示");
+                return;
+            }
             $(this).siblings('.chip-item').removeClass('active');
             $(this).addClass('active');
             var txid = $(this).attr("data-id");

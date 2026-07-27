@@ -7,7 +7,7 @@ return array(
     // 每日广告任务
     'countdown_seconds' => 20,
     'regular_ad_count' => 5,
-    'vip_ad_count' => 10,
+    'vip_ad_count' => 20,
     'unit_reward' => 0.50,
 
     // 好友完成每日广告任务后的两级奖励
@@ -15,6 +15,16 @@ return array(
     'indirect_regular_reward' => 0.30,
     'direct_vip_reward' => 1.00,
     'indirect_vip_reward' => 0.50,
+
+    // 提现档位 => 所需累计成功观看广告数，可逐档独立调整
+    'withdraw_ad_requirements' => array(
+        10 => 50,
+        30 => 200,
+        100 => 450,
+        300 => 1200,
+        500 => 3000,
+        1000 => 6000,
+    ),
 
     // 官方扶持：实名直推连续完成3天后计为1个有效用户
     'support_rewards' => array(
