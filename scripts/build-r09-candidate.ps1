@@ -1,5 +1,5 @@
 param(
-    [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) 'r09-production-candidate'),
+    [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '.runtime/r09-production-candidate'),
     [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v1.tar.gz')
 )
 
