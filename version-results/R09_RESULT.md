@@ -76,3 +76,16 @@ These items do not trigger another global matrix. Each report is handled as a ta
 - Desktop delivery: `C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk`
 - Handoff artifact: `deliverables/android/R09/tuiguangbao-1.0.0-R09-compact-top-inset.apk`
 - APK installation/runtime validation remains owner-only and asynchronous under D-036.
+
+## Member And Chat Manual Drift Audit
+
+- Business behavior unchanged: YES. Route/query strings, forms, hidden fields, AJAX endpoints, polling, image/video upload types, follow, message and block protocols remain frozen by the normalization and marker gate.
+- Requirement drift: NO. Both pages have complete real-click parent edges; no direct-URL, hidden control or dormant plugin was added.
+- Reachable-page omission in this batch: NO. The batch is exactly chat detail and its avatar-linked member detail.
+- Light visual gate: PASS. No dark page background or old warm-orange dominant surface was introduced.
+- Reused strengths: existing Light Grid tokens, local icon font, WeUI interaction behavior and 44px controls were retained.
+- Android drift: NONE. This five-file H5 overlay does not modify APK source, signing, permissions, upload bridge or payment allowlist, so no APK rebuild is required.
+- Browser review: PASS. Codex inspected both real pages and rejected the first member-cover decoration before the final screenshots; all three viewport geometries have zero horizontal overflow.
+- Pitfalls recorded: D-040 captures mandatory screenshot-based design rejection; L-073 captures the private-backup permission regression and safe restore rule.
+- Documentation sync: PASS. `CURRENT_STATUS.yaml`, `NEXT_TASK.yaml`, result, evidence index, decision, lesson, progress record and `MANIFEST_SHA256.txt` agree on v5, five files, visual PASS and production deployment.
+- Subtask conclusion: `PASS`. R09 remains `IN_PROGRESS` only for asynchronous owner device and future targeted feedback listed above.
