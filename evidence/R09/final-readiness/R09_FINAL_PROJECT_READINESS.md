@@ -23,6 +23,8 @@ The owner verification matrix must contain PASS evidence files for:
 5. Trusted download notification and resulting file.
 6. Offline light error state and successful retry.
 
+Each PASS row must reference a JSON file conforming to `OWNER_DEVICE_EVIDENCE_SCHEMA.json` and record that JSON's SHA-256. The JSON must identify the current signed APK by SHA-256, record the owner device and Android version, contain at least one PASS observation, confirm redaction, and reference at least one repository attachment with a matching SHA-256. File existence alone is not acceptance evidence.
+
 The security gate must also prove:
 
 - the production database credential was rotated without storing the new value in the repository;

@@ -19,6 +19,7 @@ read_first:
   - evidence/R09/global-closeout/R09_GLOBAL_CLOSEOUT_AUDIT.md
   - evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md
   - evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
+  - evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -115,6 +116,7 @@ progress:
   final_project_readiness: FAIL_PENDING_OWNER_AND_SECURITY
   final_project_readiness_gate: scripts/test-final-project-readiness.ps1
   owner_verification_matrix: evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
+  owner_device_evidence_schema: evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json
 
 self_correction:
   interval_minutes: 30
@@ -150,3 +152,4 @@ acceptance:
   - owner-device gallery upload Alipay return and compact-top-inset checks remain PENDING_OWNER_VERIFICATION and must not be represented as PASS without owner evidence
   - final project security signoff remains pending until the owner rotates the exposed database credential and authorizes or performs Git-history remediation
   - scripts/test-final-project-readiness.ps1 must return PASS before release_status can leave IN_PROGRESS or a final tag can be created
+  - every owner PASS row must reference a schema-valid JSON and record its SHA-256; the JSON must bind the current APK and hash every redacted attachment

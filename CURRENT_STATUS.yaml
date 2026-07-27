@@ -226,6 +226,7 @@ final_readiness:
   status: FAIL_PENDING_OWNER_AND_SECURITY
   gate: scripts/test-final-project-readiness.ps1
   owner_matrix: evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
+  owner_evidence_schema: evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json
   audit: evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md
   owner_checks_total: 6
   owner_checks_passed: 0

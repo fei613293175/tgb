@@ -360,5 +360,5 @@
 - 日期：2026-07-27
 - 状态：ACCEPTED，补强 G25/G32
 - 决定：39/39 非 Android 视觉条目和生产候选通过后可以标记 H5 开发关版 PASS，但整个项目仍保持 `IN_PROGRESS`，直到负责人真机六项矩阵和数据库安全整改全部有证据通过。
-- 门禁：`scripts/test-final-project-readiness.ps1` 独立验证 Android 台账、负责人证据矩阵、数据库凭据轮换、历史提交可达性、manifest、干净工作树和上游一致性；任一项缺失返回非零。
+- 门禁：`scripts/test-final-project-readiness.ps1` 独立验证 Android 台账、负责人证据矩阵、JSON/附件 SHA-256、当前 APK 绑定、数据库凭据轮换、历史提交可达性、manifest、干净工作树和上游一致性；任一项缺失返回非零。
 - 边界：门禁失败不撤销已经成立的 H5 开发 PASS，也不阻止有证据的定向返修；它只禁止整个项目最终 PASS、正式标签和完成状态。

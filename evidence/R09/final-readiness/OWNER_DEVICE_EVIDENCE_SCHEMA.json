@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TG-H5-UI-REDESIGN/R09/owner-device-evidence",
+  "title": "R09 owner device evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "check_id",
+    "status",
+    "tested_by",
+    "tested_at",
+    "redaction_confirmed",
+    "device",
+    "apk",
+    "observations",
+    "attachments"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "check_id": {
+      "enum": [
+        "APK-INSTALL-LAUNCH",
+        "APP-SAFE-AREA",
+        "GALLERY-UPLOAD",
+        "ALIPAY-ROUNDTRIP",
+        "TRUSTED-DOWNLOAD",
+        "OFFLINE-RETRY"
+      ]
+    },
+    "status": { "const": "PASS" },
+    "tested_by": { "const": "OWNER" },
+    "tested_at": { "type": "string", "format": "date-time" },
+    "redaction_confirmed": { "const": true },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "android_version"],
+      "properties": {
+        "manufacturer": { "type": "string" },
+        "model": { "type": "string", "minLength": 1 },
+        "android_version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "apk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["filename", "sha256"],
+      "properties": {
+        "filename": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step", "result"],
+        "properties": {
+          "step": { "type": "string", "minLength": 1 },
+          "result": { "const": "PASS" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "attachments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    }
+  }
+}

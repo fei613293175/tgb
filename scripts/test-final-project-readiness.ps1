@@ -28,8 +28,9 @@ $statusPath = Join-Path $RepoRoot 'CURRENT_STATUS.yaml'
 $nextPath = Join-Path $RepoRoot 'NEXT_TASK.yaml'
 $ledgerPath = Join-Path $RepoRoot '03_PAGE_LEDGER.csv'
 $matrixPath = Join-Path $RepoRoot 'evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv'
+$ownerSchemaPath = Join-Path $RepoRoot 'evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json'
 
-foreach ($path in @($statusPath, $nextPath, $ledgerPath, $matrixPath)) {
+foreach ($path in @($statusPath, $nextPath, $ledgerPath, $matrixPath, $ownerSchemaPath)) {
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         Add-Failure "required file missing: $path"
     }
@@ -40,6 +41,13 @@ if ($failures.Count -eq 0) {
     $nextText = Get-Content -LiteralPath $nextPath -Raw -Encoding UTF8
     $ledger = @(Import-Csv -LiteralPath $ledgerPath)
     $matrix = @(Import-Csv -LiteralPath $matrixPath)
+    try {
+        $ownerSchema = Get-Content -LiteralPath $ownerSchemaPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    }
+    catch {
+        Add-Failure "owner evidence schema is invalid JSON: $($_.Exception.Message)"
+        $ownerSchema = $null
+    }
 
     $nonAndroid = @($ledger | Where-Object { $_.scope -eq 'IN_SCOPE' -and $_.family -ne 'android' })
     if ($nonAndroid.Count -ne 39 -or @($nonAndroid | Where-Object evidence_status -ne 'REDESIGNED_VERIFIED').Count -ne 0) {
@@ -63,6 +71,11 @@ if ($failures.Count -eq 0) {
         'TRUSTED-DOWNLOAD',
         'OFFLINE-RETRY'
     )
+    $expectedMatrixColumns = @('check_id', 'requirement', 'status', 'evidence_path', 'evidence_sha256', 'notes')
+    $actualMatrixColumns = @($matrix[0].PSObject.Properties.Name)
+    if (($actualMatrixColumns -join "`n") -cne ($expectedMatrixColumns -join "`n")) {
+        Add-Failure 'owner verification matrix columns drifted from contract'
+    }
     $actualOwnerChecks = @($matrix.check_id | Sort-Object)
     if (($actualOwnerChecks -join "`n") -cne (($requiredOwnerChecks | Sort-Object) -join "`n")) {
         Add-Failure 'owner verification matrix IDs are incomplete, duplicated, or out of contract'
@@ -76,12 +89,82 @@ if ($failures.Count -eq 0) {
             Add-Failure "owner verification has no evidence path: $($row.check_id)"
             continue
         }
+        if ($row.evidence_sha256 -notmatch '^[0-9a-f]{64}$') {
+            Add-Failure "owner verification has invalid evidence SHA-256: $($row.check_id)"
+            continue
+        }
         $evidencePath = [IO.Path]::GetFullPath((Join-Path $RepoRoot $row.evidence_path))
         if (-not $evidencePath.StartsWith($repoPrefix, [StringComparison]::OrdinalIgnoreCase)) {
             Add-Failure "owner evidence path escapes repository: $($row.check_id)"
         }
         elseif (-not (Test-Path -LiteralPath $evidencePath -PathType Leaf)) {
             Add-Failure "owner evidence file missing: $($row.check_id)"
+        }
+        elseif ([IO.Path]::GetExtension($evidencePath) -ne '.json') {
+            Add-Failure "owner evidence must be JSON: $($row.check_id)"
+        }
+        elseif ((Get-FileHash -LiteralPath $evidencePath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $row.evidence_sha256) {
+            Add-Failure "owner evidence SHA-256 mismatch: $($row.check_id)"
+        }
+        else {
+            try {
+                $evidence = Get-Content -LiteralPath $evidencePath -Raw -Encoding UTF8 | ConvertFrom-Json
+            }
+            catch {
+                Add-Failure "owner evidence is invalid JSON: $($row.check_id)"
+                continue
+            }
+            if ([int]$evidence.schema_version -ne 1 -or $evidence.check_id -ne $row.check_id -or
+                $evidence.status -ne 'PASS' -or $evidence.tested_by -ne 'OWNER' -or
+                $evidence.redaction_confirmed -ne $true) {
+                Add-Failure "owner evidence identity or approval fields are invalid: $($row.check_id)"
+            }
+            $testedAt = [DateTimeOffset]::MinValue
+            if (-not [DateTimeOffset]::TryParse([string]$evidence.tested_at, [ref]$testedAt)) {
+                Add-Failure "owner evidence tested_at is invalid: $($row.check_id)"
+            }
+            if ([string]::IsNullOrWhiteSpace([string]$evidence.device.model) -or
+                [string]::IsNullOrWhiteSpace([string]$evidence.device.android_version)) {
+                Add-Failure "owner evidence device fields are incomplete: $($row.check_id)"
+            }
+            $expectedApkSha = (Get-YamlScalar -Text $statusText -Name 'server_release_apk_sha256').ToLowerInvariant()
+            if ([string]::IsNullOrWhiteSpace([string]$evidence.apk.filename) -or
+                ([string]$evidence.apk.sha256).ToLowerInvariant() -ne $expectedApkSha) {
+                Add-Failure "owner evidence APK identity is invalid: $($row.check_id)"
+            }
+            $observations = @($evidence.observations)
+            if ($observations.Count -eq 0 -or @($observations | Where-Object {
+                        [string]::IsNullOrWhiteSpace([string]$_.step) -or $_.result -ne 'PASS'
+                    }).Count -gt 0) {
+                Add-Failure "owner evidence observations are incomplete: $($row.check_id)"
+            }
+            $attachments = @($evidence.attachments)
+            if ($attachments.Count -eq 0) {
+                Add-Failure "owner evidence has no attachment: $($row.check_id)"
+            }
+            foreach ($attachment in $attachments) {
+                if ([string]::IsNullOrWhiteSpace([string]$attachment.path) -or $attachment.sha256 -notmatch '^[0-9a-f]{64}$') {
+                    Add-Failure "owner attachment metadata is invalid: $($row.check_id)"
+                    continue
+                }
+                $attachmentPath = [IO.Path]::GetFullPath((Join-Path $RepoRoot $attachment.path))
+                if (-not $attachmentPath.StartsWith($repoPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+                    Add-Failure "owner attachment path escapes repository: $($row.check_id)"
+                }
+                elseif (-not (Test-Path -LiteralPath $attachmentPath -PathType Leaf)) {
+                    Add-Failure "owner attachment file is missing: $($row.check_id)"
+                }
+                elseif ((Get-FileHash -LiteralPath $attachmentPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $attachment.sha256) {
+                    Add-Failure "owner attachment SHA-256 mismatch: $($row.check_id)"
+                }
+            }
+        }
+    }
+
+    if ($null -ne $ownerSchema) {
+        $schemaChecks = @($ownerSchema.properties.check_id.enum | Sort-Object)
+        if (($schemaChecks -join "`n") -cne (($requiredOwnerChecks | Sort-Object) -join "`n")) {
+            Add-Failure 'owner evidence schema check IDs drifted from matrix contract'
         }
     }
 

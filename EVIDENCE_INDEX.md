@@ -260,6 +260,7 @@ R09 非 Android 视觉集合为 39/39 `REDESIGNED_VERIFIED`，其中包含 38 �
 
 - 最终就绪审计：`evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md`
 - 负责人六项真机证据矩阵：`evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv`
+- 负责人证据 JSON 契约：`evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json`
 - 强制非零门禁：`scripts/test-final-project-readiness.ps1`
 
 当前预期结果为 `FAIL_PENDING_OWNER_AND_SECURITY`。只有安装启动、安全区、相册真实上传、支付宝拉起/返回、可信下载、离线重试全部引用脱敏证据并 PASS，且数据库凭据轮换与 Git 历史整改通过后，才能将整个项目标记最终完成。
