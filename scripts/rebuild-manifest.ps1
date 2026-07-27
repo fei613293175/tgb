@@ -8,6 +8,7 @@ $rootPrefix = $root.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.
 
 $excludedPrefixes = @(
     '.git/',
+    '.runtime/',
     'ci-artifacts/',
     'android-app/.gradle/',
     'android-app/.idea/',

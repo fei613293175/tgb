@@ -9,6 +9,7 @@ $manifest = Join-Path $root 'MANIFEST_SHA256.txt'
 . (Join-Path $PSScriptRoot 'manifest-canonical.ps1')
 $excludedPrefixes = @(
     '.git/',
+    '.runtime/',
     'ci-artifacts/',
     'android-app/.gradle/',
     'android-app/.idea/',
