@@ -10,7 +10,15 @@ html.tgb-r09-chat-detail-page {
   --tgb-r09-chat-text: #334155;
   --tgb-r09-chat-muted: #64748b;
   --tgb-r09-chat-border: #d9e3ef;
+  scrollbar-width: none;
   background: var(--tgb-r09-chat-bg);
+}
+
+html.tgb-r09-chat-detail-page::-webkit-scrollbar,
+html.tgb-r09-chat-detail-page body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 html.tgb-r09-chat-detail-page body {
@@ -18,6 +26,44 @@ html.tgb-r09-chat-detail-page body {
   overflow-x: hidden;
   background: var(--tgb-r09-chat-bg) !important;
   color: var(--tgb-r09-chat-text);
+}
+
+html.tgb-r09-chat-detail-page header.x_header {
+  box-sizing: border-box !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  margin-bottom: 0 !important;
+  padding: 5px 12px !important;
+}
+
+html.tgb-r09-chat-detail-page header.x_header + div[style="height:30px;"] {
+  display: none !important;
+}
+
+html.tgb-r09-chat-detail-page header.x_header > span {
+  height: 42px;
+  display: block;
+  line-height: 42px;
+}
+
+html.tgb-r09-chat-detail-page header.x_header a.z {
+  top: 5px !important;
+  left: 12px !important;
+  min-width: 52px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  line-height: 42px !important;
+}
+
+html.tgb-r09-chat-detail-page header.x_header .navtitle {
+  height: 42px;
+  margin: 0 64px !important;
+  overflow: hidden;
+  font-size: 18px !important;
+  line-height: 42px !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 html.tgb-r09-chat-detail-page .tgb-r09-chat-detail,
@@ -30,7 +76,7 @@ html.tgb-r09-chat-detail-page .tgb-r09-chat-detail {
   min-width: 0;
   min-height: 100vh;
   margin-top: 0 !important;
-  padding-top: calc(52px + env(safe-area-inset-top, 0px));
+  padding-top: 0;
   overflow-x: hidden;
   background-color: var(--tgb-r09-chat-bg) !important;
   background-image:
@@ -40,6 +86,7 @@ html.tgb-r09-chat-detail-page .tgb-r09-chat-detail {
 }
 
 html.tgb-r09-chat-detail-page .tgb-r09-chat-report {
+  width: calc(100% - 24px) !important;
   min-height: 44px;
   display: flex !important;
   align-items: center;

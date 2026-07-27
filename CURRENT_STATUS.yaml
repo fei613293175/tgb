@@ -5,7 +5,7 @@ snapshot_date: 2026-07-27
 current_release: R09
 release_status: IN_PROGRESS
 active_task_id: TASK-R09-001
-active_mode: MEMBER_CHAT_VISUAL_CLOSURE_WITH_ASYNC_OWNER_FEEDBACK
+active_mode: ASYNC_OWNER_FEEDBACK_TARGETED_REPAIR
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -38,7 +38,7 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: R09_MEMBER_CHAT_BASELINE_RESTORED_PENDING_VISUAL_VERIFY
+  status: R09_MEMBER_CHAT_V5_VISUAL_PASS_FIXTURES_OFF
   owner_release: R09
   source_release: R08
   snapshot_id: 20260727T074523+0800
@@ -51,8 +51,8 @@ staging:
     - HEAD
   post_status: 405
   final_get_status: 200
-  production_current_v3_hash_verified: true
-  member_chat_candidate_deployed: false
+  production_current_v3_hash_verified: SUPERSEDED_BY_MEMBER_CHAT_V5
+  member_chat_candidate_deployed: true
   member_chat_staging_rollback_verified: true
   production_predeploy_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
   source_r04_deploy_id: 20260726T233007+0800
@@ -114,15 +114,16 @@ staging:
   reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
   r09_member_chat_click_proof: PASS_TWO_PAGES
   r09_member_chat_overlay: r09-member-chat-overlay
-  r09_member_chat_overlay_files: 4
-  r09_member_chat_archive: deliverables/r09-member-chat-overlay-v1.tar.gz
-  r09_member_chat_archive_sha256: da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e
+  r09_member_chat_overlay_files: 5
+  r09_member_chat_archive: deliverables/r09-member-chat-overlay-v5.tar.gz
+  r09_member_chat_archive_sha256: 3689201ab9e58f8244206ff2968233d9a476ab2571a4cf637f1b42f89fe790da
   r09_member_chat_static_protocol_gate: PASS
-  r09_member_chat_visual_gate: PENDING_FRESH_IN_APP_BROWSER_SESSION
-  r09_member_chat_attempted_deploy_id: 20260727T123509+0800
-  r09_member_chat_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T123509+0800-r09-member-chat
-  r09_member_chat_staging_restored_member_sha256: e787a81ab9306a0dc5d4b97e82de585d37f71831bec8ae31603eb0e5c41afbf8
-  r09_member_chat_staging_restored_chat_sha256: b0e370ebcb8aee006c88e4c26dbb6a1ad57693fd9a245303a20181b51f8857bb
+  r09_member_chat_visual_gate: PASS_3_VIEWPORTS
+  r09_member_chat_staging_deploy_id: 20260727T142041+0800
+  r09_member_chat_staging_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T142041+0800-r09-member-chat
+  r09_member_chat_production_deploy_id: 20260727T142812+0800
+  r09_member_chat_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800
+  r09_member_chat_production_smoke: CHAT_LIST_AND_TWO_CSS_HTTP_200_CDN_0
   r09_member_chat_fixture_cleanup: PASS
   staging_post_after_member_chat_cleanup: 405
 
@@ -251,7 +252,8 @@ completed:
   - R08 forms links routes template flow and business scripts remained unchanged with public UI CDN count zero
   - R08 static protocol and local-resource gates passed with production stable-code hash unchanged before R09 deployment
   - chat detail and member detail real click chains proven with a synthetic isolated peer and all fixture rows removed
-  - chat detail and member detail four-file Light Grid overlay implemented locally with static business-protocol gates passing
+  - chat detail and member detail five-file Light Grid overlay passed static business-protocol gates and three Android H5 viewports
+  - chat detail and member detail production deployment 20260727T142812+0800 completed with private backup and online smoke PASS
   - R09 historical v2 production candidate assembled from 81 files before the final Android-H5-UA scope correction
   - R09 single-pass 390x844 regression completed with no overflow login redirect public UI CDN or old visible branding
   - R09 production deployment 20260727T090142+0800 completed with file-hash verification backup and five-page online smoke PASS
@@ -268,13 +270,8 @@ not_completed:
   - H5 R09 asynchronous owner feedback and any targeted visual defect repair
   - controlled-write fixtures for each high-risk page family
   - R09 compact-top-inset replacement APK owner device screenshot and runtime confirmation (asynchronous)
-  - R09 chat detail and member detail Android-H5 browser screenshots geometry review and visual corrections
-  - R09 chat detail and member detail production minimal deployment after visual acceptance
 
 blockers:
-  - id: B-R09-BROWSER-01
-    description: the in-app Browser retained a connection-refused data error document and its security policy rejected further actions; network and staging were healthy, so the unverified deployment was rolled back and all fixtures were removed
-    affects: only the chat-detail and member-detail visual gate; resume from a fresh in-app Browser session and do not substitute curl or static checks for screenshots
   - id: B-R01-01
     description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
     affects: asynchronous external payment end-to-end owner verification and any targeted Android repair

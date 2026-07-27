@@ -1,9 +1,9 @@
 # R09 Result
 
-- Status: `IN PROGRESS / MEMBER AND CHAT VISUAL ACCEPTANCE OPEN`
+- Status: `IN PROGRESS / ASYNC OWNER FEEDBACK OPEN`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
-- Current reproducible candidate: v3, 78 files
+- Current reproducible base candidate: v3, 78 files, plus the independent five-file member/chat v5 overlay
 - Current SHA-256: `a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389` (identical across two consecutive builds)
 - Historical deployed candidate: v2, 81 files, SHA-256 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`
 - Production deploy ID: `20260727T090142+0800`
@@ -18,6 +18,7 @@
 - The final `390x844` quick pass found no H5 overflow, login redirect, public UI CDN or old visible brand residue.
 - Production file hashes matched the candidate; home and App landing returned HTTP 200 during deployment.
 - The five-page online smoke passed after deployment.
+- Chat detail and member detail passed direct-click Android H5 review at `360x800`, `390x844` and `430x932`, then received a five-file backup-first production deployment.
 
 ## Android H5 UA Scope Closeout
 
@@ -43,21 +44,24 @@ bash /tmp/r09_rollback_production.sh --apply-rollback /www/staging/tg-h5-ui-r08/
 - Alipay launch and return from a real checkout.
 - Android replacement APK status-bar and bottom-safe-area visual feedback.
 - Any owner-reported H5 visual defect.
-- Chat detail and member detail are now real-click-proven and locally redesigned, but their Android-H5 after screenshots and geometry verification remain open. The attempted staging deployment was rolled back, so they are not production changes.
 
 These items do not trigger another global matrix. Each report is handled as a targeted repair under D-035.
 
 ## Member And Chat Addendum
 
 - Click proof: PASS for chat list -> chat detail and chat avatar -> member detail with a synthetic isolated peer.
-- Local overlay: four files under `r09-member-chat-overlay/`.
-- Archive: `deliverables/r09-member-chat-overlay-v1.tar.gz`.
-- Archive SHA-256: `da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e`.
-- Static business-protocol gate: PASS.
-- Attempted staging deploy ID: `20260727T123509+0800`.
-- Visual gate: PENDING because the in-app Browser error tab was blocked by Browser Use security policy.
-- Safety response: staging restored to original member/chat template hashes; synthetic peer, message, visit log, auth bridge, browser-origin bridge and local tunnel removed; POST returned `405`.
-- Exact resume instructions: `evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`.
+- Local overlay: five files under `r09-member-chat-overlay/`, including the member page's dedicated `wdk_header.php`.
+- Archive: `deliverables/r09-member-chat-overlay-v5.tar.gz`.
+- Archive SHA-256: `3689201ab9e58f8244206ff2968233d9a476ab2571a4cf637f1b42f89fe790da`.
+- Static business-protocol and local-resource gate: PASS.
+- Final staging deploy ID: `20260727T142041+0800`.
+- Visual gate: PASS at `360x800`, `390x844` and `430x932`; no horizontal overflow, clipped controls or dark surfaces.
+- Visual corrections included the member header, empty state and simplified cover, chat placeholder removal, long-bubble wrapping, report bounds, fixed composer bounds and page-scrollbar suppression.
+- Production deploy ID: `20260727T142812+0800`.
+- Production backup: `/www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800`.
+- Online smoke: chat list and both new CSS assets returned HTTP 200; public UI CDN count remained zero.
+- Cleanup: synthetic peer, message, visit log, auth bridge, browser-origin bridge, diagnostic endpoints and local tunnel removed; staging POST returned `405`.
+- Evidence: `evidence/R09/member-chat/after/` and `evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`.
 
 ## Android Inset Repair
 

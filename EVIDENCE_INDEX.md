@@ -215,11 +215,15 @@ R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30
 
 ## 14. R09 私信详情与成员详情
 
-- 隔离真实点击、四文件实现、静态门禁、失败部署回滚和准确续点：`evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`
+- 隔离真实点击、五文件实现、三视口审核、生产部署和清理结果：`evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md`
 - 改前截图：`evidence/R09/member-chat/before/CHAT-DETAIL-390x844.png`、`evidence/R09/member-chat/before/MEMBER-DETAIL-390x844.png`
+- 改后主视口：`evidence/R09/member-chat/after/CHAT-DETAIL-390x844.png`、`evidence/R09/member-chat/after/MEMBER-DETAIL-390x844.png`
+- 主视口几何：`evidence/R09/member-chat/after/CHAT-DETAIL-390x844.json`、`evidence/R09/member-chat/after/MEMBER-DETAIL-390x844.json`
+- 边界视口：`evidence/R09/member-chat/after/CHAT-DETAIL-360x800.png`、`evidence/R09/member-chat/after/CHAT-DETAIL-430x932.png`、`evidence/R09/member-chat/after/MEMBER-DETAIL-360x800.png`、`evidence/R09/member-chat/after/MEMBER-DETAIL-430x932.png`
 - 本地覆盖：`r09-member-chat-overlay/`
 - 原始模板与共享样式基线：`r09-member-chat-baseline-selected/`
 - 静态协议门禁：`scripts/test-r09-member-chat-overlay.ps1`
-- 四文件制品：`deliverables/r09-member-chat-overlay-v1.tar.gz`，SHA-256 `da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e`
+- 五文件制品：`deliverables/r09-member-chat-overlay-v5.tar.gz`，SHA-256 `3689201ab9e58f8244206ff2968233d9a476ab2571a4cf637f1b42f89fe790da`
+- 生产部署：`20260727T142812+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800`
 
-本批尚无改后截图，视觉状态为 `PENDING`。隔离站已恢复原模板，不能引用静态门禁或网络探针宣称页面视觉通过。
+本批已由 Codex 在 Android H5 UA 下真实点击进入并逐页人工审核；`360x800`、`390x844`、`430x932` 均无横向溢出、遮挡或裁切。隔离头像端口限制已在几何 JSON 中单独注明。

@@ -1,53 +1,61 @@
-# R09 Member And Chat Progress
+# R09 Member And Chat Closeout
 
 Date: `2026-07-27`
 
-Status: `IMPLEMENTED LOCALLY / STATIC GATES PASS / VISUAL ACCEPTANCE PENDING`
+Status: `VISUAL PASS / PRODUCTION DEPLOYED / FIXTURES CLEANED`
 
 ## Scope Proof
 
-- Required UA: `Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 TuiGuangBaoAndroid/1.0.0`.
-- Viewport: `390x844`.
+- Required UA: Android mobile plus `TuiGuangBaoAndroid/1.0.0`.
 - Chat chain: authenticated home -> personal center -> messages -> synthetic conversation row -> chat detail.
-- Synthetic conversation row exposed approximately `10992.8px2`; its center was hit-tested and the real click reached `/plugin.php?id=xigua_lt&ac=chat&touid={sanitized}`.
 - Member chain: chat detail -> synthetic message avatar -> member detail.
-- The message avatar measured `40x40`, exposed `1600px2`, passed center hit-testing and the real click reached `/plugin.php?id=xigua_hb&ac=member&uid={sanitized}`.
-- Before screenshots: `before/CHAT-DETAIL-390x844.png` and `before/MEMBER-DETAIL-390x844.png`.
-- No UID, cookie, password, chat body or real identity is stored in this evidence.
+- Both links were center hit-tested and reached by real clicks. Direct URL navigation was not used as scope proof.
+- Before screenshots are stored under `before/`; synthetic after evidence is stored under `after/`.
+- No password, cookie, formhash, real chat body, real identity or production UID is stored in this evidence.
 
-## Local Implementation
+## Final Implementation
 
 - Overlay: `r09-member-chat-overlay/`.
-- Immutable source baseline: `r09-member-chat-baseline-selected/`; the static gate does not depend on `.runtime` or chat history.
-- Files: two templates plus two page-scoped local CSS files.
-- Artifact: `deliverables/r09-member-chat-overlay-v1.tar.gz`.
-- Artifact SHA-256: `da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e`.
+- Immutable source baseline: `r09-member-chat-baseline-selected/`.
+- Files: three templates plus two page-scoped local CSS files.
+- Artifact: `deliverables/r09-member-chat-overlay-v5.tar.gz`.
+- Artifact SHA-256: `3689201ab9e58f8244206ff2968233d9a476ab2571a4cf637f1b42f89fe790da`.
 - Static gate: `scripts/test-r09-member-chat-overlay.ps1`.
-- Static result: original hashes PASS; approved visual delta only PASS; frozen business markers PASS; public UI CDN count 0.
-- Member template removes the two `img.imehui.com` UI images and replaces them with local CSS geometry plus the existing local icon font.
-- Chat template does not change `chat_li.php`, `lt.css`, forms, fields, URLs, AJAX payloads, polling or attachment protocols.
+- Static result: original hashes PASS; approved visual delta only PASS; frozen business markers PASS; public UI CDN count 0; deployment permission safety PASS.
+- Member page includes its dedicated `wdk_header.php`; the old external return image is replaced by the existing local icon font.
+- Chat forms, fields, AJAX URLs, polling, upload types, attachment behavior and message protocol remain unchanged.
 
-## Staging Attempt And Rollback
+## Browser Acceptance
 
-- Staging deploy ID: `20260727T123509+0800`.
-- Backup: `/www/staging/tg-h5-ui-r08/private/change-backups/20260727T123509+0800-r09-member-chat`.
-- Deployment itself passed the four-file minimal-overlay and predeploy-hash gates.
-- Visual acceptance did not run because the in-app browser retained a connection-refused error document and Browser Use security policy rejected further actions on that tab.
-- OS and server curl probes subsequently proved the SSH tunnel and staging listener were healthy; this is not page acceptance and cannot replace a screenshot.
-- Because visual acceptance was missing, staging was restored immediately.
-- Restored member template SHA-256: `e787a81ab9306a0dc5d4b97e82de585d37f71831bec8ae31603eb0e5c41afbf8`.
-- Restored chat template SHA-256: `b0e370ebcb8aee006c88e4c26dbb6a1ad57693fd9a245303a20181b51f8857bb`.
-- Synthetic fixture cleanup: PASS.
+- `390x844`: both pages visually inspected from the real click chain.
+- `360x800` and `430x932`: added because the main pass exposed shared header and scrollbar concerns.
+- All three viewports reported `scrollWidth === clientWidth` and no out-of-bounds visible elements.
+- Chat: long bubble wrapping, report banner, 60px legacy-compatible header, attachment controls and fixed composer passed. The global blue page scrollbar was locally hidden without disabling touch scrolling.
+- Member: return/title/more controls, statistics, follow/message actions, tabs and empty state passed. The initial decorative bars and empty boxes were rejected during review and replaced by a clean light-grid cover.
+- The isolated avatar URL points to blocked port `18088`; this is recorded as an evidence-environment limitation, not a production CSS defect.
+- Evidence: `after/CHAT-DETAIL-390x844.png`, `after/CHAT-DETAIL-390x844.json`, `after/MEMBER-DETAIL-390x844.png`, and `after/MEMBER-DETAIL-390x844.json`.
+- Boundary screenshots are also stored for `360x800` and `430x932`.
+
+## Deployment And Rollback
+
+- Final staging deploy ID: `20260727T142041+0800`.
+- Staging backup: `/www/staging/tg-h5-ui-r08/private/change-backups/20260727T142041+0800-r09-member-chat`.
+- Production preflight confirmed the three exact original template hashes and both new CSS paths absent.
+- Production deploy ID: `20260727T142812+0800`.
+- Production backup: `/www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800`.
+- Production script: `scripts/remote/r09_deploy_member_chat_production.sh`.
+- Online smoke: chat list HTTP 200, member CSS HTTP 200, chat CSS HTTP 200, public UI CDN 0.
+- Rollback command:
+
+```bash
+bash /tmp/r09_deploy_member_chat_production.sh --apply-rollback _ _ 20260727T142812+0800
+```
+
+## Cleanup
+
+- Synthetic peer, conversation and visit logs: removed.
 - Authentication bridge: OFF.
-- Browser origin bridge: OFF and restored to `http://tg-h5-ui-r08.local:18088`.
+- Browser-origin bridge: OFF and restored to `http://tg-h5-ui-r08.local:18088`.
+- Diagnostic endpoints and local diagnostic file: removed.
+- SSH tunnel `28088 -> 18088`: stopped.
 - Staging POST gate: `405`.
-- Local SSH tunnel: stopped.
-
-## Exact Resume Point
-
-1. Re-enable the existing browser-origin bridge, authentication bridge and `r09_member_chat_fixture.sh` in their documented order.
-2. Rebuild the four-file archive from `r09-member-chat-overlay/`, confirm its SHA-256 and deploy with `scripts/remote/r09_deploy_member_chat.sh`.
-3. Open both pages with the required Android H5 UA at `390x844` in a fresh in-app Browser tab.
-4. Save after screenshots and geometry JSON only after checking overflow, overlap, clipping, safe areas, long bubbles, avatar, cover, statistics, buttons, tabs and public asset requests.
-5. Run `360x800` and `430x932` only if the main viewport exposes a shared breakpoint or safe-area defect.
-6. Clean the fixture and bridges, verify POST `405`, then prepare the production minimal deployment. Do not publish before visual acceptance passes.

@@ -3,7 +3,7 @@ project_id: TG-H5-UI-REDESIGN
 task_id: TASK-R09-001
 release: R09
 status: IN_PROGRESS
-title: R09 私信详情与成员详情视觉闭环
+title: R09 异步真机反馈与定向返修
 
 read_first:
   - 06_HARD_GATES.md
@@ -20,7 +20,6 @@ read_first:
   - LESSONS_LEARNED.md
 
 scope:
-  - finish the two newly click-proven real-reachable pages: chat detail and member detail
   - accept owner screenshots and device feedback asynchronously without waiting
   - use the three-gate fast path: real entry, unchanged business protocol, verified rollback
   - keep all hidden routes and dormant plugins out of visual scope
@@ -33,16 +32,9 @@ out_of_scope_plugins:
   - tb_cus_taojing
 
 actions:
-  - start a fresh in-app Browser session before opening the SSH tunnel URL; never reuse the blocked data error document
-  - enable only the documented synthetic peer fixture authentication bridge and browser-origin bridge
-  - rebuild and deploy the four-file r09-member-chat-overlay with the existing backup-first script
-  - run scripts/test-r09-member-chat-overlay.ps1 and verify the deployed archive SHA-256
-  - open chat detail and member detail at 390x844 with the exact Android H5 UA
-  - save after screenshots and geometry JSON only after checking deformation misalignment overflow overlap clipping and safe areas
-  - inspect long chat bubbles input bar attachment panel member cover avatar statistics actions tabs and remote asset requests
-  - run 360x800 and 430x932 only if the main viewport reveals a shared breakpoint or safe-area defect
-  - clean the fixture bridges and tunnel and verify POST 405
-  - deploy the same minimal package to production only after browser acceptance and a production backup
+  - receive owner feedback asynchronously and identify the exact real-click page or Android source owner
+  - for H5 feedback open the affected page with the exact Android H5 UA and save a fresh before and after check
+  - for ordinary UI fixes run the affected-page geometry check static protocol gate and verified rollback only
   - rebuild the APK only when Android native source or packaged resources change
   - keep owner device upload payment and safe-area feedback asynchronous
 
@@ -52,7 +44,7 @@ progress:
   candidate_files: 78
   candidate_sha256: a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389
   candidate_matches_r08_staging: false
-  candidate_78_file_production_hash_match: PASS
+  candidate_78_file_production_hash_match: HISTORICAL_PASS_SUPERSEDED_BY_MEMBER_CHAT_V5
   static_release_gates_r02_through_r08: PASS
   production_script_verify_only: PASS
   quick_browser_regression_390x844: PASS
@@ -73,19 +65,23 @@ progress:
   production_scope_restore_deploy_id: 20260727T113640+0800
   member_chat_click_proof: PASS_TWO_PAGES
   member_chat_overlay_implemented: true
-  member_chat_overlay_files: 4
-  member_chat_archive_sha256: da6c164ffe1c4a8875dfcc352d69385d0c389f0078566c76ff1bdc2f6220733e
+  member_chat_overlay_files: 5
+  member_chat_archive_sha256: 3689201ab9e58f8244206ff2968233d9a476ab2571a4cf637f1b42f89fe790da
   member_chat_static_protocol_gate: PASS
-  member_chat_visual_gate: PENDING
-  member_chat_staging_deployed: false
+  member_chat_visual_gate: PASS_360X800_390X844_430X932
+  member_chat_staging_deployed: true
+  member_chat_staging_deploy_id: 20260727T142041+0800
+  member_chat_production_deployed: true
+  member_chat_production_deploy_id: 20260727T142812+0800
+  member_chat_production_backup: /www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800
   member_chat_failed_attempt_rolled_back: true
   member_chat_fixture_cleanup: PASS
   staging_post_after_cleanup: 405
 
 next_action:
-  - resume at the fresh-browser deployment and visual verification step in evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
-  - do not wait for owner APK feedback
-  - do not mark either page redesigned verified until after screenshots and geometry pass
+  - continue from new owner feedback without reopening completed page discovery
+  - do not wait for owner APK feedback and do not start hidden-page redesign work
+  - preserve the R09 member and chat production backup until owner feedback is closed
 
 forbidden:
   - do not redesign source-only hidden or direct-URL pages

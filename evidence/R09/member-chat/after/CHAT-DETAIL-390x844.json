@@ -1,0 +1,43 @@
+{
+  "page": "chat-detail",
+  "route": "plugin.php?id=xigua_lt&ac=chat&touid=11946650",
+  "auditDate": "2026-07-27",
+  "userAgentMode": "Android H5",
+  "primaryViewport": {
+    "width": 390,
+    "height": 844,
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "horizontalOverflow": false,
+    "headerHeight": 60,
+    "reportBarRight": 378.4,
+    "composerBottom": 844.0
+  },
+  "responsiveViewports": [
+    {
+      "width": 360,
+      "height": 800,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "horizontalOverflow": false,
+      "composerBottom": 800.0
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "horizontalOverflow": false,
+      "composerBottom": 932.0
+    }
+  ],
+  "loadedCss": "chat-detail-light-grid-r09.css?v=20260727-r09-4",
+  "checks": {
+    "longMessageWrap": "PASS",
+    "reportBarBounds": "PASS",
+    "composerBounds": "PASS",
+    "visibleScrollbarRemoved": "PASS",
+    "newConsoleErrorsAfterFinalReload": 0
+  },
+  "result": "PASS"
+}

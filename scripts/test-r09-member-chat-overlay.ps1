@@ -9,12 +9,16 @@ $overlayRoot = Join-Path $RepositoryRoot 'r09-member-chat-overlay\source\plugin'
 
 $memberOriginal = Join-Path $originalRoot 'xigua_hb\template\touch\member_new.php'
 $memberOverlay = Join-Path $overlayRoot 'xigua_hb\template\touch\member_new.php'
+$memberHeaderOriginal = Join-Path $originalRoot 'xigua_hb\template\touch\wdk_header.php'
+$memberHeaderOverlay = Join-Path $overlayRoot 'xigua_hb\template\touch\wdk_header.php'
 $chatOriginal = Join-Path $originalRoot 'xigua_lt\template\touch\chat.php'
 $chatOverlay = Join-Path $overlayRoot 'xigua_lt\template\touch\chat.php'
 $memberCss = Join-Path $overlayRoot 'xigua_hb\static\tgb-r09\member-detail-light-grid-r09.css'
 $chatCss = Join-Path $overlayRoot 'xigua_lt\static\tgb-r09\chat-detail-light-grid-r09.css'
+$deployScript = Join-Path $RepositoryRoot 'scripts\remote\r09_deploy_member_chat.sh'
+$productionDeployScript = Join-Path $RepositoryRoot 'scripts\remote\r09_deploy_member_chat_production.sh'
 
-$requiredFiles = @($memberOriginal, $memberOverlay, $chatOriginal, $chatOverlay, $memberCss, $chatCss)
+$requiredFiles = @($memberOriginal, $memberOverlay, $memberHeaderOriginal, $memberHeaderOverlay, $chatOriginal, $chatOverlay, $memberCss, $chatCss, $deployScript, $productionDeployScript)
 foreach ($file in $requiredFiles) {
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
         throw "Required file is missing: $file"
@@ -23,6 +27,7 @@ foreach ($file in $requiredFiles) {
 
 $expectedOriginalHashes = @{
     $memberOriginal = 'E787A81AB9306A0DC5D4B97E82DE585D37F71831BEC8AE31603EB0E5C41AFBF8'
+    $memberHeaderOriginal = '209171C81201545EF8CE680B255C4E8E36BEAE56C6328C2DEE73B3B68F8E8D3A'
     $chatOriginal = 'B0E370EBCB8AEE006C88E4C26DBB6A1AD57693FD9A245303A20181B51F8857BB'
 }
 
@@ -39,7 +44,7 @@ function Read-NormalizedText([string]$Path) {
 
 function Normalize-MemberOverlay([string]$Text) {
     $normalized = $Text
-    $normalized = $normalized.Replace('<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r09/member-detail-light-grid-r09.css?v=20260727-r09-1" />' + "`n", '')
+    $normalized = $normalized.Replace('<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r09/member-detail-light-grid-r09.css?v=20260727-r09-3" />' + "`n", '')
     $normalized = $normalized.Replace("<script>document.documentElement.classList.add('tgb-r09-member-detail-page');</script>" + "`n", '')
     $normalized = $normalized.Replace('<div class="page__bd tgb-r09-member-detail">', '<div class="page__bd">')
     $normalized = $normalized.Replace('<a class="yu_sidectrl mem_ctrl1" href="javascript:void(0)" aria-label="更多操作"><i class="iconfont icon-gengduo1" aria-hidden="true"></i></a>', '<a class="yu_sidectrl mem_ctrl1" href="javascript:void(0)"><img style="margin-top:30px;" src="https://img.imehui.com/20250131/1738254658679ba942bd984.png" alt=""></a>')
@@ -49,7 +54,7 @@ function Normalize-MemberOverlay([string]$Text) {
 
 function Normalize-ChatOverlay([string]$Text) {
     $normalized = $Text
-    $normalized = $normalized.Replace('<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r09/chat-detail-light-grid-r09.css?v=20260727-r09-1">' + "`n", '')
+    $normalized = $normalized.Replace('<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r09/chat-detail-light-grid-r09.css?v=20260727-r09-4">' + "`n", '')
     $normalized = $normalized.Replace("<script>document.documentElement.classList.add('tgb-r09-chat-detail-page');</script>" + "`n", '')
     $normalized = $normalized.Replace('<div class="page__bd tgb-r09-chat-detail" style="margin-top:35px;">', '<div class="page__bd" style="margin-top:35px;">')
     $normalized = $normalized.Replace('<a class="tgb-r09-chat-report" href="$SCRITPTNAME?id=xigua_hj" style=', '<a href="$SCRITPTNAME?id=xigua_hj" style=')
@@ -62,13 +67,24 @@ if ($memberBefore -cne $memberAfter) {
     throw 'Member template contains changes outside the approved visual delta.'
 }
 
+$memberHeaderOverlayHash = (Get-FileHash -LiteralPath $memberHeaderOverlay -Algorithm SHA256).Hash
+if ($memberHeaderOverlayHash -ne 'EA08D382518E7C2ECD4D192708D0F097623FF0396F99340060C4430980CB128C') {
+    throw 'Member header contains an unapproved visual delta.'
+}
+$memberHeaderText = Read-NormalizedText $memberHeaderOverlay
+if ($memberHeaderText -notmatch 'javascript:window\.history\.go\(-1\);' -or
+    $memberHeaderText -notmatch 'tgb-r09-member-back' -or
+    $memberHeaderText -notmatch 'icon-fanhuijiantou') {
+    throw 'Member header lost its frozen back-navigation protocol.'
+}
+
 $chatBefore = Read-NormalizedText $chatOriginal
 $chatAfter = Normalize-ChatOverlay (Read-NormalizedText $chatOverlay)
 if ($chatBefore -cne $chatAfter) {
     throw 'Chat template contains changes outside the approved visual delta.'
 }
 
-$overlayText = (Read-NormalizedText $memberOverlay) + "`n" + (Read-NormalizedText $chatOverlay)
+$overlayText = (Read-NormalizedText $memberOverlay) + "`n" + $memberHeaderText + "`n" + (Read-NormalizedText $chatOverlay)
 if ($overlayText -match 'img\.imehui\.com|cdn\.tailwindcss\.com|cdnjs\.cloudflare\.com') {
     throw 'A redesigned template still references a forbidden public UI asset host.'
 }
@@ -93,8 +109,29 @@ foreach ($cssFile in @($memberCss, $chatCss)) {
     }
 }
 
+$deployText = Read-NormalizedText $deployScript
+if ($deployText -match 'cp -a -- "\$\{BACKUP\}/files/\." "\$\{SITE\}/"' -or
+    $deployText -match "cp -a -- '\$\{BACKUP\}/files/\.' '\$\{SITE\}/'") {
+    throw 'Rollback must not copy private backup directory metadata into the public site tree.'
+}
+if ($deployText -notmatch 'member touch directory permission drift' -or
+    $deployText -notmatch 'chat touch directory permission drift' -or
+    $deployText -notmatch 'runuser -u www -- test -r') {
+    throw 'Deployment script is missing the PHP-FPM template readability gate.'
+}
+
+$productionDeployText = Read-NormalizedText $productionDeployScript
+if ($productionDeployText -notmatch '--verify-only' -or
+    $productionDeployText -notmatch '--apply-production' -or
+    $productionDeployText -notmatch '--apply-rollback' -or
+    $productionDeployText -notmatch 'production-member-chat-backups' -or
+    $productionDeployText -notmatch 'runuser -u www -- test -r') {
+    throw 'Production deployment script is missing verify, backup, rollback, or readability gates.'
+}
+
 Write-Host '[R09-MEMBER-CHAT-GATE] ORIGINAL_HASHES=PASS'
 Write-Host '[R09-MEMBER-CHAT-GATE] TEMPLATE_VISUAL_DELTA_ONLY=PASS'
 Write-Host '[R09-MEMBER-CHAT-GATE] BUSINESS_PROTOCOL_MARKERS=PASS'
 Write-Host '[R09-MEMBER-CHAT-GATE] PUBLIC_UI_CDN=0'
+Write-Host '[R09-MEMBER-CHAT-GATE] DEPLOY_PERMISSION_SAFETY=PASS'
 Write-Host '[R09-MEMBER-CHAT-GATE] RESULT=PASS'

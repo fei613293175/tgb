@@ -2,7 +2,7 @@
 <!--{template xigua_lt:header}-->
 
 <link rel="stylesheet" href="source/plugin/xigua_hb/static/dist/cropper.css?{VERHASH}">
-<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r09/chat-detail-light-grid-r09.css?v=20260727-r09-1">
+<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r09/chat-detail-light-grid-r09.css?v=20260727-r09-4">
 <script>document.documentElement.classList.add('tgb-r09-chat-detail-page');</script>
 <style>.weui-search-bar__cancel-btn{font-size:.8rem}.weui-search-bar {background-color: #f8f8f8;}
 .search_bar_btn{margin-left:.5rem;line-height:1.4rem;white-space:nowrap;display:none;font-size:.8rem}

@@ -1,0 +1,40 @@
+{
+  "page": "member-detail",
+  "route": "plugin.php?id=xigua_hb&ac=member&uid=11946650",
+  "auditDate": "2026-07-27",
+  "userAgentMode": "Android H5",
+  "primaryViewport": {
+    "width": 390,
+    "height": 844,
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "horizontalOverflow": false
+  },
+  "responsiveViewports": [
+    {
+      "width": 360,
+      "height": 800,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "horizontalOverflow": false
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "horizontalOverflow": false
+    }
+  ],
+  "loadedCss": "member-detail-light-grid-r09.css?v=20260727-r09-3",
+  "checks": {
+    "headerControls": "PASS",
+    "followAndMessageControls": "PASS",
+    "tabs": "PASS",
+    "emptyState": "PASS",
+    "coverDecoration": "PASS",
+    "avatar": "ENVIRONMENT_LIMITATION"
+  },
+  "environmentNote": "The isolated fixture avatar URL points to blocked port 18088. This is not a production template or CSS defect.",
+  "result": "PASS_WITH_ENVIRONMENT_NOTE"
+}

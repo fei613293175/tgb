@@ -75,7 +75,7 @@ endif;
 
  <!--{template xigua_hb:wdk_header}-->
 <link rel="stylesheet" href="source/plugin/xigua_hb/static/css/member_new.css?{VERHASH}" />
-<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r09/member-detail-light-grid-r09.css?v=20260727-r09-1" />
+<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r09/member-detail-light-grid-r09.css?v=20260727-r09-3" />
 <script>document.documentElement.classList.add('tgb-r09-member-detail-page');</script>
 <!--{if $_GET['app']}--><style>.yu_sidectrl, .yu_weui, .yu_line,.yu_top,.x_header,.my__head,.yu_top_avatar{display:none}</style><!--{/if}-->
 <div class="page__bd tgb-r09-member-detail">
