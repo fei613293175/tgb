@@ -27,6 +27,8 @@
   color: var(--tg-r06-text) !important;
   font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif !important;
   letter-spacing: 0 !important;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
 }
 
 .tgb-r06-account-page *,
@@ -199,6 +201,19 @@
   background: var(--tg-r06-danger) !important;
   color: #ffffff !important;
   box-shadow: none !important;
+}
+
+.tgb-r06-account-page .tool-badge {
+  position: absolute !important;
+  top: -6px !important;
+  right: -3px !important;
+  z-index: 2 !important;
+  min-width: 0 !important;
+  padding: 1px 5px !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  line-height: 14px !important;
+  white-space: nowrap !important;
 }
 
 .tgb-r06-account-page > .container {
@@ -436,6 +451,11 @@
 .tgb-r06-account-page .asset-item {
   min-width: 0;
   padding: 14px 10px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
   border: 1px solid var(--tg-r06-border) !important;
   border-radius: 6px !important;
   background: var(--tg-r06-soft) !important;
@@ -447,6 +467,12 @@
   width: 38px !important;
   height: 38px !important;
   margin-bottom: 6px;
+}
+
+.tgb-r06-account-page .asset-label,
+.tgb-r06-account-page .asset-amount {
+  width: 100% !important;
+  text-align: center !important;
 }
 
 .tgb-r06-account-page .asset-icon.sign {
@@ -496,6 +522,9 @@
   color: var(--tg-r06-text) !important;
   box-shadow: none !important;
   transform: none !important;
+  text-decoration: none !important;
+  -webkit-text-decoration: none !important;
+  position: relative !important;
 }
 
 .tgb-r06-account-page .tool-icon-wrap {
@@ -518,12 +547,20 @@
 }
 
 .tgb-r06-account-page .tool-name {
+  width: 100%;
+  min-height: 36px;
   max-width: 100%;
   color: var(--tg-r06-text) !important;
   font-size: 12px !important;
   line-height: 18px !important;
-  overflow-wrap: anywhere;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  overflow-wrap: normal;
+  word-break: break-all;
   text-align: center;
+  text-decoration: none !important;
 }
 
 .tgb-r06-account-page .toast {
