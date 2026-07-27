@@ -27,6 +27,17 @@ body {
   letter-spacing: 0 !important;
 }
 
+html,
+body {
+  scrollbar-width: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
 .tgb-r07-promotion-header,
 .tgb-r07-promotion-header *,
 .tgb-r07-promotion-page,
@@ -117,6 +128,16 @@ body {
   color: var(--tg-r07p-text) !important;
 }
 
+/* Owner-device repair: keep both gutters equal despite legacy inline margins. */
+.tgb-r07-promotion-page > .weui-cells,
+.tgb-r07-promotion-page > .weui-cells.mt0,
+.tgb-r07-promotion-page > .tgb-r07-package-options {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
 .tgb-r07-promotion-page .weui-cells {
   width: 100%;
   margin: 0 0 12px !important;
@@ -166,7 +187,7 @@ body {
 }
 
 .tgb-r07-promotion-page .tgb-r07-project-options::-webkit-scrollbar {
-  width: 4px;
+  width: 0;
 }
 
 .tgb-r07-promotion-page .tgb-r07-project-options::-webkit-scrollbar-track {
@@ -176,6 +197,10 @@ body {
 .tgb-r07-promotion-page .tgb-r07-project-options::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background: var(--tg-r07p-primary) !important;
+}
+
+.tgb-r07-promotion-page .tgb-r07-project-options {
+  scrollbar-width: none;
 }
 
 .tgb-r07-promotion-page .weui-check__label {
@@ -235,6 +260,20 @@ body {
   font-size: 17px !important;
   font-weight: 700 !important;
   line-height: 26px;
+}
+
+.tgb-r07-promotion-page .weui-cells__title.main_color {
+  padding-left: 0 !important;
+  border-left: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  color: var(--tg-r07p-ink) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r07-promotion-page .weui-icon-checked {
+  filter: none !important;
+  text-shadow: none !important;
 }
 
 .tgb-r07-package-options {
@@ -508,7 +547,7 @@ body .qmn-nav .qmn-dot {
 .qmn-nav .qmn-icon,
 .qmn-nav .qmn-label { color: currentColor !important; }
 .qmn-nav .qmn-label { font-size: 11px !important; font-weight: 600 !important; }
-.qmn-nav .qmn-dot { background: #7657ff !important; box-shadow: none !important; }
+.qmn-nav .qmn-dot { background: #2764ff !important; box-shadow: none !important; }
 
 .qmn-nav .qmn-item.active .qmn-icon-wrap i {
   background: none !important;

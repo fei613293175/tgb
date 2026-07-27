@@ -1058,7 +1058,7 @@ $tgbAndroidApp = strpos($_SERVER['HTTP_USER_AGENT'] ?? '', 'TuiGuangBaoAndroid/'
             margin-bottom: 10px;
         }
     </style>
-    <link href="source/plugin/view/static/tgb-r08/sign-light-grid-r08.css?v=20260727-r09-2" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-r08/sign-light-grid-r08.css?v=20260728-r09-7" rel="stylesheet">
 </head>
 <body class="tgb-r08-sign-page">
 <div class="bg-float"></div>

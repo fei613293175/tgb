@@ -14,7 +14,7 @@ $config['maincolor'] = $_G['cache']['plugin']['xigua_hb']['maincolor'] = $job_co
 <!--{else}-->
 <!--{template xigua_lt:header}-->
 <!--{/if}-->
-<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r06/chats-list-light-grid-r06.css?v=20260727-r06-1" />
+<link rel="stylesheet" href="source/plugin/xigua_lt/static/tgb-r06/chats-list-light-grid-r06.css?v=20260728-r09-owner-3" />
 <div class="page__bd tgb-r06-chat-list" style="margin-top:70px;  background-color: #f8fafc!important; /* 浅色背景 */">
     <!--{template xigua_hb:common_nav}-->
 
@@ -88,7 +88,11 @@ $config['maincolor'] = $_G['cache']['plugin']['xigua_hb']['maincolor'] = $job_co
 <script>
     var loadingurl = _APPNAME+'?id=xigua_lt&ac=chats_li&hidezw=1&inajax=1&type=$_GET[type]&from=$_GET[from]&multi=1&pagetype=page&page=';
     var loadingCallback = function () {
-        $('.weui-cell_swiped').swipeout();
+        $('.weui-cell_swiped')
+            .swipeout()
+            .off('swipeout-open.tgb swipeout-close.tgb')
+            .on('swipeout-open.tgb', function () { $(this).addClass('is-swipe-open'); })
+            .on('swipeout-close.tgb', function () { $(this).removeClass('is-swipe-open'); });
     };
     $(document).on('click','.delete-swipeout', function () {
         var that = $(this);

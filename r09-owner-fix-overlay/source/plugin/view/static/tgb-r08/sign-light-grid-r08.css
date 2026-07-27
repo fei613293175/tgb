@@ -217,6 +217,11 @@
 .tgb-r08-sign-page .modal-title {
     color: var(--tgb-r08-ink) !important;
     letter-spacing: 0 !important;
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: currentColor !important;
 }
 
 .tgb-r08-sign-page #noticeModal {
@@ -340,6 +345,128 @@
     border-radius: 8px !important;
 }
 
+.tgb-r08-sign-page .rule-modal-card {
+    border: 1px solid var(--tgb-r08-line) !important;
+    background: #f7faff !important;
+    background-image: none !important;
+    color: var(--tgb-r08-ink) !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .rule-modal-card i,
+.tgb-r08-sign-page .rule-modal-card b {
+    background: none !important;
+    background-image: none !important;
+    color: var(--tgb-r08-blue) !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .promo-summary,
+.tgb-r08-sign-page .promo-intro {
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    background: #f7faff !important;
+    background-image: none !important;
+    color: var(--tgb-r08-ink) !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .promo-summary .level-badge,
+.tgb-r08-sign-page .promo-summary .stat-num,
+.tgb-r08-sign-page .promo-intro b {
+    color: var(--tgb-r08-blue) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .promo-summary .stat-item {
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+}
+
+.tgb-r08-sign-page .promo-table th {
+    background: #eaf2ff !important;
+    color: var(--tgb-r08-ink) !important;
+}
+
+.tgb-r08-sign-page .promo-table td {
+    border-color: var(--tgb-r08-line) !important;
+    color: var(--tgb-r08-ink) !important;
+}
+
+.tgb-r08-sign-page .promo-level-current {
+    background: #eef5ff !important;
+}
+
+.tgb-r08-sign-page .stats-card {
+    border: 1px solid var(--tgb-r08-line) !important;
+    border-radius: 8px !important;
+    background: #eef5ff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .stats-card .stat-value,
+.tgb-r08-sign-page .stats-card .stats-num {
+    color: var(--tgb-r08-blue) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .stats-card .stat-label,
+.tgb-r08-sign-page .stats-card .stats-label,
+.tgb-r08-sign-page .stats-update {
+    color: var(--tgb-r08-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .modal-box [style*="#ff4d2d"],
+.tgb-r08-sign-page .modal-box [style*="#4a3000"] {
+    color: var(--tgb-r08-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .reward-stats {
+    border: 1px solid var(--tgb-r08-line) !important;
+    background: #eef5ff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .reward-stats *,
+.tgb-r08-sign-page .record-item .amount,
+.tgb-r08-sign-page .record-item .tag {
+    color: var(--tgb-r08-ink) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .record-item .amount {
+    color: var(--tgb-r08-blue) !important;
+}
+
+.tgb-r08-sign-page .record-tab.active {
+    border: 1px solid var(--tgb-r08-blue) !important;
+    background: var(--tgb-r08-blue) !important;
+    background-image: none !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .record-tab {
+    color: var(--tgb-r08-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r08-sign-page .record-tab.active {
+    color: #fff !important;
+}
+
+.tgb-r08-sign-page #recordList > div {
+    color: var(--tgb-r08-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+}
+
 .tgb-r08-sign-page .qmn-nav {
     box-sizing: border-box;
     padding-bottom: env(safe-area-inset-bottom) !important;
@@ -357,6 +484,33 @@
 .tgb-r08-sign-page .qmn-item.active,
 .tgb-r08-sign-page .qmn-item.active .qmn-icon-wrap {
     color: var(--tgb-r08-blue) !important;
+}
+
+.tgb-r08-sign-page .qmn-item.active .qmn-icon-wrap {
+    width: 36px !important;
+    height: 26px !important;
+    border-radius: 8px !important;
+    background: #eaf0ff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.tgb-r08-sign-page .qmn-dot {
+    background: var(--tgb-r08-blue) !important;
+    box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .page-title,
+.tgb-r08-sign-page .header-title,
+.tgb-r08-sign-page .nav-title,
+.tgb-r08-sign-page h1 {
+    color: var(--tgb-r08-ink) !important;
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: currentColor !important;
 }
 
 .tgb-r08-sign-page .qmn-badge,

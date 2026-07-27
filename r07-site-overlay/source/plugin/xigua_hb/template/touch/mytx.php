@@ -36,9 +36,78 @@ body {
 
 /* 覆盖原深色背景类 */
 .page__bd {
-    margin-top: 35px;
+    margin-top: 0;
     background: transparent;
     padding: 0 15px;
+}
+
+.tgb-r07-bind-page > .x_header {
+    width: calc(100% + 32px) !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    margin: -8px -16px 12px !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+}
+
+.tgb-r07-bind-page > .x_header > span {
+    height: 52px !important;
+    position: relative !important;
+    display: block !important;
+}
+
+.tgb-r07-bind-page > .x_header .navtitle {
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    width: max-content !important;
+    max-width: calc(100% - 176px) !important;
+    margin: 0 !important;
+    font-size: 18px !important;
+    line-height: 52px !important;
+    text-align: center;
+    transform: translateX(-50%) !important;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.tgb-r07-bind-page > .x_header a.z,
+.tgb-r07-bind-page > .x_header a.y {
+    position: absolute !important;
+    top: 0 !important;
+    width: 76px !important;
+    height: 52px !important;
+    margin: 0 !important;
+    float: none !important;
+    display: flex !important;
+    align-items: center;
+}
+
+.tgb-r07-bind-page > .x_header a.z {
+    left: 0 !important;
+    justify-content: flex-start;
+}
+
+.tgb-r07-bind-page > .x_header a.y {
+    right: 0 !important;
+    justify-content: flex-end;
+}
+
+.tgb-r07-bind-page > .x_header_fix {
+    display: none !important;
+}
+
+html,
+body,
+.tgb-r07-bind-page {
+    scrollbar-width: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.tgb-r07-bind-page::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
 }
 
 .crypto-card-form {
@@ -326,4 +395,4 @@ body {
 <!--{eval $tabbar=0;}-->
 <!--{template xigua_hb:common_footer}-->
 <!--{template xigua_hb:enter_up}-->
-<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r07/finance-light-grid-r07.css?20260727-r07-a1">
+<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r07/finance-light-grid-r07.css?20260728-r09-bind-v2">

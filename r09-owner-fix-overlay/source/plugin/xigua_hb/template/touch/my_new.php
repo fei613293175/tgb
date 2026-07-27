@@ -817,6 +817,6 @@ $hhendts = $hhme['endts_u'];
             }
         })();
     </script>
-    <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r09-owner-v3">
+    <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260728-r09-owner-v5">
 </body>
 </html>

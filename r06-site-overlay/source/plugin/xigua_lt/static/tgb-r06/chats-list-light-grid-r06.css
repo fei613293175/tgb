@@ -1,11 +1,30 @@
 /* Light Grid R06: click-proven message list only. */
 .tgb-r06-chat-list {
   min-height: 100vh;
-  padding: 12px 14px calc(84px + env(safe-area-inset-bottom, 0px));
+  margin-top: 0 !important;
+  padding: 0 14px calc(84px + env(safe-area-inset-bottom, 0px));
   overflow-x: hidden;
   background: #f4f7fb !important;
   color: #405166;
   letter-spacing: 0;
+}
+
+html,
+body,
+.tgb-r06-chat-list {
+  scrollbar-width: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.tgb-r06-chat-list::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.tgb-r06-chat-list > .x_header {
+  width: calc(100% + 28px) !important;
+  margin: 0 -14px 12px !important;
 }
 
 .tgb-r06-chat-list *,
@@ -128,6 +147,27 @@
 .tgb-r06-chat-list .weui-cell__ft,
 .tgb-r06-chat-list .weui-cell__bd > div {
   background-color: #ffffff !important;
+}
+
+.tgb-r06-chat-list .weui-cell_swiped {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.tgb-r06-chat-list .weui-cell_swiped > .weui-cell__bd {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+.tgb-r06-chat-list .weui-cell_swiped > .weui-cell__ft {
+  z-index: 0;
+  visibility: hidden !important;
+}
+
+.tgb-r06-chat-list .weui-cell_swiped.is-swipe-open > .weui-cell__ft {
+  visibility: visible !important;
 }
 
 .tgb-r06-chat-list .delete-swipeout {

@@ -154,6 +154,27 @@
   -webkit-text-fill-color: currentColor !important;
 }
 
+/* The right side has two actions; center the title against the viewport. */
+.tgb-r06-account-page .nav-title {
+  grid-column: auto !important;
+  position: fixed !important;
+  top: calc(26px + env(safe-area-inset-top, 0px)) !important;
+  left: 50vw !important;
+  width: max-content;
+  max-width: calc(100% - 200px);
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none;
+}
+
+.tgb-r06-account-page {
+  scrollbar-width: none !important;
+}
+
+.tgb-r06-account-page::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
 .tgb-r06-account-page .nav-title span,
 .tgb-r06-account-page .nav-title strong {
   color: inherit !important;
@@ -972,7 +993,7 @@
 .qmn-nav .qmn-icon,
 .qmn-nav .qmn-label { color: currentColor !important; }
 .qmn-nav .qmn-label { font-size: 11px !important; font-weight: 600 !important; }
-.qmn-nav .qmn-dot { background: #7657ff !important; box-shadow: none !important; }
+.qmn-nav .qmn-dot { background: #2764ff !important; box-shadow: none !important; }
 
 .qmn-nav .qmn-item.active .qmn-icon-wrap i {
   background: none !important;

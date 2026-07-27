@@ -275,7 +275,7 @@ body {
 
 .tgb-r05-detail .crypto-user-actions {
   width: auto !important;
-  min-width: 96px;
+  min-width: 72px;
 }
 
 .tgb-r05-detail .crypto-message-btn,
@@ -290,6 +290,32 @@ body {
   background-image: none !important;
   box-shadow: none !important;
   color: #ffffff !important;
+}
+
+.tgb-r05-detail .crypto-user-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px !important;
+  align-items: center;
+}
+
+.tgb-r05-detail .crypto-user-info {
+  display: grid !important;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+}
+
+.tgb-r05-detail .crypto-message-btn {
+  min-width: 72px !important;
+  min-height: 40px !important;
+  padding: 8px 10px !important;
+  white-space: nowrap;
+}
+
+.tgb-r05-detail .crypto-contact-actions,
+.tgb-r05-detail .crypto-copy-btn {
+  width: 100% !important;
+  max-width: none !important;
 }
 
 .tgb-r05-detail .crypto-message-btn:active,
@@ -472,12 +498,9 @@ body {
     padding: 12px !important;
   }
 
-  .tgb-r05-detail .crypto-user-info {
-    flex-wrap: wrap;
-  }
-
   .tgb-r05-detail .crypto-user-actions {
-    width: 100% !important;
+    width: auto !important;
+    min-width: 68px !important;
   }
 }
 
@@ -510,12 +533,45 @@ body {
   justify-content: center;
 }
 
-.tgb-r05-detail .crypto-user-info {
-  display: grid !important;
-  grid-template-columns: 52px minmax(0, 1fr) auto;
-  align-items: center;
+.tgb-r05-detail .crypto-user-actions {
+  min-width: 72px !important;
 }
 
-.tgb-r05-detail .crypto-user-actions {
-  min-width: 88px !important;
+/* Keep broken remote project images neutral and prevent page-level scrollbars. */
+html,
+body,
+.tgb-r05-detail {
+  scrollbar-width: none !important;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.tgb-r05-detail::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.tgb-r05-detail .crypto-image-loader {
+  background: var(--tg-r05-soft) !important;
+  background-image: none !important;
+}
+
+.tgb-r05-detail .crypto-loader-spinner {
+  width: 28px !important;
+  height: 28px !important;
+  border: 2px solid var(--tg-r05-border) !important;
+  border-top-color: var(--tg-r05-primary) !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+.tgb-r05-detail .crypto-image-loader.is-error .crypto-loader-spinner {
+  display: none !important;
+}
+
+.tgb-r05-detail .crypto-image-loader.is-error::before {
+  content: "\f03e";
+  color: var(--tg-r05-muted);
+  font-family: FontAwesome;
+  font-size: 28px;
 }

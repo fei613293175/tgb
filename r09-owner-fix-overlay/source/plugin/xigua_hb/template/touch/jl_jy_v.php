@@ -1373,7 +1373,7 @@ $uidvote = DB::result_first("select count(id) from %t  WHERE pubid=%d", array('x
             }
         </style>
 
-        <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r05/detail-light-grid-r05.css?20260727-r09-owner-v2">
+        <link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r05/detail-light-grid-r05.css?20260728-r09-owner-v4">
         <script src="source/plugin/xigua_hh/template/touch/clipboard.min.js?{VERHASH}"></script>
         <script>
             function copyyqm(id) {
@@ -1408,6 +1408,13 @@ $uidvote = DB::result_first("select count(id) from %t  WHERE pubid=%d", array('x
                             var loader = img.parentElement.querySelector('.crypto-image-loader');
                             if (loader) {
                                 loader.style.display = 'none';
+                            }
+                        };
+                        tempImg.onerror = function() {
+                            img.classList.add('crypto-image-error');
+                            var loader = img.parentElement.querySelector('.crypto-image-loader');
+                            if (loader) {
+                                loader.classList.add('is-error');
                             }
                         };
                         tempImg.src = src;

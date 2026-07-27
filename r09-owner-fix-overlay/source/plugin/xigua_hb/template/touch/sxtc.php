@@ -264,8 +264,7 @@ body {
             </div>
             <!--{/loop}-->
             
-            <input type="hidden" name="dosubmit" value="1">
-            <button type="submit" class="crypto-purchase-btn" id="dosubmit">
+            <button type="submit" class="crypto-purchase-btn" name="dosubmit" id="dosubmit">
                 {lang xigua_hb:ljgm}
             </button>
         </form>
@@ -283,19 +282,44 @@ body {
 </div>
 
 <script>
-    (function () {
-        var purchaseForm = document.getElementById('form');
-        var purchaseButton = document.getElementById('dosubmit');
-        if (!purchaseForm || !purchaseButton) return;
-
-        purchaseButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            HTMLFormElement.prototype.submit.call(purchaseForm);
-        }, true);
-    })();
-
     $(document).ready(function(){
+        var purchaseLocked = false;
+
+        $('#form').on('submit', function(event){
+            event.preventDefault();
+            if (purchaseLocked) return false;
+
+            var purchaseForm = $(this);
+            var purchaseButton = $('#dosubmit');
+            purchaseLocked = true;
+            purchaseButton.prop('disabled', true);
+            $.showLoading();
+
+            $.ajax({
+                type: 'post',
+                url: purchaseForm.attr('action') + '&inajax=1',
+                data: purchaseForm.serialize(),
+                dataType: 'xml',
+                success: function(data){
+                    $.hideLoading();
+                    purchaseLocked = false;
+                    purchaseButton.prop('disabled', false);
+                    if (!data || !data.lastChild || !data.lastChild.firstChild) {
+                        tip_common('error|' + ERROR_TIP);
+                        return;
+                    }
+                    tip_common(data.lastChild.firstChild.nodeValue);
+                },
+                error: function(){
+                    $.hideLoading();
+                    purchaseLocked = false;
+                    purchaseButton.prop('disabled', false);
+                    tip_common('error|' + ERROR_TIP);
+                }
+            });
+            return false;
+        });
+
         $(".crypto-vip-option").click(function(){
             // 移除所有选项的active类
             $(".crypto-vip-option").removeClass("active");
