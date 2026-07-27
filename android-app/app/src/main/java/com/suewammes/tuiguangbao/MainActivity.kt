@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,9 @@ import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -44,6 +47,8 @@ class MainActivity : ComponentActivity() {
     private lateinit var root: FrameLayout
     private lateinit var webView: WebView
     private lateinit var errorPanel: View
+    private lateinit var startupOverlay: View
+    private lateinit var startupGate: StartupTransitionGate
     private lateinit var chromeClient: TgbChromeClient
     private lateinit var router: ExternalIntentRouter
     private lateinit var imageGallerySaver: ImageGallerySaver
@@ -63,6 +68,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        startupGate = StartupTransitionGate(SystemClock.elapsedRealtime())
         configureSystemBars()
         createContent()
         configureWebView()
@@ -108,7 +114,69 @@ class MainActivity : ComponentActivity() {
                 )
             )
         }
+        startupOverlay = buildStartupOverlay().also {
+            root.addView(
+                it,
+                FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            )
+        }
         setContentView(root)
+    }
+
+    private fun buildStartupOverlay(): View {
+        val typeface = ResourcesCompat.getFont(this, R.font.noto_sans_sc_regular)
+        return LinearLayout(this).apply {
+            id = R.id.startup_transition
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.CENTER
+            isClickable = true
+            isFocusable = true
+            setPadding(dp(32), dp(32), dp(32), dp(32))
+            setBackgroundColor(getColor(R.color.tgb_background))
+
+            addView(ImageView(context).apply {
+                setImageResource(R.drawable.tuiguangbao_brand_mark)
+                scaleType = ImageView.ScaleType.CENTER_INSIDE
+                contentDescription = getString(R.string.app_name)
+            }, LinearLayout.LayoutParams(dp(112), dp(112)))
+
+            addView(TextView(context).apply {
+                text = getString(R.string.app_name)
+                textSize = 28f
+                setTextColor(getColor(R.color.tgb_text))
+                this.typeface = typeface
+                gravity = Gravity.CENTER
+                setPadding(0, dp(18), 0, 0)
+            })
+
+            addView(TextView(context).apply {
+                text = getString(R.string.startup_tagline)
+                textSize = 15f
+                setTextColor(getColor(R.color.tgb_muted))
+                this.typeface = typeface
+                gravity = Gravity.CENTER
+                setPadding(0, dp(8), 0, dp(24))
+            })
+
+            addView(ProgressBar(context).apply {
+                id = R.id.startup_loading_indicator
+                isIndeterminate = true
+                indeterminateTintList = getColorStateList(R.color.tgb_primary)
+                contentDescription = getString(R.string.startup_loading)
+            }, LinearLayout.LayoutParams(dp(30), dp(30)))
+
+            addView(TextView(context).apply {
+                text = getString(R.string.startup_loading)
+                textSize = 14f
+                setTextColor(getColor(R.color.tgb_muted))
+                this.typeface = typeface
+                gravity = Gravity.CENTER
+                setPadding(0, dp(10), 0, 0)
+            })
+        }
     }
 
     private fun buildErrorPanel(): View {
@@ -198,7 +266,9 @@ class MainActivity : ComponentActivity() {
             router = router,
             onMainFrameError = {
                 errorPanel.visibility = View.VISIBLE
-            }
+                markStartupDestinationReady()
+            },
+            onMainFrameVisible = ::markStartupDestinationReady
         )
         webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
             enqueueTrustedDownload(url, userAgent, contentDisposition, mimeType)
@@ -216,6 +286,27 @@ class MainActivity : ComponentActivity() {
             showImageActions(source)
             true
         }
+    }
+
+    private fun markStartupDestinationReady() {
+        if (!::startupOverlay.isInitialized || startupOverlay.visibility != View.VISIBLE) return
+        val delay = startupGate.markDestinationReady(SystemClock.elapsedRealtime())
+        startupOverlay.removeCallbacks(dismissStartupOverlay)
+        startupOverlay.postDelayed(dismissStartupOverlay, delay)
+    }
+
+    private val dismissStartupOverlay = Runnable {
+        if (!::startupOverlay.isInitialized || startupOverlay.visibility != View.VISIBLE) {
+            return@Runnable
+        }
+        startupOverlay.animate()
+            .alpha(0f)
+            .setDuration(280L)
+            .withEndAction {
+                startupOverlay.visibility = View.GONE
+                if (::root.isInitialized) root.removeView(startupOverlay)
+            }
+            .start()
     }
 
     private fun showImageActions(source: ImageSaveSource) {
@@ -322,6 +413,10 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         if (::chromeClient.isInitialized) chromeClient.cancelPendingFileChooser()
         if (::imageGallerySaver.isInitialized) imageGallerySaver.close()
+        if (::startupOverlay.isInitialized) {
+            startupOverlay.removeCallbacks(dismissStartupOverlay)
+            startupOverlay.animate().cancel()
+        }
         if (::webView.isInitialized) {
             webView.stopLoading()
             webView.webChromeClient = null

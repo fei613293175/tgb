@@ -27,13 +27,13 @@ android {
         applicationId = "com.suewammes.tuiguangbao"
         minSdk = 23
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "START_URL", "\"https://tg.suewammes.com/\"")
-        buildConfigField("String", "USER_AGENT_SUFFIX", "\"TuiGuangBaoAndroid/1.0.0\"")
+        buildConfigField("String", "USER_AGENT_SUFFIX", "\"TuiGuangBaoAndroid/1.0.2\"")
     }
 
     signingConfigs {

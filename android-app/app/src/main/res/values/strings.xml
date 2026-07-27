@@ -17,4 +17,6 @@
     <string name="image_saved">图片已保存到相册</string>
     <string name="image_save_failed">图片保存失败，请稍后重试</string>
     <string name="storage_permission_denied">需要存储权限才能在此系统版本保存图片</string>
+    <string name="startup_tagline">发现项目，把握推广机会</string>
+    <string name="startup_loading">加载中，请稍等</string>
 </resources>

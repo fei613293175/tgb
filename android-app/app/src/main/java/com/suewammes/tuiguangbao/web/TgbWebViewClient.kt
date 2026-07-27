@@ -13,8 +13,13 @@ import androidx.annotation.RequiresApi
 
 class TgbWebViewClient(
     private val router: ExternalIntentRouter,
-    private val onMainFrameError: () -> Unit
+    private val onMainFrameError: () -> Unit,
+    private val onMainFrameVisible: () -> Unit
 ) : WebViewClient() {
+
+    override fun onPageCommitVisible(view: WebView, url: String) {
+        onMainFrameVisible()
+    }
 
     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
         return router.route(

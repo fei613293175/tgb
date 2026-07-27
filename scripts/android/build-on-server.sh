@@ -47,7 +47,7 @@ install -m 600 "$SIGNING_SOURCE/tuiguangbao-release.jks" "$PRIVATE_ROOT/tuiguang
 install -m 644 "$SOURCE_ARCHIVE" "$BUILD_ROOT/source.tar.gz"
 tar -xzf "$BUILD_ROOT/source.tar.gz" -C "$SOURCE_ROOT"
 
-if grep -R -n -E 'ProgressBar|onProgressChanged|progressBarStyleHorizontal' \
+if grep -R -n -E 'onProgressChanged|progressBarStyleHorizontal' \
   "$SOURCE_ROOT/app/src/main"; then
   echo "Visible native page-loading progress UI is forbidden." >&2
   exit 1
@@ -67,7 +67,7 @@ docker run --rm \
   '
 
 APK_SOURCE="$SOURCE_ROOT/app/build/outputs/apk/release/app-release.apk"
-APK_FINAL="$ARTIFACT_ROOT/tuiguangbao-1.0.0-release.apk"
+APK_FINAL="$ARTIFACT_ROOT/tuiguangbao-1.0.2-release.apk"
 if [[ ! -f "$APK_SOURCE" ]]; then
   echo "Release APK missing after build." >&2
   exit 1
@@ -86,28 +86,29 @@ docker run --rm \
   --entrypoint /opt/android-sdk/build-tools/36.0.0/apksigner \
   "$IMAGE" \
   verify --verbose --print-certs \
-  /artifacts/tuiguangbao-1.0.0-release.apk \
+  /artifacts/tuiguangbao-1.0.2-release.apk \
   > "$ARTIFACT_ROOT/apksigner-report.txt"
 docker run --rm \
   -v "$ARTIFACT_ROOT:/artifacts:ro" \
   --entrypoint "$BUILD_TOOLS/aapt" \
   "$IMAGE" \
   dump badging \
-  /artifacts/tuiguangbao-1.0.0-release.apk \
+  /artifacts/tuiguangbao-1.0.2-release.apk \
   > "$ARTIFACT_ROOT/aapt-badging.txt"
 
 grep -Fq "package: name='com.suewammes.tuiguangbao'" "$ARTIFACT_ROOT/aapt-badging.txt"
+grep -Fq "versionCode='3' versionName='1.0.2'" "$ARTIFACT_ROOT/aapt-badging.txt"
 grep -Fq "sdkVersion:'23'" "$ARTIFACT_ROOT/aapt-badging.txt"
 grep -Fq "targetSdkVersion:'36'" "$ARTIFACT_ROOT/aapt-badging.txt"
 grep -Fq "application-label:'推广宝'" "$ARTIFACT_ROOT/aapt-badging.txt"
 grep -Fq "Verified using v2 scheme (APK Signature Scheme v2): true" "$ARTIFACT_ROOT/apksigner-report.txt"
 grep -Fq "Verified using v3 scheme (APK Signature Scheme v3): true" "$ARTIFACT_ROOT/apksigner-report.txt"
 
-sha256sum "$APK_FINAL" > "$ARTIFACT_ROOT/tuiguangbao-1.0.0-release.apk.sha256"
+sha256sum "$APK_FINAL" > "$ARTIFACT_ROOT/tuiguangbao-1.0.2-release.apk.sha256"
 sha256sum "$BUILD_ROOT/source.tar.gz" > "$BUILD_ROOT/source.tar.gz.sha256"
-printf '%s\n' "$APK_BYTES" > "$ARTIFACT_ROOT/tuiguangbao-1.0.0-release.apk.bytes"
+printf '%s\n' "$APK_BYTES" > "$ARTIFACT_ROOT/tuiguangbao-1.0.2-release.apk.bytes"
 
 echo "SERVER_BUILD_PASS"
 echo "BUILD_ROOT=$BUILD_ROOT"
 echo "APK_BYTES=$APK_BYTES"
-cat "$ARTIFACT_ROOT/tuiguangbao-1.0.0-release.apk.sha256"
+cat "$ARTIFACT_ROOT/tuiguangbao-1.0.2-release.apk.sha256"

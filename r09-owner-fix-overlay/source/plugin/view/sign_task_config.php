@@ -15,4 +15,16 @@ return array(
     'indirect_regular_reward' => 0.30,
     'direct_vip_reward' => 1.00,
     'indirect_vip_reward' => 0.50,
+
+    // 官方扶持：实名直推连续完成3天后计为1个有效用户
+    'support_rewards' => array(
+        10 => 10.00,
+        30 => 28.00,
+        50 => 38.00,
+        100 => 58.00,
+        150 => 88.00,
+        200 => 138.00,
+        300 => 198.00,
+        500 => 330.00,
+    ),
 );

@@ -18,7 +18,9 @@ class BuildContractTest {
     @Test
     fun packageAndBrandAreFrozen() {
         assertEquals("com.suewammes.tuiguangbao.debug", BuildConfig.APPLICATION_ID)
-        assertTrue(BuildConfig.USER_AGENT_SUFFIX.startsWith("TuiGuangBaoAndroid/"))
+        assertEquals(3, BuildConfig.VERSION_CODE)
+        assertEquals("1.0.2-debug", BuildConfig.VERSION_NAME)
+        assertEquals("TuiGuangBaoAndroid/1.0.2", BuildConfig.USER_AGENT_SUFFIX)
         assertFalse(BuildConfig.START_URL.startsWith("http://"))
     }
 }

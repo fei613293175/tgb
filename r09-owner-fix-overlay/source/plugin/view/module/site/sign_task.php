@@ -118,10 +118,50 @@ function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
     }
 }
 
+function _tgb_support_valid_count($uid) {
+    $cache = DB::fetch_first('SELECT valid_count,last_calc_time FROM %t WHERE uid=%d', array('view_invite_activity_cache', $uid));
+    if ($cache && TIMESTAMP - intval($cache['last_calc_time']) < 10800) {
+        return intval($cache['valid_count']);
+    }
+    $invites = DB::fetch_all('SELECT fansuid FROM %t WHERE uid=%d', array('xigua_hh_invite', $uid));
+    $valid = 0;
+    foreach ($invites as $invite) {
+        $fansUid = intval($invite['fansuid']);
+        if (intval(DB::result_first('SELECT rescodebdres FROM %t WHERE uid=%d', array('xiaomy_certification', $fansUid))) !== 1) continue;
+        $days = DB::fetch_all('SELECT DISTINCT sign_date FROM %t WHERE uid=%d ORDER BY sign_date ASC', array('view_sign_log', $fansUid));
+        $streak = 1;
+        $previous = 0;
+        foreach ($days as $day) {
+            $current = strtotime($day['sign_date']);
+            if (!$current) continue;
+            $streak = $previous && $current - $previous === 86400 ? $streak + 1 : 1;
+            $previous = $current;
+            if ($streak >= 3) {
+                $valid++;
+                break;
+            }
+        }
+    }
+    if ($cache) {
+        DB::update('view_invite_activity_cache', array('valid_count' => $valid, 'last_calc_time' => TIMESTAMP), 'uid=' . intval($uid));
+    } else {
+        DB::insert('view_invite_activity_cache', array('uid' => $uid, 'valid_count' => $valid, 'last_calc_time' => TIMESTAMP));
+    }
+    return $valid;
+}
+
+function _tgb_support_invalidate_upline_cache($fromUid) {
+    $upUid = intval(DB::result_first('SELECT uid FROM %t WHERE fansuid=%d LIMIT 1', array('xigua_hh_invite', $fromUid)));
+    if ($upUid) DB::delete('view_invite_activity_cache', 'uid=' . $upUid);
+}
+
 function _tgb_task_create_tables() {
     $progress = DB::table('view_ad_task_progress');
     $impression = DB::table('view_ad_task_impression');
     $promoReward = DB::table('view_ad_promo_reward');
+    $supportCache = DB::table('view_invite_activity_cache');
+    $supportReward = DB::table('view_invite_activity_reward');
+    $supportClaim = DB::table('view_ad_support_claim');
     DB::query("CREATE TABLE IF NOT EXISTS `{$progress}` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
         `uid` int(11) NOT NULL,
@@ -151,7 +191,7 @@ function _tgb_task_create_tables() {
         PRIMARY KEY (`id`),
         UNIQUE KEY `token` (`token`),
         KEY `uid_date_status` (`uid`,`task_date`,`status`),
-        KEY `uid_date_pubid` (`uid`,`task_date`,`pubid`)
+        UNIQUE KEY `uid_date_pubid` (`uid`,`task_date`,`pubid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     DB::query("CREATE TABLE IF NOT EXISTS `{$promoReward}` (
         `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -166,6 +206,33 @@ function _tgb_task_create_tables() {
         `updated_at` int(11) NOT NULL,
         PRIMARY KEY (`id`),
         UNIQUE KEY `daily_reward` (`uid`,`from_uid`,`level`,`reward_date`),
+        KEY `uid_status` (`uid`,`status`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    DB::query("CREATE TABLE IF NOT EXISTS `{$supportCache}` (
+        `uid` int(11) NOT NULL,
+        `valid_count` int(11) NOT NULL DEFAULT '0',
+        `last_calc_time` int(11) NOT NULL DEFAULT '0',
+        PRIMARY KEY (`uid`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    DB::query("CREATE TABLE IF NOT EXISTS `{$supportReward}` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `uid` int(11) NOT NULL,
+        `reward_count` int(11) NOT NULL,
+        `reward_money` decimal(10,2) NOT NULL,
+        `dateline` int(11) NOT NULL,
+        PRIMARY KEY (`id`),
+        KEY `uid` (`uid`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+    DB::query("CREATE TABLE IF NOT EXISTS `{$supportClaim}` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        `uid` int(11) NOT NULL,
+        `reward_count` int(11) NOT NULL,
+        `reward_money` decimal(10,2) NOT NULL,
+        `status` varchar(16) NOT NULL DEFAULT 'processing',
+        `created_at` int(11) NOT NULL,
+        `updated_at` int(11) NOT NULL,
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `uid_reward_count` (`uid`,`reward_count`),
         KEY `uid_status` (`uid`,`status`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 }
@@ -255,13 +322,13 @@ function _tgb_task_pick_project($uid, $date) {
         ORDER BY priority DESC, CRC32(CONCAT(p.id,%s)) ASC
         LIMIT 120", array($now, 'xigua_hb_pub', 'tb_super_toutiao', $now, 'tb_toutiao', $now, $now, $uid . $date));
     if (!$rows) return null;
-    $seenRows = DB::fetch_all('SELECT pubid FROM %t WHERE uid=%d AND task_date=%s AND status=%s', array('view_ad_task_impression', $uid, $date, 'completed'));
+    $seenRows = DB::fetch_all('SELECT pubid FROM %t WHERE uid=%d AND task_date=%s', array('view_ad_task_impression', $uid, $date));
     $seen = array();
     foreach ($seenRows as $item) $seen[intval($item['pubid'])] = true;
     foreach ($rows as $row) {
         if (!isset($seen[intval($row['id'])])) return $row;
     }
-    return $rows[0];
+    return null;
 }
 
 function _tgb_task_get_impression_project($impression) {
@@ -290,42 +357,31 @@ if ($submodac === 'next_ad') {
         _tgb_task_json(array('code' => -2, 'msg' => '今日广告任务已完成'));
     }
     $date = $task['task_date'];
-    DB::query('UPDATE %t SET status=%s WHERE uid=%d AND task_date=%s AND status=%s AND started_at<%d', array('view_ad_task_impression', 'expired', $uid, $date, 'pending', TIMESTAMP - 1800));
-    $impression = DB::fetch_first('SELECT * FROM %t WHERE uid=%d AND task_date=%s AND status=%s ORDER BY id DESC LIMIT 1', array('view_ad_task_impression', $uid, $date, 'pending'));
-    if ($impression) {
-        $project = _tgb_task_get_impression_project($impression);
-        if (!$project) {
-            DB::update('view_ad_task_impression', array('status' => 'expired'), 'id=' . intval($impression['id']));
-            $impression = null;
-        }
+    $process = 'tgb_ad_next_' . $uid . '_' . str_replace('-', '', $date);
+    if (discuz_process::islocked($process, 5)) _tgb_task_json(array('code' => -1, 'msg' => '广告正在加载，请稍候'));
+    DB::query('UPDATE %t SET status=%s WHERE uid=%d AND task_date=%s AND status=%s', array('view_ad_task_impression', 'abandoned', $uid, $date, 'pending'));
+    $project = _tgb_task_pick_project($uid, $date);
+    if (!$project) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -3, 'msg' => '今日可展示的项目已看完，请明天再来'));
     }
-    if (!$impression) {
-        $project = _tgb_task_pick_project($uid, $date);
-        if (!$project) _tgb_task_json(array('code' => -3, 'msg' => '暂时没有可展示的项目，请稍后再试'));
-        try {
-            $token = bin2hex(random_bytes(16));
-        } catch (Exception $e) {
-            $token = md5(uniqid($uid, true));
-        }
-        $impressionId = DB::insert('view_ad_task_impression', array(
-            'uid' => $uid,
-            'task_date' => $date,
-            'pubid' => intval($project['id']),
-            'token' => $token,
-            'started_at' => TIMESTAMP,
-            'eligible_at' => TIMESTAMP + intval($taskConfig['countdown_seconds']),
-            'completed_at' => 0,
-            'status' => 'pending',
-        ), true);
-        $impression = DB::fetch_first('SELECT * FROM %t WHERE id=%d', array('view_ad_task_impression', $impressionId));
-    } else {
-        DB::update('view_ad_task_impression', array(
-            'started_at' => TIMESTAMP,
-            'eligible_at' => TIMESTAMP + intval($taskConfig['countdown_seconds']),
-        ), 'id=' . intval($impression['id']));
-        $impression['started_at'] = TIMESTAMP;
-        $impression['eligible_at'] = TIMESTAMP + intval($taskConfig['countdown_seconds']);
+    try {
+        $token = bin2hex(random_bytes(16));
+    } catch (Exception $e) {
+        $token = md5(uniqid($uid, true));
     }
+    $impressionId = DB::insert('view_ad_task_impression', array(
+        'uid' => $uid,
+        'task_date' => $date,
+        'pubid' => intval($project['id']),
+        'token' => $token,
+        'started_at' => TIMESTAMP,
+        'eligible_at' => TIMESTAMP + intval($taskConfig['countdown_seconds']),
+        'completed_at' => 0,
+        'status' => 'pending',
+    ), true);
+    $impression = DB::fetch_first('SELECT * FROM %t WHERE id=%d', array('view_ad_task_impression', $impressionId));
+    discuz_process::unlock($process);
     _tgb_task_json(array(
         'code' => 0,
         'data' => array(
@@ -336,6 +392,15 @@ if ($submodac === 'next_ad') {
             'project' => _tgb_task_project_payload($project),
         ),
     ));
+}
+
+if ($submodac === 'abandon_ad') {
+    _tgb_task_require_post();
+    $token = isset($_POST['token']) ? trim($_POST['token']) : '';
+    if (preg_match('/^[a-f0-9]{32}$/', $token)) {
+        DB::query('UPDATE %t SET status=%s WHERE token=%s AND uid=%d AND status=%s', array('view_ad_task_impression', 'abandoned', $token, $uid, 'pending'));
+    }
+    _tgb_task_json(array('code' => 0));
 }
 
 if ($submodac === 'complete_ad') {
@@ -413,6 +478,7 @@ if ($submodac === 'claim') {
         'reward_money' => $task['reward_money'],
         'dateline' => TIMESTAMP,
     ));
+    _tgb_support_invalidate_upline_cache($uid);
     _tgb_task_give_promo($uid, intval($task['is_vip']) === 1, $date, $taskConfig);
     DB::query('UPDATE %t SET claimed=1,updated_at=%d WHERE id=%d AND claimed=2', array('view_ad_task_progress', TIMESTAMP, intval($task['id'])));
     discuz_process::unlock($process);
@@ -450,6 +516,71 @@ if ($submodac === 'records') {
     _tgb_task_json(array('code' => 0, 'data' => $records));
 }
 
+if ($submodac === 'support_info') {
+    $validCount = _tgb_support_valid_count($uid);
+    $receivedRows = DB::fetch_all('SELECT reward_count FROM %t WHERE uid=%d', array('view_invite_activity_reward', $uid));
+    $claimRows = DB::fetch_all('SELECT reward_count,status FROM %t WHERE uid=%d', array('view_ad_support_claim', $uid));
+    $received = array();
+    $processing = array();
+    foreach ($receivedRows as $row) $received[intval($row['reward_count'])] = true;
+    foreach ($claimRows as $row) {
+        $count = intval($row['reward_count']);
+        if ($row['status'] === 'paid') $received[$count] = true;
+        if ($row['status'] === 'processing' || $row['status'] === 'review') $processing[$count] = true;
+    }
+    $rewards = array();
+    foreach ($taskConfig['support_rewards'] as $count => $money) {
+        $count = intval($count);
+        $rewards[] = array(
+            'count' => $count,
+            'money' => number_format($money, 2, '.', ''),
+            'received' => isset($received[$count]),
+            'processing' => isset($processing[$count]),
+            'can_claim' => $validCount >= $count && !isset($received[$count]) && !isset($processing[$count]),
+        );
+    }
+    _tgb_task_json(array('code' => 0, 'data' => array('valid_count' => $validCount, 'rewards' => $rewards)));
+}
+
+if ($submodac === 'support_claim') {
+    _tgb_task_require_post();
+    $count = isset($_POST['count']) ? intval($_POST['count']) : 0;
+    if (!isset($taskConfig['support_rewards'][$count])) _tgb_task_json(array('code' => -1, 'msg' => '该奖励档位不存在'));
+    $process = 'tgb_support_claim_' . $uid . '_' . $count;
+    if (discuz_process::islocked($process, 8)) _tgb_task_json(array('code' => -1, 'msg' => '奖励正在核对，请稍候'));
+    if (DB::result_first('SELECT id FROM %t WHERE uid=%d AND reward_count=%d LIMIT 1', array('view_invite_activity_reward', $uid, $count))) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '该档奖励已经领取'));
+    }
+    if (_tgb_support_valid_count($uid) < $count) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '有效邀请人数还未达到该档位'));
+    }
+    $money = round(floatval($taskConfig['support_rewards'][$count]), 2);
+    DB::query(
+        'INSERT IGNORE INTO %t (uid,reward_count,reward_money,status,created_at,updated_at) VALUES (%d,%d,%f,%s,%d,%d)',
+        array('view_ad_support_claim', $uid, $count, $money, 'processing', TIMESTAMP, TIMESTAMP)
+    );
+    if (DB::affected_rows() !== 1) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '该档奖励已提交，请勿重复领取'));
+    }
+    if (!_tgb_task_add_promo_money($uid, $money, "官方扶持：有效直推{$count}人奖励")) {
+        DB::update('view_ad_support_claim', array('status' => 'review', 'updated_at' => TIMESTAMP), 'uid=' . $uid . ' AND reward_count=' . $count);
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '奖励进入人工核对，请勿重复领取'));
+    }
+    DB::insert('view_invite_activity_reward', array(
+        'uid' => $uid,
+        'reward_count' => $count,
+        'reward_money' => $money,
+        'dateline' => TIMESTAMP,
+    ));
+    DB::update('view_ad_support_claim', array('status' => 'paid', 'updated_at' => TIMESTAMP), 'uid=' . $uid . ' AND reward_count=' . $count);
+    discuz_process::unlock($process);
+    _tgb_task_json(array('code' => 0, 'msg' => '官方扶持奖励已到账', 'money' => number_format($money, 2, '.', '')));
+}
+
 $task = _tgb_task_get_progress($uid, $username, $taskConfig);
 $wallet = _tgb_task_ensure_wallet($uid, $username);
 $formhash = formhash();
@@ -465,7 +596,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-1" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-3" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -475,10 +606,15 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 </header>
 
 <main class="task-page">
-    <section class="earnings-hero">
-        <div class="hero-topline"><span><?php echo $isVip ? '推广宝会员任务' : '普通会员任务'; ?></span><span class="hero-badge"><i class="ri-flashlight-fill"></i> 每日可领</span></div>
+    <section class="earnings-hero <?php echo $isVip ? 'vip' : 'regular'; ?>">
+        <div class="hero-topline"><span><?php echo $isVip ? '推广宝会员专属任务' : '普通会员任务'; ?></span><span class="hero-badge"><i class="<?php echo $isVip ? 'ri-vip-crown-2-fill' : 'ri-flashlight-fill'; ?>"></i> <?php echo $isVip ? '会员已生效' : '每日可领'; ?></span></div>
         <div class="hero-money"><small>¥</small><span id="taskReward"><?php echo number_format($task['reward_money'], 2); ?></span></div>
         <div class="hero-meta"><span>每条 ¥<?php echo number_format($task['unit_reward'], 2); ?></span><span>奖励发放至签到钱包</span></div>
+        <?php if ($isVip): ?>
+        <div class="hero-member-state"><i class="ri-checkbox-circle-fill"></i><span><strong>推广宝会员权益已解锁</strong><small>每天可看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成最高领<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元</small></span></div>
+        <?php else: ?>
+        <a class="hero-upgrade" href="plugin.php?id=xigua_hb&ac=vip"><span><strong>开通会员，每天多赚 ¥<?php echo number_format(($taskConfig['vip_ad_count'] - $taskConfig['regular_ad_count']) * $taskConfig['unit_reward'], 2); ?></strong><small>每日广告任务提升至<?php echo intval($taskConfig['vip_ad_count']); ?>条</small></span><b>立即开通 <i class="ri-arrow-right-s-line"></i></b></a>
+        <?php endif; ?>
     </section>
 
     <section class="task-panel" aria-labelledby="todayTaskTitle">
@@ -493,15 +629,8 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         </div>
         <button class="task-primary" id="taskMainButton" type="button"><span>加载任务状态</span><i class="ri-arrow-right-line"></i></button>
         <p class="task-hint" id="taskHint">完整观看倒计时结束后，才计入一条有效广告</p>
+        <button class="task-text-button" id="rulesButton" type="button"><i class="ri-question-line"></i> 查看任务与推广规则</button>
     </section>
-
-    <?php if (!$isVip): ?>
-    <a class="membership-band" href="plugin.php?id=xigua_hb&ac=vip">
-        <span class="membership-icon"><i class="ri-vip-crown-2-fill"></i></span>
-        <span class="membership-copy"><strong>升级推广宝会员</strong><small>每日看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成可领<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元</small></span>
-        <span class="membership-action">立即升级 <i class="ri-arrow-right-s-line"></i></span>
-    </a>
-    <?php endif; ?>
 
     <section class="invite-section">
         <div class="invite-copy">
@@ -518,9 +647,9 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
     </section>
 
-    <button class="support-band" id="rulesButton" type="button">
+    <button class="support-band" id="supportButton" type="button">
         <span><i class="ri-shield-star-line"></i></span>
-        <span><strong>推广宝官方扶持</strong><small>实名认证好友完成任务，一级、二级每天都奖励</small></span>
+        <span><strong>推广宝官方扶持奖励</strong><small>实名直推连续完成3天，达标可手动领取现金</small></span>
         <i class="ri-arrow-right-s-line"></i>
     </button>
 </main>
@@ -562,6 +691,24 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     </article>
 </div>
 
+<div class="task-modal priority-modal" id="earlyCloseModal" aria-hidden="true">
+    <div class="dialog-card warning-dialog" role="dialog" aria-modal="true" aria-labelledby="earlyCloseTitle">
+        <span class="dialog-icon warning"><i class="ri-time-line"></i></span>
+        <h3 id="earlyCloseTitle">本条广告还未完成</h3>
+        <p>现在退出不会计入观看次数，而且今天不会再次展示这条广告。</p>
+        <div class="dialog-actions"><button class="secondary" id="keepWatchingButton">继续观看</button><button class="danger" id="confirmEarlyCloseButton">确认退出</button></div>
+    </div>
+</div>
+
+<div class="task-modal priority-modal" id="resultModal" aria-hidden="true">
+    <div class="dialog-card result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+        <span class="dialog-icon success" id="resultIcon"><i class="ri-checkbox-circle-fill"></i></span>
+        <h3 id="resultTitle">奖励已到账</h3>
+        <p id="resultMessage">奖励已发放到对应钱包。</p>
+        <button class="result-confirm" data-close="resultModal" type="button">我知道了</button>
+    </div>
+</div>
+
 <div class="task-modal" id="recordsModal" aria-hidden="true">
     <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="recordsTitle">
         <div class="sheet-head"><div><span class="section-kicker">RECORDS</span><h3 id="recordsTitle">奖励明细</h3></div><button class="modal-close" data-close="recordsModal"><i class="ri-close-line"></i></button></div>
@@ -580,6 +727,15 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <div><span>04</span><p>推广奖励在好友领取每日任务奖励时自动结算到提成账户，无需手动领取。</p></div>
         </div>
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 参与官方扶持计划</a>
+    </div>
+</div>
+
+<div class="task-modal" id="supportModal" aria-hidden="true">
+    <div class="sheet-card support-sheet" role="dialog" aria-modal="true" aria-labelledby="supportTitle">
+        <div class="sheet-head"><div><span class="section-kicker">OFFICIAL SUPPORT</span><h3 id="supportTitle">官方扶持奖励</h3></div><button class="modal-close" data-close="supportModal" aria-label="关闭"><i class="ri-close-line"></i></button></div>
+        <div class="support-summary"><span><i class="ri-team-line"></i></span><div><small>当前有效直推</small><strong><b id="supportValidCount">--</b> 人</strong></div><a href="plugin.php?id=xigua_hh&ac=invite">继续邀请</a></div>
+        <p class="support-rule">直推好友完成实名认证，并连续3天完成每日广告任务，即计为1个有效用户。达到档位后可手动领取，每个档位仅限1次。</p>
+        <div class="support-tier-list" id="supportTierList"><div class="record-empty"><i class="ri-loader-4-line spin"></i> 正在核对奖励进度</div></div>
     </div>
 </div>
 
@@ -622,6 +778,16 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         el.classList.remove('open');
         el.setAttribute('aria-hidden', 'true');
         if (!document.querySelector('.task-modal.open')) document.body.classList.remove('modal-open');
+    }
+    function showResult(title, message, type) {
+        $('resultTitle').textContent = title;
+        $('resultMessage').textContent = message;
+        $('resultIcon').classList.toggle('warning', type === 'warning');
+        $('resultIcon').classList.toggle('success', type !== 'warning');
+        $('resultIcon').innerHTML = type === 'warning'
+            ? '<i class="ri-error-warning-line"></i>'
+            : '<i class="ri-checkbox-circle-fill"></i>';
+        openModal('resultModal');
     }
     function request(action, data, method) {
         method = method || 'GET';
@@ -752,7 +918,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         request('claim', {}, 'POST').then(function (res) {
             if (res.code !== 0) throw new Error(res.msg || '领取失败');
             renderStatus(res.data);
-            toast('¥' + res.data.reward_money + ' 已发放到签到钱包');
+            showResult('奖励已到账', '¥' + res.data.reward_money + ' 已发放至签到钱包，可在奖励明细中查看。');
         }).catch(function (error) {
             button.disabled = false;
             toast(error.message);
@@ -772,6 +938,53 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             }).join('');
         }).catch(function (error) { $('recordList').innerHTML = '<div class="record-empty">' + escapeHtml(error.message) + '</div>'; });
     }
+    function renderSupport(payload) {
+        $('supportValidCount').textContent = payload.valid_count;
+        $('supportTierList').innerHTML = payload.rewards.map(function (item) {
+            var stateClass = item.received ? 'received' : (item.processing ? 'processing' : (item.can_claim ? 'available' : 'locked'));
+            var buttonText = item.received ? '已领取' : (item.processing ? '处理中' : (item.can_claim ? '立即领取' : '未达标'));
+            var disabled = item.can_claim ? '' : ' disabled';
+            return '<div class="support-tier ' + stateClass + '">' +
+                '<span class="support-tier-icon"><i class="' + (item.received ? 'ri-checkbox-circle-fill' : 'ri-gift-2-line') + '"></i></span>' +
+                '<span class="support-tier-copy"><small>有效直推达到</small><strong>' + escapeHtml(item.count) + ' 人</strong><em>现金扶持 ¥' + escapeHtml(item.money) + '</em></span>' +
+                '<button type="button" data-support-count="' + escapeHtml(item.count) + '"' + disabled + '>' + buttonText + '</button>' +
+                '</div>';
+        }).join('');
+    }
+    function loadSupport() {
+        $('supportTierList').innerHTML = '<div class="record-empty"><i class="ri-loader-4-line spin"></i> 正在核对奖励进度</div>';
+        return request('support_info').then(function (res) {
+            if (res.code !== 0) throw new Error(res.msg || '扶持进度加载失败');
+            renderSupport(res.data);
+        }).catch(function (error) {
+            $('supportTierList').innerHTML = '<div class="record-empty"><i class="ri-error-warning-line"></i><span>' + escapeHtml(error.message) + '</span></div>';
+        });
+    }
+    function claimSupport(button) {
+        var count = button.getAttribute('data-support-count');
+        button.disabled = true;
+        button.innerHTML = '<i class="ri-loader-4-line spin"></i> 领取中';
+        request('support_claim', { count: count }, 'POST').then(function (res) {
+            if (res.code !== 0) throw new Error(res.msg || '领取失败');
+            closeModal('supportModal');
+            showResult('扶持奖励已到账', '¥' + res.money + ' 已发放至推广钱包，每个奖励档位仅可领取一次。');
+            loadSupport();
+        }).catch(function (error) {
+            showResult('暂时无法领取', error.message, 'warning');
+            loadSupport();
+        });
+    }
+    function abandonCurrentAd() {
+        stopTimer();
+        var token = adToken;
+        adToken = '';
+        closeModal('earlyCloseModal');
+        closeModal('adModal');
+        if (!token) return;
+        request('abandon_ad', { token: token }, 'POST').catch(function () {
+            toast('退出状态同步失败，请稍后刷新');
+        });
+    }
 
     $('taskMainButton').addEventListener('click', function () {
         if (!state || state.claimed || state.payout_pending) return;
@@ -785,13 +998,20 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     });
     $('adCloseButton').addEventListener('click', function () {
         if (!adCompleted) {
-            if (!window.confirm('提前关闭不会计入本条广告，确定关闭吗？')) return;
-            stopTimer();
+            openModal('earlyCloseModal');
+            return;
         }
         closeModal('adModal');
     });
+    $('keepWatchingButton').addEventListener('click', function () { closeModal('earlyCloseModal'); });
+    $('confirmEarlyCloseButton').addEventListener('click', abandonCurrentAd);
     $('recordsButton').addEventListener('click', function () { openModal('recordsModal'); loadRecords('task'); });
     $('rulesButton').addEventListener('click', function () { openModal('rulesModal'); });
+    $('supportButton').addEventListener('click', function () { openModal('supportModal'); loadSupport(); });
+    $('supportTierList').addEventListener('click', function (event) {
+        var button = event.target.closest('[data-support-count]');
+        if (button && !button.disabled) claimSupport(button);
+    });
     document.querySelectorAll('[data-close]').forEach(function (button) {
         button.addEventListener('click', function () { closeModal(button.getAttribute('data-close')); });
     });

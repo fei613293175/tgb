@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.widget.ProgressBar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.core.app.ActivityScenario
@@ -17,6 +18,21 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityWebViewTest {
+    @Test
+    fun nativeStartupTransitionIsVisibleAndAnimatedAtLaunch() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val overlay = activity.findViewById<View>(R.id.startup_transition)
+                val indicator = activity.findViewById<ProgressBar>(R.id.startup_loading_indicator)
+
+                assertNotNull("native startup overlay must exist", overlay)
+                assertEquals(View.VISIBLE, overlay.visibility)
+                assertNotNull("startup overlay must contain an indeterminate animation", indicator)
+                assertTrue(indicator.isIndeterminate)
+            }
+        }
+    }
+
     @Test
     fun webViewExtendsBehindSystemBarsWithoutNativeInsetPadding() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
