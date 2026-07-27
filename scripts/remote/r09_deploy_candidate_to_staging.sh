@@ -28,7 +28,7 @@ tar -xzf "${ARCHIVE_PATH}" --strip-components=1 --no-same-owner --no-same-permis
 sed 's/\r$//' "${MANIFEST_PATH}" >"${NORMALIZED_MANIFEST}"
 mapfile -t EXPECTED_FILES < <(awk '{sub(/^[^ ]+  /, ""); print}' "${NORMALIZED_MANIFEST}" | LC_ALL=C sort)
 mapfile -t ARCHIVE_FILES < <(cd "${WORK_DIR}" && find . -type f -printf '%P\n' | LC_ALL=C sort)
-[ "${#EXPECTED_FILES[@]}" -eq 81 ] || fail "expected file count is ${#EXPECTED_FILES[@]}"
+[ "${#EXPECTED_FILES[@]}" -eq 78 ] || fail "expected file count is ${#EXPECTED_FILES[@]}"
 [ "${ARCHIVE_FILES[*]}" = "${EXPECTED_FILES[*]}" ] || fail "archive and manifest file lists differ"
 (cd "${WORK_DIR}" && sha256sum -c "${NORMALIZED_MANIFEST}" >/dev/null) || fail "candidate file hash mismatch"
 for relative in "${EXPECTED_FILES[@]}"; do
@@ -39,7 +39,7 @@ done
 DEPLOY_ID="$(date '+%Y%m%dT%H%M%S%z')"
 BACKUP_DIR="${PRIVATE}/change-backups/${DEPLOY_ID}-r09-production-candidate"
 mkdir -p "${BACKUP_DIR}/files"
-printf 'deploy_id=%s\narchive_sha256=%s\nfiles=81\n' "${DEPLOY_ID}" "${EXPECTED_ARCHIVE_SHA}" >"${BACKUP_DIR}/DEPLOYMENT.env"
+printf 'deploy_id=%s\narchive_sha256=%s\nfiles=78\n' "${DEPLOY_ID}" "${EXPECTED_ARCHIVE_SHA}" >"${BACKUP_DIR}/DEPLOYMENT.env"
 cp "${NORMALIZED_MANIFEST}" "${BACKUP_DIR}/CANDIDATE_SHA256.txt"
 for relative in "${EXPECTED_FILES[@]}"; do
   target="${ROOT}/${relative}"
@@ -67,5 +67,5 @@ POST_CODE="$(curl -sS -o /dev/null -w '%{http_code}' -X POST -H "Host: ${HOST}" 
 [ "${POST_CODE}" = "405" ] || fail "post-deploy POST guard is ${POST_CODE}"
 chmod -R a-w "${BACKUP_DIR}"
 
-printf '[R09-STAGING] PASS DEPLOY_ID=%s FILES=81 HOME=%s APP=%s POST=%s\n' "${DEPLOY_ID}" "${HOME_CODE}" "${APP_CODE}" "${POST_CODE}"
+printf '[R09-STAGING] PASS DEPLOY_ID=%s FILES=78 HOME=%s APP=%s POST=%s\n' "${DEPLOY_ID}" "${HOME_CODE}" "${APP_CODE}" "${POST_CODE}"
 printf '[R09-STAGING] BACKUP_DIR=%s\n' "${BACKUP_DIR}"

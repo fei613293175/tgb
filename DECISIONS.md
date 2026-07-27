@@ -338,3 +338,19 @@
 - 纠偏：连续两次自查没有实质产出时，必须停止当前分析路径，选择最小可执行下一动作、切换验证手段或将真正需要负责人权限的事项登记为异步门禁；不得原地等待或进入无限思考循环。
 - 记录：`CURRENT_STATUS.yaml.progress_guard` 与 `NEXT_TASK.yaml.self_correction` 保存当前检查点，换电脑或换 AI 后仍按同一规则继续。
 - 边界：普通返修仍按 D-035 使用主视口快速闭环；只有主视口暴露共享断点、安全区或滚动条问题时才补 `360x800` 和 `430x932`。
+
+## D-043 台账升级必须有一对一视觉证据映射
+
+- 日期：2026-07-27
+- 状态：ACCEPTED，补强 G22/G23/G28
+- 决定：非 Android 视觉条目从 `VERIFIED` 升级为 `REDESIGNED_VERIFIED` 前，必须在版本证据映射中存在同 page ID 的唯一 PASS 行。映射集合必须与当前非 Android `IN_SCOPE` 集合完全相等，重复、缺失和超范围行均返回非零退出码；业务 H5 与桌面兼容入口必须分别计数。
+- 原因：台账状态、截图数量和历史版本说明各自存在都不能证明同一批真实可达页面已经逐页完成；一对一映射使换电脑或换 AI 后可以直接验证覆盖闭包。
+- 落地：`evidence/R09/global-closeout/R09_GLOBAL_VISUAL_EVIDENCE_MAP.csv` 与 `scripts/test-r09-global-closeout.ps1` 固化 39/39 关系。
+
+## D-044 每组最终截图必须声明单一坐标契约
+
+- 日期：2026-07-27
+- 状态：ACCEPTED，补强 D-040 与 L-067/L-076
+- 决定：同一组最终截图只能采用一个明确坐标空间，并在机器审计中记录 capture contract。DOM 视口、浏览器内容区、设备画布和全页截图不得混用；PNG 实际尺寸、裁切原点、底部命中元素和固定控件位置必须与该契约一致。
+- 原因：DOM 几何完全正确时，错误的屏幕坐标裁切仍会伪造右侧缺口、底部回卷或重复顶栏，导致误判 UI 变形。
+- 落地：签到最终证据使用 `CDP_PRIMED_EXPLICIT_CSS_CLIP`；发布页使用 `BROWSER_VIEWPORT_ONLY_EXPLICIT_CDP_CLIP`。被否决图片只进入 `rejected-capture/`，不得被证据映射引用。

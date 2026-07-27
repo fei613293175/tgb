@@ -1,0 +1,281 @@
+{
+  "status": "PASS",
+  "capture_contract": "CDP_PRIMED_EXPLICIT_CSS_CLIP",
+  "capture_note": "Final PNGs use the exact CSS viewport after priming the browser screenshot surface. A direct unprimed clip rendered a false 1.25x crop and is rejected evidence.",
+  "staging_deploy_id": "20260727T172341+0800",
+  "results": [
+    {
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "active": true,
+      "box": {
+        "bottom": 712.050895690918,
+        "clientHeight": 622,
+        "clientWidth": 334,
+        "display": "flex",
+        "height": 624,
+        "left": 12,
+        "right": 348,
+        "scrollHeight": 622,
+        "scrollWidth": 334,
+        "top": 88.05089569091797,
+        "visibility": "visible",
+        "width": 336
+      },
+      "buttons": [
+        {
+          "bottom": 695.2509155273438,
+          "height": 44,
+          "left": 28.80000114440918,
+          "right": 175.99999809265137,
+          "top": 651.2509155273438,
+          "width": 147.1999969482422
+        },
+        {
+          "bottom": 695.2509155273438,
+          "height": 44,
+          "left": 184,
+          "right": 331.1999969482422,
+          "top": 651.2509155273438,
+          "width": 147.1999969482422
+        }
+      ],
+      "close": {
+        "bottom": 140.8509063720703,
+        "clientHeight": 44,
+        "clientWidth": 44,
+        "display": "flex",
+        "height": 44.00000762939453,
+        "left": 295.20001220703125,
+        "right": 339.20001220703125,
+        "scrollHeight": 44,
+        "scrollWidth": 44,
+        "top": 96.85089874267578,
+        "visibility": "visible",
+        "width": 44
+      },
+      "closeGlyph": "\"×\"",
+      "content": {
+        "bottom": 641.2509307861328,
+        "clientHeight": 457,
+        "clientWidth": 301,
+        "display": "block",
+        "height": 458.8000183105469,
+        "left": 28.80000114440918,
+        "right": 331.19999504089355,
+        "scrollHeight": 734,
+        "scrollWidth": 301,
+        "top": 182.45091247558594,
+        "visibility": "visible",
+        "width": 302.3999938964844
+      },
+      "root": {
+        "innerHeight": 800,
+        "innerWidth": 360,
+        "overflowX": false,
+        "scrollWidth": 360
+      },
+      "title": {
+        "bottom": 148.8509063720703,
+        "clientHeight": 44,
+        "clientWidth": 258,
+        "display": "flow-root",
+        "height": 44,
+        "left": 28.80000114440918,
+        "right": 287.19999504089355,
+        "scrollHeight": 44,
+        "scrollWidth": 258,
+        "top": 104.85090637207031,
+        "visibility": "visible",
+        "width": 258.3999938964844
+      },
+      "png": "reward-signin-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "active": true,
+      "box": {
+        "bottom": 751.3625030517578,
+        "clientHeight": 657,
+        "clientWidth": 365,
+        "display": "flex",
+        "height": 658.3125,
+        "left": 12,
+        "right": 378.3999938964844,
+        "scrollHeight": 657,
+        "scrollWidth": 365,
+        "top": 93.05000305175781,
+        "visibility": "visible",
+        "width": 366.3999938964844
+      },
+      "buttons": [
+        {
+          "bottom": 734.5625,
+          "height": 44,
+          "left": 28.80000114440918,
+          "right": 191.20001029968262,
+          "top": 690.5625,
+          "width": 162.40000915527344
+        },
+        {
+          "bottom": 734.5625,
+          "height": 44,
+          "left": 199.1999969482422,
+          "right": 361.6000061035156,
+          "top": 690.5625,
+          "width": 162.40000915527344
+        }
+      ],
+      "close": {
+        "bottom": 145.8499984741211,
+        "clientHeight": 44,
+        "clientWidth": 44,
+        "display": "flex",
+        "height": 44,
+        "left": 325.6000061035156,
+        "right": 369.6000061035156,
+        "scrollHeight": 44,
+        "scrollWidth": 44,
+        "top": 101.8499984741211,
+        "visibility": "visible",
+        "width": 44
+      },
+      "closeGlyph": "\"×\"",
+      "content": {
+        "bottom": 680.5625152587891,
+        "clientHeight": 492,
+        "clientWidth": 331,
+        "display": "block",
+        "height": 493.1125183105469,
+        "left": 28.80000114440918,
+        "right": 361.60001945495605,
+        "scrollHeight": 766,
+        "scrollWidth": 331,
+        "top": 187.4499969482422,
+        "visibility": "visible",
+        "width": 332.8000183105469
+      },
+      "root": {
+        "innerHeight": 844,
+        "innerWidth": 390,
+        "overflowX": false,
+        "scrollWidth": 390
+      },
+      "title": {
+        "bottom": 153.8499984741211,
+        "clientHeight": 44,
+        "clientWidth": 289,
+        "display": "flow-root",
+        "height": 44,
+        "left": 28.80000114440918,
+        "right": 317.60001945495605,
+        "scrollHeight": 44,
+        "scrollWidth": 289,
+        "top": 109.8499984741211,
+        "visibility": "visible",
+        "width": 288.8000183105469
+      },
+      "png": "reward-signin-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "active": true,
+      "box": {
+        "bottom": 806.213134765625,
+        "clientHeight": 678,
+        "clientWidth": 405,
+        "display": "flex",
+        "height": 680,
+        "left": 12,
+        "right": 418.3999938964844,
+        "scrollHeight": 678,
+        "scrollWidth": 405,
+        "top": 126.213134765625,
+        "visibility": "visible",
+        "width": 406.3999938964844
+      },
+      "buttons": [
+        {
+          "bottom": 789.4131469726562,
+          "height": 44,
+          "left": 28.80000114440918,
+          "right": 211.20001029968262,
+          "top": 745.4131469726562,
+          "width": 182.40000915527344
+        },
+        {
+          "bottom": 789.4131469726562,
+          "height": 44,
+          "left": 219.1999969482422,
+          "right": 401.6000061035156,
+          "top": 745.4131469726562,
+          "width": 182.40000915527344
+        }
+      ],
+      "close": {
+        "bottom": 179.0131378173828,
+        "clientHeight": 44,
+        "clientWidth": 44,
+        "display": "flex",
+        "height": 44,
+        "left": 365.6000061035156,
+        "right": 409.6000061035156,
+        "scrollHeight": 44,
+        "scrollWidth": 44,
+        "top": 135.0131378173828,
+        "visibility": "visible",
+        "width": 44
+      },
+      "closeGlyph": "\"×\"",
+      "content": {
+        "bottom": 735.4131317138672,
+        "clientHeight": 513,
+        "clientWidth": 371,
+        "display": "block",
+        "height": 514.7999877929688,
+        "left": 28.80000114440918,
+        "right": 401.60001945495605,
+        "scrollHeight": 814,
+        "scrollWidth": 371,
+        "top": 220.61314392089844,
+        "visibility": "visible",
+        "width": 372.8000183105469
+      },
+      "root": {
+        "innerHeight": 932,
+        "innerWidth": 430,
+        "overflowX": false,
+        "scrollWidth": 430
+      },
+      "title": {
+        "bottom": 187.0131378173828,
+        "clientHeight": 44,
+        "clientWidth": 329,
+        "display": "flow-root",
+        "height": 44,
+        "left": 28.80000114440918,
+        "right": 357.60001945495605,
+        "scrollHeight": 44,
+        "scrollWidth": 329,
+        "top": 143.0131378173828,
+        "visibility": "visible",
+        "width": 328.8000183105469
+      },
+      "png": "reward-signin-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    }
+  ]
+}

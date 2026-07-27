@@ -1,10 +1,10 @@
 # R09 Result
 
-- Status: `IN PROGRESS / ASYNC OWNER FEEDBACK OPEN`
+- Status: `DEVELOPMENT CLOSEOUT PASS / OWNER VERIFICATION PENDING`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
-- Current reproducible base candidate: v3, 78 files, plus the independent five-file member/chat v5 overlay and sensitive-safe cashier v3 transform overlay
-- Current SHA-256: `a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389` (identical across two consecutive builds)
+- Current reproducible production candidate: v5, 78 files, including the final member/chat, cashier, sign-in and publish corrections
+- Current SHA-256: `c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734` (identical across two consecutive builds)
 - Historical deployed candidate: v2, 81 files, SHA-256 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`
 - Production deploy ID: `20260727T090142+0800`
 - Backup: `/www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T090142+0800`
@@ -126,3 +126,25 @@ bash /tmp/r09_deploy_cashier_production.sh --apply-rollback _ _ 20260727T152930+
 - Pitfalls recorded: D-040 captures mandatory screenshot-based design rejection; L-073 captures the private-backup permission regression and safe restore rule.
 - Documentation sync: PASS. `CURRENT_STATUS.yaml`, `NEXT_TASK.yaml`, result, evidence index, decision, lesson, progress record and `MANIFEST_SHA256.txt` agree on v5, five files, visual PASS and production deployment.
 - Subtask conclusion: `PASS`. R09 remains `IN_PROGRESS` only for asynchronous owner device and future targeted feedback listed above.
+
+## Global H5 Development Closeout
+
+- Scope: the final visual set contains 39 non-Android `IN_SCOPE` entries: 38 business H5 pages plus the desktop compatibility entry; all 39 are `REDESIGNED_VERIFIED`.
+- Evidence: `evidence/R09/global-closeout/R09_GLOBAL_VISUAL_EVIDENCE_MAP.csv` maps each page ID to exactly one PASS evidence record.
+- Final R08 recheck: invite, team, sign-in, dividend and App-download passed `360x800`, `390x844` and `430x932`. The sign-in badge overflow and long-content notice defects were fixed before PASS.
+- Real publish correction: the clicked `/plugin.php?id=xigua_hb&ac=pub&step=3&catid=31` form passed the same three viewports after correcting the 92px header, clipped submit control and empty placeholders. The excluded `/ac=pub` category route is not used as evidence.
+- Production correction deploys: sign-in `20260727T181342+0800`, publish `20260727T181343+0800`, both with private backup and verification scripts reporting PASS.
+- Final cleanup: auth bridge OFF, browser-origin bridge OFF, local tunnel OFF and staging POST `405`.
+- Deterministic candidate: `deliverables/r09-production-candidate-v5.tar.gz`, 78 files, SHA-256 `c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734` across two builds.
+- Formal gate: `scripts/test-r09-global-closeout.ps1` reports 39 in scope, 39 redesigned, 39 evidence-map rows, 15 R08 viewport results, three notice viewports and three publish viewports.
+- Server read-only verification: archive structure and exact 78-file hashes match both production and staging; no deployment mode was invoked. Evidence: `evidence/R09/global-closeout/R09_V5_SERVER_HASH_VERIFY.md`.
+- Detailed audit: `evidence/R09/global-closeout/R09_GLOBAL_CLOSEOUT_AUDIT.md`.
+
+## Final Conclusion
+
+- H5 development: `PASS`.
+- Next planned large version: none; R09 is the roadmap's final large version.
+- R09 remains the active release only for asynchronous owner-device validation and any resulting targeted repair.
+- Not yet PASS: replacement APK safe-area screenshots/runtime, real-device gallery upload, and Alipay launch/return using an approved real or sandbox sample.
+- These cumulative owner gates are not silently waived and are not represented as completed by browser or server-build evidence.
+- Security follow-up: the current tree no longer contains the production database identifier, and the cashier deployment requires runtime `EXPECTED_PRODUCTION_DB`. A read-only Git history scan found one historical commit containing the identifier; because the production database name and password may be identical, credential rotation and an owner-authorized history-remediation decision are required before final security signoff.

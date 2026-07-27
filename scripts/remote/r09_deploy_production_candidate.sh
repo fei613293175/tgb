@@ -27,7 +27,7 @@ tar -xzf "${ARCHIVE_PATH}" --strip-components=1 --no-same-owner --no-same-permis
 sed 's/\r$//' "${MANIFEST_PATH}" >"${NORMALIZED_MANIFEST}"
 mapfile -t EXPECTED_FILES < <(awk '{sub(/^[^ ]+  /, ""); print}' "${NORMALIZED_MANIFEST}" | LC_ALL=C sort)
 mapfile -t ARCHIVE_FILES < <(cd "${WORK_DIR}" && find . -type f -printf '%P\n' | LC_ALL=C sort)
-[ "${#EXPECTED_FILES[@]}" -eq 81 ] || fail "expected file count is ${#EXPECTED_FILES[@]}"
+[ "${#EXPECTED_FILES[@]}" -eq 78 ] || fail "expected file count is ${#EXPECTED_FILES[@]}"
 [ "${ARCHIVE_FILES[*]}" = "${EXPECTED_FILES[*]}" ] || fail "archive and manifest file lists differ"
 (cd "${WORK_DIR}" && sha256sum -c "${NORMALIZED_MANIFEST}" >/dev/null) || fail "candidate file hash mismatch"
 if grep -RIEq 'cdn\.tailwindcss|cdn\.jsdelivr|cdnjs\.cloudflare|unpkg\.com|fonts\.googleapis|use\.fontawesome' "${WORK_DIR}"; then
@@ -42,7 +42,7 @@ for relative in "${EXPECTED_FILES[@]}"; do
 done
 
 if [ "${MODE}" = "--verify-only" ]; then
-  printf '[R09-PRODUCTION] VERIFY PASS FILES=81 ARCHIVE_SHA256=%s\n' "${EXPECTED_ARCHIVE_SHA}"
+  printf '[R09-PRODUCTION] VERIFY PASS FILES=78 ARCHIVE_SHA256=%s\n' "${EXPECTED_ARCHIVE_SHA}"
   exit 0
 fi
 
@@ -92,5 +92,5 @@ APP_CODE="$(curl -sS -o "${WORK_DIR}/app.html" -w '%{http_code}' 'https://tg.sue
 [ "${APP_CODE}" = "200" ] || fail "production App landing HTTP ${APP_CODE}"
 chmod -R a-w "${BACKUP_DIR}"
 
-printf '[R09-PRODUCTION] APPLY PASS DEPLOY_ID=%s FILES=81 HOME=%s APP=%s\n' "${DEPLOY_ID}" "${HOME_CODE}" "${APP_CODE}"
+printf '[R09-PRODUCTION] APPLY PASS DEPLOY_ID=%s FILES=78 HOME=%s APP=%s\n' "${DEPLOY_ID}" "${HOME_CODE}" "${APP_CODE}"
 printf '[R09-PRODUCTION] BACKUP_DIR=%s\n' "${BACKUP_DIR}"

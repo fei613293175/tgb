@@ -1,0 +1,378 @@
+{
+  "status": "PASS",
+  "method": "single CDP device metrics override; no browser viewport override",
+  "capture_contract": "CDP_PRIMED_EXPLICIT_CSS_CLIP",
+  "capture_note": "The generic screenshot endpoint exposed a legacy 1.25x surface coordinate mismatch. Final PNGs were captured only after a viewport-prime call and an explicit Page.captureScreenshot CSS clip; rejected output is retained under rejected-capture.",
+  "ua": "Mozilla/5.0 (Linux; Android 15; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Mobile Safari/537.36 TuiGuangBaoAndroid/1.0.0",
+  "staging_deploy_id": "20260727T171503+0800",
+  "results": [
+    {
+      "page_id": "GROWTH-INVITE",
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=invite&mobile=2",
+      "bodyBackground": "rgb(243, 247, 252)",
+      "clientWidth": 360,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "推广宝 · 邀请好友",
+      "visibleBrokenImages": 0,
+      "png": "growth-invite-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "page_id": "GROWTH-TEAM",
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=myfans&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "我的下级/上级",
+      "visibleBrokenImages": 0,
+      "png": "growth-team-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "page_id": "REWARD-SIGNIN",
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=view&modac=sign&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "推广宝 · 签到中心",
+      "visibleBrokenImages": 0,
+      "png": "reward-signin-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "page_id": "REWARD-MATCH-DIVIDEND",
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "推广宝会员分红系统",
+      "visibleBrokenImages": 0,
+      "png": "reward-dividend-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "page_id": "APP-DOWNLOAD-LANDING",
+      "requested": {
+        "width": 360,
+        "height": 800
+      },
+      "url": "http://127.0.0.1:28088/done/app.html",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 360,
+      "innerHeight": 800,
+      "innerWidth": 360,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 360,
+      "title": "下载推广宝 App",
+      "visibleBrokenImages": 0,
+      "png": "app-download-360x800.png",
+      "pngWidth": 360,
+      "pngHeight": 800
+    },
+    {
+      "page_id": "GROWTH-INVITE",
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=invite&mobile=2",
+      "bodyBackground": "rgb(243, 247, 252)",
+      "clientWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "推广宝 · 邀请好友",
+      "visibleBrokenImages": 0,
+      "png": "growth-invite-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "page_id": "GROWTH-TEAM",
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=myfans&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "我的下级/上级",
+      "visibleBrokenImages": 0,
+      "png": "growth-team-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "page_id": "REWARD-SIGNIN",
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=view&modac=sign&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "推广宝 · 签到中心",
+      "visibleBrokenImages": 0,
+      "png": "reward-signin-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "page_id": "REWARD-MATCH-DIVIDEND",
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "推广宝会员分红系统",
+      "visibleBrokenImages": 0,
+      "png": "reward-dividend-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "page_id": "APP-DOWNLOAD-LANDING",
+      "requested": {
+        "width": 390,
+        "height": 844
+      },
+      "url": "http://127.0.0.1:28088/done/app.html",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 390,
+      "title": "下载推广宝 App",
+      "visibleBrokenImages": 0,
+      "png": "app-download-390x844.png",
+      "pngWidth": 390,
+      "pngHeight": 844
+    },
+    {
+      "page_id": "GROWTH-INVITE",
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=invite&mobile=2",
+      "bodyBackground": "rgb(243, 247, 252)",
+      "clientWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "推广宝 · 邀请好友",
+      "visibleBrokenImages": 0,
+      "png": "growth-invite-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    },
+    {
+      "page_id": "GROWTH-TEAM",
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=xigua_hh&ac=myfans&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "我的下级/上级",
+      "visibleBrokenImages": 0,
+      "png": "growth-team-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    },
+    {
+      "page_id": "REWARD-SIGNIN",
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=view&modac=sign&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "推广宝 · 签到中心",
+      "visibleBrokenImages": 0,
+      "png": "reward-signin-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    },
+    {
+      "page_id": "REWARD-MATCH-DIVIDEND",
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "推广宝会员分红系统",
+      "visibleBrokenImages": 0,
+      "png": "reward-dividend-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    },
+    {
+      "page_id": "APP-DOWNLOAD-LANDING",
+      "requested": {
+        "width": 430,
+        "height": 932
+      },
+      "url": "http://127.0.0.1:28088/done/app.html",
+      "bodyBackground": "rgb(244, 247, 251)",
+      "clientWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "oldBrandCount": 0,
+      "outOfBoundsVisibleElements": [],
+      "overflowX": false,
+      "publicUiCdn": [],
+      "scrollWidth": 430,
+      "title": "下载推广宝 App",
+      "visibleBrokenImages": 0,
+      "png": "app-download-430x932.png",
+      "pngWidth": 430,
+      "pngHeight": 932
+    }
+  ],
+  "console": [
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:06:31.926Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    },
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:06:37.437Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    },
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:06:43.260Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    },
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:16:03.577Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    },
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:16:11.214Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    },
+    {
+      "level": "error",
+      "message": "SyntaxError: Unexpected token '}'",
+      "timestamp": "2026-07-27T09:16:19.270Z",
+      "url": "http://127.0.0.1:28088/plugin.php?id=tb_cus_pipei&mobile=2"
+    }
+  ]
+}

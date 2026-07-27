@@ -5,18 +5,18 @@ snapshot_date: 2026-07-27
 current_release: R09
 release_status: IN_PROGRESS
 active_task_id: TASK-R09-001
-active_mode: ASYNC_OWNER_FEEDBACK_TARGETED_REPAIR
+active_mode: DEVELOPMENT_CLOSEOUT_PASS_OWNER_ASYNC_PENDING
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
 
 progress_guard:
   self_check_interval_minutes: 30
-  last_material_progress: R09_CASHIER_PRODUCTION_DEPLOYED_AND_FIXTURE_CLEANED
-  last_self_check: 2026-07-27T15:31:21+08:00
+  last_material_progress: R09_GLOBAL_H5_CLOSEOUT_39_OF_39_PASS
+  last_self_check: 2026-07-27T18:30:00+08:00
   repeated_analysis_without_new_artifact_limit: 2
   current_loop_state: ADVANCING
-  next_concrete_output: AUTHORITY_DOC_SYNC_MANIFEST_AND_DRIFT_AUDIT
+  next_concrete_output: MANIFEST_CONTINUITY_COMMIT_AND_PUSH
 
 scope:
   h5_visual_redesign: true
@@ -43,11 +43,13 @@ facts:
   click_graph_pending_isolated_edges: 0
   click_graph_alternate_unreplayed_edges: 2
   click_graph_hidden_or_absent_edges: 5
-  database_identifier_stored_in_handoff: false
+  database_identifier_stored_in_current_tree: false
+  database_identifier_present_in_git_history: true
+  database_credential_rotation_required: true
   credentials_stored_in_handoff: false
 
 staging:
-  status: R09_CASHIER_V2_VISUAL_PASS_PRODUCTION_DEPLOYED_FIXTURES_OFF
+  status: R09_GLOBAL_H5_CLOSEOUT_PASS_OWNER_ASYNC_PENDING
   owner_release: R09
   source_release: R08
   snapshot_id: 20260727T074523+0800
@@ -104,11 +106,13 @@ staging:
   r08_deploy_id: 20260727T080940+0800
   r08_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T080940+0800-click-proven-v1
   r08_browser_matrix: INVALIDATED_LOGIN_CAPTURE_SUPERSEDED_BY_R09_390X844_PASS
-  r09_candidate_archive: deliverables/r09-production-candidate-v3.tar.gz
-  r09_candidate_archive_sha256: a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389
+  r09_candidate_archive: deliverables/r09-production-candidate-v5.tar.gz
+  r09_candidate_archive_sha256: c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734
   r09_candidate_site_files: 78
   r09_expected_layer_overrides: 10
-  r09_candidate_matches_r08_staging: NOT_REDEPLOYED_AFTER_SCOPE_EXCLUSION
+  r09_candidate_matches_r08_staging: PASS_EXACT_78_FILE_HASH_MATCH
+  r09_candidate_matches_production: PASS_EXACT_78_FILE_HASH_MATCH
+  r09_candidate_server_verify_only: PASS_FILES_78
   r09_production_verify_only: PASS
   r09_quick_browser_regression: 29_ROUTES_AT_390X844_PASS_CONTENT_DETAIL_INHERITED_UNCHANGED
   r09_production_deployed: true
@@ -152,6 +156,21 @@ staging:
   r09_cashier_fixture_cleanup: PASS_ONE_SYNTHETIC_MEMBER_ORDER_ZERO_PAYMENT_ORDERS
   r09_cashier_fixture_history: /www/staging/tg-h5-ui-r08/private/r09-cashier-fixture-history/20260727T153121+0800
   staging_post_after_cashier_cleanup: 405
+  r09_global_h5_in_scope: 39
+  r09_business_h5_pages: 38
+  r09_desktop_compatibility_entries: 1
+  r09_global_h5_redesigned_verified: 39
+  r09_global_visual_evidence_map: evidence/R09/global-closeout/R09_GLOBAL_VISUAL_EVIDENCE_MAP.csv
+  r09_global_closeout_gate: PASS
+  r09_sign_correction_production_deploy_id: 20260727T181342+0800
+  r09_sign_correction_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-sign-badge-backups/20260727T181342+0800
+  r09_publish_correction_production_deploy_id: 20260727T181343+0800
+  r09_publish_correction_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-publish-visual-backups/20260727T181343+0800
+  r09_publish_visual_gate: PASS_360X800_390X844_430X932
+  r09_final_auth_bridge: OFF
+  r09_final_browser_origin_bridge: OFF
+  r09_final_local_tunnel: OFF
+  r09_final_staging_post: 405
 
 design:
   theme: Light Grid / 晴空电光
@@ -294,14 +313,23 @@ completed:
   - R09 cashier two-file Light Grid overlay passed exact-pixel 360x800 390x844 and 430x932 Codex browser review
   - R09 cashier production deployment 20260727T152930+0800 preserved all payment controller hashes and CSS returned HTTP 200
   - R09 cashier fixture removed one synthetic member order zero payment orders all bridges and tunnel with staging POST 405 restored
+  - R09 global closeout mapped all 39 real-reachable H5 pages one-to-one to PASS evidence and marked all 39 REDESIGNED_VERIFIED
+  - R09 sign-in badge and notice dialog passed final 360x800 390x844 and 430x932 browser review after visible overflow and long-content fixes
+  - R09 real clicked publish form passed final three-viewport review after 60px header complete 64x44 submit control and empty-spacer fixes
+  - R09 production corrections 20260727T181342+0800 and 20260727T181343+0800 completed with private backups and final bridge tunnel cleanup
+  - R09 deterministic 78-file production candidate v5 built twice with SHA-256 c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734
+  - R09 v5 server verify-only and exact 78-file production and staging hash comparisons passed without deployment
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
   - H5 R09 asynchronous owner feedback and any targeted visual defect repair
-  - controlled-write fixtures for each high-risk page family
+  - owner-device cumulative high-risk action verification remains pending; G29 forbids repeating payment withdrawal reward upload or delete actions solely for UI closeout
   - R09 compact-top-inset replacement APK owner device screenshot and runtime confirmation (asynchronous)
 
 blockers:
+  - id: B-SEC-DB-01
+    description: a production database identifier that may equal the database password existed in Git history; HEAD no longer stores it, but owner credential rotation and history-remediation decision are required
+    affects: final security signoff only; H5 visual development and targeted owner-feedback repairs continue
   - id: B-R01-01
     description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
     affects: asynchronous external payment end-to-end owner verification and any targeted Android repair

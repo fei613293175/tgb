@@ -84,5 +84,17 @@ foreach ($cssFile in @($files | Where-Object Extension -eq '.css')) {
     Assert-True (-not [regex]::IsMatch($css, '(?i)https?://|@import|:has\s*\(')) "non-local or unsupported CSS: $($cssFile.Name)"
 }
 
+$signCss = Read-Text (Join-Path $OverlayRoot 'source/plugin/view/static/tgb-r08/sign-light-grid-r08.css')
+$signTemplate = Read-Text (Join-Path $OverlayRoot 'source/plugin/view/module/site/sign.php')
+Assert-True ($signCss.Contains('.tgb-r08-sign-page .promo-highlight::after')) 'sign promotion badge containment selector missing'
+Assert-True ($signCss.Contains('right: 4px !important')) 'sign promotion badge can escape the 360px viewport'
+Assert-True ($signCss.Contains('animation: none !important')) 'sign promotion badge scale animation remains active'
+Assert-True ($signCss.Contains('transform: none !important')) 'sign promotion badge transform remains active'
+Assert-True ($signCss.Contains('.tgb-r08-sign-page #noticeModal .modal-box')) 'sign notice modal viewport containment missing'
+Assert-True ($signCss.Contains('max-height: calc(100vh - 96px) !important')) 'sign notice modal height bound missing'
+Assert-True ($signCss.Contains('.tgb-r08-sign-page #noticeModal .modal-close::before')) 'sign notice modal local close glyph missing'
+Assert-True ($signCss.Contains('overflow-wrap: anywhere')) 'sign notice long-link wrapping missing'
+Assert-True ($signTemplate.Contains('sign-light-grid-r08.css?v=20260727-r09-1')) 'sign badge repair cache key missing'
+
 Write-Host '[R08-OVERLAY] PASS'
 Write-Host '[R08-OVERLAY] files=10 pages=5 scope=CLICK_PROVEN_ONLY protocol=UNCHANGED flow=UNCHANGED business_scripts=UNCHANGED'

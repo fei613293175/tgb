@@ -238,3 +238,20 @@ R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30
 - 生产部署：`20260727T152930+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800`
 
 收银台由隔离环境中的“年度会员立即开通 -> 确认购买”真实点击链获得视觉范围。Codex 未选择支付方式、未点击立即支付，合成会员订单已清理且未产生 `tb_pay` 支付订单。本项 PASS 不扩展到订单列表页，也不替代 Android 真机支付拉起与返回验证。
+
+## 16. R09 全局 H5 开发关版
+
+- 全局关版审计：`evidence/R09/global-closeout/R09_GLOBAL_CLOSEOUT_AUDIT.md`
+- 39 页一对一证据映射：`evidence/R09/global-closeout/R09_GLOBAL_VISUAL_EVIDENCE_MAP.csv`
+- R08 五页三视口最终联系表：`evidence/R09/global-closeout/r08-three-viewport/R08-THREE-VIEWPORT-FINAL-CONTACT-SHEET.png`
+- R08 最终几何与截图审计：`evidence/R09/global-closeout/r08-three-viewport/R08-THREE-VIEWPORT-AUDIT.json`
+- 签到公告最终三视口审计：`evidence/R09/global-closeout/r08-three-viewport/R08-SIGN-NOTICE-FINAL.json`
+- 发布页最终三视口审计：`evidence/R09/global-closeout/publish-three-viewport/R09-PUBLISH-THREE-VIEWPORT-AUDIT.json`
+- 被否决的截图坐标证据：`evidence/R09/global-closeout/r08-three-viewport/rejected-capture/`
+- 全局形式化门禁：`scripts/test-r09-global-closeout.ps1`
+- v5 服务器只读结构、生产和预发布 78 文件哈希验证：`evidence/R09/global-closeout/R09_V5_SERVER_HASH_VERIFY.md`
+- 最终 78 文件候选：`deliverables/r09-production-candidate-v5.tar.gz`，SHA-256 `c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734`
+- 签到生产修复：`20260727T181342+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-sign-badge-backups/20260727T181342+0800`
+- 发布页生产修复：`20260727T181343+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-publish-visual-backups/20260727T181343+0800`
+
+R09 非 Android 视觉集合为 39/39 `REDESIGNED_VERIFIED`，其中包含 38 个业务 H5 页面和 1 个桌面兼容入口。安卓真机安全区、相册上传和支付宝拉起/返回仍为 `PENDING_OWNER_VERIFICATION`，不得用上述浏览器证据替代。

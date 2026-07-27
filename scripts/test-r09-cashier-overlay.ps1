@@ -81,11 +81,15 @@ if ($stagingDeployText -notmatch 'r09-cashier-fixture-active' -or
 }
 
 $productionDeployText = Read-NormalizedText $productionDeployScript
+if ($productionDeployText -match "grep\s+-Fq(?:\s+--)?\s+'[^']+'\s+.*config_global\.php") {
+    throw 'Production cashier deployment hard-codes a database identifier instead of requiring it at runtime.'
+}
 if ($productionDeployText -notmatch '--verify-only' -or
     $productionDeployText -notmatch '--apply-production' -or
     $productionDeployText -notmatch '--apply-rollback' -or
     $productionDeployText -notmatch 'r09_transform_cashier_template.py' -or
     $productionDeployText -notmatch 'production-cashier-backups' -or
+    $productionDeployText -notmatch 'EXPECTED_PRODUCTION_DB is required at runtime' -or
     $productionDeployText -notmatch 'CORE_PAYMENT_HASHES=PASS') {
     throw 'Production cashier deployment lost a preflight, transform, backup, rollback, or payment-core gate.'
 }
@@ -94,6 +98,7 @@ Write-Host '[R09-CASHIER-GATE] BASELINE_HASH_LIST=PASS'
 Write-Host '[R09-CASHIER-GATE] EXACT_HASH_GUARDED_TRANSFORM=PASS'
 Write-Host '[R09-CASHIER-GATE] BUSINESS_SCRIPT_UNTOUCHED_BY_PATCH=PASS'
 Write-Host '[R09-CASHIER-GATE] SENSITIVE_PAYMENT_VALUES_STORED=0'
+Write-Host '[R09-CASHIER-GATE] PRODUCTION_DB_IDENTIFIER=RUNTIME_ONLY'
 Write-Host '[R09-CASHIER-GATE] LOCAL_CSS_ONLY=PASS'
 Write-Host '[R09-CASHIER-GATE] LIGHT_SAFE_AREA_CONTRACT=PASS'
 Write-Host '[R09-CASHIER-GATE] DEPLOYMENT_ROLLBACK_SAFETY=PASS'

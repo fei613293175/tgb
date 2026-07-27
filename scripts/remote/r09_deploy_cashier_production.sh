@@ -18,6 +18,7 @@ PYTHON="/www/server/panel/pyenv/bin/python3"
 EXPECTED_TB_PAY_INC_SHA="7754c28fbe2d251b5ab305f3c65fc05ddff4fbad7f34f84e01db13024d9fea64"
 EXPECTED_MAIN_PHP_SHA="835aff76bc6c85af3fce71683cfce8f488464b06fa903b8db00f4364db4257af"
 EXPECTED_PAY_PHP_SHA="d0b19011633ef1a7619c7daf2eba5ef01db1b3b2839a7394b3a338e7aa7e7d4e"
+EXPECTED_PRODUCTION_DB="${EXPECTED_PRODUCTION_DB:-}"
 TMP=""
 BACKUP=""
 DEPLOYED=0
@@ -30,7 +31,8 @@ assert_site() {
   [ "$(id -u)" -eq 0 ] || fail 'root is required'
   [ -d "${SITE}/source/plugin/tb_pay" ] || fail 'production tb_pay plugin is absent'
   [ -x "${PYTHON}" ] || fail 'panel Python runtime is unavailable'
-  grep -Fq 'tg_suewammes_com' "${SITE}/config/config_global.php" || fail 'not the production database configuration'
+  [ -n "${EXPECTED_PRODUCTION_DB}" ] || fail 'EXPECTED_PRODUCTION_DB is required at runtime'
+  grep -Fq -- "${EXPECTED_PRODUCTION_DB}" "${SITE}/config/config_global.php" || fail 'not the expected production database configuration'
   [ "$(sha "${SITE}/source/plugin/tb_pay/tb_pay.inc.php")" = "${EXPECTED_TB_PAY_INC_SHA}" ] || fail 'tb_pay entry controller hash drift'
   [ "$(sha "${SITE}/source/plugin/tb_pay/module/main.php")" = "${EXPECTED_MAIN_PHP_SHA}" ] || fail 'cashier controller hash drift'
   [ "$(sha "${SITE}/source/plugin/tb_pay/module/pay.php")" = "${EXPECTED_PAY_PHP_SHA}" ] || fail 'payment controller hash drift'

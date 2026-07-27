@@ -3,7 +3,9 @@ project_id: TG-H5-UI-REDESIGN
 task_id: TASK-R09-001
 release: R09
 status: IN_PROGRESS
-title: R09 异步真机反馈与定向返修
+title: R09 开发关版完成与异步真机定向返修
+development_status: PASS
+owner_verification_status: PENDING_OWNER_VERIFICATION
 
 read_first:
   - 06_HARD_GATES.md
@@ -14,6 +16,7 @@ read_first:
   - evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md
   - evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
   - evidence/R09/cashier/R09_CASHIER_PROGRESS.md
+  - evidence/R09/global-closeout/R09_GLOBAL_CLOSEOUT_AUDIT.md
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -41,11 +44,12 @@ actions:
 
 progress:
   candidate_assembled: true
-  candidate_revision: v3
+  candidate_revision: v5
   candidate_files: 78
-  candidate_sha256: a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389
-  candidate_matches_r08_staging: false
-  candidate_78_file_production_hash_match: HISTORICAL_PASS_SUPERSEDED_BY_MEMBER_CHAT_V5
+  candidate_sha256: c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734
+  candidate_matches_r08_staging: PASS_EXACT_78_FILE_HASH_MATCH
+  candidate_78_file_production_hash_match: PASS_EXACT_78_FILE_HASH_MATCH
+  candidate_server_verify_only: PASS_FILES_78
   static_release_gates_r02_through_r08: PASS
   production_script_verify_only: PASS
   quick_browser_regression_390x844: PASS
@@ -92,14 +96,30 @@ progress:
   cashier_production_backup: /www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800
   cashier_fixture_cleanup: PASS_ONE_SYNTHETIC_MEMBER_ORDER_ZERO_PAYMENT_ORDERS
   staging_post_after_cleanup: 405
+  h5_global_in_scope: 39
+  business_h5_pages: 38
+  desktop_compatibility_entries: 1
+  h5_global_redesigned_verified: 39
+  h5_global_evidence_map: PASS_39_OF_39
+  h5_global_closeout_gate: PASS
+  sign_correction_production_deploy_id: 20260727T181342+0800
+  publish_correction_production_deploy_id: 20260727T181343+0800
+  final_auth_bridge: OFF
+  final_browser_origin_bridge: OFF
+  final_local_tunnel: OFF
+  final_staging_post: 405
+  current_tree_exact_credential_scan: PASS
+  production_database_identifier_in_git_history: DETECTED_ONE_COMMIT_OWNER_REMEDIATION_REQUIRED
 
 self_correction:
   interval_minutes: 30
-  last_material_output: CASHIER_PRODUCTION_DEPLOYMENT_AND_FIXTURE_CLEANUP
+  last_material_output: R09_GLOBAL_H5_CLOSEOUT_39_OF_39_PASS
   current_state: ADVANCING
   loop_rule: after two checks without a new artifact test result deployment or resolved fact change method and execute the next concrete action
 
 next_action:
+  - H5 development closeout is complete; do not create R10 or reopen completed page discovery
+  - keep the production database identifier runtime-only; owner credential rotation and Git-history remediation remain a final security action
   - continue from new owner feedback without reopening completed page discovery
   - do not wait for owner APK feedback and do not start hidden-page redesign work
   - preserve the R09 member and chat production backup until owner feedback is closed
@@ -122,3 +142,5 @@ acceptance:
   - production candidate is reproducible and has a verified rollback package
   - each repair updates R09 result status decisions lessons and manifest once
   - synthetic user message visit logs cashier orders bridges and tunnel are all removed with staging POST 405
+  - owner-device gallery upload Alipay return and compact-top-inset checks remain PENDING_OWNER_VERIFICATION and must not be represented as PASS without owner evidence
+  - final project security signoff remains pending until the owner rotates the exposed database credential and authorizes or performs Git-history remediation

@@ -1,6 +1,6 @@
 param(
     [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '.runtime/r09-production-candidate'),
-    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v3.tar.gz')
+    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v5.tar.gz')
 )
 
 $ErrorActionPreference = 'Stop'

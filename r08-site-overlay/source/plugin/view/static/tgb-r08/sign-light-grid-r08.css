@@ -170,10 +170,19 @@
 .tgb-r08-sign-page .rule-card,
 .tgb-r08-sign-page .rule-card.promo-highlight {
     padding: 15px 12px !important;
+    overflow: hidden;
     background: var(--tgb-r08-surface) !important;
     border: 1px solid var(--tgb-r08-line) !important;
     border-radius: 8px !important;
     box-shadow: none !important;
+}
+
+.tgb-r08-sign-page .promo-highlight::after {
+    top: 4px !important;
+    right: 4px !important;
+    max-width: calc(100% - 8px);
+    animation: none !important;
+    transform: none !important;
 }
 
 .tgb-r08-sign-page .rule-card i {
@@ -208,6 +217,101 @@
 .tgb-r08-sign-page .modal-title {
     color: var(--tgb-r08-ink) !important;
     letter-spacing: 0 !important;
+}
+
+.tgb-r08-sign-page #noticeModal {
+    box-sizing: border-box;
+    padding: 12px;
+}
+
+.tgb-r08-sign-page #noticeModal .modal-box {
+    box-sizing: border-box;
+    width: min(100%, 420px) !important;
+    height: min(78vh, 680px) !important;
+    max-height: calc(100vh - 96px) !important;
+    padding: 16px !important;
+    overflow: hidden !important;
+}
+
+.tgb-r08-sign-page #noticeModal .modal-close {
+    top: 8px;
+    right: 8px;
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    background: #eef5ff !important;
+    font-size: 0 !important;
+}
+
+.tgb-r08-sign-page #noticeModal .modal-close::before {
+    content: "\00d7";
+    color: var(--tgb-r08-blue);
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    -webkit-text-fill-color: currentColor;
+}
+
+.tgb-r08-sign-page #noticeModal .modal-title {
+    display: -webkit-box;
+    min-height: 44px;
+    margin: 0 44px 4px 0 !important;
+    overflow: hidden;
+    font-size: 16px !important;
+    line-height: 1.35;
+    text-align: left;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    -webkit-text-fill-color: currentColor;
+}
+
+.tgb-r08-sign-page #noticeModal .notice-header {
+    margin: 0 0 8px;
+    text-align: left;
+}
+
+.tgb-r08-sign-page #noticeContent {
+    min-height: 0;
+    padding: 12px !important;
+    overflow: auto;
+    border: 1px solid var(--tgb-r08-line);
+    border-radius: 8px;
+    background: var(--tgb-r08-bg);
+    color: var(--tgb-r08-ink) !important;
+    font-size: 14px !important;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.tgb-r08-sign-page #noticeContent p {
+    margin: 0;
+}
+
+.tgb-r08-sign-page #noticeContent img {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    margin: 10px 0 0 !important;
+    border-radius: 8px !important;
+}
+
+.tgb-r08-sign-page #noticeModal .notice-nav {
+    flex: 0 0 auto;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.tgb-r08-sign-page #noticeModal .notice-nav .btn {
+    min-width: 0;
+    min-height: 44px;
+    flex: 1 1 0;
+    padding: 10px 12px !important;
+    border: 1px solid #b9d2f6 !important;
+    border-radius: 8px !important;
+    background: var(--tgb-r08-surface) !important;
+    box-shadow: none !important;
+    color: var(--tgb-r08-blue) !important;
 }
 
 .tgb-r08-sign-page .btn,

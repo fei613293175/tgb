@@ -1057,7 +1057,7 @@ $todayReward = $isVip ? '25.00' : '12.00';
             margin-bottom: 10px;
         }
     </style>
-    <link href="source/plugin/view/static/tgb-r08/sign-light-grid-r08.css?v=20260727-r08" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-r08/sign-light-grid-r08.css?v=20260727-r09-1" rel="stylesheet">
 </head>
 <body class="tgb-r08-sign-page">
 <div class="bg-float"></div>

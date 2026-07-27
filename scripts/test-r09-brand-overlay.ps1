@@ -41,7 +41,25 @@ foreach ($relative in $expected) {
             $after = $after.Replace('推广宝', '创脉引擎').Replace('<title>创脉引擎 - 帮助中心</title>', '<title>推广宝 - 帮助中心</title>')
         }
         'm/gywm.html' { $after = $after.Replace('copyright 2024-2025 推广宝 版权所有', 'copyright 2024-2025 创脉引擎 版权所有') }
-        'source/plugin/xigua_hb/template/touch/pub.php' { $after = $after.Replace('推广宝会员，解锁', '签米会员，解锁') }
+        'source/plugin/xigua_hb/template/touch/pub.php' {
+            foreach ($required in @(
+                '/* TGB-R09-PUBLISH-VISUAL-FIX:START */',
+                '.tgb-light-grid header.x_header {',
+                'height:60px!important;',
+                'width:64px!important;',
+                'height:44px!important;',
+                '.tgb-publish-header-spacer, .tgb-publish-form-spacer, header.x_header .navtitle { display:none!important; }',
+                '/* TGB-R09-PUBLISH-VISUAL-FIX:END */'
+            )) {
+                if (-not $after.Contains($required)) { Fail "publish visual contract missing: $required" }
+            }
+            $after = $after.Replace('推广宝会员，解锁', '签米会员，解锁')
+            $after = $after.Replace(' class="tgb-publish-header-spacer"', '')
+            $after = $after.Replace(' class="tgb-publish-header-title"', '')
+            $after = $after.Replace(' class="tgb-publish-submit-label"', '')
+            $after = $after.Replace(' class="tgb-publish-form-spacer"', '')
+            $after = [regex]::Replace($after, '(?s)/\* TGB-R09-PUBLISH-VISUAL-FIX:START \*/.*?/\* TGB-R09-PUBLISH-VISUAL-FIX:END \*/\n', '')
+        }
         'template/comiis_app/touch/common/showmessage.php' { $after = $after.Replace('<div class="nav-title">推广宝</div>', '<div class="nav-title">签米</div>') }
         'source/plugin/xigua_hb/template/touch/vip.php' { $after = $after.Replace('推广宝VIP会员中心已就绪', '签米VIP会员中心已就绪') }
         'done/app.html' { $after = $after.Replace('推广宝下载页已就绪', '签米下载页已就绪') }
@@ -59,4 +77,4 @@ foreach ($relative in $expected) {
 }
 
 Write-Host '[R09-BRAND] PASS'
-Write-Host '[R09-BRAND] files=8 changes=VISIBLE_BRAND_ONLY business_protocol=UNCHANGED'
+Write-Host '[R09-BRAND] files=8 changes=VISIBLE_BRAND_AND_APPROVED_PUBLISH_VISUAL_ONLY business_protocol=UNCHANGED'

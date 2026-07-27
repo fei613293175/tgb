@@ -554,11 +554,11 @@ $config['tcpub'] = '';}-->
     }
 </style>
 <header class="x_header bgcolor_11 cl f15" style="background:#fff!important;backdrop-filter:none;border-bottom:1px solid #d8e1ec!important;height:60px;box-shadow:0 4px 14px rgba(12,27,51,.05);">
-    <div style="margin-top:15px;"> </div>
+    <div class="tgb-publish-header-spacer" style="margin-top:15px;"> </div>
     <a class="z " style="height:50px;line-height:25px;" href="javascript:window.history.go(-1);"><i class="iconfont icon-fanhuijiantou" aria-hidden="true"></i></a>
-    <div style="font-weight:700;font-size:20px;text-align:center;color:#0e1b2a;margin-top:2px;">发布项目</div>
+    <div class="tgb-publish-header-title" style="font-weight:700;font-size:20px;text-align:center;color:#0e1b2a;margin-top:2px;">发布项目</div>
     <a style="position:fixed;right:0; background: linear-gradient(135deg, #ff7b00, #e63946); width:50px; color: #fff; height:35px; border:none; padding:-15px 10px -10px 10px; margin-top:-40px; font-weight: 700; border-radius: 30px; font-size: 0.75rem; margin-right: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(255,50,0,0.25); transition: all 0.3s ease;" id="submitnew" href="javascript:void(-1)">
-        <div style="vertical-align:middle;margin-top:-4px;">发布</div>
+        <div class="tgb-publish-submit-label" style="vertical-align:middle;margin-top:-4px;">发布</div>
     </a>
     <div class="navtitle" style="height:0px;"></div>
 </header>
@@ -1101,7 +1101,7 @@ $commentnew = DB::result_first("select cid from %t  WHERE new=1 AND touid=%d", a
 
 
 <div class="crypto-upload-container" style="background-color: transparent;">
-    <div style="height:50px;"> </div>
+    <div class="tgb-publish-form-spacer" style="height:50px;"> </div>
 
     <div class="weui-cell crypto-upload-cell" <!--{if $catinfo['zdtps']<0}-->style="display:none"<!--{/if}-->>
     <div class="weui-cell__bd">
@@ -1149,7 +1149,7 @@ $commentnew = DB::result_first("select cid from %t  WHERE new=1 AND touid=%d", a
 {else}
 <div class="crypto-upload-container" style="padding:30px 0 0 0;margin-top:-20px">
     
-        <div style="height:50px;"> </div>
+        <div class="tgb-publish-form-spacer" style="height:50px;"> </div>
 
 
     
@@ -2259,6 +2259,51 @@ a#submitnew { min-width:88px!important; height:44px!important; padding:0 14px!im
 .weui-switch:checked { border-color:#2764ff!important; background:#2764ff!important; background-image:none!important; }
 .fix-bottom { box-sizing:border-box; padding-bottom:env(safe-area-inset-bottom,0px); border-top:1px solid #d8e1ec; background:#fff!important; }
 .masker, .weui-popup__overlay { background:rgba(12,27,51,.42)!important; }
+/* TGB-R09-PUBLISH-VISUAL-FIX:START */
+.tgb-light-grid header.x_header {
+    display:flex!important;
+    position:relative!important;
+    height:60px!important;
+    min-height:60px!important;
+    padding:0 14px!important;
+    align-items:center!important;
+    justify-content:center!important;
+}
+.tgb-publish-header-spacer, .tgb-publish-form-spacer, header.x_header .navtitle { display:none!important; }
+.tgb-publish-header-title { height:auto!important; margin:0!important; line-height:24px!important; }
+header.x_header a.z {
+    position:absolute!important;
+    top:8px!important;
+    left:14px!important;
+    width:44px!important;
+    height:44px!important;
+    padding:0!important;
+    line-height:1!important;
+}
+header.x_header a#submitnew {
+    position:absolute!important;
+    top:8px!important;
+    right:14px!important;
+    width:64px!important;
+    min-width:64px!important;
+    height:44px!important;
+    margin:0!important;
+    padding:0 12px!important;
+    overflow:visible!important;
+    line-height:1!important;
+    white-space:nowrap;
+}
+header.x_header a#submitnew .tgb-publish-submit-label {
+    width:auto!important;
+    height:auto!important;
+    margin:0!important;
+    line-height:20px!important;
+}
+.vars_cells .crypto-upload-container {
+    margin-top:0!important;
+    padding-top:16px!important;
+}
+/* TGB-R09-PUBLISH-VISUAL-FIX:END */
 @media (max-width:374px) {
     .weui-grids { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
     .dig_pub_div, .redb_div { width:calc(50% - 8px)!important; }
