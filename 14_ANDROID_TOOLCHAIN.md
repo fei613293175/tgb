@@ -3,7 +3,9 @@
 文档状态：R00 已验证  
 验证日期：2026-07-26
 
-## 1. 当前机器验证结果
+## 1. 历史机器验证结果
+
+以下内容仅记录 2026-07-26 的历史事实，不授权恢复本机 Android 环境。自 D-036 起，Codex 禁止在负责人电脑安装 Android SDK、ADB、模拟器或系统镜像。
 
 - Android SDK：存在于当前用户的标准本地 SDK 目录。
 - 已安装平台：`android-36`、`android-36.1`、`android-37.0`。
@@ -15,9 +17,9 @@
 
 Android Studio 自带 `jbr` 在本机是不完整安装（缺少可执行文件），不得依赖它。项目通过工作区外的 `.toolchain` 目录使用免安装 JDK，不要求管理员权限，也不修改全局 PATH。
 
-## 2. 换电脑恢复
+## 2. 换电脑规则
 
-在交接包根目录执行：
+不要在负责人电脑执行 Android 环境恢复。只有负责人未来明确撤销 D-036 时，才可使用以下历史命令：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\android\bootstrap-toolchain.ps1
@@ -60,3 +62,5 @@ JDK、SDK、ADB、SDK Manager 和 Gradle 的基础能力已经实测可运行。
 ```
 
 权威脚本在交接包 `scripts/android/build-on-server.sh`。源码、私有签名和 artifacts 必须分目录；私有目录 `700`、文件 `600`，只读挂载到容器 `/run/tgb-signing`。构建执行单元测试、Release Lint、签名 APK、10 MiB、AAPT、APKSigner、品牌/包名/SDK 和 SHA-256 门禁，再下载到负责人本机桌面。
+
+服务器只用于构建、签名和产物检查，不用于安装、启动或功能测试 APK。APK 放到负责人桌面后，由负责人自行真机测试。

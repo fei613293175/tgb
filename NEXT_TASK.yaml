@@ -34,6 +34,7 @@ actions:
   - identify the exact visible page and source template from each owner report
   - edit the affected template or CSS directly without creating unrelated versions
   - run the affected page at 390x844 plus static protocol and rollback checks
+  - open every affected H5 page in a real browser and compare representative screenshots for deformation misalignment overflow and overlap
   - rebuild the APK only when Android native source or packaged resources change
   - keep owner device upload payment and safe-area feedback asynchronous
 
@@ -56,6 +57,9 @@ forbidden:
   - do not redesign source-only hidden or direct-URL pages
   - do not change business scripts forms routes values balances claims or payment protocols
   - do not restore GitHub Actions automatic triggers
+  - do not install Android SDK ADB emulator system images or APKs on the owner computer
+  - do not install launch or function-test the APK; the owner performs all APK testing
+  - do not skip H5 browser experience or screenshot comparison
   - do not deploy a repair until its affected-page check and rollback verification pass
 
 acceptance:

@@ -117,6 +117,11 @@ design:
 
 android:
   status: R01_LATEST_SERVER_SIGNED_APK_DELIVERED_ASYNC_DEVICE_FEEDBACK
+  apk_function_test_owner: OWNER_ONLY
+  codex_local_android_environment_allowed: false
+  codex_apk_install_or_runtime_test_allowed: false
+  h5_browser_experience_and_screenshot_required: true
+  rebuild_required_for_r09_h5_release: false
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin
@@ -143,7 +148,7 @@ android:
   github_actions_status: RETIRED_AFTER_RUN_30192427296_PASS
   github_actions_artifact_id: 8629065339
   github_actions_artifact_sha256: fc113dd032f6d54485dc4918ec8f1396cfa3503643063af3ac2081f4a7785880
-  ci_visual_review: NATIVE_PASS_H5_R02_R04_COMPLETE_R05_R09_PENDING
+  ci_visual_review: HISTORICAL_ONLY_GITHUB_ACTIONS_RETIRED_OWNER_TESTS_APK_CODEX_TESTS_H5
   owner_device_feedback_mode: ASYNC_DO_NOT_WAIT
 
 completed:

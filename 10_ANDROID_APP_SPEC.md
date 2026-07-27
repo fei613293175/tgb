@@ -192,7 +192,8 @@ if ($apk.Length -lt 10485760) { throw "APK 小于 10 MiB：$($apk.Length) bytes"
 - applicationId、versionCode、versionName；
 - 签名证书 SHA-256；
 - `aapt dump badging` 或等价包信息；
-- 真机启动、相册、上传、支付宝拉起/返回、状态栏截图；负责人可异步返回，但
-  未完成项必须留在累计发布门禁，R09 生产发布前清零；
+- 真机启动、相册、上传、支付宝拉起/返回、状态栏截图全部由负责人测试并异步返回；Codex 不安装或运行 APK；
 - WebView 控制台和 Android logcat 脱敏结果；
 - 回滚到上一 APK 的验证记录。
+
+按 D-036，负责人电脑不得由 Codex 安装 Android SDK、ADB、模拟器或测试 APK。Codex 的 Android 交付边界是源码、服务器签名构建和桌面 APK；真机功能结论只能由负责人反馈形成。H5 页面仍由 Codex 使用浏览器体验和截图验收。
