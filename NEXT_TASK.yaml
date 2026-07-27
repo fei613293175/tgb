@@ -13,6 +13,7 @@ read_first:
   - evidence/R09/R09_QUICK_BROWSER_REGRESSION.md
   - evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md
   - evidence/R09/member-chat/R09_MEMBER_CHAT_PROGRESS.md
+  - evidence/R09/cashier/R09_CASHIER_PROGRESS.md
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -76,12 +77,33 @@ progress:
   member_chat_production_backup: /www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800
   member_chat_failed_attempt_rolled_back: true
   member_chat_fixture_cleanup: PASS
+  cashier_click_proof: MEMBERSHIP_VIP_CONFIRM_PURCHASE_TO_CASHIER_PASS
+  cashier_overlay_implemented: true
+  cashier_overlay_files: 2
+  cashier_archive_revision: v3_sensitive_safe_transform
+  cashier_archive_sha256: 1d8775866e2abec21ce18824a485d3deaf125106edbbc56ad5b4f19f26264dc7
+  cashier_reproducible_output_sha256: 83661a7871894331bdf6f6543f792c236e871f3267ac787291eaab80e70abe86
+  cashier_static_protocol_gate: PASS
+  cashier_visual_gate: PASS_360X800_390X844_430X932_EXACT_PIXELS
+  cashier_staging_deployed: true
+  cashier_staging_deploy_id: 20260727T152357+0800
+  cashier_production_deployed: true
+  cashier_production_deploy_id: 20260727T152930+0800
+  cashier_production_backup: /www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800
+  cashier_fixture_cleanup: PASS_ONE_SYNTHETIC_MEMBER_ORDER_ZERO_PAYMENT_ORDERS
   staging_post_after_cleanup: 405
+
+self_correction:
+  interval_minutes: 30
+  last_material_output: CASHIER_PRODUCTION_DEPLOYMENT_AND_FIXTURE_CLEANUP
+  current_state: ADVANCING
+  loop_rule: after two checks without a new artifact test result deployment or resolved fact change method and execute the next concrete action
 
 next_action:
   - continue from new owner feedback without reopening completed page discovery
   - do not wait for owner APK feedback and do not start hidden-page redesign work
   - preserve the R09 member and chat production backup until owner feedback is closed
+  - preserve the R09 cashier production backup until owner feedback is closed
 
 forbidden:
   - do not redesign source-only hidden or direct-URL pages
@@ -93,10 +115,10 @@ forbidden:
   - do not deploy a repair until its affected-page check and rollback verification pass
 
 acceptance:
-  - every visual file belongs to the two real-reachable pages proven in the R09 synthetic isolated click chain
+  - every visual file belongs to a page with a real-click parent edge in 17_RUNTIME_CLICK_GRAPH.csv
   - no hidden page or dormant plugin is added to the production candidate
   - affected-page 390x844 regression has no horizontal overflow overlap clipped controls or dark page background
   - public UI CDN count is zero for redesigned pages
   - production candidate is reproducible and has a verified rollback package
   - each repair updates R09 result status decisions lessons and manifest once
-  - synthetic user message visit logs bridges and tunnel are all removed with staging POST 405
+  - synthetic user message visit logs cashier orders bridges and tunnel are all removed with staging POST 405

@@ -3,7 +3,7 @@
 - Status: `IN PROGRESS / ASYNC OWNER FEEDBACK OPEN`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
-- Current reproducible base candidate: v3, 78 files, plus the independent five-file member/chat v5 overlay
+- Current reproducible base candidate: v3, 78 files, plus the independent five-file member/chat v5 overlay and sensitive-safe cashier v3 transform overlay
 - Current SHA-256: `a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389` (identical across two consecutive builds)
 - Historical deployed candidate: v2, 81 files, SHA-256 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`
 - Production deploy ID: `20260727T090142+0800`
@@ -19,6 +19,7 @@
 - Production file hashes matched the candidate; home and App landing returned HTTP 200 during deployment.
 - The five-page online smoke passed after deployment.
 - Chat detail and member detail passed direct-click Android H5 review at `360x800`, `390x844` and `430x932`, then received a five-file backup-first production deployment.
+- The membership VIP purchase confirmation real-click chain proved the cashier in scope. Its two-file Light Grid overlay passed exact-pixel three-viewport review and backup-first production deployment without invoking any payment action.
 
 ## Android H5 UA Scope Closeout
 
@@ -46,6 +47,8 @@ bash /tmp/r09_rollback_production.sh --apply-rollback /www/staging/tg-h5-ui-r08/
 - Any owner-reported H5 visual defect.
 
 These items do not trigger another global matrix. Each report is handled as a targeted repair under D-035.
+
+The H5 cashier visual PASS below does not close the Android Alipay launch/return item above.
 
 ## Member And Chat Addendum
 
@@ -76,6 +79,40 @@ These items do not trigger another global matrix. Each report is handled as a ta
 - Desktop delivery: `C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk`
 - Handoff artifact: `deliverables/android/R09/tuiguangbao-1.0.0-R09-compact-top-inset.apk`
 - APK installation/runtime validation remains owner-only and asynchronous under D-036.
+
+## Cashier Addendum
+
+- Scope proof: authenticated isolated membership VIP page -> visible annual membership control -> visible confirmation -> `FINANCE-PAYMENT`; URL parameters and the synthetic order identifier are excluded from repository evidence.
+- Scope boundary: this proof grants only the cashier page. `FINANCE-ORDERS`, external gateway pages and Android third-party App behavior do not inherit scope or PASS.
+- Local overlay: `r09-cashier-overlay/`, consisting only of `source/plugin/tb_pay/template/touch/main.htm` and `source/plugin/tb_pay/static/tgb-r09/cashier-light-grid-r09.css`.
+- Frozen baseline: `r09-cashier-baseline/SHA256SUMS.txt`; the complete sensitive template and controllers are intentionally not stored in the repository.
+- Archive: `deliverables/r09-cashier-overlay-v3.tar.gz`, SHA-256 `1d8775866e2abec21ce18824a485d3deaf125106edbbc56ad5b4f19f26264dc7`. It contains only local CSS and an exact hash-guarded transformer; generated template SHA-256 is `83661a7871894331bdf6f6543f792c236e871f3267ac787291eaab80e70abe86`.
+- Static gate: `scripts/test-r09-cashier-overlay.ps1` passed the baseline hash list, exact hash-guarded visual transform, untouched business-script boundary, sensitive-value zero-storage scan, local CSS and deployment rollback checks.
+- First staging attempt exposed a visible legacy spacer dot; staging deploy `20260727T152103+0800` was rolled back. Corrected v2 staging deploy: `20260727T152357+0800`.
+- Visual gate: exact PNG and geometry evidence passed at `360x800`, `390x844` and `430x932`; no horizontal overflow, out-of-bounds element, old visible brand, dark surface, visible broken image or console entry. Header is 52px, pay button 48px and radio targets 44px.
+- Forbidden actions: no payment method was selected and `.paybtn` was never clicked. No external gateway, balance deduction or payment POST was exercised.
+- Production deploy ID: `20260727T152930+0800`.
+- Production backup: `/www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800`.
+- Production smoke: deployed site files match the verified final template/CSS hashes; repository-safe v3 reproduces the same template. `tb_pay.inc.php`, `module/main.php` and `module/pay.php` hashes are unchanged; CSS returned `200 text/css`.
+- Repository-safe v3 was assembled after deployment to remove the full sensitive template from source control. Server verification regenerated the exact deployed template hash and `--verify-only` reported `DEPLOYED_VERIFIED`; production bytes were not changed again.
+- Rollback:
+
+```bash
+bash /tmp/r09_deploy_cashier_production.sh --apply-rollback _ _ 20260727T152930+0800
+```
+
+- Cleanup: one synthetic membership order was removed, zero payment orders existed, debug-log state was restored, all bridges and the tunnel were closed, and staging POST returned `405`.
+- Evidence: `evidence/R09/cashier/R09_CASHIER_PROGRESS.md`, `evidence/R09/cashier/before/`, `evidence/R09/cashier/after/` and `evidence/R09/cashier/console/`.
+
+## Cashier Manual Drift Audit
+
+- Business behavior unchanged: YES. Payment JavaScript from the local jQuery boundary to EOF is byte-identical; radio names/values, FormData fields, POST route, response branches, HTML gateway injection and asynchronous redirect remain frozen.
+- Requirement drift: NO. Only the real-click cashier page was changed; orders and external gateways remain excluded without an independent parent edge.
+- Light visual gate: PASS. Warm orange, old visible branding, external return artwork and broken visible icons were replaced by the local Light Grid presentation and CSS fallback.
+- Android drift: NONE. No Android source, APK, signing, permission or host-policy file changed, so no APK rebuild was performed.
+- Browser review: PASS after an actual rejection/fix cycle. The first visible spacer defect was fixed and exact pixel dimensions were verified for all three PNGs.
+- Fixture cleanup: PASS after correcting a legacy-table export assumption; the cleanup script itself verifies zero remaining synthetic rows.
+- Documentation sync: PASS. The final manifest and continuity checks below cover the cashier v3 artifact, click graph and progress guard; R09 remains `IN_PROGRESS` only for asynchronous owner feedback.
 
 ## Member And Chat Manual Drift Audit
 

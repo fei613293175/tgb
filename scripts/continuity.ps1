@@ -202,12 +202,18 @@ function Assert-ClickGraphConsistency {
     $clicked = @($graph | Where-Object clicked -eq 'true')
     $pending = @($graph | Where-Object scope_effect -eq 'VISIBLE_ENTRY_PENDING_ISOLATED_CLICK')
     $hidden = @($graph | Where-Object scope_effect -in @('HIDDEN_OUT_OF_VISUAL_SCOPE', 'HIDDEN_PROTOCOL_ONLY'))
+    $alternate = @($graph | Where-Object scope_effect -eq 'ALTERNATE_ENTRY_CHILD_ALREADY_CLICK_PROVEN')
     $clickedChildren = @($clicked.child_page_id | Sort-Object -Unique)
+    $duplicateEdges = @($graph | Group-Object edge_id | Where-Object Count -ne 1)
+    if ($duplicateEdges.Count -gt 0) {
+        throw "点击图存在重复 edge_id：$($duplicateEdges.Name -join ', ')"
+    }
     $expected = [ordered]@{
         click_graph_edges = $graph.Count
         click_graph_clicked_edges = $clicked.Count
         click_graph_pending_isolated_edges = $pending.Count
         click_graph_hidden_or_absent_edges = $hidden.Count
+        click_graph_alternate_unreplayed_edges = $alternate.Count
         click_proven_page_count = $clickedChildren.Count
     }
     foreach ($item in $expected.GetEnumerator()) {
@@ -243,11 +249,35 @@ function Assert-ClickGraphConsistency {
     }
 }
 
+function Assert-ProgressGuard {
+    $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
+    $nextText = Get-Content -LiteralPath (Join-Path $root 'NEXT_TASK.yaml') -Raw -Encoding UTF8
+    $interval = [int](Get-YamlScalar -Text $statusText -Name 'self_check_interval_minutes')
+    $nextInterval = [int](Get-YamlScalar -Text $nextText -Name 'interval_minutes')
+    if ($interval -ne 30 -or $nextInterval -ne $interval) {
+        throw "进展自查间隔漂移：CURRENT=$interval NEXT=$nextInterval"
+    }
+    if ((Get-YamlScalar -Text $statusText -Name 'current_loop_state') -ne 'ADVANCING' -or
+        (Get-YamlScalar -Text $nextText -Name 'current_state') -ne 'ADVANCING') {
+        throw '进展自查状态不是 ADVANCING；先执行 next_concrete_output，禁止重复分析。'
+    }
+    foreach ($field in @('last_material_progress', 'next_concrete_output')) {
+        if ([string]::IsNullOrWhiteSpace((Get-YamlScalar -Text $statusText -Name $field))) {
+            throw "CURRENT_STATUS.progress_guard 缺少 $field"
+        }
+    }
+    if ([string]::IsNullOrWhiteSpace((Get-YamlScalar -Text $nextText -Name 'last_material_output'))) {
+        throw 'NEXT_TASK.self_correction 缺少 last_material_output'
+    }
+}
+
 function Assert-ArtifactHashes {
     $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
     $artifacts = @(
         @('handoff_apk', 'server_release_apk_sha256', 'server_release_apk_bytes'),
-        @('r05_v5_overlay_archive', 'r05_v5_overlay_archive_sha256', $null)
+        @('r05_v5_overlay_archive', 'r05_v5_overlay_archive_sha256', $null),
+        @('r09_member_chat_archive', 'r09_member_chat_archive_sha256', $null),
+        @('r09_cashier_archive', 'r09_cashier_archive_sha256', $null)
     )
     foreach ($artifact in $artifacts) {
         $relative = Get-YamlScalar -Text $statusText -Name $artifact[0]
@@ -294,6 +324,7 @@ function Show-Resume {
     Assert-StateConsistency
     Assert-ReadFirstFiles
     Assert-ClickGraphConsistency
+    Assert-ProgressGuard
     Assert-ArtifactHashes
     Write-Host ''
     Write-Host '当前状态' -ForegroundColor Cyan
@@ -310,6 +341,7 @@ function Test-Drift {
     Assert-StateConsistency
     Assert-ReadFirstFiles
     Assert-ClickGraphConsistency
+    Assert-ProgressGuard
     Assert-ArtifactHashes
     $statusText = Get-Content -LiteralPath (Join-Path $root 'CURRENT_STATUS.yaml') -Raw -Encoding UTF8
     $gateText = Get-Content -LiteralPath (Join-Path $root '06_HARD_GATES.md') -Raw -Encoding UTF8
@@ -331,6 +363,7 @@ function Test-Drift {
         'apk_floor' = $statusText.Contains('10485760')
         'hard_gate_brand' = $gateText.Contains('推广宝')
         'hard_gate_drift' = $gateText.Contains('关版漂移审计')
+        'hard_gate_progress_guard' = $gateText.Contains('定时实质进展与防循环')
         'ledger_present' = $ledger.Count -gt 0
         'page_map_coverage' = $mappingEqual -and ($mapDuplicates.Count -eq 0)
         'side_effect_plan_present' = Test-Path -LiteralPath (Join-Path $root '13_SIDE_EFFECT_TEST_PLAN.md') -PathType Leaf

@@ -182,7 +182,7 @@ evidence/
   `evidence/R05/reachability-correction/isolated-detail-click-audit.json`、
   `evidence/R05/reachability-correction/isolated-detail-report-entry-390x100.jpg`
 
-上述 JSON 不保存 UID、手机号、余额、收款账户、聊天对象、聊天正文或客服 token。当前点击图为 39 条边，其中 31 条已实点，3 条可见入口因 GET 副作用等待隔离重放，其余 5 条专门记录隐藏或不存在的功能不得进入视觉范围。
+上述 JSON 不保存 UID、手机号、余额、收款账户、聊天对象、聊天正文或客服 token。该段是 R05 当时的 39 边历史快照；R09 私信/成员去重并补入收银台后，当前点击图为 48 条边，其中 41 条已实点、2 条同页替代入口无需重复副作用重放、5 条专门记录隐藏或不存在的功能不得进入视觉范围。
 
 - R05 v5 范围纠偏部署、门禁和回滚位置：
   `evidence/R05/staging/R05_SCOPE_CORRECTION_V5.md`
@@ -199,7 +199,7 @@ v5 制品 `deliverables/r05-click-proven-overlay-v5.tar.gz` 共 12 个文件，S
 - R07 最终 7 页 x 3 视口矩阵：`evidence/R07/after/R07-V6-FINAL-BROWSER-MATRIX.json`
 - R07 21 张精确像素截图：`evidence/R07/after/matrix-v6-final/`
 
-R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文件，SHA-256 为 `7114c2eecf4151c709fdea3ea8e5e6fd0fa36cbb57a9b416ef71d21fb327dd6c`。订单、收银台和未获点击证明的页面不在覆盖包内。
+R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文件，SHA-256 为 `7114c2eecf4151c709fdea3ea8e5e6fd0fa36cbb57a9b416ef71d21fb327dd6c`。订单、收银台和未获点击证明的页面当时不在覆盖包内；R09 后续仅以独立会员购买父边补证收银台，订单仍排除。
 
 ## 13. R08-R09 最终视觉与生产发布
 
@@ -227,3 +227,14 @@ R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30
 - 生产部署：`20260727T142812+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-member-chat-backups/20260727T142812+0800`
 
 本批已由 Codex 在 Android H5 UA 下真实点击进入并逐页人工审核；`360x800`、`390x844`、`430x932` 均无横向溢出、遮挡或裁切。隔离头像端口限制已在几何 JSON 中单独注明。
+
+## 15. R09 收银台
+
+- 隔离真实点击、两文件实现、三视口审核、部署和清理结果：`evidence/R09/cashier/R09_CASHIER_PROGRESS.md`
+- 改前主视口：`evidence/R09/cashier/before/CASHIER-390x844.png`、`evidence/R09/cashier/before/CASHIER-390x844.json`
+- 改后三视口截图与几何：`evidence/R09/cashier/after/`
+- 控制台与本地资源审计：`evidence/R09/cashier/console/CASHIER-CONSOLE-390x844.json`
+- 仓库安全制品：`deliverables/r09-cashier-overlay-v3.tar.gz`，SHA-256 `1d8775866e2abec21ce18824a485d3deaf125106edbbc56ad5b4f19f26264dc7`；仅含本地 CSS 与哈希前置转换器，生成的生产模板 SHA-256 为 `83661a7871894331bdf6f6543f792c236e871f3267ac787291eaab80e70abe86`
+- 生产部署：`20260727T152930+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800`
+
+收银台由隔离环境中的“年度会员立即开通 -> 确认购买”真实点击链获得视觉范围。Codex 未选择支付方式、未点击立即支付，合成会员订单已清理且未产生 `tb_pay` 支付订单。本项 PASS 不扩展到订单列表页，也不替代 Android 真机支付拉起与返回验证。

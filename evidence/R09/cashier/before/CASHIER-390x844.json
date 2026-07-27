@@ -1,0 +1,23 @@
+{
+  "viewport": {
+    "h": 844,
+    "w": 390
+  },
+  "document": {
+    "clientWidth": 375,
+    "scrollHeight": 954,
+    "scrollWidth": 375
+  },
+  "body": {
+    "clientWidth": 375,
+    "scrollWidth": 375
+  },
+  "title": "收银台 · 签米",
+  "checks": {
+    "horizontalOverflow": false,
+    "legacyBrandVisible": true,
+    "legacyWarmPaletteVisible": true,
+    "externalBackIconVisible": false,
+    "forbiddenPaymentActionClicked": false
+  }
+}

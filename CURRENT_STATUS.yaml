@@ -10,6 +10,14 @@ business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
 
+progress_guard:
+  self_check_interval_minutes: 30
+  last_material_progress: R09_CASHIER_PRODUCTION_DEPLOYED_AND_FIXTURE_CLEANED
+  last_self_check: 2026-07-27T15:31:21+08:00
+  repeated_analysis_without_new_artifact_limit: 2
+  current_loop_state: ADVANCING
+  next_concrete_output: AUTHORITY_DOC_SYNC_MANIFEST_AND_DRIFT_AUDIT
+
 scope:
   h5_visual_redesign: true
   android_native_container: true
@@ -29,16 +37,17 @@ facts:
   page_source_map_rows: 64
   runtime_click_graph_file: 17_RUNTIME_CLICK_GRAPH.csv
   runtime_click_audit_file: 16_RUNTIME_CLICK_AUDIT.md
-  click_proven_page_count: 37
-  click_graph_edges: 47
-  click_graph_clicked_edges: 40
-  click_graph_pending_isolated_edges: 2
+  click_proven_page_count: 38
+  click_graph_edges: 48
+  click_graph_clicked_edges: 41
+  click_graph_pending_isolated_edges: 0
+  click_graph_alternate_unreplayed_edges: 2
   click_graph_hidden_or_absent_edges: 5
   database_identifier_stored_in_handoff: false
   credentials_stored_in_handoff: false
 
 staging:
-  status: R09_MEMBER_CHAT_V5_VISUAL_PASS_FIXTURES_OFF
+  status: R09_CASHIER_V2_VISUAL_PASS_PRODUCTION_DEPLOYED_FIXTURES_OFF
   owner_release: R09
   source_release: R08
   snapshot_id: 20260727T074523+0800
@@ -126,6 +135,23 @@ staging:
   r09_member_chat_production_smoke: CHAT_LIST_AND_TWO_CSS_HTTP_200_CDN_0
   r09_member_chat_fixture_cleanup: PASS
   staging_post_after_member_chat_cleanup: 405
+  r09_cashier_click_proof: MEMBERSHIP_VIP_CONFIRM_PURCHASE_TO_CASHIER_PASS
+  r09_cashier_overlay: r09-cashier-overlay
+  r09_cashier_overlay_files: 2
+  r09_cashier_archive: deliverables/r09-cashier-overlay-v3.tar.gz
+  r09_cashier_archive_sha256: 1d8775866e2abec21ce18824a485d3deaf125106edbbc56ad5b4f19f26264dc7
+  r09_cashier_repository_sensitive_template_stored: false
+  r09_cashier_reproducible_output_sha256: 83661a7871894331bdf6f6543f792c236e871f3267ac787291eaab80e70abe86
+  r09_cashier_static_protocol_gate: PASS
+  r09_cashier_visual_gate: PASS_360X800_390X844_430X932_EXACT_PIXELS
+  r09_cashier_staging_deploy_id: 20260727T152357+0800
+  r09_cashier_staging_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T152357+0800-r09-cashier
+  r09_cashier_production_deploy_id: 20260727T152930+0800
+  r09_cashier_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-cashier-backups/20260727T152930+0800
+  r09_cashier_production_smoke: TEMPLATE_AND_CSS_HASH_MATCH_CORE_PAYMENT_HASHES_UNCHANGED_CSS_HTTP_200
+  r09_cashier_fixture_cleanup: PASS_ONE_SYNTHETIC_MEMBER_ORDER_ZERO_PAYMENT_ORDERS
+  r09_cashier_fixture_history: /www/staging/tg-h5-ui-r08/private/r09-cashier-fixture-history/20260727T153121+0800
+  staging_post_after_cashier_cleanup: 405
 
 design:
   theme: Light Grid / 晴空电光
@@ -264,6 +290,10 @@ completed:
   - R09 Android-H5-UA scope closeout added real click proof for public auth search and anti-fraud pages
   - R09 member agreement help and about pages removed from visual scope and restored to exact pre-R09 production hashes
   - R09 reproducible v3 candidate excludes the three direct-URL pages and contains 78 files
+  - R09 membership VIP visible purchase chain click-proved the cashier without clicking any payment method or pay action
+  - R09 cashier two-file Light Grid overlay passed exact-pixel 360x800 390x844 and 430x932 Codex browser review
+  - R09 cashier production deployment 20260727T152930+0800 preserved all payment controller hashes and CSS returned HTTP 200
+  - R09 cashier fixture removed one synthetic member order zero payment orders all bridges and tunnel with staging POST 405 restored
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)

@@ -1,0 +1,124 @@
+{
+  "body": {
+    "clientWidth": 390,
+    "scrollWidth": 390
+  },
+  "checks": {
+    "horizontalOverflow": false,
+    "paymentActionClicked": false,
+    "visibleLegacyBrand": false,
+    "visibleLegacySpacer": false
+  },
+  "document": {
+    "clientWidth": 390,
+    "scrollHeight": 844,
+    "scrollWidth": 390
+  },
+  "footer": {
+    "bottom": 844,
+    "height": 72,
+    "left": 0,
+    "right": 390.4,
+    "top": 772,
+    "width": 390.4
+  },
+  "header": {
+    "bottom": 52,
+    "height": 52,
+    "left": 0,
+    "right": 390.4,
+    "top": 0,
+    "width": 390.4
+  },
+  "main": {
+    "bottom": 616.9,
+    "height": 552.9,
+    "left": 12,
+    "right": 378.4,
+    "top": 64,
+    "width": 366.4
+  },
+  "outsideViewport": [],
+  "payButton": {
+    "bottom": 830.8,
+    "height": 48,
+    "left": 12,
+    "right": 378.4,
+    "top": 782.8,
+    "width": 366.4
+  },
+  "paymentRows": [
+    {
+      "bottom": 286.5,
+      "height": 72,
+      "left": 12.8,
+      "right": 377.6,
+      "top": 214.5,
+      "width": 364.8
+    },
+    {
+      "bottom": 376.1,
+      "height": 89.6,
+      "left": 12.8,
+      "right": 377.6,
+      "top": 286.5,
+      "width": 364.8
+    },
+    {
+      "bottom": 448.1,
+      "height": 72,
+      "left": 12.8,
+      "right": 377.6,
+      "top": 376.1,
+      "width": 364.8
+    },
+    {
+      "bottom": 520.1,
+      "height": 72,
+      "left": 12.8,
+      "right": 377.6,
+      "top": 448.1,
+      "width": 364.8
+    }
+  ],
+  "radioTargets": [
+    {
+      "bottom": 272.1,
+      "height": 44,
+      "left": 319.6,
+      "right": 363.6,
+      "top": 228.1,
+      "width": 44
+    },
+    {
+      "bottom": 352.9,
+      "height": 44,
+      "left": 319.6,
+      "right": 363.6,
+      "top": 308.9,
+      "width": 44
+    },
+    {
+      "bottom": 433.7,
+      "height": 44,
+      "left": 319.6,
+      "right": 363.6,
+      "top": 389.7,
+      "width": 44
+    },
+    {
+      "bottom": 506.1,
+      "height": 44,
+      "left": 319.6,
+      "right": 363.6,
+      "top": 462.1,
+      "width": 44
+    }
+  ],
+  "title": "推广宝收银台",
+  "viewport": {
+    "height": 844,
+    "width": 390
+  },
+  "visibleExternalImages": []
+}

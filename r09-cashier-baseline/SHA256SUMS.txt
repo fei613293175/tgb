@@ -1,0 +1,4 @@
+ccae4d5f80d1c8f7ff71803c99ddd01644a76601c4c588acededdd78cd65fc82  source/plugin/tb_pay/template/touch/main.htm
+7754c28fbe2d251b5ab305f3c65fc05ddff4fbad7f34f84e01db13024d9fea64  source/plugin/tb_pay/tb_pay.inc.php
+835aff76bc6c85af3fce71683cfce8f488464b06fa903b8db00f4364db4257af  source/plugin/tb_pay/module/main.php
+d0b19011633ef1a7619c7daf2eba5ef01db1b3b2839a7394b3a338e7aa7e7d4e  source/plugin/tb_pay/module/pay.php

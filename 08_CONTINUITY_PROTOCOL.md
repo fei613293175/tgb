@@ -91,6 +91,13 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 子线程完成后，主线程必须重新读取当前工作树、复核 diff、运行门禁并决定是否合入；子线程自报 PASS 不等于版本 PASS。
 - 遇到文件所有权重叠、共享依赖或运行时事实冲突时，将相关文件交回主线程，不允许两个子线程继续竞争修改。
 
+## 5.2 定时自查与防循环
+
+- 活跃任务每 30 分钟和每个阶段边界读取 `progress_guard` / `self_correction`，只用新增制品、测试结果、部署、清理或已解决事实判断是否推进。
+- 每次自查更新“上一项实质产出”和“下一项具体输出”；下一动作必须是可执行命令、补丁、浏览器验收、部署或文档关账之一，不能只写“继续分析”。
+- 连续两次没有新产出时，立即切换方法或并行处理互斥任务；异步真机反馈保留在门禁但不得等待。只有确需新增授权且没有其他可推进项时才向负责人提问。
+- 接管者发现 `current_loop_state` 不是 `ADVANCING` 时，先执行 `next_concrete_output`，不得从头重做需求分析。
+
 ## 6. 大版本关版
 
 使用 `VERSION_CLOSEOUT_TEMPLATE.md` 建立：
