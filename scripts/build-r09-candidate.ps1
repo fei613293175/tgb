@@ -1,6 +1,6 @@
 param(
     [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '.runtime/r09-production-candidate'),
-    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v1.tar.gz')
+    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v2.tar.gz')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -20,7 +20,8 @@ $layers = @(
     'r05-site-overlay-v5',
     'r06-site-overlay',
     'r07-site-overlay',
-    'r08-site-overlay'
+    'r08-site-overlay',
+    'r09-brand-overlay'
 )
 
 if (Test-Path -LiteralPath $OutputRoot) {
@@ -55,7 +56,7 @@ $manifest = Get-ChildItem -LiteralPath $OutputRoot -Recurse -File | ForEach-Obje
 $manifest = $manifest | Sort-Object
 New-Item -ItemType Directory -Path $reportRoot -Force | Out-Null
 [IO.File]::WriteAllText((Join-Path $reportRoot 'R09_FILES_SHA256.txt'), (($manifest -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
-$overrideLines = @('path`tprevious_layer`twinning_layer') + $overrides
+$overrideLines = @("path`tprevious_layer`twinning_layer") + $overrides
 [IO.File]::WriteAllText((Join-Path $reportRoot 'R09_LAYER_OVERRIDES.tsv'), (($overrideLines -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
 
 if (Test-Path -LiteralPath $ArchivePath) { Remove-Item -LiteralPath $ArchivePath -Force }

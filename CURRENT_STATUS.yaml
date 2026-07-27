@@ -5,7 +5,7 @@ snapshot_date: 2026-07-27
 current_release: R09
 release_status: IN_PROGRESS
 active_task_id: TASK-R09-001
-active_mode: GLOBAL_CLOSEOUT
+active_mode: ASYNC_OWNER_FEEDBACK_AND_FAST_FIX
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
@@ -38,9 +38,9 @@ facts:
   credentials_stored_in_handoff: false
 
 staging:
-  status: R08_ACTIVE
-  owner_release: R08
-  source_release: R07
+  status: R09_CANDIDATE_ACTIVE
+  owner_release: R09
+  source_release: R08
   snapshot_id: 20260727T074523+0800
   site_root: /www/staging/tg-h5-ui-r08/site
   private_evidence_root: /www/staging/tg-h5-ui-r08/private
@@ -51,8 +51,8 @@ staging:
     - HEAD
   post_status: 405
   final_get_status: 200
-  production_code_unchanged: true
-  production_stable_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
+  production_code_matches_r09_candidate: true
+  production_predeploy_manifest_sha256: 91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984
   source_r04_deploy_id: 20260726T233007+0800
   source_r04_overlay_archive_sha256: bedb3ae60d63de7a7410a2952c459d47d4df96b6532df8ee6da86e9f7eb8cbc2
   r05_artifact_manifest_sha256: 573ac4a1fa467ef595704b062805c299c6ee28a3c0da32456721dc72266525d7
@@ -92,14 +92,18 @@ staging:
   r08_overlay_archive_sha256: 3d62e35884e920dd9d168c262beb99e4eb134711e0a25bc65ce7fef903659060
   r08_deploy_id: 20260727T080940+0800
   r08_backup_dir: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T080940+0800-click-proven-v1
-  r08_browser_matrix: 5_PAGES_X_3_VIEWPORTS_PASS
-  r09_candidate_archive: deliverables/r09-production-candidate-v1.tar.gz
-  r09_candidate_archive_sha256: f176d0c2279f361182bac932db98631f200ed8e176a4b2b45ffdb431e017f998
+  r08_browser_matrix: INVALIDATED_LOGIN_CAPTURE_SUPERSEDED_BY_R09_390X844_PASS
+  r09_candidate_archive: deliverables/r09-production-candidate-v2.tar.gz
+  r09_candidate_archive_sha256: 108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e
   r09_candidate_site_files: 81
-  r09_expected_layer_overrides: 4
+  r09_expected_layer_overrides: 12
   r09_candidate_matches_r08_staging: true
   r09_production_verify_only: PASS
-  r09_production_deployed: false
+  r09_quick_browser_regression: 29_ROUTES_AT_390X844_PASS_CONTENT_DETAIL_INHERITED_UNCHANGED
+  r09_production_deployed: true
+  r09_production_deploy_id: 20260727T090142+0800
+  r09_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T090142+0800
+  r09_online_smoke: 5_PAGES_HTTP_200_CDN_0_OLD_BRAND_0
   browser_origin_bridge: OFF
   reachability_reaudit: COMPLETE_PER_RELEASE_SCOPE
 
@@ -215,18 +219,19 @@ completed:
   - R07 refresh package mapping corrected to the real sxtc page plus its visible refresh popup
   - R07 temporary certification fixture and all browser bridges removed with POST 405 restored
   - R07 development closeout with production stable-code hash unchanged
-  - R08 five click-proven growth reward and App landing pages passed the final v2 three-viewport matrix
+  - R08 five click-proven growth reward and App landing pages completed; expired-session final captures were invalidated and replaced by the R09 authenticated main-viewport pass
   - R08 forms links routes template flow and business scripts remained unchanged with public UI CDN count zero
-  - R08 exact-pixel screenshots passed with zero horizontal overflow and production stable-code hash unchanged
+  - R08 static protocol and local-resource gates passed with production stable-code hash unchanged before R09 deployment
   - chat detail and member detail preserved only as visible-entry candidates pending isolated replay
+  - R09 v2 production candidate assembled from 81 real-scope visual files with 12 expected layer overrides
+  - R09 single-pass 390x844 regression completed with no overflow login redirect public UI CDN or old visible branding
+  - R09 production deployment 20260727T090142+0800 completed with file-hash verification backup and five-page online smoke PASS
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 R09 global closeout and production release preparation
+  - H5 R09 asynchronous owner feedback and any targeted visual defect repair
   - controlled-write fixtures for each high-risk page family
-  - production deployment
   - R02 Android WebView safe-area device screenshot (asynchronous cumulative release gate)
-  - R09 final all-page browser regression and production deployment
 
 blockers:
   - id: B-R06-CHAT-01
@@ -234,7 +239,7 @@ blockers:
     affects: chat-detail inclusion only; other click-proven R06 pages continue in parallel
   - id: B-R01-01
     description: payment allowlist requires a sanitized real checkout redirect sample or approved sandbox sample
-    affects: cumulative external payment end-to-end release gate before R09 production release
+    affects: asynchronous external payment end-to-end owner verification and any targeted Android repair
   - id: B-LEGAL-01
     description: legacy MKT legal wording requires owner or legal decision before replacement
     affects: future legal copy replacement and production review only; R03 visual closeout is complete

@@ -200,3 +200,13 @@ v5 制品 `deliverables/r05-click-proven-overlay-v5.tar.gz` 共 12 个文件，S
 - R07 21 张精确像素截图：`evidence/R07/after/matrix-v6-final/`
 
 R07 最终制品 `deliverables/r07-click-proven-overlay-v6.tar.gz` 共 12 个文件，SHA-256 为 `7114c2eecf4151c709fdea3ea8e5e6fd0fa36cbb57a9b416ef71d21fb327dd6c`。订单、收银台和未获点击证明的页面不在覆盖包内。
+
+## 13. R08-R09 最终视觉与生产发布
+
+- R08 旧 `R08-V2-FINAL-BROWSER-MATRIX.json` 因会话过期实际截到登录页，保留为无效历史证据，不得再用于关版。
+- R09 真实认证单次主视口回归：`evidence/R09/R09_QUICK_BROWSER_REGRESSION.md`
+- R09 81 文件候选清单：`evidence/R09/preflight/R09_FILES_SHA256.txt`
+- R09 预期覆盖关系：`evidence/R09/preflight/R09_LAYER_OVERRIDES.tsv`
+- R09 上线结果和回滚位置：`version-results/R09_RESULT.md`
+
+R09 候选 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`，生产部署 ID 为 `20260727T090142+0800`。后续普通 UI 返修按 D-035 只验证受影响页面，不再生成重复全量截图矩阵。

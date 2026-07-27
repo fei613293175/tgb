@@ -3,14 +3,14 @@ project_id: TG-H5-UI-REDESIGN
 task_id: TASK-R09-001
 release: R09
 status: IN_PROGRESS
-title: 全站最终复核并准备生产发布
+title: R09 线上异步反馈与快速返修
 
 read_first:
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
-  - version-results/R08_RESULT.md
-  - evidence/R08/after/R08-V2-FINAL-BROWSER-MATRIX.json
+  - version-results/R09_RESULT.md
+  - evidence/R09/R09_QUICK_BROWSER_REGRESSION.md
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -18,10 +18,10 @@ read_first:
   - LESSONS_LEARNED.md
 
 scope:
-  - run one final regression over all completed real-reachable page families
-  - confirm R09 residual plugins remain out of visual scope because they have no visible parent entry
-  - verify local assets light UI branding business equivalence rollback and production package readiness
-  - resolve only defects found on already in-scope pages
+  - accept owner screenshots and device feedback asynchronously
+  - resolve only defects found on already in-scope real-reachable pages
+  - use the three-gate fast path: real entry, unchanged business protocol, verified rollback
+  - keep all hidden routes and dormant plugins out of visual scope
 
 out_of_scope_plugins:
   - xigua_hs
@@ -31,10 +31,10 @@ out_of_scope_plugins:
   - tb_cus_taojing
 
 actions:
-  - assemble the closed R02 through R08 overlays into one production candidate
-  - run global static and mobile viewport regression once
-  - verify Android container compatibility without rebuilding the APK when native source is unchanged
-  - prepare production backup deployment and rollback scripts
+  - identify the exact visible page and source template from each owner report
+  - edit the affected template or CSS directly without creating unrelated versions
+  - run the affected page at 390x844 plus static protocol and rollback checks
+  - rebuild the APK only when Android native source or packaged resources change
   - keep owner device upload payment and safe-area feedback asynchronous
 
 progress:
@@ -43,22 +43,25 @@ progress:
   candidate_matches_r08_staging: true
   static_release_gates_r02_through_r08: PASS
   production_script_verify_only: PASS
-  production_deployed: false
+  quick_browser_regression_390x844: PASS
+  production_deployed: true
+  production_deploy_id: 20260727T090142+0800
+  online_smoke: PASS
 
 next_action:
-  - run the final read-only browser regression across the completed real-reachable page set
-  - apply the production candidate only after the global regression and rollback preflight pass
+  - wait only for concrete owner feedback while keeping the task resumable
+  - when feedback arrives fix and verify only the affected real-reachable page family
 
 forbidden:
   - do not redesign source-only hidden or direct-URL pages
   - do not change business scripts forms routes values balances claims or payment protocols
   - do not restore GitHub Actions automatic triggers
-  - do not deploy production until the complete production candidate and rollback verification pass
+  - do not deploy a repair until its affected-page check and rollback verification pass
 
 acceptance:
   - every visual file belongs to a real-reachable page already approved in R02 through R08
   - no hidden page or dormant plugin is added to the production candidate
-  - global mobile matrix has no horizontal overflow overlap clipped controls or dark page background
+  - affected-page 390x844 regression has no horizontal overflow overlap clipped controls or dark page background
   - public UI CDN count is zero for redesigned pages
   - production candidate is reproducible and has a verified rollback package
-  - R09 result status decisions lessons and manifest are synchronized
+  - each repair updates R09 result status decisions lessons and manifest once

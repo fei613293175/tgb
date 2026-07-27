@@ -20,11 +20,9 @@
 
 - Static allowlist and protocol gate: PASS
 - Forms, links, routes, values, template flow and business scripts: unchanged
-- Android viewports: 5 pages x 360x800, 390x844 and 430x932 = 15 PASS
-- Screenshot pixels: all 15 exact
-- Horizontal overflow: 0
-- Public Tailwind/UI CDN requests: 0
-- Visible 推广宝 branding: 15/15
+- Original final matrix: `INVALIDATED` because it captured the login page after the session expired.
+- Replacement runtime evidence: R09 authenticated `390x844` quick regression, all five R08 routes reached their real pages with no overflow, public UI CDN or old visible brand.
+- Static protocol, business-script and local-resource gates: PASS
 - Staging POST guard: 405
 - Production stable-code SHA-256: `91a57ef67b34b9f650becc9413b03288f48b46f1e9452bc779cf03944ec38984`
 - Browser session and local SSH tunnel: OFF
@@ -36,5 +34,5 @@
 
 ## Evidence
 
-- `evidence/R08/after/R08-V2-FINAL-BROWSER-MATRIX.json`
-- `evidence/R08/after/matrix-v1/`
+- Invalid historical capture retained only for audit: `evidence/R08/after/R08-V2-FINAL-BROWSER-MATRIX.json`
+- Valid replacement: `evidence/R09/R09_QUICK_BROWSER_REGRESSION.md`
