@@ -29,7 +29,7 @@ class TgbWebViewClient(
         return router.route(
             uri = Uri.parse(url),
             currentPage = view.url?.let(Uri::parse),
-            hasUserGesture = true
+            hasUserGesture = false
         )
     }
 

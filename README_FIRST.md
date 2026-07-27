@@ -60,11 +60,12 @@ powershell -ExecutionPolicy Bypass -File .\scripts\continuity.ps1 -Mode resume
 - 收银台已由“我的 -> 开通会员 -> 确认购买”真实点击链证明可达，完成两文件浅色换肤、三档精确像素实拍和生产部署 `20260727T152930+0800`；订单中心没有可见父入口，仍在视觉范围外。
 - 当前唯一任务：全局漂移关账、线上轻量冒烟和异步问题快速返修；`xigua_hs`、`xigua_sp`、`tb_jjd`、广告、淘金等没有真实前端入口的插件继续保持视觉范围外，不再开发隐藏页面。
 - 后续普通 UI 返修固定采用三门禁快速通道：真实入口、业务协议不变、可回滚。默认只跑 `390x844` 主视口和受影响页面，不再重复全量三视口截图。
-- 负责人反馈旧 R01 App 的原生 WindowInsets 使所有 H5 顶栏出现双空白；R09 已按 D-037 改为 WebView edge-to-edge、原生零 inset padding，并在服务器生成新签名 APK `C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk`，等待负责人异步真机核验。GitHub Actions 自动测试仍停用。
-- H5 体验只能使用 Android mobile UA，并追加 `TuiGuangBaoAndroid/1.0.0`；桌面 UA 不得用于范围、点击或视觉结论。R09 已补登录链、搜索和防诈骗真实点击证据，并将无父入口的会员协议、帮助、关于恢复为上线前文件；最终非 Android 视觉集合为 39 条（38 个业务 H5 页面加 1 个桌面兼容入口），39/39 `REDESIGNED_VERIFIED`。当前可重现候选为 78 文件 v5，SHA-256 `c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734`。
+- 负责人反馈旧 R01 App 的原生 WindowInsets 使所有 H5 顶栏出现双空白；R09 已按 D-037 改为 WebView edge-to-edge、原生零 inset padding，并将第三方 HTTPS、`intent:` 和可浏览 App scheme 的外跳修复纳入最新服务器签名 APK `C:\Users\小白\Desktop\推广宝-1.0.0-R09-页面返修与外链修复.apk`。GitHub Actions 自动测试仍停用，负责人异步真机核验仍待完成。
+- H5 体验只能使用 Android mobile UA，并追加 `TuiGuangBaoAndroid/1.0.0`；桌面 UA 不得用于范围、点击或视觉结论。负责人 2026-07-27 真机截图否决历史证据后，14 个受影响真实点击页面已用最新 79 文件候选重新完成 `390x844` 浏览器核验；首页头条另有三视口几何证据。续接必须先读 `evidence/R09/owner-device-repair/R09_OWNER_DEVICE_REPAIR_FINAL_VERIFY.md`，不得退回被否决的旧截图。
 - 按 D-036，Codex 不得在本机安装 Android/ADB/模拟器环境，也不得安装或测试 APK；只负责原生源码开发、必要时服务器签名构建并把 APK 放到桌面，真机测试由负责人完成。
 - 安全续点：当前工作树不再保存生产数据库标识，收银台部署脚本改为运行时 `EXPECTED_PRODUCTION_DB`；Git 历史仍有 1 个旧提交包含该标识。由于该值可能同时是数据库口令，项目最终安全验收前必须由负责人轮换口令并明确授权或自行完成历史清理，普通后续提交不能消除历史暴露。
-- 最终完成口径：R09 H5 开发已 PASS，但整个项目仍为 `IN_PROGRESS`。必须运行 `scripts/test-final-project-readiness.ps1`；负责人六项真机矩阵或数据库安全整改任一未完成时，该脚本按设计返回非零，禁止最终标签和完成声明。
+- 最终完成口径：R09 H5返修、生产部署、Android源码构建和桌面APK交付已经完成，整个项目仍保持 `IN_PROGRESS`。`scripts/test-final-project-readiness.ps1` 只有在负责人六项真机矩阵和数据库凭据轮换/Git历史整改全部有证据通过后才允许最终PASS、正式标签和Goal关闭。
+- 当前续点：79文件H5候选 SHA-256 `9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15` 已生产部署 `20260727T233853+0800`，精确哈希与在线smoke PASS；服务器构建 `20260727T235000+0800` 生成APK SHA-256 `5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027`，仓库和桌面一致。下一步仅为清单/提交检查点、负责人异步真机证据和数据库安全外部动作；不得安装或启动APK。
 - 上述限制不适用于 H5：每个修改页面必须由 Codex 在浏览器中实际打开体验，逐页检查几何，并通过代表页截图比对变形、错位、溢出和遮挡。
 - 长任务每 30 分钟及每个阶段边界必须执行进展自查；连续两次自查没有新增制品、验证结果、部署或已解决事实时，必须更换方法并执行下一项具体动作，禁止重复阅读和无限分析冒充进展。
 - 本交接包不保存任何站点账号、数据库密码、验证码、Cookie、formhash、真实 UID、真实金额或身份资料。

@@ -68,6 +68,28 @@ foreach ($entry in $evidenceMap) {
     Assert-True ($entry.status -eq 'PASS') "visual evidence map item is not PASS: $($entry.page_id)"
     Assert-True (Test-Path -LiteralPath (Resolve-RepoPath $entry.primary_evidence) -PathType Leaf) "visual evidence file missing: $($entry.page_id) -> $($entry.primary_evidence)"
 }
+$ownerRepairEvidence = 'evidence/R09/owner-device-repair/R09_OWNER_DEVICE_REPAIR_FINAL_VERIFY.md'
+$ownerRejectedPages = @(
+    'AUTH-HOME',
+    'CONTENT-DETAIL',
+    'CONTENT-PUBLISH',
+    'CONTENT-MY-PUBLICATIONS',
+    'CONTENT-REVIEW',
+    'ACCOUNT-MY',
+    'ACCOUNT-CERTIFICATION',
+    'FINANCE-WALLET',
+    'FINANCE-SIGN-WITHDRAW',
+    'CONTENT-REFRESH-PACK',
+    'PROMOTION-HEADLINE',
+    'PROMOTION-SUPER-HEADLINE',
+    'REWARD-SIGNIN',
+    'REWARD-MATCH-DIVIDEND'
+)
+foreach ($pageId in $ownerRejectedPages) {
+    $entry = @($evidenceMap | Where-Object page_id -eq $pageId)
+    Assert-True ($entry.Count -eq 1) "owner-rejected page is absent or duplicated in evidence map: $pageId"
+    Assert-True ($entry[0].primary_evidence -eq $ownerRepairEvidence) "owner-rejected page still points to superseded evidence: $pageId"
+}
 $notVerified = @($nonAndroidInScope | Where-Object { $_.evidence_status -ne 'REDESIGNED_VERIFIED' })
 Assert-True ($notVerified.Count -eq 0) "non-Android IN_SCOPE entries not REDESIGNED_VERIFIED: $($notVerified.page_id -join ', ')"
 

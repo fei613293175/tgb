@@ -102,7 +102,7 @@ App 名、H5 页面标题、登录/注册、桌面引导、启动页、图标、
 
 ### G17 第三方 App 拉起（MUST）
 
-只允许白名单 scheme/intent（包括支付宝实际支付链路）。解析失败时回退到安全 H5 或明确错误；禁止任意 scheme、`javascript:` 外跳和忽略 SSL 错误。必须验证 App→支付宝→App/H5 返回与订单状态刷新。
+负责人最新要求是 App 不得按域名白名单拦截合法第三方 HTTPS 或可浏览的第三方 App 链接。HTTPS 留在主 WebView；第三方 scheme 使用 `ACTION_VIEW + CATEGORY_BROWSABLE` 交给系统。`intent:` 必须清除 component、selector、flags、extras 和 clipData 后再拉起。继续禁止 `javascript:`、`file:`、`data:`、`content:`、`about:`、`blob:`、HTTP 降级和忽略 SSL 错误。必须由负责人验证 App→支付宝→App/H5 返回与订单状态刷新。
 
 ### G18 状态栏不重叠（MUST）
 
@@ -207,3 +207,9 @@ WebView 必须 edge-to-edge 铺到系统栏后方，原生根容器和 WebView �
 - 负责人真机矩阵必须逐项为 PASS 且引用仓库内脱敏 JSON 证据；JSON 必须绑定当前 APK SHA-256、设备/Android 版本、PASS 步骤和至少一个附件，矩阵、JSON 与附件均校验 SHA-256。安装启动、安全区、相册真实上传、支付宝拉起/返回、可信下载和离线重试不得用服务器构建、浏览器截图或源码检查替代。
 - 数据库凭据轮换必须有不含新凭据的证据文件；历史暴露提交不得再被任何本地或远端分支引用。仅从 HEAD 删除字符串不等于历史风险清零。
 - 任一项未满足时脚本必须返回非零，`release_status` 保持 `IN_PROGRESS`，不得打最终标签或声明整个项目完成；不受影响的定向返修仍继续。
+
+### G33 真机否决后的证据换绑（MUST）
+
+- 负责人真机截图或反馈否决某页后，该 page ID 的旧视觉证据立即失效，即使文件仍存在也不得继续作为全局 PASS 主证据。
+- 恢复页面 PASS 必须同时具备改后浏览器核验、业务协议门禁、清理或回滚证据，并把全局证据映射换绑到本轮最终证据。
+- 全局收尾脚本必须对被否决 page ID 集合逐项验证新证据路径；只验证总行数、台账状态或文件存在属于门禁缺口，必须非零失败。

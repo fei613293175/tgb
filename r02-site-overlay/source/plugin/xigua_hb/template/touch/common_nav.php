@@ -238,8 +238,8 @@ background:#fff;" class="headerlable"><i class="icon icon-search"></i><input sty
         backdrop-filter: blur(18px);
             -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(200, 200, 210, 0.25);
-        height:60px!important;
-        margin-bottom:50px;">
+        height:calc(60px + env(safe-area-inset-top, 0px))!important;
+        margin-bottom:0;">
     <span style="color:#000;">
     <a class="z f14" style="color:#000;font-weight:500;margin-top:0px;" href="$back_to"><i class="iconfont icon-fanhuijiantou w15" style="color:#000;font-weight:650;"></i><!--{if !$hidebackfont}-->{lang xigua_hb:back}<!--{/if}--></a>
     <!--{if $need_side}--><a class="y sidectrl view_ctrl" style="color:#000;font-weight:650;"><i class="iconfont icon-gengduo1 f22" style="color:#000;"></i></a><!--{/if}-->
@@ -247,7 +247,6 @@ background:#fff;" class="headerlable"><i class="icon icon-search"></i><input sty
     <!--{if !$hidenav}--><div class="navtitle" style="font-weight:600;font-size:20px;margin-top:10px;color:#000;">{echo $anavtitle ? $anavtitle: $navtitle}</div><!--{/if}-->
     </span>
 </header>
-<div style="height:30px;"></div>
 <!--{/if}-->
 
 

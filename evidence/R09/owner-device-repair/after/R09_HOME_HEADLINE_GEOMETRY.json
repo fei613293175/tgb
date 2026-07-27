@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-07-27T20:34:00+08:00",
+  "ua": "TuiGuangBaoAndroid/1.0.0 Android",
+  "fixture": "isolated staging only; removed after capture",
+  "result": "PASS",
+  "rules": {
+    "sameHorizontalGeometryAsOrdinaryCard": true,
+    "sameBorderRadiusAsOrdinaryCard": true,
+    "headlineUsesDistinctLightVioletAccent": true,
+    "visibleLegacyOrangeElementCount": 0,
+    "consoleWarningOrErrorCount": 0
+  },
+  "viewports": [
+    {
+      "requested": "360x800",
+      "contentWidth": 350,
+      "scrollWidth": 350,
+      "headline": { "x": 16, "width": 317.6000061035156, "right": 333.6000061035156, "borderRadius": "8px", "borderColor": "rgba(118, 87, 255, 0.32)" },
+      "ordinary": { "x": 16, "width": 317.6000061035156, "right": 333.6000061035156, "borderRadius": "8px", "borderColor": "rgb(216, 225, 236)" },
+      "screenshot": "evidence/R09/owner-device-repair/after/home-headline-360x800-v4.png"
+    },
+    {
+      "requested": "390x844",
+      "contentWidth": 380,
+      "scrollWidth": 380,
+      "headline": { "x": 16, "width": 348, "right": 364, "borderRadius": "8px", "borderColor": "rgba(118, 87, 255, 0.32)" },
+      "ordinary": { "x": 16, "width": 348, "right": 364, "borderRadius": "8px", "borderColor": "rgb(216, 225, 236)" },
+      "screenshot": "evidence/R09/owner-device-repair/after/home-headline-390x844-v4.png"
+    },
+    {
+      "requested": "430x932",
+      "contentWidth": 420,
+      "scrollWidth": 420,
+      "headline": { "x": 16, "width": 388, "right": 404, "borderRadius": "8px", "borderColor": "rgba(118, 87, 255, 0.32)" },
+      "ordinary": { "x": 16, "width": 388, "right": 404, "borderRadius": "8px", "borderColor": "rgb(216, 225, 236)" },
+      "screenshot": "evidence/R09/owner-device-repair/after/home-headline-430x932-v4.png"
+    }
+  ]
+}

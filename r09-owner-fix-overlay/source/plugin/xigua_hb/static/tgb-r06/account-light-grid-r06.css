@@ -1,0 +1,987 @@
+/* Light Grid R06 batch A: account, settings and address surfaces. */
+:root {
+  color-scheme: light;
+  --tg-r06-bg: #f4f7fb;
+  --tg-r06-surface: #ffffff;
+  --tg-r06-soft: #edf3fa;
+  --tg-r06-ink: #0e1b2a;
+  --tg-r06-text: #405166;
+  --tg-r06-muted: #718096;
+  --tg-r06-border: #d8e1ec;
+  --tg-r06-primary: #2764ff;
+  --tg-r06-primary-pressed: #1847cc;
+  --tg-r06-mint: #168f84;
+  --tg-r06-violet: #6748d9;
+  --tg-r06-danger: #c93755;
+  --tg-r06-shadow: 0 8px 24px rgba(12, 27, 51, 0.08);
+}
+
+.tgb-r06-account-page,
+.tgb-r06-settings-page {
+  min-width: 0 !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+  background: var(--tg-r06-bg) !important;
+  background-image: none !important;
+  color: var(--tg-r06-text) !important;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0 !important;
+}
+
+.tgb-r06-account-page *,
+.tgb-r06-account-page *::before,
+.tgb-r06-account-page *::after,
+.tgb-r06-settings-page *,
+.tgb-r06-settings-page *::before,
+.tgb-r06-settings-page *::after,
+.tgb-r06-address-page *,
+.tgb-r06-address-page *::before,
+.tgb-r06-address-page *::after,
+.tgb-r06-address-modal *,
+.tgb-r06-address-modal *::before,
+.tgb-r06-address-modal *::after {
+  box-sizing: border-box;
+  letter-spacing: 0 !important;
+}
+
+.tgb-r06-account-page a,
+.tgb-r06-account-page button,
+.tgb-r06-settings-page a,
+.tgb-r06-settings-page button,
+.tgb-r06-address-page a,
+.tgb-r06-address-page button,
+.tgb-r06-address-modal a,
+.tgb-r06-address-modal button,
+.tgb-r06-address-modal input,
+.tgb-r06-address-modal textarea {
+  -webkit-tap-highlight-color: rgba(39, 100, 255, 0.12);
+}
+
+.tgb-r06-account-page a:focus-visible,
+.tgb-r06-account-page button:focus-visible,
+.tgb-r06-settings-page a:focus-visible,
+.tgb-r06-settings-page button:focus-visible,
+.tgb-r06-address-page a:focus-visible,
+.tgb-r06-address-page button:focus-visible,
+.tgb-r06-address-modal a:focus-visible,
+.tgb-r06-address-modal button:focus-visible,
+.tgb-r06-address-modal input:focus-visible,
+.tgb-r06-address-modal textarea:focus-visible {
+  outline: 3px solid rgba(39, 100, 255, 0.28) !important;
+  outline-offset: 2px;
+}
+
+/* Account hub */
+.tgb-r06-account-page .bg-float,
+.tgb-r06-account-page .particles-container {
+  display: none !important;
+}
+
+.tgb-r06-account-page .profile-card::before,
+.tgb-r06-account-page .vip-card::after,
+.tgb-r06-account-page .assets-card::before,
+.tgb-r06-account-page .asset-item::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+.tgb-r06-account-page .nav {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1000 !important;
+  height: calc(52px + env(safe-area-inset-top, 0px)) !important;
+  padding: env(safe-area-inset-top, 0px) 12px 0 !important;
+  border-bottom: 1px solid var(--tg-r06-border) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 14px rgba(12, 27, 51, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.tgb-r06-account-page .nav-inner {
+  width: 100% !important;
+  max-width: 680px !important;
+  height: 52px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: grid !important;
+  grid-template-columns: 88px minmax(0, 1fr) 88px !important;
+  align-items: center !important;
+}
+
+.tgb-r06-account-page .nav-back,
+.tgb-r06-account-page .nav-icon-btn,
+.tgb-r06-account-page .profile-edit,
+.tgb-r06-account-page .assets-eye {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  color: var(--tg-r06-primary) !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-account-page .nav-title {
+  grid-column: 2;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  min-width: 0;
+  color: var(--tg-r06-ink) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  text-align: center;
+  background: none !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .nav-title span,
+.tgb-r06-account-page .nav-title strong {
+  color: inherit !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .nav-right-group {
+  grid-column: 3;
+  margin: 0 !important;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tgb-r06-account-page .nav-back {
+  grid-column: 1;
+}
+
+.tgb-r06-account-page .dot-badge,
+.tgb-r06-account-page .tool-badge {
+  border-radius: 4px !important;
+  background: var(--tg-r06-danger) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-account-page > .container {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin: 0 auto !important;
+  padding: calc(68px + env(safe-area-inset-top, 0px)) 16px calc(96px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.tgb-r06-account-page .profile-card,
+.tgb-r06-account-page .vip-card,
+.tgb-r06-account-page .assets-card,
+.tgb-r06-account-page .tools-section {
+  width: 100%;
+  margin: 0 0 12px !important;
+  padding: 16px !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r06-surface) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r06-account-page .profile-card {
+  display: grid !important;
+  grid-template-columns: 64px minmax(0, 1fr) 44px !important;
+  gap: 12px !important;
+  align-items: start !important;
+}
+
+.tgb-r06-account-page .avatar-wrap,
+.tgb-r06-account-page .avatar {
+  width: 64px !important;
+  height: 64px !important;
+}
+
+.tgb-r06-account-page .avatar {
+  overflow: hidden;
+  border: 2px solid var(--tg-r06-surface) !important;
+  border-radius: 50% !important;
+  background: var(--tg-r06-soft) !important;
+  box-shadow: 0 0 0 1px var(--tg-r06-border) !important;
+}
+
+.tgb-r06-account-page .avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+.tgb-r06-account-page .avatar-vip-badge {
+  width: 22px !important;
+  height: 22px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--tg-r06-surface) !important;
+  border-radius: 50% !important;
+  background: var(--tg-r06-violet) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-account-page .profile-info {
+  min-width: 0;
+}
+
+.tgb-r06-account-page .profile-name {
+  color: var(--tg-r06-ink) !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  line-height: 28px !important;
+  overflow-wrap: anywhere;
+}
+
+.tgb-r06-account-page .profile-meta {
+  margin-top: 8px !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tgb-r06-account-page .meta-row {
+  min-width: 0;
+  min-height: 36px;
+  margin: 0 !important;
+  padding: 7px 9px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-soft) !important;
+  color: var(--tg-r06-text) !important;
+  transform: none !important;
+}
+
+.tgb-r06-account-page .meta-label,
+.tgb-r06-account-page .asset-label,
+.tgb-r06-account-page .vip-expire {
+  color: var(--tg-r06-muted) !important;
+}
+
+.tgb-r06-account-page .meta-value {
+  min-width: 0;
+  color: var(--tg-r06-ink) !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tgb-r06-account-page .copy-icon {
+  color: var(--tg-r06-primary) !important;
+}
+
+.tgb-r06-account-page .vip-card-header,
+.tgb-r06-account-page .assets-header,
+.tgb-r06-account-page .tools-title {
+  min-width: 0;
+  margin: 0 0 12px !important;
+  display: flex;
+  align-items: center;
+  color: var(--tg-r06-ink) !important;
+}
+
+.tgb-r06-account-page .vip-level-icon,
+.tgb-r06-account-page .asset-icon,
+.tgb-r06-account-page .tool-icon-wrap,
+.tgb-r06-account-page .bottom-tool-icon {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-soft) !important;
+  background-image: none !important;
+  color: var(--tg-r06-primary) !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-account-page .vip-level-icon {
+  width: 44px !important;
+  height: 44px !important;
+  margin-right: 10px;
+  background: #f0edff !important;
+  color: var(--tg-r06-violet) !important;
+}
+
+.tgb-r06-account-page .vip-info-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.tgb-r06-account-page .vip-level-name,
+.tgb-r06-account-page .assets-title,
+.tgb-r06-account-page .tools-title {
+  color: var(--tg-r06-ink) !important;
+  font-size: 17px !important;
+  font-weight: 700 !important;
+}
+
+.tgb-r06-account-page .assets-title i,
+.tgb-r06-account-page .tools-title i {
+  color: var(--tg-r06-primary) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .vip-upgrade-btn,
+.tgb-r06-account-page .asset-withdraw,
+.tgb-r06-account-page .project-link {
+  min-height: 36px;
+  padding: 8px 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 0 !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-primary) !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  transform: none !important;
+}
+
+.tgb-r06-account-page .vip-upgrade-btn i,
+.tgb-r06-account-page .asset-withdraw i,
+.tgb-r06-account-page .project-link i {
+  background: none !important;
+  background-image: none !important;
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .vip-privileges {
+  margin-top: 12px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+
+.tgb-r06-account-page .vip-priv-item {
+  min-width: 0;
+  min-height: 64px;
+  padding: 8px 4px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-soft) !important;
+  color: var(--tg-r06-text) !important;
+  text-align: center;
+  transform: none !important;
+}
+
+.tgb-r06-account-page .vip-priv-item i {
+  color: var(--tg-r06-violet) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .assets-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.tgb-r06-account-page .asset-item {
+  min-width: 0;
+  padding: 14px 10px !important;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-soft) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-account-page .asset-icon {
+  width: 38px !important;
+  height: 38px !important;
+  margin-bottom: 6px;
+}
+
+.tgb-r06-account-page .asset-icon.sign {
+  background: #e5f7f4 !important;
+  color: var(--tg-r06-mint) !important;
+}
+
+.tgb-r06-account-page .asset-amount {
+  margin: 6px 0 10px !important;
+  color: var(--tg-r06-ink) !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  overflow-wrap: anywhere;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.tgb-r06-account-page .asset-withdraw.sign-withdraw {
+  background: var(--tg-r06-mint) !important;
+  color: #ffffff !important;
+}
+
+.tgb-r06-account-page .tools-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.tgb-r06-account-page .tools-grid[style] {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.tgb-r06-account-page .tool-item,
+.tgb-r06-account-page .bottom-tool-item {
+  min-width: 0;
+  min-height: 82px;
+  padding: 10px 4px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px !important;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-surface) !important;
+  background-image: none !important;
+  color: var(--tg-r06-text) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.tgb-r06-account-page .tool-icon-wrap {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  font-size: 19px !important;
+}
+
+.tgb-r06-account-page .tool-icon-wrap.t2,
+.tgb-r06-account-page .tool-icon-wrap.t5 {
+  background: #e5f7f4 !important;
+  color: var(--tg-r06-mint) !important;
+}
+
+.tgb-r06-account-page .tool-icon-wrap.t3,
+.tgb-r06-account-page .tool-icon-wrap.t6 {
+  background: #f0edff !important;
+  color: var(--tg-r06-violet) !important;
+}
+
+.tgb-r06-account-page .tool-name {
+  max-width: 100%;
+  color: var(--tg-r06-text) !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.tgb-r06-account-page .toast {
+  border-radius: 6px !important;
+  background: var(--tg-r06-ink) !important;
+  color: #ffffff !important;
+  box-shadow: var(--tg-r06-shadow) !important;
+}
+
+/* Settings */
+.tgb-r06-settings-page .flex {
+  display: flex !important;
+}
+
+.tgb-r06-settings-page .items-center {
+  align-items: center !important;
+}
+
+.tgb-r06-settings-page .justify-between {
+  justify-content: space-between !important;
+}
+
+.tgb-r06-settings-page .justify-center {
+  justify-content: center !important;
+}
+
+.tgb-r06-settings-page .block {
+  display: block !important;
+}
+
+.tgb-r06-settings-page .w-full {
+  width: 100% !important;
+}
+
+.tgb-r06-settings-page > header {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1000 !important;
+  height: calc(52px + env(safe-area-inset-top, 0px)) !important;
+  padding: env(safe-area-inset-top, 0px) 0 0 !important;
+  border-bottom: 1px solid var(--tg-r06-border) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 4px 14px rgba(12, 27, 51, 0.06) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r06-settings-page > header > .container {
+  width: 100% !important;
+  max-width: 680px !important;
+  height: 52px !important;
+  margin: 0 auto !important;
+  padding: 0 12px !important;
+  display: grid !important;
+  grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+  align-items: center !important;
+}
+
+.tgb-r06-settings-page #backBtn {
+  width: 44px !important;
+  height: 44px !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  color: var(--tg-r06-primary) !important;
+}
+
+.tgb-r06-settings-page > header h1 {
+  margin: 0 !important;
+  color: var(--tg-r06-ink) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 26px !important;
+  text-align: center;
+}
+
+.tgb-r06-settings-page > main {
+  width: 100% !important;
+  max-width: 680px !important;
+  margin: 0 auto !important;
+  padding: calc(68px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+.tgb-r06-settings-page section {
+  margin: 0 0 12px !important;
+  animation: none !important;
+}
+
+.tgb-r06-settings-page .setting-card {
+  overflow: hidden;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r06-surface) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tgb-r06-settings-page .setting-card > div:first-child {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid var(--tg-r06-border) !important;
+  background: var(--tg-r06-soft) !important;
+}
+
+.tgb-r06-settings-page .setting-card h2 {
+  margin: 0 !important;
+  color: var(--tg-r06-muted) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+}
+
+.tgb-r06-settings-page .setting-card > a {
+  display: block !important;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tgb-r06-settings-page .setting-item {
+  min-height: 68px;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--tg-r06-border) !important;
+  background: var(--tg-r06-surface) !important;
+  transform: none !important;
+}
+
+.tgb-r06-settings-page .setting-card > a:last-child .setting-item {
+  border-bottom: 0 !important;
+}
+
+.tgb-r06-settings-page .setting-item > div,
+.tgb-r06-settings-page .setting-item > div > div,
+.tgb-r06-settings-page .setting-item > div > div > div:first-child {
+  min-width: 0;
+}
+
+.tgb-r06-settings-page .setting-icon {
+  width: 40px !important;
+  height: 40px !important;
+  margin-right: 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  border: 1px solid rgba(39, 100, 255, 0.14) !important;
+  border-radius: 6px !important;
+  background: var(--tg-r06-soft) !important;
+  background-image: none !important;
+  color: var(--tg-r06-primary) !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-settings-page .setting-icon i {
+  color: inherit !important;
+}
+
+.tgb-r06-settings-page .setting-title {
+  margin: 0 !important;
+  color: var(--tg-r06-ink) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 24px !important;
+}
+
+.tgb-r06-settings-page .setting-description {
+  margin: 2px 0 0 !important;
+  color: var(--tg-r06-muted) !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+}
+
+.tgb-r06-settings-page .fa-chevron-right,
+.tgb-r06-settings-page .ri-arrow-right-s-line {
+  color: var(--tg-r06-muted) !important;
+  transform: none !important;
+}
+
+.tgb-r06-settings-page .crypto-btn {
+  width: 100% !important;
+  min-height: 48px;
+  margin: 0 !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201, 55, 85, 0.25) !important;
+  border-radius: 8px !important;
+  background: #fff2f4 !important;
+  background-image: none !important;
+  color: var(--tg-r06-danger) !important;
+  box-shadow: none !important;
+  text-decoration: none;
+}
+
+/* Address list and editor */
+.tgb-r06-address-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 8px 16px calc(96px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+  background: var(--tg-r06-bg) !important;
+  color: var(--tg-r06-text) !important;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif !important;
+}
+
+.tgb-r06-address-page .weui-cells__title {
+  margin: 12px 0 8px !important;
+  padding: 0 !important;
+  color: var(--tg-r06-muted) !important;
+  font-size: 14px !important;
+  line-height: 22px;
+}
+
+.tgb-r06-address-page .weui-form-preview {
+  margin: 0 0 10px !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r06-surface) !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-address-page .weui-form-preview::before,
+.tgb-r06-address-page .weui-form-preview::after,
+.tgb-r06-address-page .weui-form-preview__ft::after {
+  border-color: var(--tg-r06-border) !important;
+}
+
+.tgb-r06-address-page .weui-form-preview__bd {
+  padding: 14px !important;
+}
+
+.tgb-r06-address-page .weui-form-preview__item {
+  color: var(--tg-r06-text) !important;
+}
+
+.tgb-r06-address-page .weui-form-preview__item > span:first-child {
+  display: block;
+  color: var(--tg-r06-ink) !important;
+  font-size: 17px !important;
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.tgb-r06-address-page .weui-form-preview__item em {
+  color: var(--tg-r06-primary) !important;
+  font-style: normal;
+}
+
+.tgb-r06-address-page .weui-form-preview__value {
+  display: block;
+  margin-top: 6px;
+  color: var(--tg-r06-text) !important;
+  font-size: 14px !important;
+  line-height: 22px;
+  text-align: left !important;
+  overflow-wrap: anywhere;
+}
+
+.tgb-r06-address-page .weui-form-preview__ft {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tgb-r06-address-page .weui-form-preview__btn {
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 6px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-right: 1px solid var(--tg-r06-border) !important;
+  border-radius: 0 !important;
+  background: var(--tg-r06-surface) !important;
+  color: var(--tg-r06-primary) !important;
+  font-size: 14px !important;
+  line-height: 20px;
+}
+
+.tgb-r06-address-page .weui-form-preview__btn:last-child {
+  border-right: 0 !important;
+}
+
+.tgb-r06-address-page .fix-bottom {
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+  border-top: 1px solid var(--tg-r06-border) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: none !important;
+}
+
+.tgb-r06-address-page .fix-bottom .weui-btn,
+.tgb-r06-address-modal .fix-bottom .weui-btn {
+  min-height: 48px;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: var(--tg-r06-primary) !important;
+  color: #ffffff !important;
+  font-size: 16px !important;
+  font-weight: 600;
+}
+
+.tgb-r06-address-modal.weui-popup__container--visible .weui-popup__overlay {
+  background: rgba(14, 27, 42, 0.34) !important;
+}
+
+.tgb-r06-address-modal .weui-popup__modal {
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  background: var(--tg-r06-bg) !important;
+  color: var(--tg-r06-text) !important;
+}
+
+.tgb-r06-address-modal .fixpopuper {
+  width: 100%;
+  max-width: 680px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.tgb-r06-address-modal .weui-cells__title {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+  color: var(--tg-r06-primary) !important;
+  font-size: 14px !important;
+  line-height: 22px;
+}
+
+.tgb-r06-address-modal .weui-cells {
+  margin: 0 0 10px !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r06-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r06-surface) !important;
+}
+
+.tgb-r06-address-modal .weui-cells::before,
+.tgb-r06-address-modal .weui-cells::after,
+.tgb-r06-address-modal .weui-cell::before {
+  border-color: var(--tg-r06-border) !important;
+}
+
+.tgb-r06-address-modal .weui-cell {
+  min-height: 54px;
+  padding: 10px 14px !important;
+}
+
+.tgb-r06-address-modal .weui-label {
+  width: 88px !important;
+  color: var(--tg-r06-ink) !important;
+  font-size: 15px !important;
+}
+
+.tgb-r06-address-modal .weui-input,
+.tgb-r06-address-modal .weui-textarea {
+  width: 100%;
+  color: var(--tg-r06-ink) !important;
+  background: var(--tg-r06-surface) !important;
+  font-size: 16px !important;
+  line-height: 24px;
+}
+
+.tgb-r06-address-modal .weui-textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.tgb-r06-address-modal .weui-switch:checked {
+  border-color: var(--tg-r06-primary) !important;
+  background-color: var(--tg-r06-primary) !important;
+}
+
+.tgb-r06-address-modal .fix-bottom {
+  position: relative !important;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.tgb-r06-address-modal .fix-bottom .weui-btn_default {
+  border: 1px solid var(--tg-r06-border) !important;
+  background: var(--tg-r06-surface) !important;
+  color: var(--tg-r06-text) !important;
+}
+
+@media (max-width: 380px) {
+  .tgb-r06-account-page > .container,
+  .tgb-r06-settings-page > main,
+  .tgb-r06-address-page {
+    padding-right: 12px !important;
+    padding-left: 12px !important;
+  }
+
+  .tgb-r06-account-page .profile-card {
+    grid-template-columns: 56px minmax(0, 1fr) 44px !important;
+    padding: 12px !important;
+  }
+
+  .tgb-r06-account-page .avatar-wrap,
+  .tgb-r06-account-page .avatar {
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .tgb-r06-account-page .tools-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tgb-r06-account-page *,
+  .tgb-r06-account-page *::before,
+  .tgb-r06-account-page *::after,
+  .tgb-r06-settings-page *,
+  .tgb-r06-settings-page *::before,
+  .tgb-r06-settings-page *::after,
+  .tgb-r06-address-page *,
+  .tgb-r06-address-page *::before,
+  .tgb-r06-address-page *::after,
+  .tgb-r06-address-modal *,
+  .tgb-r06-address-modal *::before,
+  .tgb-r06-address-modal *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.tgb-r06-account-page .nav-title { white-space: nowrap; }
+.tgb-r06-account-page .nav-right-group { gap: 0 !important; }
+/* R09 owner-device repair: shared bottom navigation parity. */
+.qmn-nav {
+  --qmn-h: 64px !important;
+  --qmn-bg: rgba(255, 255, 255, 0.98) !important;
+  --qmn-shadow: 0 -4px 14px rgba(12, 27, 51, 0.07) !important;
+  --qmn-border-color: #d8e1ec !important;
+  --qmn-active-color: #2764ff !important;
+  --qmn-active-glow: rgba(39, 100, 255, 0.14) !important;
+  --qmn-inactive-color: #718096 !important;
+  box-sizing: content-box !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.qmn-nav::before { display: none !important; }
+.qmn-nav .qmn-item { min-height: 44px; color: var(--qmn-inactive-color) !important; }
+.qmn-nav .qmn-item.active { color: var(--qmn-active-color) !important; }
+.qmn-nav .qmn-item.active .qmn-icon-wrap {
+  background: #eaf0ff !important;
+  color: var(--qmn-active-color) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.qmn-nav .qmn-icon,
+.qmn-nav .qmn-label { color: currentColor !important; }
+.qmn-nav .qmn-label { font-size: 11px !important; font-weight: 600 !important; }
+.qmn-nav .qmn-dot { background: #7657ff !important; box-shadow: none !important; }
+
+.qmn-nav .qmn-item.active .qmn-icon-wrap i {
+  background: none !important;
+  color: #2764ff !important;
+  -webkit-text-fill-color: currentColor !important;
+  filter: none !important;
+}
+.qmn-nav .qmn-item.active .qmn-label {
+  color: #2764ff !important;
+  letter-spacing: 0 !important;
+}
+.qmn-nav .qmn-item.active { transform: none !important; }

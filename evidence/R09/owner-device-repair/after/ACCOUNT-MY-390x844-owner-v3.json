@@ -1,0 +1,63 @@
+{
+  "page": "ACCOUNT-MY",
+  "url": "plugin.php?id=xigua_hb&ac=my&mobile=2",
+  "userAgent": "TuiGuangBaoAndroid/1.0.0 Android",
+  "candidateSha256": "67024c74a668b2522a31cc3c352ff570ac68f99109076b455acb440ed9f21ef1",
+  "stagingDeployId": "20260727T212746+0800",
+  "png": {
+    "file": "account-my-390x844-owner-v3.png",
+    "width": 390,
+    "height": 844
+  },
+  "geometry": {
+    "bottomNav": {
+      "bottom": 844,
+      "height": 64.8,
+      "right": 390.4,
+      "width": 390.4,
+      "x": 0,
+      "y": 779.2
+    },
+    "css": "http://127.0.0.1:28088/source/plugin/xigua_hb/static/tgb-r06/account-light-grid-r06.css?20260727-r09-owner-v3",
+    "nav": {
+      "bottom": 52,
+      "height": 52,
+      "right": 390.4,
+      "width": 390.4,
+      "x": 0,
+      "y": 0
+    },
+    "profile": {
+      "bottom": 215.6,
+      "height": 147.6,
+      "right": 374.4,
+      "width": 358.4,
+      "x": 16,
+      "y": 68
+    },
+    "right": {
+      "bottom": 48,
+      "height": 44,
+      "right": 378.4,
+      "width": 88,
+      "x": 290.4,
+      "y": 4
+    },
+    "scrollHeight": 1313,
+    "scrollWidth": 390,
+    "title": {
+      "bottom": 39,
+      "height": 26,
+      "right": 290.4,
+      "width": 190.4,
+      "x": 100,
+      "y": 13
+    },
+    "viewport": {
+      "height": 844,
+      "width": 390
+    }
+  },
+  "consoleErrorsAndWarnings": [],
+  "status": "PASS"
+}

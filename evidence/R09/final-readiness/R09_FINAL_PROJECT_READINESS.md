@@ -7,9 +7,9 @@
 ## Already Proven
 
 - 39/39 non-Android visual entries are `REDESIGNED_VERIFIED`.
-- The deterministic 78-file v5 candidate matches production and staging.
-- The signed replacement APK satisfies build, package, signature and size gates and is on the owner's Desktop.
-- The repository checkpoint, manifest and R09 drift audit pass.
+- The deterministic 79-file owner repair candidate SHA-256 `9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15` is deployed to production with exact hash and online smoke PASS.
+- The current signed replacement APK SHA-256 `5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027` satisfies server unit-test, Lint, package, signature and size gates and is on the owner's Desktop.
+- The R09 owner repair and global H5 closeout gates pass. The continuity manifest was rebuilt for 927 files and passed verification before the checkpoint commit.
 - The current tree does not contain the previously hard-coded production database identifier.
 
 ## Required Before Final Project PASS

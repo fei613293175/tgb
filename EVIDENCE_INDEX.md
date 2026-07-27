@@ -254,7 +254,7 @@ R09 原始上线候选 v2 SHA-256 为 `108ab6d6c10be84a892aec223e24bcd134f86be30
 - 签到生产修复：`20260727T181342+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-sign-badge-backups/20260727T181342+0800`
 - 发布页生产修复：`20260727T181343+0800`，备份 `/www/staging/tg-h5-ui-r08/private/production-publish-visual-backups/20260727T181343+0800`
 
-R09 非 Android 视觉集合为 39/39 `REDESIGNED_VERIFIED`，其中包含 38 个业务 H5 页面和 1 个桌面兼容入口。安卓真机安全区、相册上传和支付宝拉起/返回仍为 `PENDING_OWNER_VERIFICATION`，不得用上述浏览器证据替代。
+历史 R09 非 Android 视觉集合曾被负责人 2026-07-27 真机截图否决。14 个受影响真实点击页面现已由 `evidence/R09/owner-device-repair/R09_OWNER_DEVICE_REPAIR_FINAL_VERIFY.md` 重新核验，39行全局证据映射已将这些页面从旧证据改绑到本轮最终报告；`scripts/test-r09-owner-device-repair.ps1` 与 `scripts/test-r09-global-closeout.ps1` 均返回 PASS。79文件候选已生产部署并通过在线smoke；安卓真机相册上传和第三方支付拉起/返回仍由负责人异步验证。
 
 ## 17. R09 最终项目就绪门禁
 
@@ -264,3 +264,28 @@ R09 非 Android 视觉集合为 39/39 `REDESIGNED_VERIFIED`，其中包含 38 �
 - 强制非零门禁：`scripts/test-final-project-readiness.ps1`
 
 当前预期结果为 `FAIL_PENDING_OWNER_AND_SECURITY`。只有安装启动、安全区、相册真实上传、支付宝拉起/返回、可信下载、离线重试全部引用脱敏证据并 PASS，且数据库凭据轮换与 Git 历史整改通过后，才能将整个项目标记最终完成。
+# R09 Owner Device Repair: Home Headline Component
+
+- `evidence/R09/owner-device-repair/R09_HOME_HEADLINE_REPAIR_VERIFY.md`
+- `evidence/R09/owner-device-repair/after/R09_HOME_HEADLINE_GEOMETRY.json`
+- `evidence/R09/owner-device-repair/after/home-headline-360x800-v4.png`
+- `evidence/R09/owner-device-repair/after/home-headline-390x844-v4.png`
+- `evidence/R09/owner-device-repair/after/home-headline-430x932-v4.png`
+
+最新全体返修候选已完成浏览器关版：79 文件，SHA-256 `9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15`，预发布部署 `20260727T224528+0800`，备份 `/www/staging/tg-h5-ui-r08/private/change-backups/20260727T224528+0800-r09-production-candidate`。最终核验报告为 `evidence/R09/owner-device-repair/R09_OWNER_DEVICE_REPAIR_FINAL_VERIFY.md`。
+
+## 18. R09 负责人返修生产部署
+
+- 部署报告：`evidence/R09/owner-device-repair/R09_OWNER_REPAIR_PRODUCTION_DEPLOY.md`
+- 生产部署：`20260727T233853+0800`
+- 私有回滚：`/www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T233853+0800-owner-repair`
+- 门禁：79文件精确哈希、5条关键路由、本地CSS和公共UI CDN计数全部PASS
+
+## 19. R09 Android外链修复构建
+
+- 构建报告：`evidence/R09/android-owner-repair/R09_ANDROID_EXTERNAL_NAV_BUILD.md`
+- 单元测试：`evidence/R09/android-owner-repair/ExternalNavigationPolicyTest.xml`
+- 包信息：`evidence/R09/android-owner-repair/aapt-badging.txt`
+- 签名报告：`evidence/R09/android-owner-repair/apksigner-report.txt`
+- 交付APK：`deliverables/android/R09/tuiguangbao-1.0.0-R09-owner-repair-external-nav.apk`
+- APK SHA-256：`5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027`

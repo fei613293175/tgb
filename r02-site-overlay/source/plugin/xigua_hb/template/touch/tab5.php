@@ -295,17 +295,6 @@
                     // 链接正常跳转不受影响（本页面为演示，链接指向插件地址）
                 });
             });
-
-            // 可选：根据当前页面 URL 自动匹配激活项
-          //  const currentPath = window.location.pathname + window.location.search;
-         //   items.forEach(item => {
-                const href = item.getAttribute('href');
-                if (href && currentPath.includes(href.replace(/\.\//g, '').split('?')[0])) {
-                    // 粗略匹配，生产环境建议根据实际路由逻辑调整
-                    items.forEach(el => el.classList.remove('active'));
-                    item.classList.add('active');
-                }
-            });
         })();
     </script>
 </body>

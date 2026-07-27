@@ -4,12 +4,12 @@ umask 077
 
 MODE="${1:-}"
 PUBID="${2:-}"
-STAGE_DB="tgb_stage_r05_main"
-PRIVATE_ROOT="/www/staging/tg-h5-ui-r05/private"
+STAGE_DB="${STAGE_DB:-tgb_stage_r05_main}"
+PRIVATE_ROOT="${PRIVATE_ROOT:-/www/staging/tg-h5-ui-r05/private}"
 ACTIVE_DIR="${PRIVATE_ROOT}/detail-get-active"
 HISTORY_ROOT="${PRIVATE_ROOT}/detail-get-history"
 PANEL_PYTHON="/www/server/panel/pyenv/bin/python3"
-FIXTURE_USERNAME="tgb_r02_visual"
+FIXTURE_USERNAME="${FIXTURE_USERNAME:-tgb_r02_visual}"
 ROOT_CNF=""
 
 fail() { printf '[R05-DETAIL-ROLLBACK] ABORT: %s\n' "$1" >&2; exit 1; }

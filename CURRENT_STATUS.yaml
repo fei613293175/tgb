@@ -5,18 +5,18 @@ snapshot_date: 2026-07-27
 current_release: R09
 release_status: IN_PROGRESS
 active_task_id: TASK-R09-001
-active_mode: DEVELOPMENT_CLOSEOUT_PASS_OWNER_ASYNC_PENDING
+active_mode: IMPLEMENTATION_COMPLETE_PENDING_OWNER_AND_SECURITY
 business_behavior_change_allowed: false
 dark_page_theme_allowed: false
 production_direct_edit_allowed: false
 
 progress_guard:
   self_check_interval_minutes: 30
-  last_material_progress: FINAL_PROJECT_READINESS_GATE_FORMALIZED
-  last_self_check: 2026-07-27T19:15:00+08:00
+  last_material_progress: OWNER_REPAIR_PRODUCTION_DEPLOY_AND_SERVER_SIGNED_APK_BUILD_PASS
+  last_self_check: 2026-07-27T23:58:00+08:00
   repeated_analysis_without_new_artifact_limit: 2
   current_loop_state: ADVANCING
-  next_concrete_output: FINAL_READINESS_EXPECTED_FAIL_EVIDENCE_AND_CHECKPOINT
+  next_concrete_output: UPDATE_MANIFEST_COMMIT_CHECKPOINT_AND_RUN_FINAL_READINESS
 
 scope:
   h5_visual_redesign: true
@@ -51,7 +51,7 @@ facts:
   credentials_stored_in_current_tree: false
 
 staging:
-  status: R09_GLOBAL_H5_CLOSEOUT_PASS_OWNER_ASYNC_PENDING
+  status: OWNER_REPAIR_PRODUCTION_DEPLOYED
   owner_release: R09
   source_release: R08
   snapshot_id: 20260727T074523+0800
@@ -161,9 +161,32 @@ staging:
   r09_global_h5_in_scope: 39
   r09_business_h5_pages: 38
   r09_desktop_compatibility_entries: 1
-  r09_global_h5_redesigned_verified: 39
+  r09_global_h5_redesigned_verified: PASS_39_OF_39_AFTER_OWNER_REPAIR_REVERIFY
   r09_global_visual_evidence_map: evidence/R09/global-closeout/R09_GLOBAL_VISUAL_EVIDENCE_MAP.csv
-  r09_global_closeout_gate: PASS
+  r09_global_closeout_gate: PASS_OWNER_REPAIR_EVIDENCE_BOUND
+  r09_owner_device_repair_overlay: r09-owner-fix-overlay
+  r09_owner_device_repair_status: PASS_14_AFFECTED_PAGE_BROWSER_REVERIFY
+  r09_owner_device_defect_audit: evidence/R09/owner-device-repair/R09_OWNER_DEVICE_DEFECT_AUDIT.md
+  r09_home_headline_component_gate: PASS_360X800_390X844_430X932
+  r09_home_headline_geometry: evidence/R09/owner-device-repair/after/R09_HOME_HEADLINE_GEOMETRY.json
+  r09_owner_candidate_files: 79
+  r09_owner_candidate_sha256: 9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15
+  r09_owner_candidate_staging_deploy_id: 20260727T224528+0800
+  r09_owner_candidate_staging_backup: /www/staging/tg-h5-ui-r08/private/change-backups/20260727T224528+0800-r09-production-candidate
+  r09_owner_repair_production_deployed: true
+  r09_owner_repair_production_deploy_id: 20260727T233853+0800
+  r09_owner_repair_production_backup: /www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T233853+0800-owner-repair
+  r09_owner_repair_production_hash_gate: PASS_EXACT_79_FILES
+  r09_owner_repair_online_smoke: PASS_5_ROUTES_LOCAL_CSS_PUBLIC_UI_CDN_0
+  r09_owner_shared_bottom_nav_syntax_gate: PASS_NINE_TEMPLATES
+  r09_owner_account_local_jquery_gate: PASS
+  r09_owner_safe_area_rule: CSS_ENV_ONLY_NO_FIXED_28_OR_36PX_DUPLICATION
+  r09_owner_browser_blocker: RESOLVED_FINAL_390X844_MATRIX_COMPLETE
+  r09_owner_headline_fixture_cleanup: PASS_COUNT_0
+  r09_owner_auth_bridge: OFF
+  r09_owner_browser_origin_bridge: OFF
+  r09_owner_local_tunnel: OFF
+  r09_owner_staging_post: 405
   r09_sign_correction_production_deploy_id: 20260727T181342+0800
   r09_sign_correction_production_backup_dir: /www/staging/tg-h5-ui-r08/private/production-sign-badge-backups/20260727T181342+0800
   r09_publish_correction_production_deploy_id: 20260727T181343+0800
@@ -188,7 +211,7 @@ android:
   codex_local_android_environment_allowed: false
   codex_apk_install_or_runtime_test_allowed: false
   h5_browser_experience_and_screenshot_required: true
-  rebuild_required_for_r09_h5_release: COMPLETE_FOR_OWNER_INSET_FEEDBACK
+  rebuild_required_for_r09_h5_release: COMPLETE_AFTER_EXTERNAL_NAVIGATION_CHANGE
   app_name: 推广宝
   application_id: com.suewammes.tuiguangbao
   language: Kotlin
@@ -204,13 +227,15 @@ android:
   sdk_ready: true
   server_build_image: hhy-android-toolchain:r08-api36-cache
   server_release_apk_built: true
-  server_release_apk_bytes: 18154540
-  server_release_apk_sha256: 5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f
-  server_build_id: 20260727T095500+0800
-  server_source_archive_sha256: 5e57c1437d267a4cf4d39336a1c424dc045d1de6ac4530f5b64bf6ac9974398f
-  server_source_revision: ffb3945_PLUS_R09_NATIVE_INSET_FIX
-  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk
-  handoff_apk: deliverables/android/R09/tuiguangbao-1.0.0-R09-compact-top-inset.apk
+  server_release_apk_bytes: 18154509
+  server_release_apk_sha256: 5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027
+  server_build_id: 20260727T235000+0800
+  server_source_archive_sha256: 58cd915afd798815ac54ae853c6e11616a49fc254812ef242f0657328e4a291d
+  server_source_revision: WORKTREE_R09_OWNER_REPAIR_EXTERNAL_NAVIGATION_POLICY
+  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-页面返修与外链修复.apk
+  handoff_apk: deliverables/android/R09/tuiguangbao-1.0.0-R09-owner-repair-external-nav.apk
+  external_navigation_unit_test: PASS_2_TESTS_0_FAILURES
+  external_navigation_server_lint: PASS_0_ERRORS
   native_top_loading_progress_visible: false
   r09_inset_instrumentation: SOURCE_UPDATED_SERVER_COMPILED_OWNER_DEVICE_EXECUTION_PENDING
   r02_debug_apk_sha256: 4c99e43aa3f85015f92d8586be24d7eef99c01a12a9c8b1a46f1d0073556820b
@@ -230,7 +255,8 @@ final_readiness:
   audit: evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md
   owner_checks_total: 6
   owner_checks_passed: 0
-  h5_development_closeout: PASS
+  h5_development_closeout: PASS_OWNER_REPAIR_PRODUCTION_DEPLOYED
+  continuity_manifest: PASS_927_FILES_PRECOMMIT
   final_tag_allowed: false
 
 completed:
@@ -326,18 +352,25 @@ completed:
   - R09 cashier two-file Light Grid overlay passed exact-pixel 360x800 390x844 and 430x932 Codex browser review
   - R09 cashier production deployment 20260727T152930+0800 preserved all payment controller hashes and CSS returned HTTP 200
   - R09 cashier fixture removed one synthetic member order zero payment orders all bridges and tunnel with staging POST 405 restored
-  - R09 global closeout mapped all 39 real-reachable H5 pages one-to-one to PASS evidence and marked all 39 REDESIGNED_VERIFIED
+  - Historical R09 global closeout mapped 39 entries to browser evidence; owner-device screenshots later invalidated the global completion claim and reopened affected pages
   - R09 sign-in badge and notice dialog passed final 360x800 390x844 and 430x932 browser review after visible overflow and long-content fixes
   - R09 real clicked publish form passed final three-viewport review after 60px header complete 64x44 submit control and empty-spacer fixes
   - R09 production corrections 20260727T181342+0800 and 20260727T181343+0800 completed with private backups and final bridge tunnel cleanup
   - R09 deterministic 78-file production candidate v5 built twice with SHA-256 c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734
   - R09 v5 server verify-only and exact 78-file production and staging hash comparisons passed without deployment
+  - R09 owner-device repair final 79-file candidate staged at 20260727T224528+0800 with SHA-256 9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15
+  - R09 fourteen owner-rejected real-click pages passed final Android H5 390x844 browser review with fixtures bridges tunnel and POST mode cleaned
+  - R09 global visual evidence map rebound all fourteen owner-rejected pages to the final repair evidence and the nonzero global closeout gate passed for 39 of 39 entries
+  - R09 owner repair 79-file production deployment 20260727T233853+0800 completed with exact hash verification private rollback backup and online smoke PASS
+  - R09 external-navigation Android source passed server unit tests Release Lint signed build package SDK brand size and certificate gates under build 20260727T235000+0800
+  - R09 final owner repair APK SHA-256 5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027 copied to the repository and Desktop without installation or launch
 
 not_completed:
   - Android device photo upload and external-payment return tests (asynchronous cumulative release gate; development does not wait)
-  - H5 R09 asynchronous owner feedback and any targeted visual defect repair
+  - H5 R09 asynchronous owner feedback and any future targeted visual defect repair
   - owner-device cumulative high-risk action verification remains pending; G29 forbids repeating payment withdrawal reward upload or delete actions solely for UI closeout
   - R09 compact-top-inset replacement APK owner device screenshot and runtime confirmation (asynchronous)
+  - owner installation safe-area gallery upload Alipay return trusted download and offline retry evidence remains pending asynchronously
 
 blockers:
   - id: B-SEC-DB-01

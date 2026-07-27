@@ -118,21 +118,17 @@ H5 入口：
 
 ## 7. 第三方 App 与支付宝
 
-允许列表至少包含实际收银台需要的支付宝 scheme/intent，精确值必须从真实支付跳转样本冻结，不凭猜测批量开放。
+按负责人 2026-07-27 最新真机反馈，App 不再以支付域名或来源白名单阻断合法第三方导航；安全边界改为协议能力和 Intent 清洗。
 
 路由规则：
 
-- HTTPS 业务页留在 WebView；
-- 支付宝白名单 scheme 使用 `Intent.ACTION_VIEW`；
+- 所有 HTTPS 页面和第三方收银台重定向留在主 WebView，新窗口也加载到主 WebView；
+- 支付宝及其他可浏览第三方 App scheme 使用 `Intent.ACTION_VIEW + CATEGORY_BROWSABLE`；
 - `intent://` 使用安全解析，必须移除显式组件/选择器等危险覆盖并加 `CATEGORY_BROWSABLE`；
-- 只允许预先批准的 scheme、host、package 组合；
-- 从本站经异步 JavaScript 跳转到已核验的 HTTPS 支付网关时，不要求 WebView 的
-  最终导航请求仍携带瞬时用户手势；只允许生产插件源码中登记的精确 host，并让
-  该 H5 收银台留在 WebView 内，以便继续拦截支付宝 deep link；
-- 支付网关之间只允许已登记的精确 HTTPS host；相似后缀、尾随点、userinfo、
-  HTTP 降级和未登记跳转必须拦截；
+- 合法 HTTPS 不依赖来源域名或瞬时用户手势，不得显示“不受信任外链”拦截提示；
+- `intent:` 强制 ACTION_VIEW，清除 component、selector、flags、extras 和 clipData，再添加浏览器安全类别；
 - 无可处理 App 时打开支付方提供的 HTTPS 回退或展示可理解错误；
-- `javascript:`、`file:`、`content:`、未知自定义 scheme 不得外跳；
+- `javascript:`、`file:`、`data:`、`content:`、`about:`、`blob:` 和 HTTP 降级不得外跳；
 - 不允许 `onReceivedSslError` 中直接 `proceed()`。
 
 支付宝测试：

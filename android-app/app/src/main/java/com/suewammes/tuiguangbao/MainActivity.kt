@@ -167,7 +167,7 @@ class MainActivity : ComponentActivity() {
         chromeClient = TgbChromeClient(
             fileChooser = fileChooser,
             onNewWindow = { uri, hasGesture ->
-                if (AllowedHosts.isInternalHttps(uri)) {
+                if (uri.scheme.equals("https", ignoreCase = true)) {
                     webView.loadUrl(uri.toString())
                 } else {
                     router.route(uri, webView.url?.let(Uri::parse), hasGesture)

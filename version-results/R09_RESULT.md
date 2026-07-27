@@ -1,6 +1,6 @@
 # R09 Result
 
-- Status: `DEVELOPMENT CLOSEOUT PASS / OWNER VERIFICATION PENDING`
+- Status: `IMPLEMENTATION COMPLETE / PENDING OWNER DEVICE AND DATABASE SECURITY`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
 - Current reproducible production candidate: v5, 78 files, including the final member/chat, cashier, sign-in and publish corrections
@@ -20,6 +20,16 @@
 - The five-page online smoke passed after deployment.
 - Chat detail and member detail passed direct-click Android H5 review at `360x800`, `390x844` and `430x932`, then received a five-file backup-first production deployment.
 - The membership VIP purchase confirmation real-click chain proved the cashier in scope. Its two-file Light Grid overlay passed exact-pixel three-viewport review and backup-first production deployment without invoking any payment action.
+
+## Owner Device Repair Reopen
+
+- Owner device screenshots invalidated the historical global visual PASS; R09 remains reopened and no R10 is created.
+- Home headline now shares the normal project-card width, 8px radius and spacing, with a restrained violet border, left accent and headline badge as the only visual distinction. The component passed 360x800, 390x844 and 430x932 before the later all-page candidate.
+- Shared bottom navigation syntax was repaired in nine `tab*.php` templates. The personal-center page now loads its existing advertisement script dependency from the server-local jQuery asset.
+- Duplicate fixed 28/36px H5 App insets were removed. Native remains edge-to-edge with zero padding; H5 uses `env(safe-area-inset-top, 0px)` as the single safe-area source.
+- Latest staging-only candidate: 79 files, SHA-256 `9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15`, deploy ID `20260727T224528+0800`, backup `/www/staging/tg-h5-ui-r08/private/change-backups/20260727T224528+0800-r09-production-candidate`.
+- Static owner-repair gate passes. Codex Browser rejected reloading the loopback staging URL after deployment, so all non-headline affected pages remain pending visual verification and the repair candidate is not deployed to production.
+- Cleanup verified: authentication bridge OFF, browser origin bridge OFF, headline fixture count 0, no local 28088 listener, staging POST 405.
 
 ## Android H5 UA Scope Closeout
 
@@ -142,10 +152,31 @@ bash /tmp/r09_deploy_cashier_production.sh --apply-rollback _ _ 20260727T152930+
 
 ## Final Conclusion
 
-- H5 development: `PASS`.
+- H5 development: fourteen owner-rejected real-click pages were repaired and reverified at `390x844`; the owner repair and global closeout gates pass, with all affected rows rebound to the final repair evidence.
 - Next planned large version: none; R09 is the roadmap's final large version.
-- R09 remains the active release only for asynchronous owner-device validation and any resulting targeted repair.
+- R09 remains active only for asynchronous owner-device validation, database credential/history remediation, and any evidence-driven targeted repair.
+
+## Owner repair production and Android delivery
+
+- Final 79-file H5 candidate SHA-256: `9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15`
+- Production deploy: `20260727T233853+0800`
+- Rollback backup: `/www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T233853+0800-owner-repair`
+- Production exact 79-file hash gate and five-route online smoke: PASS
+- Android server build: `20260727T235000+0800`
+- Server tasks: `testDebugUnitTest lintRelease assembleRelease` PASS
+- Signed APK bytes: `18154509`
+- Signed APK SHA-256: `5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027`
+- Desktop delivery: `C:\Users\小白\Desktop\推广宝-1.0.0-R09-页面返修与外链修复.apk`
+- APK installation or runtime testing by Codex: not performed, as required by D-036/G25
 - Not yet PASS: replacement APK safe-area screenshots/runtime, real-device gallery upload, and Alipay launch/return using an approved real or sandbox sample.
 - These cumulative owner gates are not silently waived and are not represented as completed by browser or server-build evidence.
 - Security follow-up: the current tree no longer contains the production database identifier, and the cashier deployment requires runtime `EXPECTED_PRODUCTION_DB`. A read-only Git history scan found one historical commit containing the identifier; because the production database name and password may be identical, credential rotation and an owner-authorized history-remediation decision are required before final security signoff.
 - Final project gate: `scripts/test-final-project-readiness.ps1` currently returns nonzero by design. The authoritative six-item owner matrix is `evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv`; the full readiness audit is `evidence/R09/final-readiness/R09_FINAL_PROJECT_READINESS.md`.
+
+## Owner-Device Repair Reopening
+
+- Owner evidence on 2026-07-27 invalidated the historical 39/39 H5 closeout. Affected real-click pages include home/headline cards, detail, account, wallet, sign withdrawal, certification result, headline purchase, my publications, publish and review.
+- Functional defects also reopened refresh-package checkout, promotion list touch scrolling and Android third-party navigation.
+- Repairs are isolated in `r09-owner-fix-overlay`, which must be the final candidate layer. The owner candidate is staged but not production-deployed. The home headline component passed 360x800, 390x844 and 430x932 Android-H5 geometry and screenshot review; the other reopened pages remain pending browser verification.
+- Current owner candidate: 79 files, SHA-256 `22a7b021c7c9fe355dc7b76e28a463e40b635aa934d1348c1f617baadb601fdb`, staging deploy `20260727T203238+0800`. The headline fixture and all temporary browser bridges were removed after evidence capture.
+- Source changes do not authorize real purchase, payment, withdrawal, certification or reward tests. APK installation and runtime testing remain owner-only.

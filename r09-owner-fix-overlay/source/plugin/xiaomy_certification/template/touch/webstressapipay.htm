@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{lang xiaomy_certification:xiaomy_webstressapi_str_4}</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <link href="source/plugin/xiaomy_certification/static/newcss.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="source/plugin/xiaomy_certification/static/jquery.min.js"></script>
+
+    <!-- ========== 趣赚汇 · 暖白珊瑚红渐变风格 (实名认证支付引导页) ========== -->
+    <style>
+        :root {
+            --bg: #fff9f5;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary: #ff7b00;
+            --primary-dark: #e63946;
+            --primary-gradient: linear-gradient(135deg, #ff7b00, #e63946);
+            --text-primary: #3d2b1a;
+            --text-secondary: #8b6f5c;
+            --text-tertiary: #b08968;
+            --border-light: rgba(255, 200, 120, 0.35);
+            --border-card: rgba(255, 190, 90, 0.35);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 20px 45px rgba(255,140,30,0.10), 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-red: 0 5px 15px rgba(255,50,0,0.25);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+        }
+
+        body {
+            background: linear-gradient(180deg, #fef9f0 0%, #fff5e6 30%, #fef3e2 60%, #fdf0db 100%) !important;
+            color: var(--text-primary) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif !important;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer {
+            display: none;
+        }
+
+        /* 头部样式 - 暖白毛玻璃 */
+        #header {
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,200,120,0.35) !important;
+            width: 100%;
+            height: 80px; /* 修正原来错误的高度 */
+            font-size: 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px 20px 20px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+        }
+
+        #back-button {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary) !important;
+            font-weight: 600;
+        }
+
+        #header-title {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+            font-size: 22px;
+            margin: 0;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+            letter-spacing: 0;
+            margin-top:40px;
+        }
+
+        /* 主要内容区域 */
+        .aui-flexView.firststep {
+            display: block !important;
+            margin-top: 100px !important;
+            margin-bottom: 150px !important;
+            padding: 20px;
+        }
+
+        /* 图片区域 */
+        [style*="display:flex;justify-content:center;align-items:center;"] {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: 30px 0 20px 0 !important;
+        }
+
+        [style*="width:270px;height:150px;"] {
+            width: 160px !important;
+            height: 160px !important;
+            border-radius: 8px !important;
+            background: rgba(255, 123, 0, 0.08) !important;
+            padding: 20px !important;
+            border: 3px solid var(--primary) !important;
+            box-shadow: 0 0 30px rgba(255, 123, 0, 0.2) !important;
+            object-fit: contain;
+        }
+
+        /* 标题文字 */
+        [style*="font-size:26px;font-weight:500;text-align:center;color:#000;line-height:30px;"] {
+            font-size: 28px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            color: var(--primary-dark) !important;
+            line-height: 1.4 !important;
+            margin-top: -10px !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--primary-dark) !important;
+            letter-spacing: 0;
+        }
+
+        /* 说明文字 */
+        [style*="font-size:14px;font-weight:400;text-align:left;color:#646464;"] {
+            font-size: 14px !important;
+            font-weight: 400 !important;
+            text-align: left !important;
+            color: var(--text-secondary) !important;
+            line-height: 1.6 !important;
+            margin-top: 20px !important;
+            padding: 0 15px !important;
+        }
+
+        [style*="color:#ff0000;"] {
+            color: #e63946 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 表单区域 */
+        .aui-name-form {
+            background: transparent !important;
+        }
+
+        /* 底部按钮容器 */
+        .invite-container {
+            position: fixed !important;
+            z-index: 99999 !important;
+            height: auto !important;
+            width: 100% !important;
+            bottom: 0 !important;
+            margin-left: 0 !important;
+            left: 0 !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.96) 30%, #ffffff 100%) !important;
+            backdrop-filter: blur(8px) !important;
+            padding: 20px !important;
+            border-top: 1px solid rgba(255,200,120,0.35) !important;
+            box-sizing: border-box;
+        }
+
+        /* 协议文字 */
+        [style*="font-size:13px;font-weight:400;text-align:center;color:#646464;"] {
+            font-size: 13px !important;
+            font-weight: 400 !important;
+            text-align: center !important;
+            color: var(--text-tertiary) !important;
+            line-height: 1.6 !important;
+            margin-bottom: 8px !important;
+        }
+
+        a[style*="color:#255eed;"] {
+            color: var(--primary) !important;
+            font-weight: 600 !important;
+            text-decoration: underline !important;
+        }
+
+        a[style*="color:#255eed;"]:hover {
+            color: var(--primary-dark) !important;
+        }
+
+        /* 按钮样式 - 红橙渐变 */
+        .btncss {
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            padding: 16px 0 !important;
+            width: 100% !important;
+            box-shadow: var(--shadow-red) !important;
+            transition: all 0.2s !important;
+            cursor: pointer;
+            animation: pulse-glow 2s infinite !important;
+        }
+
+        .btncss:active {
+            transform: scale(0.96);
+            box-shadow: var(--shadow-red);
+        }
+
+        /* 价格样式 */
+        .btncss font {
+            font-size: 30px !important;
+            color: white !important;
+            font-weight: 700 !important;
+            margin: 0 4px !important;
+        }
+
+        /* 动画效果 - 红橙光效 */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 123, 0, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            #header {
+                height: 80px;
+                padding: 0 15px;
+            }
+            
+            #header-title {
+                font-size: 18px;
+            }
+            
+            .aui-flexView.firststep {
+                margin-top: 90px !important;
+                padding: 15px;
+            }
+            
+            [style*="width:270px;height:150px;"] {
+                width: 130px !important;
+                height: 130px !important;
+            }
+            
+            [style*="font-size:26px;font-weight:500;"] {
+                font-size: 24px !important;
+            }
+            
+            .btncss {
+                font-size: 16px !important;
+                padding: 14px 0 !important;
+            }
+            
+            .btncss font {
+                font-size: 26px !important;
+            }
+        }
+    </style>
+    <style>
+        /* 覆盖头部原有样式 - 暖白珊瑚风格 */
+        #header {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,200,120,0.35) !important;
+            box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+        }
+        #header-title {
+            color: var(--text-primary) !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+        }
+        #back-button {
+            color: var(--primary) !important;
+        }
+    </style>
+    <link rel="stylesheet" href="source/plugin/xiaomy_certification/static/tgb-r06-certification-light-grid.css?v=20260727-r09-owner-v2">
+</head>
+<body>
+    <!-- 头部栏 -->
+    <div id="header" style="margin-top:0px;">
+        <a href="javascript:window.history.go(-1);">
+            <span class="tgb-back-icon" aria-hidden="true"></span>
+        </a>
+        <h1 id="header-title">实名认证</h1>
+        <div style="width: 20px;"></div>
+    </div>
+
+    <section class="aui-flexView firststep" style="margin-top:150px!important;">
+      
+        
+        <!-- 标题 -->
+        <div style="font-size:26px;font-weight:500;text-align:center;color:#000;line-height:30px;margin-top:80px;">
+            完成实名认证即可提现</br>畅享平台所有功能
+        </div>
+        
+        <!-- 说明 -->
+        <div style="font-size:14px;font-weight:400;text-align:left;color:#646464;line-height:30px;margin-top:20px;padding:0 15px;">
+            由支付宝提供实名服务，费用由支付宝收取，一个身份只能认证一个账号，如因该原因导致多次付费，平台不受理退款。
+      
+        </div>
+        
+        <section class="aui-scrollView">
+            <div class="aui-name-form">
+                <div style="margin-bottom:250px;"></div>
+                
+                <!-- 底部按钮区域 -->
+                <div class="invite-container">
+                    <div style="font-size:13px;font-weight:400;text-align:center;color:#646464;line-height:35px;">
+                        请您在实名认证前仔细阅读
+                        <a style="color:#255eed;" href="m/smrz.html">
+                            《实名认证服务协议》
+                        </a>
+                    </div>
+                    <div style="font-size:13px;font-weight:400;text-align:center;color:#646464;line-height:20px;">
+                        您支付认证费用代表默认同意实名认证协议
+                    </div>
+                    
+                    <div class="aui-flex" style="text-align: center;">
+                        <div class="aui-flex-box">
+                            <input type='hidden' name="formhash" value={FORMHASH}>
+                            <a href="plugin.php?id=xiaomy_certification:pay">
+                                <button type="button" class='btncss' style="font-size:20px;font-weight:500;padding:10px 0px;width:95%;">
+                                    支付 ¥ <font style="font-size:30px;">1.5</font> 实名认证
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <input type="hidden">
+    </section>
+
+    <script>
+        // 原有的脚本保持不变
+    </script>
+</body>
+</html>

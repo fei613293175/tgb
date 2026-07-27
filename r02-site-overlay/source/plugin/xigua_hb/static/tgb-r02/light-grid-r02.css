@@ -24,7 +24,7 @@
   --tgb-shadow-nav: 0 -8px 30px rgba(26, 52, 84, 0.09);
   --tgb-radius-card: 16px;
   --tgb-radius-control: 12px;
-  --tgb-header-height: 92px;
+  --tgb-header-height: calc(60px + env(safe-area-inset-top, 0px));
   --tgb-tabbar-height: 64px;
 }
 
@@ -98,7 +98,7 @@ html.tgb-light-grid body::-webkit-scrollbar-thumb {
   height: var(--tgb-header-height) !important;
   min-height: var(--tgb-header-height);
   margin: 0 auto !important;
-  padding: 10px 14px 8px !important;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 14px 8px !important;
   overflow: visible;
   color: var(--tgb-ink) !important;
   background: rgba(255, 255, 255, 0.96) !important;

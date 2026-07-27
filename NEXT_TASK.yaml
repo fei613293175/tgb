@@ -3,14 +3,15 @@ project_id: TG-H5-UI-REDESIGN
 task_id: TASK-R09-001
 release: R09
 status: IN_PROGRESS
-title: R09 开发关版完成与异步真机定向返修
-development_status: PASS
+title: R09 负责人真机缺陷返修与重新验收
+development_status: IMPLEMENTATION_COMPLETE_PENDING_OWNER_AND_SECURITY
 owner_verification_status: PENDING_OWNER_VERIFICATION
 
 read_first:
   - 06_HARD_GATES.md
   - 00_PROJECT_CHARTER.md
   - CURRENT_STATUS.yaml
+  - evidence/R09/owner-device-repair/R09_OWNER_DEVICE_DEFECT_AUDIT.md
   - version-results/R09_RESULT.md
   - evidence/R09/R09_QUICK_BROWSER_REGRESSION.md
   - evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md
@@ -47,10 +48,10 @@ actions:
 
 progress:
   candidate_assembled: true
-  candidate_revision: v5
-  candidate_files: 78
-  candidate_sha256: c87633b032784b7a634496c50f3bb424a6668271dd6b43e2b6ad561cc2410734
-  candidate_matches_r08_staging: PASS_EXACT_78_FILE_HASH_MATCH
+  candidate_revision: owner-v1
+  candidate_files: 79
+  candidate_sha256: 9deca6adaf7579bbbe8944d0725b3be61dbb6f3a1892fea07d339225f167ae15
+  candidate_matches_r08_staging: PASS_EXACT_79_FILE_HASH_MATCH_STAGING_ONLY
   candidate_78_file_production_hash_match: PASS_EXACT_78_FILE_HASH_MATCH
   candidate_server_verify_only: PASS_FILES_78
   static_release_gates_r02_through_r08: PASS
@@ -63,10 +64,23 @@ progress:
   native_inset_root_cause: DUPLICATED_NATIVE_WINDOW_INSETS_PADDING
   native_inset_source_fix: COMPLETE
   h5_inset_browser_check_390x844: PASS_HOME_AND_SIGN
-  server_signed_apk_build_id: 20260727T095500+0800
-  server_signed_apk_sha256: 5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f
-  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk
+  server_signed_apk_build_id: 20260727T235000+0800
+  server_signed_apk_sha256: 5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027
+  desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-页面返修与外链修复.apk
+  owner_repair_production_deployed: true
+  owner_repair_production_deploy_id: 20260727T233853+0800
+  owner_repair_production_backup: /www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T233853+0800-owner-repair
+  owner_repair_online_smoke: PASS_EXACT_79_FILES_5_ROUTES_LOCAL_CSS_PUBLIC_UI_CDN_0
+  server_build_id: 20260727T235000+0800
+  server_apk_bytes: 18154509
+  server_apk_sha256: 5c69f3c4e64e214e901fae5574ec8b54c464e1cd19a907896742feb0327aa027
+  server_source_archive_sha256: 58cd915afd798815ac54ae853c6e11616a49fc254812ef242f0657328e4a291d
+  handoff_apk: deliverables/android/R09/tuiguangbao-1.0.0-R09-owner-repair-external-nav.apk
   owner_replacement_apk_test: PENDING_ASYNC
+  owner_device_repair_static_gate: PASS
+  home_headline_component_browser_gate: PASS_360X800_390X844_430X932
+  home_headline_full_page_gate: PASS_390X844_PLUS_COMPONENT_THREE_VIEWPORTS
+  owner_candidate_staging_deploy_id: 20260727T224528+0800
   android_h5_ua_scope_closeout: PASS
   public_auth_search_anti_fraud_click_edges: PROVEN
   direct_url_legal_pages_restored: 3
@@ -102,9 +116,11 @@ progress:
   h5_global_in_scope: 39
   business_h5_pages: 38
   desktop_compatibility_entries: 1
-  h5_global_redesigned_verified: 39
-  h5_global_evidence_map: PASS_39_OF_39
-  h5_global_closeout_gate: PASS
+  h5_global_redesigned_verified: PASS_39_OF_39_AFTER_OWNER_REPAIR_REVERIFY
+  h5_global_evidence_map: HISTORICAL_ONLY_PENDING_OWNER_REPAIR_REVERIFY
+  h5_global_closeout_gate: PASS_OWNER_REPAIR_EVIDENCE_BOUND
+  owner_device_repair_overlay: r09-owner-fix-overlay
+  owner_device_repair_status: PASS_14_AFFECTED_PAGE_BROWSER_REVERIFY
   sign_correction_production_deploy_id: 20260727T181342+0800
   publish_correction_production_deploy_id: 20260727T181343+0800
   final_auth_bridge: OFF
@@ -115,19 +131,22 @@ progress:
   production_database_identifier_in_git_history: DETECTED_ONE_COMMIT_OWNER_REMEDIATION_REQUIRED
   final_project_readiness: FAIL_PENDING_OWNER_AND_SECURITY
   final_project_readiness_gate: scripts/test-final-project-readiness.ps1
+  continuity_manifest: PASS_927_FILES_PRECOMMIT
   owner_verification_matrix: evidence/R09/final-readiness/FINAL_OWNER_VERIFICATION.csv
   owner_device_evidence_schema: evidence/R09/final-readiness/OWNER_DEVICE_EVIDENCE_SCHEMA.json
 
 self_correction:
   interval_minutes: 30
-  last_material_output: FINAL_PROJECT_READINESS_GATE_FORMALIZED
+  last_material_output: PRODUCTION_APK_DELIVERY_AND_927_FILE_CONTINUITY_MANIFEST_PASS
   current_state: ADVANCING
   loop_rule: after two checks without a new artifact test result deployment or resolved fact change method and execute the next concrete action
 
 next_action:
-  - H5 development closeout is complete; do not create R10 or reopen completed page discovery
+  - rebuild and verify the continuity manifest then create a traceable R09 checkpoint commit
+  - run the final project readiness gate and retain its expected nonzero result only for owner-device and database-security external actions
+  - accept owner feedback asynchronously and perform only evidence-driven targeted repairs without reopening hidden-page discovery
   - keep the production database identifier runtime-only; owner credential rotation and Git-history remediation remain a final security action
-  - continue from new owner feedback without reopening completed page discovery
+  - do not reopen page discovery; repair only the screenshot-proven real-click pages listed in the owner defect audit
   - do not wait for owner APK feedback and do not start hidden-page redesign work
   - preserve the R09 member and chat production backup until owner feedback is closed
   - preserve the R09 cashier production backup until owner feedback is closed

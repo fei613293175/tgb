@@ -1,0 +1,463 @@
+<!--{eval $tgb_android_app = strpos($_SERVER['HTTP_USER_AGENT'], 'TuiGuangBaoAndroid/') !== false;}--><!DOCTYPE html>
+<html class="tgb-cert-result<!--{if $tgb_android_app}--> tgb-android-app<!--{/if}-->">
+<head>
+    <title>{lang xiaomy_certification:xiaomy_rzres_str_4}</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="default" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="#f4f7fb" name="theme-color" />
+    <meta content="light" name="color-scheme" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="source/plugin/xiaomy_certification/newcss.css" rel="stylesheet" type="text/css" />
+    
+    <!-- ========== 趣赚汇 · 暖白珊瑚红渐变风格 (实名认证结果页) ========== -->
+    <style>
+        :root {
+            --bg: #fff9f5;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary: #ff7b00;
+            --primary-dark: #e63946;
+            --primary-gradient: linear-gradient(135deg, #ff7b00, #e63946);
+            --text-primary: #3d2b1a;
+            --text-secondary: #8b6f5c;
+            --text-tertiary: #b08968;
+            --border-light: rgba(255, 200, 120, 0.35);
+            --border-card: rgba(255, 190, 90, 0.35);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 20px 45px rgba(255,140,30,0.10), 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-red: 0 5px 15px rgba(255,50,0,0.25);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+        }
+
+        body {
+            background: linear-gradient(180deg, #fef9f0 0%, #fff5e6 30%, #fef3e2 60%, #fdf0db 100%) !important;
+            color: var(--text-primary) !important;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', sans-serif !important;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer {
+            display: none;
+        }
+
+        /* 头部样式 - 暖白毛玻璃 */
+        #header {
+            z-index: 999;
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,200,120,0.35) !important;
+            width: 100%;
+            height: 80px;
+            font-size: 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+        }
+
+        #back-button {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--primary) !important;
+            font-weight: 600;
+        }
+
+        #header-title {
+            color: var(--text-primary) !important;
+            font-weight: 800;
+            font-size: 22px;
+            margin: 0;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+            letter-spacing: 0;
+            margin-top:40px;
+        }
+
+        /* 主要内容区域 */
+        .aui-scrollView {
+            margin-top: 100px !important;
+            padding: 20px;
+        }
+
+        /* 成功图标区域 */
+        [style*="display:flex;justify-content:center;align-items:center;"] {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            margin: 30px 0 20px 0 !important;
+        }
+
+        [style*="width:260px;height:150px;"] {
+            width: 160px !important;
+            height: 160px !important;
+            border-radius: 50% !important;
+            background: rgba(255, 123, 0, 0.08) !important;
+            padding: 20px !important;
+            border: 3px solid var(--primary) !important;
+            box-shadow: 0 0 30px rgba(255, 123, 0, 0.2) !important;
+            animation: pulse-success 2s infinite !important;
+            object-fit: contain;
+        }
+
+        @keyframes pulse-success {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 123, 0, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 123, 0, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 123, 0, 0.2); }
+        }
+
+        /* 认证结果卡片 */
+        .aui-name-form {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--border-card) !important;
+            border-radius: var(--radius-lg) !important;
+            padding: 35px 20px !important;
+            text-align: center;
+            box-shadow: var(--shadow-md) !important;
+            margin: 0 20px 30px 20px !important;
+        }
+
+        .aui-flex {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: transparent !important;
+        }
+
+        /* 成功提示文字 */
+        #showres {
+            color: var(--text-primary) !important;
+            font-size: 28px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            margin-bottom: 20px !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+            letter-spacing: 0;
+        }
+
+        #showres div {
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+            font-size: 24px !important;
+            font-weight: 700 !important;
+        }
+
+        /* 错误状态样式 */
+        [style*="color:red"] {
+            color: #e63946 !important;
+            font-size: 20px !important;
+            font-weight: 700 !important;
+        }
+
+        /* 底部按钮容器 */
+        .invite-container {
+            position: fixed !important;
+            z-index: 99999 !important;
+            height: auto !important;
+            width: 100% !important;
+            bottom: 0 !important;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.96) 30%, #ffffff 100%) !important;
+            backdrop-filter: blur(8px) !important;
+            padding: 20px !important;
+            border-top: 1px solid rgba(255,200,120,0.35) !important;
+        }
+
+        /* 按钮样式 - 红橙渐变 */
+        .btncss {
+            background: var(--primary-gradient) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 60px !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            padding: 18px 0 !important;
+            width: 100% !important;
+            box-shadow: var(--shadow-red) !important;
+            transition: all 0.2s !important;
+            cursor: pointer;
+            animation: pulse-glow 2s infinite !important;
+        }
+
+        .btncss:active {
+            transform: scale(0.96);
+            box-shadow: var(--shadow-red);
+        }
+
+        /* 动画效果 - 红橙光效 */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 123, 0, 0.5); }
+            100% { box-shadow: 0 0 5px rgba(255, 123, 0, 0.3); }
+        }
+
+        /* 成功徽章样式 */
+        .success-badge {
+            display: inline-block;
+            background: rgba(255, 123, 0, 0.08);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 123, 0, 0.25);
+        }
+
+        /* 认证详情区域（如果存在） */
+        .cert-details {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255,245,235,0.7);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-light);
+            text-align: left;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* 认证提示区域 */
+        [style*="margin-top: 25px; padding: 15px; background: rgba(59, 130, 246, 0.05);"] {
+            background: rgba(255,245,235,0.7) !important;
+            border: 1px solid var(--border-light) !important;
+            border-radius: var(--radius-md) !important;
+        }
+        [style*="color: #8e9aaf; font-size: 14px; line-height: 1.6;"] {
+            color: var(--text-secondary) !important;
+        }
+        [style*="color: #60a5fa; margin-right: 8px;"] {
+            color: var(--primary) !important;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            #header {
+                height: 80px;
+                padding: 0 15px;
+            }
+            
+            #header-title {
+                font-size: 18px;
+            }
+            
+            .aui-scrollView {
+                margin-top: 90px !important;
+                padding: 15px;
+            }
+            
+            .aui-name-form {
+                margin: 0 10px 20px 10px !important;
+                padding: 25px 15px !important;
+            }
+            
+            #showres {
+                font-size: 24px !important;
+            }
+            
+            [style*="width:260px;height:150px;"] {
+                width: 130px !important;
+                height: 130px !important;
+            }
+            
+            .btncss {
+                font-size: 16px !important;
+                padding: 16px 20px !important;
+            }
+        }
+
+        /* 成功状态装饰 */
+        .success-decoration {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-decoration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 123, 0, 0.08) 0%, transparent 70%);
+            z-index: -1;
+        }
+    </style>
+    <style>
+        /* 覆盖头部原有样式 */
+        #header {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-bottom: 1px solid rgba(255,200,120,0.35) !important;
+            box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+        }
+        #back-button {
+            color: var(--primary) !important;
+        }
+        #header-title {
+            color: var(--text-primary) !important;
+            background: none !important;
+            -webkit-background-clip: initial !important;
+            background-clip: initial !important;
+            color: var(--text-primary) !important;
+        }
+    </style>
+    <link rel="stylesheet" href="source/plugin/xiaomy_certification/static/tgb-r06-certification-light-grid.css?v=20260727-r09-owner-v2">
+</head>
+<body>
+    <!-- 头部栏 -->
+    <div id="header" style="margin-top:0px;">
+        <a href="javascript:window.history.go(-1);" aria-label="返回">
+            <span class="tgb-back-icon" aria-hidden="true"></span>
+        </a>
+        <h1 id="header-title">实名认证</h1>
+        <div style="width: 20px;"></div>
+    </div>
+
+    <section class="aui-flexView" style="margin-top:5px;">
+        <section class="aui-scrollView">
+           
+            
+            <!-- 认证结果 -->
+            <div class="aui-name-form tgb-cert-result-card">
+                <div class="aui-flex" style="height: auto; background: transparent; text-align: center; padding-top: 10px;">
+                    <div id="showres" style="font-size:23px;font-weight:500;text-align:center;">
+                        恭喜您已完成认证
+                    </div>
+                    
+                    <!-- 成功徽章 -->
+                    <div class="success-badge">
+                        ✓ 认证成功
+                    </div>
+                    
+                    <!-- 认证提示 -->
+                    <div class="tgb-cert-result-tips">
+                        <div>
+                            <div style="margin-bottom: 8px; display: flex; align-items: center;">
+                                <span style="color: #ff7b00; margin-right: 8px;">✓</span>
+                                认证成功，您现在可以享受完整平台功能
+                            </div>
+                            <div style="margin-bottom: 8px; display: flex; align-items: center;">
+                                <span style="color: #ff7b00; margin-right: 8px;">✓</span>
+                                您的账户安全级别已提升
+                            </div>
+                            <div style="display: flex; align-items: center;">
+                                <span style="color: #ff7b00; margin-right: 8px;">✓</span>
+                                认证信息已加密保存，保障您的隐私安全
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    
+    <!-- 底部按钮 -->
+    <div class="invite-container">
+        <div class="aui-flex" style="text-align: center;">
+            <div class="aui-flex-box">
+                <a href="plugin.php?id=xigua_hb&ac=my&high=4" style="display: block; text-decoration: none;">
+                    <button class="btncss" style="font-size:20px;font-weight:500;padding:15px 15px;width:100%;">
+                        返回个人中心
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>var jQuery = jQuery.noConflict();</script>
+    <script>
+        var tmpinter = setInterval(function () {
+            jQuery.get(
+                '{$_G["siteurl"]}plugin.php?id=xiaomy_certification&modac=checkres',
+                {orderNo: '{$orderNo}'},
+                function (data) {
+                    if (data.code != 200) {
+                        clearInterval(tmpinter);
+                        jQuery("#showres").html('<div style="color:#e63946;font-size:20px;font-weight:700;">'+data.msg+'</div>');
+                        jQuery(".success-badge").html('✗ 认证失败').css({
+                            'background': 'rgba(230, 57, 70, 0.08)',
+                            'color': '#e63946',
+                            'border-color': 'rgba(230, 57, 70, 0.25)'
+                        });
+                        jQuery(".cert-details .detail-item:first-child .detail-value").text('验证失败').css('color', '#e63946');
+                        jQuery(".success-decoration img").css({
+                            'filter': 'grayscale(1) opacity(0.7)'
+                        });
+                        jQuery(".btncss").css({
+                            'background': 'linear-gradient(135deg, #e63946, #ff7b00)',
+                            'box-shadow': '0 4px 20px rgba(230, 57, 70, 0.3)'
+                        });
+                        return false;
+                    } else {
+                        jQuery("#showres").html('<div>恭喜您已完成认证</div>');
+                        clearInterval(tmpinter);
+                        jQuery(".success-decoration").addClass('success-decoration');
+                        jQuery(".btncss").addClass('pulse-glow');
+                        return false;
+                    }
+                }, "json");
+        }, 2000);
+
+        function resetrz(){
+            window.location.href='{$_G["siteurl"]}plugin.php?id=xiaomy_certification';
+        }
+        
+        jQuery(document).ready(function(){
+            jQuery('#back-button').click(function(){
+                jQuery(this).css('transform', 'translateX(-5px)');
+                setTimeout(() => {
+                    jQuery(this).css('transform', 'translateX(0)');
+                }, 200);
+            });
+            
+            jQuery('.btncss').click(function(){
+                jQuery(this).css('transform', 'scale(0.95)');
+                setTimeout(() => {
+                    jQuery(this).css('transform', 'scale(1)');
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>

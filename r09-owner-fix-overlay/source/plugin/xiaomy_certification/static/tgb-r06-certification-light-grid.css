@@ -1,0 +1,246 @@
+:root {
+    --tgb-blue: #146ef5;
+    --tgb-cyan: #00a8cc;
+    --tgb-ink: #172033;
+    --tgb-muted: #68758a;
+    --tgb-line: #dbe3ef;
+    --tgb-bg: #f4f7fb;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    background: var(--tgb-bg) !important;
+    color: var(--tgb-ink) !important;
+    letter-spacing: 0 !important;
+}
+
+#header {
+    box-sizing: border-box !important;
+    height: calc(56px + env(safe-area-inset-top)) !important;
+    padding: env(safe-area-inset-top) 14px 0 !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    border-bottom: 1px solid var(--tgb-line) !important;
+    box-shadow: 0 4px 14px rgba(35, 53, 78, 0.06) !important;
+    backdrop-filter: blur(12px);
+}
+
+#header > a {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tgb-back-icon {
+    width: 11px;
+    height: 11px;
+    display: block;
+    border-bottom: 2px solid var(--tgb-blue);
+    border-left: 2px solid var(--tgb-blue);
+    transform: rotate(45deg);
+}
+
+#header-title {
+    margin: 0 !important;
+    color: var(--tgb-ink) !important;
+    background: none !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+}
+
+.aui-flexView.firststep {
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin: 0 !important;
+    padding: calc(96px + env(safe-area-inset-top)) 18px calc(152px + env(safe-area-inset-bottom)) !important;
+    background: var(--tgb-bg) !important;
+}
+
+.aui-flexView.firststep > div:first-of-type {
+    margin: 0 !important;
+    padding: 24px 18px 14px !important;
+    background: #fff !important;
+    color: var(--tgb-ink) !important;
+    border: 1px solid var(--tgb-line);
+    border-bottom: 0;
+    border-radius: 8px 8px 0 0 !important;
+    font-size: 24px !important;
+    font-weight: 750 !important;
+    line-height: 1.45 !important;
+    text-align: left !important;
+}
+
+.aui-flexView.firststep > div:nth-of-type(2) {
+    margin: 0 !important;
+    padding: 8px 18px 24px !important;
+    background: #fff !important;
+    color: var(--tgb-muted) !important;
+    border: 1px solid var(--tgb-line);
+    border-top: 0;
+    border-radius: 0 0 8px 8px !important;
+    font-size: 14px !important;
+    line-height: 1.75 !important;
+}
+
+.invite-container {
+    box-sizing: border-box !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-top: 1px solid var(--tgb-line) !important;
+    box-shadow: 0 -8px 24px rgba(35, 53, 78, 0.08) !important;
+    backdrop-filter: blur(12px);
+}
+
+.invite-container > div {
+    color: var(--tgb-muted) !important;
+    line-height: 1.55 !important;
+}
+
+.invite-container a[style*="color:#255eed"] {
+    color: var(--tgb-blue) !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+}
+
+.btncss {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-height: 48px;
+    margin-top: 10px;
+    padding: 0 14px !important;
+    background: var(--tgb-blue) !important;
+    color: #fff !important;
+    border: 1px solid var(--tgb-blue) !important;
+    border-radius: 8px !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 8px 18px rgba(20, 110, 245, 0.2) !important;
+    animation: none !important;
+}
+
+.btncss font {
+    color: #fff !important;
+    font-size: 22px !important;
+    font-weight: 750 !important;
+}
+
+.btncss:active {
+    background: #0d5bd1 !important;
+    transform: translateY(1px);
+}
+
+@media (max-width: 360px) {
+    .aui-flexView.firststep {
+        padding-right: 12px !important;
+        padding-left: 12px !important;
+    }
+
+    .aui-flexView.firststep > div:first-of-type {
+        font-size: 21px !important;
+    }
+}
+
+/* R09 owner-device repair: the certification result is a standalone template. */
+.tgb-cert-result {
+    --tgb-app-top-inset: env(safe-area-inset-top, 0px);
+    background: var(--tgb-bg) !important;
+}
+
+.tgb-cert-result body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: var(--tgb-bg) !important;
+}
+
+.tgb-cert-result #header {
+    height: calc(56px + var(--tgb-app-top-inset)) !important;
+    padding: var(--tgb-app-top-inset) 12px 0 !important;
+}
+
+.tgb-cert-result #header-title {
+    margin: 0 !important;
+    font-size: 17px !important;
+}
+
+.tgb-cert-result .aui-flexView,
+.tgb-cert-result .aui-scrollView {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 0 !important;
+}
+
+.tgb-cert-result .aui-scrollView {
+    margin: calc(56px + var(--tgb-app-top-inset)) 0 0 !important;
+    padding: 16px !important;
+}
+
+.tgb-cert-result .tgb-cert-result-card {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 !important;
+    padding: 22px 18px !important;
+    background: #fff !important;
+    border: 1px solid var(--tgb-line) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 22px rgba(35, 53, 78, 0.07) !important;
+}
+
+.tgb-cert-result #showres {
+    color: var(--tgb-ink) !important;
+    font-size: 21px !important;
+    font-weight: 750 !important;
+}
+
+.tgb-cert-result .success-badge {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 32px;
+    margin: 14px auto 0 !important;
+    padding: 0 12px !important;
+    background: #e9fbf2 !important;
+    color: #137a4a !important;
+    border: 1px solid #bcebd2 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+.tgb-cert-result .tgb-cert-result-tips {
+    margin-top: 20px !important;
+    padding: 14px !important;
+    background: #f7f9fc !important;
+    border: 1px solid var(--tgb-line) !important;
+    border-radius: 6px !important;
+    text-align: left !important;
+}
+
+.tgb-cert-result .tgb-cert-result-tips > div {
+    color: var(--tgb-muted) !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+}
+
+.tgb-cert-result .tgb-cert-result-tips span {
+    color: #137a4a !important;
+}
+
+.tgb-cert-result .invite-container {
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom)) !important;
+}
+
+.tgb-cert-result .btncss {
+    min-height: 46px !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+    font-size: 16px !important;
+}

@@ -12,79 +12,58 @@ class ExternalIntentRouter(
     private val onAlipayUnavailable: () -> Unit
 ) {
     private val alipaySchemes = setOf("alipays", "alipay")
-    private val alipayHosts = setOf("platformapi")
-    private val alipayPackage = "com.eg.android.AlipayGphone"
 
     fun route(uri: Uri, currentPage: Uri?, hasUserGesture: Boolean): Boolean {
-        if (AllowedHosts.isInternalHttps(uri)) return false
+        val scheme = uri.scheme?.lowercase()
 
-        if (AllowedHosts.isPaymentHttps(uri)) {
-            if (AllowedHosts.isTrustedPaymentOrigin(currentPage?.host)) {
-                // Keep approved H5 cashier pages inside this WebView so their
-                // later Alipay deep link is still intercepted by this router.
-                return false
-            }
+        if (scheme == "https") {
+            // HTTPS navigation stays in the WebView, including third-party
+            // cashiers and their redirect chain.
+            return false
+        }
+        if (scheme == "intent") {
+            return openSanitizedIntent(uri)
+        }
+        if (!ExternalNavigationPolicy.isExternalAppScheme(scheme)) {
             onBlocked()
             return true
         }
 
-        if (uri.scheme.equals("https", ignoreCase = true)) {
-            return openExternalHttps(uri, hasUserGesture)
-        }
-
-        val paymentUri = when {
-            uri.scheme.equals("intent", ignoreCase = true) -> parseApprovedIntent(uri)
-            uri.scheme?.lowercase() in alipaySchemes -> uri
-            else -> null
-        }
-
-        if (
-            paymentUri == null ||
-            !AllowedHosts.isTrustedPaymentOrigin(currentPage?.host) ||
-            paymentUri.scheme?.lowercase() !in alipaySchemes ||
-            paymentUri.host?.lowercase() !in alipayHosts
-        ) {
-            onBlocked()
-            return true
-        }
-
-        val safeIntent = Intent(Intent.ACTION_VIEW, paymentUri).apply {
+        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
             addCategory(Intent.CATEGORY_BROWSABLE)
-            setPackage(alipayPackage)
         }
+        return startExternal(intent, scheme in alipaySchemes)
+    }
+
+    private fun openSanitizedIntent(uri: Uri): Boolean {
+        val intent = runCatching {
+            Intent.parseUri(uri.toString(), Intent.URI_INTENT_SCHEME).apply {
+                action = Intent.ACTION_VIEW
+                component = null
+                selector = null
+                clipData = null
+                flags = 0
+                replaceExtras(android.os.Bundle())
+                categories?.toList()?.forEach(::removeCategory)
+                addCategory(Intent.CATEGORY_BROWSABLE)
+            }
+        }.getOrNull()
+
+        val targetScheme = intent?.data?.scheme?.lowercase()
+        if (intent == null || !ExternalNavigationPolicy.isExternalAppScheme(targetScheme)) {
+            onBlocked()
+            return true
+        }
+        return startExternal(intent, targetScheme in alipaySchemes)
+    }
+
+    private fun startExternal(intent: Intent, isAlipay: Boolean): Boolean {
         return try {
-            context.startActivity(safeIntent)
+            context.startActivity(intent)
             onExternalAppStarted()
             true
         } catch (_: ActivityNotFoundException) {
-            onAlipayUnavailable()
-            true
-        } catch (_: SecurityException) {
-            onBlocked()
-            true
-        }
-    }
-
-    private fun parseApprovedIntent(uri: Uri): Uri? = runCatching {
-        val parsed = Intent.parseUri(uri.toString(), Intent.URI_INTENT_SCHEME)
-        if (parsed.component != null || parsed.selector != null) return@runCatching null
-        if (parsed.`package` != null && parsed.`package` != alipayPackage) return@runCatching null
-        parsed.data
-    }.getOrNull()
-
-    private fun openExternalHttps(uri: Uri, hasUserGesture: Boolean): Boolean {
-        if (!hasUserGesture || uri.userInfo != null) {
-            onBlocked()
-            return true
-        }
-        val safeIntent = Intent(Intent.ACTION_VIEW, uri).apply {
-            addCategory(Intent.CATEGORY_BROWSABLE)
-        }
-        return try {
-            context.startActivity(safeIntent)
-            true
-        } catch (_: ActivityNotFoundException) {
-            onBlocked()
+            if (isAlipay) onAlipayUnavailable() else onBlocked()
             true
         } catch (_: SecurityException) {
             onBlocked()

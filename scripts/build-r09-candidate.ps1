@@ -1,6 +1,6 @@
 param(
     [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '.runtime/r09-production-candidate'),
-    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v5.tar.gz')
+    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-owner-v1.tar.gz')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -21,7 +21,8 @@ $layers = @(
     'r06-site-overlay',
     'r07-site-overlay',
     'r08-site-overlay',
-    'r09-brand-overlay'
+    'r09-brand-overlay',
+    'r09-owner-fix-overlay'
 )
 
 $excludedOutOfScope = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
@@ -43,15 +44,26 @@ foreach ($layer in $layers) {
     }
     $sourcePrefix = [IO.Path]::GetFullPath($sourceRoot).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
     foreach ($file in Get-ChildItem -LiteralPath $sourceRoot -Recurse -File) {
+        if ($layer -eq 'r09-owner-fix-overlay' -and $file.Name -eq '.gitkeep') {
+            continue
+        }
         $relative = $file.FullName.Substring($sourcePrefix.Length).Replace('\','/')
         if ($excludedOutOfScope.Contains($relative)) {
+            continue
+        }
+        $target = Join-Path $OutputRoot $relative
+        if (
+            $layer -eq 'r09-owner-fix-overlay' -and
+            (Test-Path -LiteralPath $target -PathType Leaf) -and
+            (Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash -eq
+                (Get-FileHash -LiteralPath $target -Algorithm SHA256).Hash
+        ) {
             continue
         }
         if ($owners.ContainsKey($relative)) {
             $overrides.Add("$relative`t$($owners[$relative])`t$layer")
         }
         $owners[$relative] = $layer
-        $target = Join-Path $OutputRoot $relative
         New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
         Copy-Item -LiteralPath $file.FullName -Destination $target -Force
     }
