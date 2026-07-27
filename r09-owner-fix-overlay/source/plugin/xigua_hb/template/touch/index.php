@@ -841,9 +841,9 @@ endif;
 </script>
 <!--{/if}-->
 
-<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r04/discovery-light-grid-r04.css?v=20260727-r09-owner-v5">
+<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r04/discovery-light-grid-r04.css?v=20260728-owner-v8">
 <!--{template xigua_hb:common_footer}-->
-<script src="source/plugin/xigua_hb/static/tgb-r04/discovery-r04.js?v=20260727-r09-owner-v5"></script>
+<script src="source/plugin/xigua_hb/static/tgb-r04/discovery-r04.js?v=20260728-owner-v8"></script>
 
 <!--{if $_G['cache']['plugin']['xigua_hs']}-->
 <!--{if $_G['cache']['plugin']['xigua_st']['dingwei'] && getcookie('nowst') && $_REQUEST[st]==0}-->

@@ -25,6 +25,7 @@
   color: var(--tg-r07s-text) !important;
   font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif !important;
   letter-spacing: 0 !important;
+  padding-top: 0 !important;
 }
 
 .tgb-r07-sign-wallet-page *,
@@ -101,7 +102,8 @@
   width: 100% !important;
   max-width: 680px !important;
   margin: 0 auto !important;
-  padding: calc(68px + env(safe-area-inset-top, 0px)) 16px calc(32px + env(safe-area-inset-bottom, 0px)) !important;
+  padding: calc(68px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+  gap: 0 !important;
 }
 
 .tgb-r07-sign-wallet-page .balance-hero,

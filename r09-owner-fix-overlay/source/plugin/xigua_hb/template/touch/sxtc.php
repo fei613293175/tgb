@@ -283,43 +283,6 @@ body {
 
 <script>
     $(document).ready(function(){
-        var purchaseLocked = false;
-
-        $('#form').on('submit', function(event){
-            event.preventDefault();
-            if (purchaseLocked) return false;
-
-            var purchaseForm = $(this);
-            var purchaseButton = $('#dosubmit');
-            purchaseLocked = true;
-            purchaseButton.prop('disabled', true);
-            $.showLoading();
-
-            $.ajax({
-                type: 'post',
-                url: purchaseForm.attr('action') + '&inajax=1',
-                data: purchaseForm.serialize(),
-                dataType: 'xml',
-                success: function(data){
-                    $.hideLoading();
-                    purchaseLocked = false;
-                    purchaseButton.prop('disabled', false);
-                    if (!data || !data.lastChild || !data.lastChild.firstChild) {
-                        tip_common('error|' + ERROR_TIP);
-                        return;
-                    }
-                    tip_common(data.lastChild.firstChild.nodeValue);
-                },
-                error: function(){
-                    $.hideLoading();
-                    purchaseLocked = false;
-                    purchaseButton.prop('disabled', false);
-                    tip_common('error|' + ERROR_TIP);
-                }
-            });
-            return false;
-        });
-
         $(".crypto-vip-option").click(function(){
             // 移除所有选项的active类
             $(".crypto-vip-option").removeClass("active");

@@ -665,4 +665,4 @@ div[style*="text-align:center;margin-top:20px;color:#8e9aaf"] {
         }, 1000);
     }
 </script>
-<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r07/finance-light-grid-r07.css?20260727-r09-owner-v4">
+<link rel="stylesheet" href="source/plugin/xigua_hb/static/tgb-r07/finance-light-grid-r07.css?20260728-owner-v5">

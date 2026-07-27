@@ -904,12 +904,16 @@ a[href*="tb_toutiao"][href*="super_main"] {
 
 /* R09 owner-device repair: compact App status inset and headline parity. */
 .tgb-android-app {
-  --tgb-owner-top-inset: env(safe-area-inset-top, 0px);
+  /* Android WebView reports env(safe-area-inset-top) as 0 in edge-to-edge mode. */
+  --tgb-owner-top-inset: 36px;
 }
 
-.tgb-android-app .tech-header {
+html.tgb-android-app body .tech-header {
   min-height: calc(52px + var(--tgb-owner-top-inset)) !important;
-  padding: calc(var(--tgb-owner-top-inset) + 2px) 0 2px !important;
+  padding-top: var(--tgb-owner-top-inset) !important;
+  padding-right: 0 !important;
+  padding-bottom: 2px !important;
+  padding-left: 0 !important;
 }
 
 .tgb-android-app body div[style*="margin-top:100px"],

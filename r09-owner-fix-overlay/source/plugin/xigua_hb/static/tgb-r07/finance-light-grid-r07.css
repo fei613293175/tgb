@@ -182,6 +182,7 @@ body {
 }
 
 .transfer-item {
+  width: 100% !important;
   min-width: 0;
   min-height: 48px;
   margin: 0 !important;
@@ -195,6 +196,7 @@ body {
   color: var(--tg-r07-text) !important;
   box-shadow: none !important;
   transform: none !important;
+  float: none !important;
 }
 
 .transfer-item.active {
@@ -492,4 +494,61 @@ body {
   border-color: var(--tg-r07-border) !important;
   background: var(--tg-r07-surface) !important;
   color: var(--tg-r07-text) !important;
+}
+
+.transfer-log-box .order-card {
+  width: 100% !important;
+  margin: 0 0 10px !important;
+  overflow: hidden;
+  border: 1px solid var(--tg-r07-border) !important;
+  border-radius: 8px !important;
+  background: var(--tg-r07-surface) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.transfer-log-box .wallet-record-link {
+  min-height: 76px;
+  padding: 14px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  background: var(--tg-r07-surface) !important;
+}
+
+.transfer-log-box .wallet-record-main { min-width: 0; }
+.transfer-log-box .wallet-record-amount {
+  margin-bottom: 5px;
+  color: var(--tg-r07-ink) !important;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+.transfer-log-box .wallet-record-note {
+  overflow: hidden;
+  color: var(--tg-r07-text) !important;
+  font-size: 14px;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.transfer-log-box .wallet-record-time {
+  color: var(--tg-r07-muted) !important;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.transfer-log-box .wallet-record-progress {
+  grid-column: 1 / -1;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--tg-r07-soft);
+}
+.transfer-log-box .wallet-record-progress::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--tg-r07-primary);
 }
