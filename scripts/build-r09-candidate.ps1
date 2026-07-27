@@ -1,6 +1,6 @@
 param(
     [string]$OutputRoot = (Join-Path (Split-Path -Parent $PSScriptRoot) '.runtime/r09-production-candidate'),
-    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v2.tar.gz')
+    [string]$ArchivePath = (Join-Path (Split-Path -Parent $PSScriptRoot) 'deliverables/r09-production-candidate-v3.tar.gz')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,6 +24,11 @@ $layers = @(
     'r09-brand-overlay'
 )
 
+$excludedOutOfScope = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+foreach ($relative in @('m/hyxy.html', 'm/help.html', 'm/gywm.html')) {
+    [void]$excludedOutOfScope.Add($relative)
+}
+
 if (Test-Path -LiteralPath $OutputRoot) {
     Remove-Item -LiteralPath $OutputRoot -Recurse -Force
 }
@@ -39,6 +44,9 @@ foreach ($layer in $layers) {
     $sourcePrefix = [IO.Path]::GetFullPath($sourceRoot).TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
     foreach ($file in Get-ChildItem -LiteralPath $sourceRoot -Recurse -File) {
         $relative = $file.FullName.Substring($sourcePrefix.Length).Replace('\','/')
+        if ($excludedOutOfScope.Contains($relative)) {
+            continue
+        }
         if ($owners.ContainsKey($relative)) {
             $overrides.Add("$relative`t$($owners[$relative])`t$layer")
         }
@@ -46,6 +54,12 @@ foreach ($layer in $layers) {
         $target = Join-Path $OutputRoot $relative
         New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
         Copy-Item -LiteralPath $file.FullName -Destination $target -Force
+    }
+}
+
+foreach ($relative in $excludedOutOfScope) {
+    if (Test-Path -LiteralPath (Join-Path $OutputRoot $relative)) {
+        throw "[R09-CANDIDATE] out-of-scope file leaked into candidate: $relative"
     }
 }
 
@@ -60,8 +74,22 @@ $overrideLines = @("path`tprevious_layer`twinning_layer") + $overrides
 [IO.File]::WriteAllText((Join-Path $reportRoot 'R09_LAYER_OVERRIDES.tsv'), (($overrideLines -join "`n") + "`n"), [Text.UTF8Encoding]::new($false))
 
 if (Test-Path -LiteralPath $ArchivePath) { Remove-Item -LiteralPath $ArchivePath -Force }
-tar -czf $ArchivePath -C (Split-Path -Parent $OutputRoot) (Split-Path -Leaf $OutputRoot)
-if ($LASTEXITCODE -ne 0) { throw '[R09-CANDIDATE] archive creation failed' }
+$tarPath = "$ArchivePath.tar"
+if (Test-Path -LiteralPath $tarPath) { Remove-Item -LiteralPath $tarPath -Force }
+try {
+    tar -cf $tarPath --format ustar --mtime '2026-07-27 00:00:00' -C (Split-Path -Parent $OutputRoot) (Split-Path -Leaf $OutputRoot)
+    if ($LASTEXITCODE -ne 0) { throw '[R09-CANDIDATE] tar creation failed' }
+    $inputStream = [IO.File]::OpenRead($tarPath)
+    try {
+        $outputStream = [IO.File]::Create($ArchivePath)
+        try {
+            $gzipStream = [IO.Compression.GZipStream]::new($outputStream, [IO.Compression.CompressionLevel]::Optimal, $true)
+            try { $inputStream.CopyTo($gzipStream) } finally { $gzipStream.Dispose() }
+        } finally { $outputStream.Dispose() }
+    } finally { $inputStream.Dispose() }
+} finally {
+    Remove-Item -LiteralPath $tarPath -Force -ErrorAction SilentlyContinue
+}
 
 $fileCount = @(Get-ChildItem -LiteralPath $OutputRoot -Recurse -File).Count
 $sha = (Get-FileHash -LiteralPath $ArchivePath -Algorithm SHA256).Hash.ToLowerInvariant()

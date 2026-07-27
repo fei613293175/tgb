@@ -1,0 +1,26 @@
+{
+  "date": "2026-07-27",
+  "auth": "authenticated-test-account",
+  "edge": {
+    "control": "搜索",
+    "parent": "/plugin.php?id=xigua_hb",
+    "viewport": "390x844",
+    "rect": {
+      "height": 44,
+      "width": 64,
+      "x": 299.20001220703125,
+      "y": 12
+    },
+    "exposedArea": 2816,
+    "elementFromPointHit": true,
+    "clicked": true,
+    "windowOpenUserGesture": true,
+    "child": "/plugin.php?keyword={keyword}&id=xigua_hb&ac=cat&st=&idu={sanitized}",
+    "parentScreenshot": "AUTH-HOME-SEARCH-PARENT-390x844.png",
+    "childScreenshot": "SEARCH-RESULT-390x844.png",
+    "childAndroidH5UaReapplied": true,
+    "childArticleCount": 20,
+    "childHorizontalOverflow": false,
+    "childOldBrandVisible": false
+  }
+}

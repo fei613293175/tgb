@@ -3,18 +3,33 @@
 - Status: `H5 DEPLOYED / ASYNC OWNER FEEDBACK OPEN`
 - Date: `2026-07-27`
 - Scope: final real-reachable H5 visual candidate and production release
-- Candidate files: 81
-- SHA-256: `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`
+- Current reproducible candidate: v3, 78 files
+- Current SHA-256: `a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389` (identical across two consecutive builds)
+- Historical deployed candidate: v2, 81 files, SHA-256 `108ab6d6c10be84a892aec223e24bcd134f86be30bc48c33a60f4180fd99dd3e`
 - Production deploy ID: `20260727T090142+0800`
 - Backup: `/www/staging/tg-h5-ui-r08/private/production-release-backups/20260727T090142+0800`
 
 ## Outcome
 
-- R02-R08 overlays and the eight-file R09 visible-brand overlay were assembled once and deployed.
-- No hidden page, dormant plugin, business script, route, form protocol, payment protocol or Android source was added or changed.
+- R02-R08 overlays and the eight-file R09 visible-brand overlay were assembled and deployed as historical v2.
+- The later Android-H5-UA click audit found that member agreement, help and about had no visible parent entry; v2 had therefore carried three direct-URL visual files beyond the owner's scope.
+- Scope correction `20260727T113640+0800` restored those three files from the exact pre-R09 production backup. Candidate v3 excludes them and contains 78 files.
+- No dormant plugin, business script, route, form protocol, payment protocol or Android source was added or changed.
 - The final `390x844` quick pass found no H5 overflow, login redirect, public UI CDN or old visible brand residue.
 - Production file hashes matched the candidate; home and App landing returned HTTP 200 during deployment.
 - The five-page online smoke passed after deployment.
+
+## Android H5 UA Scope Closeout
+
+- Required UA: Android mobile plus `TuiGuangBaoAndroid/1.0.0`; desktop-UA observations are invalid for scope and UI acceptance.
+- Added real click edges for registration, SMS login, service agreement, privacy, search and anti-fraud.
+- Search `_blank` navigation was captured from the user-gesture `Page.windowOpen` event; its child rendered 20 results at `390x844` with no overflow or old visible brand.
+- Anti-fraud was clicked from the isolated visible detail control. The 9 observed detail-view increments and related row sets were restored; temporary bridges and tunnel were closed.
+- Production restore backup: `/www/staging/tg-h5-ui-r08/private/production-scope-corrections/20260727T113640+0800`.
+- Restored hashes:
+  - `m/hyxy.html`: `1b2182ba72e7d219a927731e063fffcfe5dcb1aec003f90a1aaedc128307dade`
+  - `m/help.html`: `bbe0ff48d8731952b5f0a03faa714c9a4720b970ca890836b0739b4ee23f65f6`
+  - `m/gywm.html`: `e7d451e6616a6be28b91b2e546402fe81cd1667a5b15726a808355fdc9912f55`
 
 ## Rollback
 

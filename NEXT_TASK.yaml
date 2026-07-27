@@ -11,6 +11,7 @@ read_first:
   - CURRENT_STATUS.yaml
   - version-results/R09_RESULT.md
   - evidence/R09/R09_QUICK_BROWSER_REGRESSION.md
+  - evidence/R09/scope-closeout/R09_SCOPE_CLOSEOUT.md
   - 03_PAGE_LEDGER.csv
   - 17_RUNTIME_CLICK_GRAPH.csv
   - 04_VISUAL_SYSTEM.md
@@ -40,8 +41,11 @@ actions:
 
 progress:
   candidate_assembled: true
-  candidate_files: 81
-  candidate_matches_r08_staging: true
+  candidate_revision: v3
+  candidate_files: 78
+  candidate_sha256: a65d0e510cea5399c0b49ed53dbdea6bbacb9714bc34d54a952ef211a8f8e389
+  candidate_matches_r08_staging: false
+  candidate_78_file_production_hash_match: PASS
   static_release_gates_r02_through_r08: PASS
   production_script_verify_only: PASS
   quick_browser_regression_390x844: PASS
@@ -56,6 +60,10 @@ progress:
   server_signed_apk_sha256: 5625827329af115a0be70d15d4c8b210171e6edb093805a47b62aac1c1947e9f
   desktop_apk: C:\Users\小白\Desktop\推广宝-1.0.0-R09-顶部导航紧凑修复.apk
   owner_replacement_apk_test: PENDING_ASYNC
+  android_h5_ua_scope_closeout: PASS
+  public_auth_search_anti_fraud_click_edges: PROVEN
+  direct_url_legal_pages_restored: 3
+  production_scope_restore_deploy_id: 20260727T113640+0800
 
 next_action:
   - wait only for concrete owner feedback while keeping the task resumable

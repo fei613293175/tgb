@@ -301,3 +301,13 @@
 - 决定：保留 `WindowCompat.setDecorFitsSystemWindows(window, false)`；移除原生根容器 WindowInsets listener、四边 padding 和 inset 消费。WebView 从窗口 `top: 0` 开始，H5 继续单一负责各页面安全区。
 - 视觉边界：浅色顶栏背景允许延伸到状态栏后方；不得再出现状态栏下第二段原生空白。关键标题、返回键和输入控件是否被具体机型系统图标遮挡，由负责人真机截图异步验收并按当前 R09 快速返修。
 - 验证边界：Codex 不安装或运行 APK；服务器只执行单元测试、Release Lint、签名、包名、SDK、体积和 SHA-256 门禁。H5 浏览器 `390x844` 首页顶栏 `68.8px`、签到页顶栏 `56px`，均无横向溢出。
+
+## D-038 页面体验只接受 Android H5 UA
+
+- 日期：2026-07-27
+- 状态：ACCEPTED，补强 G28/G30
+- 负责人提醒：本站不支持电脑版，必须使用 H5 UA 体验。
+- 决定：以后所有范围审计、页面体验、截图和 UI 结论统一使用 Android mobile UA；
+  App 场景追加 `TuiGuangBaoAndroid/1.0.0`。桌面 UA 结果一律不作为页面证据。
+- 本轮纠偏：公开登录链、搜索新标签、防诈骗、设置和个人中心均按 Android H5 UA
+  重新核验。会员协议、帮助、关于在真实父页无入口，移出视觉范围并恢复上线前文件。

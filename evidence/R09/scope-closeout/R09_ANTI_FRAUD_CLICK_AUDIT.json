@@ -1,0 +1,31 @@
+{
+  "date": "2026-07-27",
+  "auth": "authenticated-isolated-fixture",
+  "userAgent": "Android mobile plus TuiGuangBaoAndroid/1.0.0",
+  "edge": {
+    "control": "防骗提醒",
+    "parent": "/plugin.php?id=xigua_hb&ac=view&pubid={sanitized}",
+    "viewport": "390x844",
+    "rect": { "height": 44, "width": 89.5999984741211, "x": 280, "y": 716 },
+    "exposedArea": 3942.399932861328,
+    "elementFromPointHit": true,
+    "clicked": true,
+    "child": "/m/fpsm.html",
+    "parentScreenshot": "ANTI-FRAUD-PARENT-390x844.png",
+    "childScreenshot": "ANTI-FRAUD-CHILD-390x844.png"
+  },
+  "childGeometry": {
+    "innerWidth": 390,
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "horizontalOverflow": false
+  },
+  "rollback": {
+    "status": "PASS",
+    "history": "/www/staging/tg-h5-ui-r05/private/detail-get-history/20260727T110813+0800",
+    "viewDeltaRestored": 9,
+    "authBridge": "OFF",
+    "browserOriginBridge": "OFF",
+    "localTunnel28085": "OFF"
+  }
+}

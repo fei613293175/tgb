@@ -1,0 +1,68 @@
+{
+  "date": "2026-07-27",
+  "viewport": "390x844",
+  "auth": "logged-out",
+  "parentScreenshot": "PUBLIC-LOGIN-PARENT-390x844.png",
+  "edges": [
+    {
+      "control": "《服务协议》",
+      "parent": "/member.php?mod=logging&action=login&needlogin=1&referer=%7Bsanitized%7D&mobile=2",
+      "rect": {
+        "height": 44,
+        "width": 84,
+        "x": 172.9499969482422,
+        "y": 332.8000183105469
+      },
+      "exposedArea": 3696,
+      "elementFromPointHit": true,
+      "href": "/m/xy.html",
+      "clicked": true,
+      "child": "/m/xy.html"
+    },
+    {
+      "control": "验证码登录",
+      "parent": "/member.php?mod=logging&action=login&needlogin=1&referer={sanitized}&mobile=2",
+      "rect": {
+        "height": 57.60000228881836,
+        "width": 293.6000061035156,
+        "x": 40.79999923706055,
+        "y": 558.4000244140625
+      },
+      "exposedArea": 16911.361023559584,
+      "elementFromPointHit": true,
+      "href": "/plugin.php?id=tb_cus_mobilereg%3Amobilelogin",
+      "clicked": true,
+      "child": "/plugin.php?id=tb_cus_mobilereg%3Amobilelogin"
+    },
+    {
+      "control": "注册账号",
+      "parent": "/member.php?mod=logging&action=login&needlogin=1&referer={sanitized}&mobile=2",
+      "rect": {
+        "height": 70,
+        "width": 48,
+        "x": 83.5999984741211,
+        "y": 668.7999877929688
+      },
+      "exposedArea": 3360,
+      "elementFromPointHit": true,
+      "href": "/member.php?mod=register",
+      "clicked": true,
+      "child": "/member.php?mod=register"
+    },
+    {
+      "control": "《隐私政策》",
+      "parent": "/member.php?mod=logging&action=login&needlogin=1&referer={sanitized}&mobile=2",
+      "rect": {
+        "height": 44,
+        "width": 84,
+        "x": 70.80000305175781,
+        "y": 376.8000183105469
+      },
+      "exposedArea": 3696,
+      "elementFromPointHit": true,
+      "href": "/m/yszc.html",
+      "clicked": true,
+      "child": "/m/yszc.html"
+    }
+  ]
+}
