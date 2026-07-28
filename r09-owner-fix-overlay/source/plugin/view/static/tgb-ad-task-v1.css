@@ -82,6 +82,13 @@ button { font: inherit; }
 .invite-reward-grid strong { margin-top: 3px; color: var(--task-green); font-size: 18px; }
 .invite-reward-grid .vip strong { color: var(--task-gold); }
 .invite-button { background: var(--task-green); box-shadow: 0 6px 14px rgba(18,134,111,.16); }
+.qq-group-card { min-height: 82px; margin-top: 14px; padding: 14px; display: grid; grid-template-columns: 46px minmax(0,1fr) 22px; align-items: center; gap: 12px; border: 1px solid #bed5f5; border-radius: 8px; background: #eef6ff; color: inherit; text-decoration: none; box-shadow: 0 8px 20px rgba(39,100,255,.06); }
+.qq-group-icon { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border-radius: 7px; background: #fff; color: var(--task-blue); font-size: 25px; }
+.qq-group-copy { min-width: 0; }
+.qq-group-copy strong, .qq-group-copy small { display: block; }
+.qq-group-copy strong { color: #173d75; font-size: 15px; line-height: 21px; }
+.qq-group-copy small { margin-top: 3px; color: #557394; font-size: 10px; line-height: 16px; }
+.qq-group-card > i { color: #4e83c8; font-size: 22px; }
 .support-band { width: 100%; min-height: 72px; margin-top: 14px; padding: 12px 14px; display: grid; grid-template-columns: 42px minmax(0,1fr) 22px; align-items: center; gap: 10px; border: 1px solid var(--task-line); border-radius: 8px; background: var(--task-surface); color: var(--task-text); text-align: left; }
 .support-band > span:first-child { width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border-radius: 7px; background: var(--task-blue-soft); color: var(--task-blue); font-size: 21px; }
 .support-band strong, .support-band small { display: block; }

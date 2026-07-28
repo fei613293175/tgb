@@ -5,9 +5,9 @@ if (!defined('IN_DISCUZ')) {
 
 return array(
     // 每日广告任务
-    'countdown_seconds' => 20,
+    'countdown_seconds' => 15,
     'regular_ad_count' => 5,
-    'vip_ad_count' => 20,
+    'vip_ad_count' => 15,
     'unit_reward' => 0.50,
 
     // 好友完成每日广告任务后的两级奖励

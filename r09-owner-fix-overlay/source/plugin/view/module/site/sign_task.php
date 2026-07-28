@@ -65,14 +65,15 @@ function _tgb_task_add_promo_money($uid, $amount, $note) {
         DB::insert('xigua_hb_user', array('uid' => $uid, 'money' => 0));
     }
     DB::query('UPDATE %t SET money=money+%f WHERE uid=%d', array('xigua_hb_user', $amount, $uid));
-    DB::insert('xigua_hb_moneylog', array(
+    if (DB::affected_rows() !== 1) return false;
+    $logId = DB::insert('xigua_hb_moneylog', array(
         'uid' => $uid,
         'crts' => TIMESTAMP,
         'size' => $amount,
         'link' => 'plugin.php?id=view&modac=sign',
         'note' => $note,
-    ));
-    return true;
+    ), true);
+    return intval($logId) > 0;
 }
 
 function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
@@ -94,27 +95,29 @@ function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
         $money = round(floatval($rewards[$level]), 2);
         $levelName = $level == 1 ? '一级' : '二级';
         $memberTag = $isVip ? '推广宝会员' : '普通会员';
-        DB::query(
-            'INSERT IGNORE INTO %t (uid,from_uid,level,reward_date,is_vip,reward_money,status,created_at,updated_at) VALUES (%d,%d,%d,%s,%d,%f,%s,%d,%d)',
-            array('view_ad_promo_reward', $upUid, $fromUid, $level, $date, $isVip ? 1 : 0, $money, 'processing', TIMESTAMP, TIMESTAMP)
-        );
-        if (DB::affected_rows() !== 1) continue;
-        if (!_tgb_task_add_promo_money($upUid, $money, "{$levelName}好友完成广告任务奖励")) {
-            DB::update('view_ad_promo_reward', array('status' => 'review', 'updated_at' => TIMESTAMP),
-                'uid=' . $upUid . ' AND from_uid=' . intval($fromUid) . ' AND level=' . intval($level) . " AND reward_date='" . addslashes($date) . "'");
-            continue;
+        $condition = 'uid=' . $upUid . ' AND from_uid=' . intval($fromUid) . ' AND level=' . intval($level) . " AND reward_date='" . addslashes($date) . "'";
+        try {
+            DB::query(
+                'INSERT IGNORE INTO %t (uid,from_uid,level,reward_date,is_vip,reward_money,status,created_at,updated_at) VALUES (%d,%d,%d,%s,%d,%f,%s,%d,%d)',
+                array('view_ad_promo_reward', $upUid, $fromUid, $level, $date, $isVip ? 1 : 0, $money, 'processing', TIMESTAMP, TIMESTAMP)
+            );
+            if (DB::affected_rows() !== 1) continue;
+            if (!_tgb_task_add_promo_money($upUid, $money, "{$levelName}好友完成广告任务奖励")) throw new Exception('推广奖励账户更新失败');
+            $promoLogId = DB::insert('view_sign_promo_log', array(
+                'uid' => $upUid,
+                'from_uid' => $fromUid,
+                'level' => $level,
+                'reward_money' => $money,
+                'sign_date' => $date,
+                'dateline' => TIMESTAMP,
+                'note' => "{$memberTag}任务奖励",
+            ), true);
+            if (!$promoLogId) throw new Exception('推广奖励明细写入失败');
+            DB::update('view_ad_promo_reward', array('status' => 'paid', 'updated_at' => TIMESTAMP), $condition . " AND status='processing'");
+            if (DB::affected_rows() !== 1) throw new Exception('推广奖励状态更新失败');
+        } catch (Exception $e) {
+            DB::update('view_ad_promo_reward', array('status' => 'review', 'updated_at' => TIMESTAMP), $condition);
         }
-        DB::insert('view_sign_promo_log', array(
-            'uid' => $upUid,
-            'from_uid' => $fromUid,
-            'level' => $level,
-            'reward_money' => $money,
-            'sign_date' => $date,
-            'dateline' => TIMESTAMP,
-            'note' => "{$memberTag}任务奖励",
-        ));
-        DB::update('view_ad_promo_reward', array('status' => 'paid', 'updated_at' => TIMESTAMP),
-            'uid=' . $upUid . ' AND from_uid=' . intval($fromUid) . ' AND level=' . intval($level) . " AND reward_date='" . addslashes($date) . "'");
     }
 }
 
@@ -309,6 +312,18 @@ function _tgb_task_status_payload($uid, $username, $config) {
             'can_claim' => intval($task['claimed']) === 0 && $viewed >= $target,
             'balance' => number_format($balance, 2, '.', ''),
             'countdown_seconds' => intval($config['countdown_seconds']),
+            'config' => array(
+                'regular_ad_count' => intval($config['regular_ad_count']),
+                'vip_ad_count' => intval($config['vip_ad_count']),
+                'unit_reward' => number_format($config['unit_reward'], 2, '.', ''),
+                'regular_reward' => number_format($config['regular_ad_count'] * $config['unit_reward'], 2, '.', ''),
+                'vip_reward' => number_format($config['vip_ad_count'] * $config['unit_reward'], 2, '.', ''),
+                'upgrade_extra_reward' => number_format(($config['vip_ad_count'] - $config['regular_ad_count']) * $config['unit_reward'], 2, '.', ''),
+                'direct_regular_reward' => number_format($config['direct_regular_reward'], 2, '.', ''),
+                'indirect_regular_reward' => number_format($config['indirect_regular_reward'], 2, '.', ''),
+                'direct_vip_reward' => number_format($config['direct_vip_reward'], 2, '.', ''),
+                'indirect_vip_reward' => number_format($config['indirect_vip_reward'], 2, '.', ''),
+            ),
         ),
     );
 }
@@ -504,12 +519,20 @@ if ($submodac === 'claim') {
         'reward_money' => $task['reward_money'],
         'dateline' => TIMESTAMP,
     ), true);
-    DB::insert('view_sign_reward_detail', array(
+    if (!$signLogId) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '奖励已进入人工核对，请勿重复领取'));
+    }
+    $rewardDetailId = DB::insert('view_sign_reward_detail', array(
         'uid' => $uid,
         'sign_log_id' => $signLogId,
         'reward_money' => $task['reward_money'],
         'dateline' => TIMESTAMP,
-    ));
+    ), true);
+    if (!$rewardDetailId) {
+        discuz_process::unlock($process);
+        _tgb_task_json(array('code' => -1, 'msg' => '奖励明细已进入人工核对，请勿重复领取'));
+    }
     _tgb_support_invalidate_upline_cache($uid);
     _tgb_task_give_promo($uid, intval($task['is_vip']) === 1, $date, $taskConfig);
     DB::query('UPDATE %t SET claimed=1,updated_at=%d WHERE id=%d AND claimed=2', array('view_ad_task_progress', TIMESTAMP, intval($task['id'])));
@@ -628,7 +651,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-4" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-5" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -642,11 +665,11 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <div class="hero-topline"><span><?php echo $isVip ? '推广宝会员专属任务' : '普通会员任务'; ?></span><span class="hero-badge"><i class="<?php echo $isVip ? 'ri-vip-crown-2-fill' : 'ri-flashlight-fill'; ?>"></i> <?php echo $isVip ? '会员已生效' : '每日可领'; ?></span></div>
         <div class="hero-earning-label" id="heroEarningLabel">今日完成<?php echo intval($task['target_count']); ?>个广告，可赚</div>
         <div class="hero-money"><small>¥</small><span id="taskReward"><?php echo number_format($task['reward_money'], 2); ?></span></div>
-        <div class="hero-meta"><span>每条 ¥<?php echo number_format($task['unit_reward'], 2); ?></span><span>奖励发放至签到钱包</span></div>
+        <div class="hero-meta"><span id="heroUnitReward">每条 ¥<?php echo number_format($task['unit_reward'], 2); ?></span><span>奖励发放至签到钱包</span></div>
         <?php if ($isVip): ?>
-        <div class="hero-member-state"><i class="ri-checkbox-circle-fill"></i><span><strong>推广宝会员权益已解锁</strong><small>每天可看<?php echo intval($task['target_count']); ?>条，完成最高领<?php echo number_format($task['reward_money'], 2); ?>元</small></span></div>
+        <div class="hero-member-state"><i class="ri-checkbox-circle-fill"></i><span><strong>推广宝会员权益已解锁</strong><small id="vipBenefitText">每天可看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成最高领<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元</small></span></div>
         <?php else: ?>
-        <a class="hero-upgrade" href="plugin.php?id=xigua_hb&ac=vip"><span><strong>开通会员，每天多赚 ¥<?php echo number_format(($taskConfig['vip_ad_count'] - $taskConfig['regular_ad_count']) * $taskConfig['unit_reward'], 2); ?></strong><small>每日广告任务提升至<?php echo intval($taskConfig['vip_ad_count']); ?>条</small></span><b>立即开通 <i class="ri-arrow-right-s-line"></i></b></a>
+        <a class="hero-upgrade" href="plugin.php?id=xigua_hb&ac=vip"><span><strong id="upgradeExtraText">开通会员，每天多赚 ¥<?php echo number_format(($taskConfig['vip_ad_count'] - $taskConfig['regular_ad_count']) * $taskConfig['unit_reward'], 2); ?></strong><small id="vipTargetText">每日广告任务提升至<?php echo intval($taskConfig['vip_ad_count']); ?>条</small></span><b>立即开通 <i class="ri-arrow-right-s-line"></i></b></a>
         <?php endif; ?>
     </section>
     <button class="support-band" id="supportButton" type="button">
@@ -661,8 +684,8 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         </div>
         <div class="progress-track"><span id="progressBar"></span></div>
         <div class="task-facts">
-            <div><i class="ri-time-line"></i><span>每条广告</span><strong><?php echo intval($taskConfig['countdown_seconds']); ?>秒</strong></div>
-            <div><i class="ri-coins-line"></i><span>单条价值</span><strong>¥<?php echo number_format($task['unit_reward'], 2); ?></strong></div>
+            <div><i class="ri-time-line"></i><span>每条广告</span><strong id="taskCountdownText"><?php echo intval($taskConfig['countdown_seconds']); ?>秒</strong></div>
+            <div><i class="ri-coins-line"></i><span>单条价值</span><strong id="taskUnitReward">¥<?php echo number_format($task['unit_reward'], 2); ?></strong></div>
         </div>
         <button class="task-primary" id="taskMainButton" type="button"><span>加载任务状态</span><i class="ri-arrow-right-line"></i></button>
         <p class="task-hint" id="taskHint">完整观看倒计时结束后，才计入一条有效广告</p>
@@ -676,13 +699,19 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <p>好友完成实名认证并完成今日广告任务，奖励自动到账。</p>
         </div>
         <div class="invite-reward-grid">
-            <div><span>一级普通好友</span><strong>+¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></strong></div>
-            <div><span>二级普通好友</span><strong>+¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></strong></div>
-            <div class="vip"><span>一级会员好友</span><strong>+¥<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?></strong></div>
-            <div class="vip"><span>二级会员好友</span><strong>+¥<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?></strong></div>
+            <div><span>一级普通好友</span><strong id="directRegularReward">+¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></strong></div>
+            <div><span>二级普通好友</span><strong id="indirectRegularReward">+¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></strong></div>
+            <div class="vip"><span>一级会员好友</span><strong id="directVipReward">+¥<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?></strong></div>
+            <div class="vip"><span>二级会员好友</span><strong id="indirectVipReward">+¥<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?></strong></div>
         </div>
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
     </section>
+
+    <a class="qq-group-card" href="https://qm.qq.com/q/CQCxbFkGME">
+        <span class="qq-group-icon"><i class="ri-qq-fill"></i></span>
+        <span class="qq-group-copy"><strong>加入官方QQ群</strong><small>群号 873512744 · 活动通知 · 互助交流</small></span>
+        <i class="ri-arrow-right-s-line"></i>
+    </a>
 
 </main>
 
@@ -717,7 +746,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <p id="adDescription"></p>
         </div>
         <div class="ad-footer">
-            <div><span>本条奖励</span><strong>+¥<?php echo number_format($task['unit_reward'], 2); ?></strong></div>
+            <div><span>本条奖励</span><strong id="adUnitReward">+¥<?php echo number_format($task['unit_reward'], 2); ?></strong></div>
             <button id="adContinueButton" disabled>观看中，请保持页面可见</button>
         </div>
     </article>
@@ -753,9 +782,9 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <div class="sheet-card rules-sheet" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
         <div class="sheet-head"><div><span class="section-kicker">RULES</span><h3 id="rulesTitle">广告任务与推广规则</h3></div><button class="modal-close" data-close="rulesModal"><i class="ri-close-line"></i></button></div>
         <div class="rules-list">
-            <div><span>01</span><p>普通会员每日观看<?php echo intval($taskConfig['regular_ad_count']); ?>条广告，完成后领取<?php echo number_format($taskConfig['regular_ad_count'] * $taskConfig['unit_reward'], 2); ?>元；推广宝会员每日观看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成后领取<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元。</p></div>
-            <div><span>02</span><p>每条广告需保持页面可见并完整观看<?php echo intval($taskConfig['countdown_seconds']); ?>秒，提前关闭不计次数；每日奖励只能领取一次。</p></div>
-            <div><span>03</span><p>好友必须完成实名认证。普通好友完成任务奖励一级<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?>元；会员好友完成任务奖励一级<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?>元。</p></div>
+            <div><span>01</span><p id="ruleTaskText">普通会员每日观看<?php echo intval($taskConfig['regular_ad_count']); ?>条广告，完成后领取<?php echo number_format($taskConfig['regular_ad_count'] * $taskConfig['unit_reward'], 2); ?>元；推广宝会员每日观看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成后领取<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元。</p></div>
+            <div><span>02</span><p id="ruleWatchText">每条广告需保持页面可见并完整观看<?php echo intval($taskConfig['countdown_seconds']); ?>秒，提前关闭不计次数；每日奖励只能领取一次。</p></div>
+            <div><span>03</span><p id="rulePromoText">好友必须完成实名认证。普通好友完成任务奖励一级<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?>元；会员好友完成任务奖励一级<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?>元。</p></div>
             <div><span>04</span><p>推广奖励在好友领取每日任务奖励时自动结算到提成账户，无需手动领取。</p></div>
         </div>
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 参与官方扶持计划</a>
@@ -839,8 +868,35 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             return response.json();
         });
     }
+    function setText(id, value) {
+        var element = $(id);
+        if (element) element.textContent = value;
+    }
+    function renderConfig(payload) {
+        var config = payload.config || {};
+        configuredCountdown = parseInt(payload.countdown_seconds, 10) || configuredCountdown;
+        setText('heroUnitReward', '每条 ¥' + payload.unit_reward);
+        setText('taskCountdownText', configuredCountdown + '秒');
+        setText('taskUnitReward', '¥' + payload.unit_reward);
+        setText('adUnitReward', '+¥' + payload.unit_reward);
+        if (!adToken) setText('adSeconds', configuredCountdown);
+        setText('confirmText', '完整观看' + configuredCountdown + '秒即可完成1条，每条价值' + payload.unit_reward + '元。');
+        if (config.vip_ad_count != null) {
+            setText('vipBenefitText', '每天可看' + config.vip_ad_count + '条，完成最高领' + config.vip_reward + '元');
+            setText('upgradeExtraText', '开通会员，每天多赚 ¥' + config.upgrade_extra_reward);
+            setText('vipTargetText', '每日广告任务提升至' + config.vip_ad_count + '条');
+            setText('directRegularReward', '+¥' + config.direct_regular_reward);
+            setText('indirectRegularReward', '+¥' + config.indirect_regular_reward);
+            setText('directVipReward', '+¥' + config.direct_vip_reward);
+            setText('indirectVipReward', '+¥' + config.indirect_vip_reward);
+            setText('ruleTaskText', '普通会员每日观看' + config.regular_ad_count + '条广告，完成后领取' + config.regular_reward + '元；推广宝会员每日观看' + config.vip_ad_count + '条，完成后领取' + config.vip_reward + '元。');
+            setText('ruleWatchText', '每条广告需保持页面可见并完整观看' + configuredCountdown + '秒，提前关闭不计次数；每日奖励只能领取一次。');
+            setText('rulePromoText', '好友必须完成实名认证。普通好友完成任务奖励一级' + config.direct_regular_reward + '元、二级' + config.indirect_regular_reward + '元；会员好友完成任务奖励一级' + config.direct_vip_reward + '元、二级' + config.indirect_vip_reward + '元。');
+        }
+    }
     function renderStatus(payload) {
         state = payload;
+        renderConfig(payload);
         $('viewedCount').textContent = payload.viewed_count;
         $('targetCount').textContent = payload.target_count;
         $('taskReward').textContent = payload.reward_money;
