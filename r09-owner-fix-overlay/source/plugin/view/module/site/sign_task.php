@@ -76,6 +76,34 @@ function _tgb_task_add_promo_money($uid, $amount, $note) {
     return intval($logId) > 0;
 }
 
+function _tgb_task_invite_campaign($date, $config) {
+    $campaign = isset($config['invite_campaign']) && is_array($config['invite_campaign'])
+        ? $config['invite_campaign']
+        : array();
+    $start = isset($campaign['start_date']) ? (string)$campaign['start_date'] : '';
+    $end = isset($campaign['end_date']) ? (string)$campaign['end_date'] : '';
+    $active = $start && $end && $date >= $start && $date <= $end;
+    return array(
+        'active' => $active,
+        'start_date' => $start,
+        'end_date' => $end,
+        'direct_regular_reward' => $active && isset($campaign['direct_regular_reward'])
+            ? round(floatval($campaign['direct_regular_reward']), 2)
+            : round(floatval($config['direct_regular_reward']), 2),
+        'indirect_regular_reward' => $active && isset($campaign['indirect_regular_reward'])
+            ? round(floatval($campaign['indirect_regular_reward']), 2)
+            : round(floatval($config['indirect_regular_reward']), 2),
+        'direct_vip_reward' => round(floatval($config['direct_vip_reward']), 2),
+        'indirect_vip_reward' => round(floatval($config['indirect_vip_reward']), 2),
+    );
+}
+
+function _tgb_task_campaign_period($campaign) {
+    $start = isset($campaign['start_date']) ? strtotime($campaign['start_date']) : 0;
+    $end = isset($campaign['end_date']) ? strtotime($campaign['end_date']) : 0;
+    return $start && $end ? date('n.j', $start) . '-' . date('n.j', $end) : '';
+}
+
 function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
     $certified = DB::result_first('SELECT rescodebdres FROM %t WHERE uid=%d', array('xiaomy_certification', $fromUid));
     if (intval($certified) !== 1) return;
@@ -83,9 +111,10 @@ function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
     $first = DB::fetch_first('SELECT uid FROM %t WHERE fansuid=%d LIMIT 1', array('xigua_hh_invite', $fromUid));
     if (!$first || !$first['uid']) return;
 
+    $campaign = _tgb_task_invite_campaign($date, $config);
     $rewards = array(
-        1 => $isVip ? $config['direct_vip_reward'] : $config['direct_regular_reward'],
-        2 => $isVip ? $config['indirect_vip_reward'] : $config['indirect_regular_reward'],
+        1 => $isVip ? $campaign['direct_vip_reward'] : $campaign['direct_regular_reward'],
+        2 => $isVip ? $campaign['indirect_vip_reward'] : $campaign['indirect_regular_reward'],
     );
     $uplines = array(1 => intval($first['uid']));
     $second = DB::fetch_first('SELECT uid FROM %t WHERE fansuid=%d LIMIT 1', array('xigua_hh_invite', $uplines[1]));
@@ -102,7 +131,8 @@ function _tgb_task_give_promo($fromUid, $isVip, $date, $config) {
                 array('view_ad_promo_reward', $upUid, $fromUid, $level, $date, $isVip ? 1 : 0, $money, 'processing', TIMESTAMP, TIMESTAMP)
             );
             if (DB::affected_rows() !== 1) continue;
-            if (!_tgb_task_add_promo_money($upUid, $money, "{$levelName}好友完成广告任务奖励")) throw new Exception('推广奖励账户更新失败');
+            $campaignTag = $campaign['active'] && !$isVip ? '限时加码' : '';
+            if (!_tgb_task_add_promo_money($upUid, $money, "{$campaignTag}{$levelName}好友完成广告任务奖励")) throw new Exception('推广奖励账户更新失败');
             $promoLogId = DB::insert('view_sign_promo_log', array(
                 'uid' => $upUid,
                 'from_uid' => $fromUid,
@@ -296,6 +326,7 @@ function _tgb_task_get_progress($uid, $username, $config) {
 
 function _tgb_task_status_payload($uid, $username, $config) {
     $task = _tgb_task_get_progress($uid, $username, $config);
+    $inviteCampaign = _tgb_task_invite_campaign(dgmdate(TIMESTAMP, 'Y-m-d'), $config);
     $balance = DB::result_first('SELECT money FROM %t WHERE uid=%d', array('tb_cus_xiguahh_user', $uid));
     $viewed = intval($task['viewed_count']);
     $target = intval($task['target_count']);
@@ -319,10 +350,12 @@ function _tgb_task_status_payload($uid, $username, $config) {
                 'regular_reward' => number_format($config['regular_ad_count'] * $config['unit_reward'], 2, '.', ''),
                 'vip_reward' => number_format($config['vip_ad_count'] * $config['unit_reward'], 2, '.', ''),
                 'upgrade_extra_reward' => number_format(($config['vip_ad_count'] - $config['regular_ad_count']) * $config['unit_reward'], 2, '.', ''),
-                'direct_regular_reward' => number_format($config['direct_regular_reward'], 2, '.', ''),
-                'indirect_regular_reward' => number_format($config['indirect_regular_reward'], 2, '.', ''),
-                'direct_vip_reward' => number_format($config['direct_vip_reward'], 2, '.', ''),
-                'indirect_vip_reward' => number_format($config['indirect_vip_reward'], 2, '.', ''),
+                'direct_regular_reward' => number_format($inviteCampaign['direct_regular_reward'], 2, '.', ''),
+                'indirect_regular_reward' => number_format($inviteCampaign['indirect_regular_reward'], 2, '.', ''),
+                'direct_vip_reward' => number_format($inviteCampaign['direct_vip_reward'], 2, '.', ''),
+                'indirect_vip_reward' => number_format($inviteCampaign['indirect_vip_reward'], 2, '.', ''),
+                'invite_campaign_active' => $inviteCampaign['active'],
+                'invite_campaign_period' => _tgb_task_campaign_period($inviteCampaign),
             ),
         ),
     );
@@ -653,6 +686,8 @@ $task = _tgb_task_get_progress($uid, $username, $taskConfig);
 $wallet = _tgb_task_ensure_wallet($uid, $username);
 $formhash = formhash();
 $isVip = intval($task['is_vip']) === 1;
+$inviteCampaign = _tgb_task_invite_campaign(dgmdate(TIMESTAMP, 'Y-m-d'), $taskConfig);
+$inviteCampaignPeriod = _tgb_task_campaign_period($inviteCampaign);
 $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '', 'TuiGuangBaoAndroid/') !== false;
 ?>
 <!doctype html>
@@ -664,7 +699,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-7" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-1" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -705,19 +740,24 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <button class="task-text-button" id="rulesButton" type="button"><i class="ri-question-line"></i> 查看任务与推广规则</button>
     </section>
 
-    <section class="invite-section">
+    <section class="invite-section <?php echo $inviteCampaign['active'] ? 'campaign-active' : ''; ?>">
+        <div class="invite-campaign-strip">
+            <span><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时加码' : '邀请收益计划'; ?></span>
+            <b><?php echo $inviteCampaign['active'] ? '奖励已提升' : '每天持续收益'; ?></b>
+        </div>
         <div class="invite-copy">
             <span class="section-kicker">INVITE & EARN</span>
-            <h2>好友每天看广告，你每天都有收益</h2>
-            <p>好友完成实名认证后，每天完成广告任务，奖励自动到账。</p>
+            <h2>好友做任务，你每天拿推广收益</h2>
+            <p>好友完成实名认证并领取当天广告奖励，你的推广奖励自动到账；邀请越多，每天收益机会越多。</p>
         </div>
         <div class="invite-reward-grid">
-            <div><span>一级好友</span><strong id="directRegularReward">+¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></strong></div>
-            <div><span>二级好友</span><strong id="indirectRegularReward">+¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></strong></div>
-            <div class="vip"><span>一级好友是推广宝会员</span><strong id="directVipReward">+¥<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?></strong></div>
-            <div class="vip"><span>二级好友是推广宝会员</span><strong id="indirectVipReward">+¥<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?></strong></div>
+            <div class="regular"><span>一级普通好友 <em>每日</em></span><strong id="directRegularReward">+¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></small><?php endif; ?></div>
+            <div class="regular"><span>二级普通好友 <em>每日</em></span><strong id="indirectRegularReward">+¥<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></small><?php endif; ?></div>
+            <div class="vip"><span>一级会员好友 <em>每日</em></span><strong id="directVipReward">+¥<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
+            <div class="vip"><span>二级会员好友 <em>每日</em></span><strong id="indirectVipReward">+¥<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
         </div>
-        <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
+        <div class="invite-support-tip"><i class="ri-award-line"></i><span><strong>邀请收益还能叠加官方扶持</strong><small>实名直推连续完成3天任务计为有效用户，八档累计最高888元</small></span></div>
+        <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请，开启持续收益</a>
     </section>
 
     <a class="qq-group-card" href="https://qm.qq.com/q/CQCxbFkGME">
@@ -782,6 +822,33 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     </div>
 </div>
 
+<div class="task-modal invite-campaign-modal" id="inviteCampaignModal" aria-hidden="true">
+    <div class="invite-campaign-dialog" role="dialog" aria-modal="true" aria-labelledby="inviteCampaignTitle">
+        <button class="modal-close invite-campaign-close" data-close="inviteCampaignModal" aria-label="关闭邀请活动"><i class="ri-close-line"></i></button>
+        <div class="campaign-visual">
+            <span class="campaign-date"><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时加码' : '邀请好友奖励计划'; ?></span>
+            <span class="campaign-icon"><i class="ri-user-heart-line"></i></span>
+            <p>邀请好友 · 每天持续有收益</p>
+            <h3 id="inviteCampaignTitle">好友赚广告奖励<br>你拿推广收益</h3>
+            <small>好友完成实名认证并完成当天广告任务，奖励自动发放到你的推广钱包。</small>
+        </div>
+        <div class="campaign-body">
+            <?php if ($inviteCampaign['active']): ?><div class="campaign-boost"><i class="ri-arrow-up-circle-fill"></i><span>活动期间普通好友奖励已提升，<b>一级加码60%</b>、<b>二级加码约33%</b></span></div><?php endif; ?>
+            <div class="campaign-rewards">
+                <div><span>一级普通好友</span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><small>/天</small></strong><?php if ($inviteCampaign['active']): ?><del>原 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></del><?php endif; ?></div>
+                <div><span>二级普通好友</span><strong>¥<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?><small>/天</small></strong><?php if ($inviteCampaign['active']): ?><del>原 ¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></del><?php endif; ?></div>
+            </div>
+            <div class="campaign-vip-line"><i class="ri-vip-crown-2-fill"></i><span>好友是推广宝会员，一级每天<b>¥<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?></b>、二级每天<b>¥<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?></b></span></div>
+            <div class="campaign-steps">
+                <span><b>1</b>邀请好友</span><i class="ri-arrow-right-s-line"></i><span><b>2</b>好友实名做任务</span><i class="ri-arrow-right-s-line"></i><span><b>3</b>奖励自动到账</span>
+            </div>
+            <div class="campaign-support"><i class="ri-award-fill"></i><span><strong>再叠加最高888元官方扶持</strong><small>直推好友连续完成3天任务计入有效人数，达到档位即可领取</small></span></div>
+            <a class="campaign-primary" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
+            <button class="campaign-later" type="button" data-close="inviteCampaignModal">稍后再说</button>
+        </div>
+    </div>
+</div>
+
 <div class="task-modal priority-modal" id="resultModal" aria-hidden="true">
     <div class="dialog-card result-dialog" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
         <span class="dialog-icon success" id="resultIcon"><i class="ri-checkbox-circle-fill"></i></span>
@@ -805,7 +872,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <div class="rules-list">
             <div><span>01</span><p id="ruleTaskText">普通会员每日观看<?php echo intval($taskConfig['regular_ad_count']); ?>条广告，完成后领取<?php echo number_format($taskConfig['regular_ad_count'] * $taskConfig['unit_reward'], 2); ?>元；推广宝会员每日观看<?php echo intval($taskConfig['vip_ad_count']); ?>条，完成后领取<?php echo number_format($taskConfig['vip_ad_count'] * $taskConfig['unit_reward'], 2); ?>元。</p></div>
             <div><span>02</span><p id="ruleWatchText">每条广告需保持页面可见并完整观看<?php echo intval($taskConfig['countdown_seconds']); ?>秒，提前关闭不计次数；每日奖励只能领取一次。</p></div>
-            <div><span>03</span><p id="rulePromoText">好友必须完成实名认证。普通好友完成任务奖励一级<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?>元；会员好友完成任务奖励一级<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?>元、二级<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?>元。</p></div>
+            <div><span>03</span><p id="rulePromoText">好友必须完成实名认证。普通好友完成任务奖励一级<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?>元、二级<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?>元；会员好友完成任务奖励一级<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?>元、二级<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?>元。<?php echo $inviteCampaign['active'] ? '当前为' . $inviteCampaignPeriod . '限时加码标准。' : ''; ?></p></div>
             <div><span>04</span><p>推广奖励在好友领取每日任务奖励时自动结算到提成账户，无需手动领取。</p></div>
         </div>
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 参与官方扶持计划</a>
@@ -838,6 +905,9 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var currentImages = [];
     var currentImageIndex = 0;
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
+    var inviteNoticeInterval = 30 * 60 * 1000;
+    var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v1';
+    var inviteNoticeShown = false;
     var $ = function (id) { return document.getElementById(id); };
 
     function escapeHtml(value) {
@@ -863,6 +933,23 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         el.classList.remove('open');
         el.setAttribute('aria-hidden', 'true');
         if (!document.querySelector('.task-modal.open')) document.body.classList.remove('modal-open');
+    }
+    function maybeShowInviteNotice() {
+        if (inviteNoticeShown) return;
+        if (document.querySelector('.task-modal.open')) {
+            window.setTimeout(maybeShowInviteNotice, 3000);
+            return;
+        }
+        var now = Date.now();
+        try {
+            var lastShown = parseInt(window.localStorage.getItem(inviteNoticeStorageKey), 10) || 0;
+            if (now - lastShown < inviteNoticeInterval) return;
+            window.localStorage.setItem(inviteNoticeStorageKey, String(now));
+        } catch (error) {
+            // Local storage may be disabled in privacy mode; still avoid repeating within this page.
+        }
+        inviteNoticeShown = true;
+        openModal('inviteCampaignModal');
     }
     function showResult(title, message, type) {
         $('resultTitle').textContent = title;
@@ -921,7 +1008,10 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             setText('indirectVipReward', '+¥' + config.indirect_vip_reward);
             setText('ruleTaskText', '普通会员每日观看' + config.regular_ad_count + '条广告，完成后领取' + config.regular_reward + '元；推广宝会员每日观看' + config.vip_ad_count + '条，完成后领取' + config.vip_reward + '元。');
             setText('ruleWatchText', '每条广告需保持页面可见并完整观看' + configuredCountdown + '秒，提前关闭不计次数；每日奖励只能领取一次。');
-            setText('rulePromoText', '好友必须完成实名认证。普通好友完成任务奖励一级' + config.direct_regular_reward + '元、二级' + config.indirect_regular_reward + '元；会员好友完成任务奖励一级' + config.direct_vip_reward + '元、二级' + config.indirect_vip_reward + '元。');
+            var campaignSuffix = config.invite_campaign_active && config.invite_campaign_period
+                ? '当前为' + config.invite_campaign_period + '限时加码标准。'
+                : '';
+            setText('rulePromoText', '好友必须完成实名认证。普通好友完成任务奖励一级' + config.direct_regular_reward + '元、二级' + config.indirect_regular_reward + '元；会员好友完成任务奖励一级' + config.direct_vip_reward + '元、二级' + config.indirect_vip_reward + '元。' + campaignSuffix);
         }
     }
     function renderStatus(payload) {
@@ -945,7 +1035,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             button.classList.add('done');
             button.disabled = true;
             button.innerHTML = '<span>今日奖励已领取</span><i class="ri-checkbox-circle-fill"></i>';
-            $('taskHint').textContent = '奖励已发放到签到钱包，明天再来完成任务';
+            $('taskHint').textContent = '奖励已发放到钱包，明天再来完成任务';
         } else if (payload.can_claim) {
             button.classList.add('claim');
             button.innerHTML = '<span>立即领取 ¥' + payload.reward_money + '</span><i class="ri-coins-fill"></i>';
@@ -1068,7 +1158,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         request('claim', {}, 'POST').then(function (res) {
             if (res.code !== 0) throw new Error(res.msg || '领取失败');
             renderStatus(res.data);
-            showResult('奖励已到账', '¥' + res.data.reward_money + ' 已发放至签到钱包，可在奖励明细中查看。');
+            showResult('奖励已到账', '¥' + res.data.reward_money + ' 已发放至钱包，可在奖励明细中查看。');
         }).catch(function (error) {
             button.disabled = false;
             toast(error.message);
@@ -1184,7 +1274,9 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         if (document.hidden) hiddenAt = Date.now();
         else if (hiddenAt && timer) { deadline += Date.now() - hiddenAt; hiddenAt = 0; }
     });
-    loadStatus();
+    loadStatus().then(function () {
+        window.setTimeout(maybeShowInviteNotice, 700);
+    });
 })();
 </script>
 </body>

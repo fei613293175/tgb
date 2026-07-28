@@ -5,7 +5,7 @@ if (!defined('IN_DISCUZ')) {
 
 return array(
     // 每日广告任务
-    'countdown_seconds' => 15,
+    'countdown_seconds' => 20,
     'regular_ad_count' => 5,
     'vip_ad_count' => 15,
     'unit_reward' => 0.50,
@@ -15,6 +15,14 @@ return array(
     'indirect_regular_reward' => 0.30,
     'direct_vip_reward' => 1.00,
     'indirect_vip_reward' => 0.50,
+
+    // 邀请奖励限时加码，到期后自动恢复上方普通好友奖励
+    'invite_campaign' => array(
+        'start_date' => '2026-07-29',
+        'end_date' => '2026-08-05',
+        'direct_regular_reward' => 0.80,
+        'indirect_regular_reward' => 0.40,
+    ),
 
     // 提现档位 => 所需累计成功观看广告数，可逐档独立调整
     'withdraw_ad_requirements' => array(
