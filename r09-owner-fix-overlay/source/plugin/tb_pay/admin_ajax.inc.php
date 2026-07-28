@@ -16,6 +16,39 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || $_GET['formhash'] != FORMHASH) {
     exit;
 }
 
+if ($_GET['ac'] == 'scan_delete') {
+    $review_id = intval($_GET['review_id']);
+    $review = DB::fetch_first('SELECT * FROM %t WHERE id=%d', array('tb_pay_scan_review', $review_id));
+    if (!$review) {
+        echo json_encode(array('code' => -1, 'msg' => '扫码审核订单不存在或已删除'));
+        exit;
+    }
+    if (in_array(intval($review['status']), array(1, 3))) {
+        echo json_encode(array('code' => -1, 'msg' => '审核通过或正在发放的订单禁止删除'));
+        exit;
+    }
+    $payorder = C::t('#tb_pay#tb_pay')->getPayById(intval($review['pay_id']));
+    if ($payorder && intval($payorder['ostatus']) === 1) {
+        echo json_encode(array('code' => -1, 'msg' => '已支付订单禁止删除'));
+        exit;
+    }
+    $proof_path = trim($review['proof_path']);
+    DB::delete('tb_pay_scan_review', 'id=' . $review_id . ' AND status NOT IN (1,3)');
+    if (DB::affected_rows() !== 1) {
+        echo json_encode(array('code' => -1, 'msg' => '订单状态已变化，请刷新后台重试'));
+        exit;
+    }
+    if ($payorder && intval($payorder['ostatus']) === 0) {
+        DB::delete('tb_pay', 'id=' . intval($review['pay_id']) . ' AND ostatus=0');
+    }
+    if ($proof_path && strpos($proof_path, 'data/attachment/tb_pay_scan/') === 0) {
+        $proof_file = DISCUZ_ROOT . './' . $proof_path;
+        if (is_file($proof_file)) @unlink($proof_file);
+    }
+    echo json_encode(array('code' => 200, 'msg' => '扫码审核订单已删除'));
+    exit;
+}
+
 if ($_GET['ac'] == 'scan_review') {
     $review_id = intval($_GET['review_id']);
     $decision = intval($_GET['decision']);

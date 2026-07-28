@@ -16,11 +16,14 @@ require DISCUZ_ROOT . './source/plugin/tb_pay/common.php';
 
 $formhash = FORMHASH;
 $status_text = array(0 => '待审核', 1 => '审核通过', 2 => '审核驳回', 3 => '发放处理中', 4 => '发放异常');
-$rows = DB::fetch_all('SELECT r.*,p.username,p.subject,p.price,p.ostatus FROM %t r LEFT JOIN %t p ON p.id=r.pay_id ORDER BY r.id DESC LIMIT 100', array(
+$approved_summary = DB::fetch_first('SELECT COUNT(*) AS total_count,COALESCE(SUM(p.price),0) AS total_money FROM %t r LEFT JOIN %t p ON p.id=r.pay_id WHERE r.status=1', array(
+    'tb_pay_scan_review', 'tb_pay',
+));
+$rows = DB::fetch_all('SELECT r.*,p.username,p.subject,p.price,p.ostatus FROM %t r LEFT JOIN %t p ON p.id=r.pay_id ORDER BY CASE WHEN r.status=0 THEN 0 ELSE 1 END ASC,r.id DESC LIMIT 100', array(
     'tb_pay_scan_review', 'tb_pay',
 ));
 
-showtableheader('扫码支付审核（最近100条）');
+showtableheader('扫码支付审核（最近100条）｜已通过 ' . intval($approved_summary['total_count']) . ' 笔，累计金额 ￥' . number_format(floatval($approved_summary['total_money']), 2));
 showsubtitle(array('订单', '用户/商品', '金额/渠道', '付款信息', '支付凭证', '状态', '提交时间', '审核操作'));
 if (!$rows) {
     showtablerow('', array('colspan="8"'), array('暂无扫码支付审核记录'));
@@ -31,16 +34,19 @@ foreach ($rows as $row) {
     $proof_url = $_G['siteurl'] . ltrim($row['proof_path'], '/');
     $proof = '<a href="' . dhtmlspecialchars($proof_url) . '" target="_blank"><img src="' . dhtmlspecialchars($proof_url) . '" style="width:90px;max-height:110px;object-fit:cover;border-radius:4px;border:1px solid #ddd" alt="支付凭证"></a>';
     $status = isset($status_text[intval($row['status'])]) ? $status_text[intval($row['status'])] : '未知';
+    $can_delete = !in_array(intval($row['status']), array(1, 3)) && intval($row['ostatus']) !== 1;
+    $delete_button = $can_delete ? '<button type="button" class="btn" style="margin-left:4px;color:#b42318" onclick="deleteScanOrder(' . $review_id . ')">删除订单</button>' : '';
     if (intval($row['status']) === 0) {
         $action = '<div style="min-width:230px"><input id="scan_reason_' . $review_id . '" class="txt" style="width:210px;margin-bottom:6px" placeholder="驳回时填写原因"><br>'
             . '<button type="button" class="btn" onclick="reviewScan(' . $review_id . ',1)">审核通过并发放</button> '
-            . '<button type="button" class="btn" onclick="reviewScan(' . $review_id . ',2)">驳回</button></div>';
+            . '<button type="button" class="btn" onclick="reviewScan(' . $review_id . ',2)">驳回</button>' . $delete_button . '</div>';
     } else {
         if (intval($row['status']) === 2) {
             $action = intval($row['submit_count']) < 2 ? '等待用户重新提交（剩余1次）' : '重新提交机会已用完';
         } else {
             $action = '不可重复审核';
         }
+        $action .= $delete_button;
     }
     showtablerow('', array(), array(
         dhtmlspecialchars($row['orderid']),
@@ -80,6 +86,30 @@ function reviewScan(reviewId, decision) {
                 data = JSON.parse(responseText.trim());
             } catch (error) {
                 alert('审核响应异常，请刷新后台重试');
+                return;
+            }
+            alert(data.msg);
+            if (data.code === 200) window.location.reload();
+        },
+        error: function() { alert('网络异常，请稍后重试'); }
+    });
+}
+function deleteScanOrder(reviewId) {
+    if (!window.confirm('确认删除该扫码审核订单、未支付主订单和支付凭证？删除后无法恢复。')) return;
+    jQuery.ajax({
+        type: 'post',
+        url: 'admin.php?action=plugins&operation=config&do={$pluginid}&identifier=tb_pay&pmod=admin_scan&tbpay_ajax=1',
+        dataType: 'text',
+        data: {ac:'scan_delete', review_id:reviewId, formhash:'{$formhash}'},
+        success: function(response) {
+            var data;
+            try {
+                var responseText = String(response);
+                var footerIndex = responseText.indexOf('</div>');
+                if (footerIndex >= 0) responseText = responseText.slice(0, footerIndex);
+                data = JSON.parse(responseText.trim());
+            } catch (error) {
+                alert('删除响应异常，请刷新后台重试');
                 return;
             }
             alert(data.msg);

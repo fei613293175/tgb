@@ -474,6 +474,8 @@ if ($submodac === 'complete_ad') {
     DB::query('START TRANSACTION');
     DB::query('UPDATE %t SET status=%s,completed_at=%d WHERE id=%d AND status=%s', array('view_ad_task_impression', 'completed', TIMESTAMP, intval($impression['id']), 'pending'));
     if (DB::affected_rows() > 0) {
+        $viewIncrement = mt_rand(2, 5);
+        DB::query('UPDATE %t SET views=COALESCE(views,0)+%d WHERE id=%d', array('xigua_hb_pub', $viewIncrement, intval($impression['pubid'])));
         DB::query('UPDATE %t SET viewed_count=LEAST(target_count,viewed_count+1),updated_at=%d WHERE uid=%d AND task_date=%s', array('view_ad_task_progress', TIMESTAMP, $uid, $impression['task_date']));
         DB::query(
             'INSERT INTO %t (uid,completed_ads,withdraw_spent_ads,created_at,updated_at) VALUES (%d,1,0,%d,%d) ON DUPLICATE KEY UPDATE completed_ads=completed_ads+1,updated_at=VALUES(updated_at)',
