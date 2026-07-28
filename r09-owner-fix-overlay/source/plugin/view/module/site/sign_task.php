@@ -407,7 +407,7 @@ if ($submodac === 'next_ad') {
     $project = _tgb_task_pick_project($uid, $date);
     if (!$project) {
         discuz_process::unlock($process);
-        _tgb_task_json(array('code' => -3, 'msg' => '今日可展示的项目已看完，请明天再来'));
+        _tgb_task_json(array('code' => -3, 'msg' => '可展示的广告已看完，更多广告接入中，请稍后再来试试！'));
     }
     try {
         $token = bin2hex(random_bytes(16));
@@ -471,11 +471,11 @@ if ($submodac === 'complete_ad') {
         discuz_process::unlock($process);
         _tgb_task_json(array('code' => -4, 'msg' => '观看时间不足', 'remaining' => intval($impression['eligible_at']) - TIMESTAMP));
     }
+    $didComplete = false;
     DB::query('START TRANSACTION');
     DB::query('UPDATE %t SET status=%s,completed_at=%d WHERE id=%d AND status=%s', array('view_ad_task_impression', 'completed', TIMESTAMP, intval($impression['id']), 'pending'));
     if (DB::affected_rows() > 0) {
-        $viewIncrement = mt_rand(2, 5);
-        DB::query('UPDATE %t SET views=COALESCE(views,0)+%d WHERE id=%d', array('xigua_hb_pub', $viewIncrement, intval($impression['pubid'])));
+        $didComplete = true;
         DB::query('UPDATE %t SET viewed_count=LEAST(target_count,viewed_count+1),updated_at=%d WHERE uid=%d AND task_date=%s', array('view_ad_task_progress', TIMESTAMP, $uid, $impression['task_date']));
         DB::query(
             'INSERT INTO %t (uid,completed_ads,withdraw_spent_ads,created_at,updated_at) VALUES (%d,1,0,%d,%d) ON DUPLICATE KEY UPDATE completed_ads=completed_ads+1,updated_at=VALUES(updated_at)',
@@ -483,6 +483,16 @@ if ($submodac === 'complete_ad') {
         );
     }
     DB::query('COMMIT');
+    if ($didComplete) {
+        // xigua_hb_pub is MyISAM. Keep this update outside the InnoDB
+        // transaction to satisfy GTID consistency and never block task credit.
+        $viewIncrement = mt_rand(2, 5);
+        DB::query(
+            'UPDATE %t SET views=COALESCE(views,0)+%d WHERE id=%d',
+            array('xigua_hb_pub', $viewIncrement, intval($impression['pubid'])),
+            true
+        );
+    }
     discuz_process::unlock($process);
     _tgb_task_json(_tgb_task_status_payload($uid, $username, $taskConfig));
 }
@@ -698,14 +708,14 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <section class="invite-section">
         <div class="invite-copy">
             <span class="section-kicker">INVITE & EARN</span>
-            <h2>好友每天完成任务，你每天都有收益</h2>
-            <p>好友完成实名认证并完成今日广告任务，奖励自动到账。</p>
+            <h2>好友每天看广告，你每天都有收益</h2>
+            <p>好友完成实名认证后，每天完成广告任务，奖励自动到账。</p>
         </div>
         <div class="invite-reward-grid">
-            <div><span>一级普通好友</span><strong id="directRegularReward">+¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></strong></div>
-            <div><span>二级普通好友</span><strong id="indirectRegularReward">+¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></strong></div>
-            <div class="vip"><span>一级会员好友</span><strong id="directVipReward">+¥<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?></strong></div>
-            <div class="vip"><span>二级会员好友</span><strong id="indirectVipReward">+¥<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?></strong></div>
+            <div><span>一级好友</span><strong id="directRegularReward">+¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></strong></div>
+            <div><span>二级好友</span><strong id="indirectRegularReward">+¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></strong></div>
+            <div class="vip"><span>一级好友是推广宝会员</span><strong id="directVipReward">+¥<?php echo number_format($taskConfig['direct_vip_reward'], 2); ?></strong></div>
+            <div class="vip"><span>二级好友是推广宝会员</span><strong id="indirectVipReward">+¥<?php echo number_format($taskConfig['indirect_vip_reward'], 2); ?></strong></div>
         </div>
         <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
     </section>
@@ -824,6 +834,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var deadline = 0;
     var hiddenAt = 0;
     var adCompleted = false;
+    var completingAd = false;
     var currentImages = [];
     var currentImageIndex = 0;
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
@@ -877,8 +888,14 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             Object.keys(data).forEach(function (key) { url += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(data[key]); });
         }
         return fetch(url, options).then(function (response) {
-            if (!response.ok) throw new Error('网络请求失败');
-            return response.json();
+            return response.text().then(function (text) {
+                if (!response.ok) throw new Error('网络请求失败，请稍后重试');
+                try {
+                    return JSON.parse(text);
+                } catch (error) {
+                    throw new Error('服务器确认异常，请点击重新确认');
+                }
+            });
         });
     }
     function setText(id, value) {
@@ -962,7 +979,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         } else {
             $('adMedia').innerHTML = '<div class="ad-gallery-track" id="adGalleryTrack">' + currentImages.map(function (image, index) {
                 return '<button class="ad-gallery-slide" type="button" data-image-index="' + index + '" aria-label="查看第' + (index + 1) + '张项目图片"><img src="' + escapeHtml(image) + '" alt="项目图片 ' + (index + 1) + '" draggable="false"></button>';
-            }).join('') + '</div><span class="ad-image-count" id="adImageCount">1 / ' + currentImages.length + '</span>' + (currentImages.length > 1 ? '<span class="ad-swipe-hint"><i class="ri-arrow-left-right-line"></i> 左右滑动</span>' : '');
+            }).join('') + '</div><span class="ad-image-count" id="adImageCount">1 / ' + currentImages.length + '</span>' + (currentImages.length > 1 ? '<span class="ad-swipe-hint"><i class="ri-arrow-left-right-line"></i> 左右滑动，点击放大</span>' : '');
             var track = $('adGalleryTrack');
             track.addEventListener('scroll', function () {
                 var width = track.clientWidth || 1;
@@ -1018,14 +1035,19 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         });
     }
     function completeAd() {
-        if (!timer || adCompleted) return;
+        if (!adToken || adCompleted || completingAd) return;
+        completingAd = true;
         stopTimer();
+        $('adContinueButton').disabled = true;
+        $('adContinueButton').textContent = '正在确认，请稍候';
         request('complete_ad', { token: adToken }, 'POST').then(function (res) {
             if (res.code === -4) {
+                completingAd = false;
                 startTimer(Math.max(1, res.remaining || 1));
                 return;
             }
             if (res.code !== 0) throw new Error(res.msg || '观看确认失败');
+            completingAd = false;
             adCompleted = true;
             renderStatus(res.data);
             $('adSeconds').textContent = '0';
@@ -1033,6 +1055,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             $('adContinueButton').textContent = res.data.can_claim ? '任务完成，去领取奖励' : '本条已完成，继续任务';
             toast('本条广告已完成');
         }).catch(function (error) {
+            completingAd = false;
             $('adContinueButton').disabled = false;
             $('adContinueButton').textContent = '重新确认';
             toast(error.message);
