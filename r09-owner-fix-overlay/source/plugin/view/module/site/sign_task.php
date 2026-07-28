@@ -699,7 +699,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-3" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-4" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -829,6 +829,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 <div class="task-modal invite-campaign-modal" id="inviteCampaignModal" aria-hidden="true">
     <div class="invite-campaign-dialog" role="dialog" aria-modal="true" aria-labelledby="inviteCampaignTitle">
         <button class="modal-close invite-campaign-close" data-close="inviteCampaignModal" aria-label="关闭邀请活动"><i class="ri-close-line"></i></button>
+        <div class="invite-campaign-scroll">
         <div class="campaign-visual">
             <span class="campaign-date"><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时冲刺' : '邀请好友奖励计划'; ?></span>
             <span class="campaign-icon"><i class="ri-user-add-line"></i></span>
@@ -851,6 +852,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <div class="campaign-support"><i class="ri-award-fill"></i><span><strong>再叠加最高888元官方扶持</strong><small>直推好友连续完成3天任务计入有效人数，达到档位即可领取</small></span></div>
             <a class="campaign-primary" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请，抢限时加码</a>
             <button class="campaign-later" type="button" data-close="inviteCampaignModal">稍后再说</button>
+        </div>
         </div>
     </div>
 </div>
@@ -914,7 +916,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var previewDidSwipe = false;
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
     var inviteNoticeInterval = 30 * 60 * 1000;
-    var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v2';
+    var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v3';
     var inviteNoticeShown = false;
     var $ = function (id) { return document.getElementById(id); };
 

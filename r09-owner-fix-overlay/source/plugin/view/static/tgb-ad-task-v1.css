@@ -195,8 +195,9 @@ button { font: inherit; }
 .campaign-support small { margin-top: 2px; color: #617b9c; font-size: 8px; line-height: 13px; }
 .campaign-primary { width: 100%; min-height: 48px; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 7px; border-radius: 7px; background: var(--task-green); color: #fff; font-size: 15px; font-weight: 750; text-decoration: none; box-shadow: 0 8px 18px rgba(18,134,111,.2); }
 .campaign-later { width: 100%; min-height: 34px; margin-top: 4px; border: 0; background: transparent; color: #7c8999; font-size: 10px; }
-.invite-campaign-dialog { max-height: calc(100vh - 28px); border: 2px solid #ef4444; box-shadow: 0 26px 65px rgba(63,18,18,.36); scrollbar-width: none; }
-.invite-campaign-dialog::-webkit-scrollbar { display: none; }
+.invite-campaign-dialog { width: min(88vw,410px); height: min(70vh,600px); max-height: 600px; overflow: hidden; border: 2px solid #ef4444; box-shadow: 0 26px 65px rgba(63,18,18,.36); }
+.invite-campaign-scroll { width: 100%; height: 100%; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.invite-campaign-scroll::-webkit-scrollbar { display: none; }
 .invite-campaign-close { background: #fff; color: #c83131; box-shadow: 0 3px 10px rgba(109,20,20,.15); }
 .campaign-visual { position: relative; overflow: hidden; padding: 20px 22px 18px; background: #ef4444; color: #fff; }
 .campaign-visual::before, .campaign-visual::after { content: ""; position: absolute; background: #ffd43b; transform: rotate(-10deg); }
