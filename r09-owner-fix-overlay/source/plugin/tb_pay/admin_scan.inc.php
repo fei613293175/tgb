@@ -3,6 +3,11 @@ if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
     exit('Access Denied');
 }
 
+if (!empty($_GET['tbpay_ajax'])) {
+    require DISCUZ_ROOT . './source/plugin/tb_pay/admin_ajax.inc.php';
+    exit;
+}
+
 require DISCUZ_ROOT . './source/plugin/tb_pay/common.php';
 
 $formhash = FORMHASH;
@@ -55,7 +60,7 @@ function reviewScan(reviewId, decision) {
     if (!window.confirm(message)) return;
     jQuery.ajax({
         type: 'post',
-        url: 'plugin.php?id=tb_pay:admin_ajax',
+        url: 'admin.php?action=plugins&operation=config&do={$pluginid}&identifier=tb_pay&pmod=admin_scan&tbpay_ajax=1',
         dataType: 'json',
         data: {ac:'scan_review', review_id:reviewId, decision:decision, reason:reason, formhash:'{$formhash}'},
         success: function(data) {

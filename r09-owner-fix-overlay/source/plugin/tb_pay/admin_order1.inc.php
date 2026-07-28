@@ -3,6 +3,11 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
     exit('Access Denied');
 }
 
+if (!empty($_GET['tbpay_ajax'])) {
+    require DISCUZ_ROOT . './source/plugin/tb_pay/admin_ajax.inc.php';
+    exit;
+}
+
 require DISCUZ_ROOT . './source/plugin/tb_pay/common.php';
 $formhash = FORMHASH;
 
@@ -200,7 +205,7 @@ echo <<<EOT
                 formdata.append('formhash', '{$formhash}');
                 jQuery.ajax({
                     type: 'post',
-                    url: 'plugin.php?id=tb_pay:admin_ajax',
+                    url: 'admin.php?action=plugins&operation=config&do={$pluginid}&identifier=tb_pay&pmod=admin_order1&tbpay_ajax=1',
                     data :  formdata,
                     processData : false,
                     contentType : false,
