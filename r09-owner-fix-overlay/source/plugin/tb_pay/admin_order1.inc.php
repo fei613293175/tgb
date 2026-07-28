@@ -4,6 +4,10 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 if (!empty($_GET['tbpay_ajax'])) {
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    header('Content-Type: application/json; charset=' . CHARSET);
     require DISCUZ_ROOT . './source/plugin/tb_pay/admin_ajax.inc.php';
     exit;
 }
@@ -209,8 +213,15 @@ echo <<<EOT
                     data :  formdata,
                     processData : false,
                     contentType : false,
-                    dataType: 'json',
-                    success: function (data) {
+                    dataType: 'text',
+                    success: function (response) {
+                        var data;
+                        try {
+                            data = JSON.parse(String(response).split(/\r?\n/)[0].trim());
+                        } catch (error) {
+                            layer.msg('审核响应异常，请刷新后台重试');
+                            return;
+                        }
                         if(data.code==200){
                             layer.msg("操作成功");
                             setTimeout(function(){window.location.reload()},2000)

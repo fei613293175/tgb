@@ -4,6 +4,10 @@ if (!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 if (!empty($_GET['tbpay_ajax'])) {
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+    header('Content-Type: application/json; charset=' . CHARSET);
     require DISCUZ_ROOT . './source/plugin/tb_pay/admin_ajax.inc.php';
     exit;
 }
@@ -61,9 +65,16 @@ function reviewScan(reviewId, decision) {
     jQuery.ajax({
         type: 'post',
         url: 'admin.php?action=plugins&operation=config&do={$pluginid}&identifier=tb_pay&pmod=admin_scan&tbpay_ajax=1',
-        dataType: 'json',
+        dataType: 'text',
         data: {ac:'scan_review', review_id:reviewId, decision:decision, reason:reason, formhash:'{$formhash}'},
-        success: function(data) {
+        success: function(response) {
+            var data;
+            try {
+                data = JSON.parse(String(response).split(/\r?\n/)[0].trim());
+            } catch (error) {
+                alert('审核响应异常，请刷新后台重试');
+                return;
+            }
             alert(data.msg);
             if (data.code === 200) window.location.reload();
         },

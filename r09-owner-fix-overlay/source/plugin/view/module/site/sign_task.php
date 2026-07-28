@@ -329,21 +329,22 @@ function _tgb_task_status_payload($uid, $username, $config) {
 }
 
 function _tgb_task_project_payload($row) {
-    $images = dunserialize($row['imglist']);
-    $image = '';
-    if (is_array($images)) {
-        foreach ($images as $candidate) {
-            if (is_string($candidate) && preg_match('#^https://#i', $candidate)) {
-                $image = $candidate;
-                break;
-            }
+    $rawImages = dunserialize($row['imglist']);
+    $images = array();
+    if (is_array($rawImages)) {
+        foreach ($rawImages as $candidate) {
+            if (!is_string($candidate)) continue;
+            $candidate = trim($candidate);
+            if (!preg_match('#^(https://|/|data/attachment/)#i', $candidate)) continue;
+            if (!in_array($candidate, $images, true)) $images[] = $candidate;
         }
     }
     return array(
         'id' => intval($row['id']),
         'title' => trim(strip_tags($row['title'] ? $row['title'] : $row['description'])),
         'description' => trim(strip_tags($row['description'])),
-        'image' => $image,
+        'image' => isset($images[0]) ? $images[0] : '',
+        'images' => $images,
         'url' => 'plugin.php?id=xigua_hb&ac=view&pubid=' . intval($row['id']),
         'priority_label' => $row['priority'] >= 4 ? '超级头条' : ($row['priority'] >= 3 ? '头条推荐' : ($row['priority'] >= 2 ? '置顶推荐' : '精选项目')),
     );
@@ -365,7 +366,7 @@ function _tgb_task_pick_project($uid, $date) {
         ORDER BY priority DESC, CRC32(CONCAT(p.id,%s)) ASC
         LIMIT 120", array($now, 'xigua_hb_pub', 'tb_super_toutiao', $now, 'tb_toutiao', $now, $now, $uid . $date));
     if (!$rows) return null;
-    $seenRows = DB::fetch_all('SELECT pubid FROM %t WHERE uid=%d AND task_date=%s', array('view_ad_task_impression', $uid, $date));
+    $seenRows = DB::fetch_all('SELECT pubid FROM %t WHERE uid=%d AND task_date=%s AND status=%s', array('view_ad_task_impression', $uid, $date, 'completed'));
     $seen = array();
     foreach ($seenRows as $item) $seen[intval($item['pubid'])] = true;
     foreach ($rows as $row) {
@@ -402,7 +403,7 @@ if ($submodac === 'next_ad') {
     $date = $task['task_date'];
     $process = 'tgb_ad_next_' . $uid . '_' . str_replace('-', '', $date);
     if (discuz_process::islocked($process, 5)) _tgb_task_json(array('code' => -1, 'msg' => '广告正在加载，请稍候'));
-    DB::query('UPDATE %t SET status=%s WHERE uid=%d AND task_date=%s AND status=%s', array('view_ad_task_impression', 'abandoned', $uid, $date, 'pending'));
+    DB::query('DELETE FROM %t WHERE uid=%d AND task_date=%s AND status<>%s', array('view_ad_task_impression', $uid, $date, 'completed'));
     $project = _tgb_task_pick_project($uid, $date);
     if (!$project) {
         discuz_process::unlock($process);
@@ -441,7 +442,7 @@ if ($submodac === 'abandon_ad') {
     _tgb_task_require_post();
     $token = isset($_POST['token']) ? trim($_POST['token']) : '';
     if (preg_match('/^[a-f0-9]{32}$/', $token)) {
-        DB::query('UPDATE %t SET status=%s WHERE token=%s AND uid=%d AND status=%s', array('view_ad_task_impression', 'abandoned', $token, $uid, 'pending'));
+        DB::query('DELETE FROM %t WHERE token=%s AND uid=%d AND status=%s', array('view_ad_task_impression', $token, $uid, 'pending'));
     }
     _tgb_task_json(array('code' => 0));
 }
@@ -462,7 +463,7 @@ if ($submodac === 'complete_ad') {
         _tgb_task_json(_tgb_task_status_payload($uid, $username, $taskConfig));
     }
     if (!_tgb_task_get_impression_project($impression)) {
-        DB::update('view_ad_task_impression', array('status' => 'expired'), 'id=' . intval($impression['id']));
+        DB::delete('view_ad_task_impression', 'id=' . intval($impression['id']) . " AND status='pending'");
         discuz_process::unlock($process);
         _tgb_task_json(array('code' => -1, 'msg' => '该项目已下架，请重新选择广告'));
     }
@@ -651,7 +652,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-6" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260728-7" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -738,11 +739,13 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <span class="ad-countdown"><i class="ri-time-line"></i><strong id="adSeconds"><?php echo intval($taskConfig['countdown_seconds']); ?></strong>秒</span>
             <button id="adCloseButton" aria-label="关闭广告"><i class="ri-close-line"></i></button>
         </div>
-        <div class="ad-media" id="adMedia"><div class="ad-placeholder"><i class="ri-image-line"></i></div></div>
-        <div class="ad-content">
-            <span class="ad-sponsored">推广宝项目推荐</span>
-            <h3 id="adTitle">正在加载...</h3>
-            <p id="adDescription"></p>
+        <div class="ad-scroll-body" id="adScrollBody">
+            <div class="ad-media" id="adMedia"><div class="ad-placeholder"><i class="ri-image-line"></i></div></div>
+            <div class="ad-content">
+                <span class="ad-sponsored">推广宝项目推荐</span>
+                <h3 id="adTitle">正在加载...</h3>
+                <p id="adDescription"></p>
+            </div>
         </div>
         <div class="ad-footer">
             <div><span>本条奖励</span><strong id="adUnitReward">+¥<?php echo number_format($task['unit_reward'], 2); ?></strong></div>
@@ -755,8 +758,15 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <div class="dialog-card warning-dialog" role="dialog" aria-modal="true" aria-labelledby="earlyCloseTitle">
         <span class="dialog-icon warning"><i class="ri-time-line"></i></span>
         <h3 id="earlyCloseTitle">本条广告还未完成</h3>
-        <p>现在退出不会计入观看次数，而且今天不会再次展示这条广告。</p>
+        <p>现在退出不会计入观看次数；下次开始任务时，这条广告仍可能再次展示。</p>
         <div class="dialog-actions"><button class="secondary" id="keepWatchingButton">继续观看</button><button class="danger" id="confirmEarlyCloseButton">确认退出</button></div>
+    </div>
+</div>
+
+<div class="task-modal image-preview-layer" id="imagePreviewModal" aria-hidden="true">
+    <div class="image-preview-card" role="dialog" aria-modal="true" aria-label="项目图片预览">
+        <div class="image-preview-head"><span id="previewImageCount">1 / 1</span><button type="button" id="previewCloseButton" aria-label="关闭图片预览"><i class="ri-close-line"></i></button></div>
+        <div class="image-preview-stage"><img id="previewImage" src="" alt="项目图片预览" draggable="false"></div>
     </div>
 </div>
 
@@ -812,6 +822,8 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var deadline = 0;
     var hiddenAt = 0;
     var adCompleted = false;
+    var currentImages = [];
+    var currentImageIndex = 0;
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
     var $ = function (id) { return document.getElementById(id); };
 
@@ -940,9 +952,34 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         $('adPriority').textContent = project.priority_label;
         $('adTitle').textContent = project.title || '推广宝精选项目';
         $('adDescription').textContent = project.description || '发现更多真实项目机会';
-        $('adMedia').innerHTML = project.image
-            ? '<img src="' + escapeHtml(project.image) + '" alt="项目图片">'
-            : '<div class="ad-placeholder"><i class="ri-image-line"></i><span>项目展示</span></div>';
+        currentImages = Array.isArray(project.images) ? project.images.filter(Boolean) : [];
+        if (!currentImages.length && project.image) currentImages = [project.image];
+        currentImageIndex = 0;
+        if (!currentImages.length) {
+            $('adMedia').innerHTML = '<div class="ad-placeholder"><i class="ri-image-line"></i><span>项目展示</span></div>';
+        } else {
+            $('adMedia').innerHTML = '<div class="ad-gallery-track" id="adGalleryTrack">' + currentImages.map(function (image, index) {
+                return '<button class="ad-gallery-slide" type="button" data-image-index="' + index + '" aria-label="查看第' + (index + 1) + '张项目图片"><img src="' + escapeHtml(image) + '" alt="项目图片 ' + (index + 1) + '" draggable="false"></button>';
+            }).join('') + '</div><span class="ad-image-count" id="adImageCount">1 / ' + currentImages.length + '</span>' + (currentImages.length > 1 ? '<span class="ad-swipe-hint"><i class="ri-arrow-left-right-line"></i> 左右滑动</span>' : '');
+            var track = $('adGalleryTrack');
+            track.addEventListener('scroll', function () {
+                var width = track.clientWidth || 1;
+                currentImageIndex = Math.max(0, Math.min(currentImages.length - 1, Math.round(track.scrollLeft / width)));
+                $('adImageCount').textContent = (currentImageIndex + 1) + ' / ' + currentImages.length;
+            }, { passive: true });
+        }
+        $('adScrollBody').scrollTop = 0;
+    }
+    function openImagePreview(index) {
+        if (!currentImages.length) return;
+        currentImageIndex = Math.max(0, Math.min(currentImages.length - 1, index));
+        $('previewImage').src = currentImages[currentImageIndex];
+        $('previewImageCount').textContent = (currentImageIndex + 1) + ' / ' + currentImages.length;
+        openModal('imagePreviewModal');
+    }
+    function closeImagePreview() {
+        closeModal('imagePreviewModal');
+        $('previewImage').removeAttribute('src');
     }
     function stopTimer() {
         if (timer) window.clearInterval(timer);
@@ -1079,6 +1116,14 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         if (state.can_claim) claimReward(); else showWatchConfirm();
     });
     $('confirmWatchButton').addEventListener('click', beginAd);
+    $('adMedia').addEventListener('click', function (event) {
+        var slide = event.target.closest('[data-image-index]');
+        if (slide) openImagePreview(parseInt(slide.getAttribute('data-image-index'), 10) || 0);
+    });
+    $('previewCloseButton').addEventListener('click', closeImagePreview);
+    $('imagePreviewModal').addEventListener('click', function (event) {
+        if (event.target === $('imagePreviewModal')) closeImagePreview();
+    });
     $('adContinueButton').addEventListener('click', function () {
         if (!adCompleted) { completeAd(); return; }
         closeModal('adModal');
