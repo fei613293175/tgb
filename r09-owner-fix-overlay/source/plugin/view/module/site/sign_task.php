@@ -699,7 +699,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-1" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-3" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -742,22 +742,26 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 
     <section class="invite-section <?php echo $inviteCampaign['active'] ? 'campaign-active' : ''; ?>">
         <div class="invite-campaign-strip">
-            <span><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时加码' : '邀请收益计划'; ?></span>
-            <b><?php echo $inviteCampaign['active'] ? '奖励已提升' : '每天持续收益'; ?></b>
+            <span><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? '7天推广冲刺计划' : '邀请收益计划'; ?></span>
+            <b><?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时' : '每天持续收益'; ?></b>
         </div>
-        <div class="invite-copy">
-            <span class="section-kicker">INVITE & EARN</span>
-            <h2>好友做任务，你每天拿推广收益</h2>
-            <p>好友完成实名认证并领取当天广告奖励，你的推广奖励自动到账；邀请越多，每天收益机会越多。</p>
+        <div class="invite-impact">
+            <div class="invite-copy">
+                <span class="section-kicker">INVITE & EARN</span>
+                <h2>好友每天做任务<br>你每天继续拿收益</h2>
+                <p><b>不是一次性奖励。</b>好友完成实名并领取当天广告奖励，你的推广收益自动到账。</p>
+            </div>
+            <span class="invite-impact-icon"><i class="ri-user-add-line"></i></span>
         </div>
         <div class="invite-reward-grid">
-            <div class="regular"><span>一级普通好友 <em>每日</em></span><strong id="directRegularReward">+¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></small><?php endif; ?></div>
+            <div class="regular featured"><span>每位一级普通好友完成任务</span><strong id="directRegularReward">+¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><em>/天</em></strong><?php if ($inviteCampaign['active']): ?><small>活动前 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>，现在每天多得 ¥<?php echo number_format($inviteCampaign['direct_regular_reward'] - $taskConfig['direct_regular_reward'], 2); ?></small><?php endif; ?></div>
             <div class="regular"><span>二级普通好友 <em>每日</em></span><strong id="indirectRegularReward">+¥<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></small><?php endif; ?></div>
             <div class="vip"><span>一级会员好友 <em>每日</em></span><strong id="directVipReward">+¥<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
             <div class="vip"><span>二级会员好友 <em>每日</em></span><strong id="indirectVipReward">+¥<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
         </div>
+        <div class="invite-income-example"><span><i class="ri-line-chart-fill"></i> 例如邀请10位一级普通好友</span><strong>每天最高可得 ¥<?php echo number_format($inviteCampaign['direct_regular_reward'] * 10, 2); ?></strong><small>需10位好友当天均完成实名广告任务</small></div>
         <div class="invite-support-tip"><i class="ri-award-line"></i><span><strong>邀请收益还能叠加官方扶持</strong><small>实名直推连续完成3天任务计为有效用户，八档累计最高888元</small></span></div>
-        <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请，开启持续收益</a>
+        <a class="invite-button" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 趁加码期，立即邀请好友</a>
     </section>
 
     <a class="qq-group-card" href="https://qm.qq.com/q/CQCxbFkGME">
@@ -818,7 +822,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 <div class="task-modal image-preview-layer" id="imagePreviewModal" aria-hidden="true">
     <div class="image-preview-card" role="dialog" aria-modal="true" aria-label="项目图片预览">
         <div class="image-preview-head"><span id="previewImageCount">1 / 1</span><button type="button" id="previewCloseButton" aria-label="关闭图片预览"><i class="ri-close-line"></i></button></div>
-        <div class="image-preview-stage"><img id="previewImage" src="" alt="项目图片预览" draggable="false"></div>
+        <div class="image-preview-stage" id="previewImageStage"><div class="image-preview-track" id="previewImageTrack"></div><span class="image-preview-tip"><i class="ri-arrow-left-right-line"></i> 左右滑动 · 点击图片或空白处关闭</span></div>
     </div>
 </div>
 
@@ -826,13 +830,15 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <div class="invite-campaign-dialog" role="dialog" aria-modal="true" aria-labelledby="inviteCampaignTitle">
         <button class="modal-close invite-campaign-close" data-close="inviteCampaignModal" aria-label="关闭邀请活动"><i class="ri-close-line"></i></button>
         <div class="campaign-visual">
-            <span class="campaign-date"><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时加码' : '邀请好友奖励计划'; ?></span>
-            <span class="campaign-icon"><i class="ri-user-heart-line"></i></span>
-            <p>邀请好友 · 每天持续有收益</p>
-            <h3 id="inviteCampaignTitle">好友赚广告奖励<br>你拿推广收益</h3>
-            <small>好友完成实名认证并完成当天广告任务，奖励自动发放到你的推广钱包。</small>
+            <span class="campaign-date"><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时冲刺' : '邀请好友奖励计划'; ?></span>
+            <span class="campaign-icon"><i class="ri-user-add-line"></i></span>
+            <p>推广收益限时加码</p>
+            <h3 id="inviteCampaignTitle">现在邀请好友<br>每天都能继续拿收益</h3>
+            <div class="campaign-hero-reward"><span>每位一级普通好友</span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><small>/天</small></strong></div>
+            <small>好友完成实名并领取当天广告奖励，推广收益自动进入你的钱包。</small>
         </div>
         <div class="campaign-body">
+            <div class="campaign-income-example"><span>邀请10位一级普通好友<br><small>当天全部完成任务</small></span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'] * 10, 2); ?><small>/天</small></strong></div>
             <?php if ($inviteCampaign['active']): ?><div class="campaign-boost"><i class="ri-arrow-up-circle-fill"></i><span>活动期间普通好友奖励已提升，<b>一级加码60%</b>、<b>二级加码约33%</b></span></div><?php endif; ?>
             <div class="campaign-rewards">
                 <div><span>一级普通好友</span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><small>/天</small></strong><?php if ($inviteCampaign['active']): ?><del>原 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?></del><?php endif; ?></div>
@@ -843,7 +849,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
                 <span><b>1</b>邀请好友</span><i class="ri-arrow-right-s-line"></i><span><b>2</b>好友实名做任务</span><i class="ri-arrow-right-s-line"></i><span><b>3</b>奖励自动到账</span>
             </div>
             <div class="campaign-support"><i class="ri-award-fill"></i><span><strong>再叠加最高888元官方扶持</strong><small>直推好友连续完成3天任务计入有效人数，达到档位即可领取</small></span></div>
-            <a class="campaign-primary" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请好友</a>
+            <a class="campaign-primary" href="plugin.php?id=xigua_hh&ac=invite"><i class="ri-user-add-line"></i> 立即邀请，抢限时加码</a>
             <button class="campaign-later" type="button" data-close="inviteCampaignModal">稍后再说</button>
         </div>
     </div>
@@ -904,9 +910,11 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var completingAd = false;
     var currentImages = [];
     var currentImageIndex = 0;
+    var previewPointerStartX = 0;
+    var previewDidSwipe = false;
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
     var inviteNoticeInterval = 30 * 60 * 1000;
-    var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v1';
+    var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v2';
     var inviteNoticeShown = false;
     var $ = function (id) { return document.getElementById(id); };
 
@@ -1082,13 +1090,19 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     function openImagePreview(index) {
         if (!currentImages.length) return;
         currentImageIndex = Math.max(0, Math.min(currentImages.length - 1, index));
-        $('previewImage').src = currentImages[currentImageIndex];
-        $('previewImageCount').textContent = (currentImageIndex + 1) + ' / ' + currentImages.length;
+        var track = $('previewImageTrack');
+        track.innerHTML = currentImages.map(function (image, imageIndex) {
+            return '<div class="image-preview-slide"><img src="' + escapeHtml(image) + '" alt="项目图片 ' + (imageIndex + 1) + '" draggable="false"></div>';
+        }).join('');
+        $('previewImageCount').textContent = (currentImageIndex + 1) + ' / ' + currentImages.length + (currentImages.length > 1 ? ' · 左右滑动' : '');
         openModal('imagePreviewModal');
+        window.requestAnimationFrame(function () {
+            track.scrollLeft = currentImageIndex * (track.clientWidth || 1);
+        });
     }
     function closeImagePreview() {
         closeModal('imagePreviewModal');
-        $('previewImage').removeAttribute('src');
+        $('previewImageTrack').innerHTML = '';
     }
     function stopTimer() {
         if (timer) window.clearInterval(timer);
@@ -1236,6 +1250,29 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         if (slide) openImagePreview(parseInt(slide.getAttribute('data-image-index'), 10) || 0);
     });
     $('previewCloseButton').addEventListener('click', closeImagePreview);
+    $('previewImageTrack').addEventListener('scroll', function () {
+        var track = $('previewImageTrack');
+        window.clearTimeout(track.previewScrollTimer);
+        track.previewScrollTimer = window.setTimeout(function () {
+            var width = track.clientWidth || 1;
+            currentImageIndex = Math.max(0, Math.min(currentImages.length - 1, Math.round(track.scrollLeft / width)));
+            $('previewImageCount').textContent = (currentImageIndex + 1) + ' / ' + currentImages.length + (currentImages.length > 1 ? ' · 左右滑动' : '');
+        }, 60);
+    }, { passive: true });
+    $('previewImageStage').addEventListener('pointerdown', function (event) {
+        previewPointerStartX = event.clientX;
+        previewDidSwipe = false;
+    }, { passive: true });
+    $('previewImageStage').addEventListener('pointermove', function (event) {
+        if (Math.abs(event.clientX - previewPointerStartX) > 10) previewDidSwipe = true;
+    }, { passive: true });
+    $('previewImageStage').addEventListener('click', function () {
+        if (previewDidSwipe) {
+            previewDidSwipe = false;
+            return;
+        }
+        closeImagePreview();
+    });
     $('imagePreviewModal').addEventListener('click', function (event) {
         if (event.target === $('imagePreviewModal')) closeImagePreview();
     });
