@@ -909,10 +909,23 @@
             $('#scanInlineMessage').text(message || '');
         }
 
-        function updateScanSelection(track) {
+        function updateScanSelection(track, preferredIndex) {
             var slides = track.querySelectorAll('.scan-qr-slide');
             if (!slides.length) return;
-            var index = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / Math.max(track.clientWidth, 1))));
+            var index = typeof preferredIndex === 'number' ? preferredIndex : 0;
+            if (typeof preferredIndex !== 'number') {
+                var viewportCenter = track.scrollLeft + track.clientWidth / 2;
+                var closestDistance = Infinity;
+                Array.prototype.forEach.call(slides, function(slide, slideIndex) {
+                    var slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+                    var distance = Math.abs(slideCenter - viewportCenter);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        index = slideIndex;
+                    }
+                });
+            }
+            index = Math.max(0, Math.min(slides.length - 1, index));
             scanState.qrKey = slides[index].getAttribute('data-qr-key');
             $('#scanDots i').removeClass('is-active').eq(index).addClass('is-active');
         }
@@ -925,9 +938,13 @@
             var track = channel.find('.scan-qr-track').get(0);
             var count = channel.find('.scan-qr-slide').length;
             $('#scanDots').html(new Array(count + 1).join('<i></i>'));
-            if (track) {
-                track.scrollLeft = 0;
-                updateScanSelection(track);
+            scanState.qrKey = '';
+            if (track && !track.scanSelectionBound) {
+                track.addEventListener('scroll', function() {
+                    window.clearTimeout(track.scanScrollTimer);
+                    track.scanScrollTimer = window.setTimeout(function() { updateScanSelection(track); }, 60);
+                }, { passive: true });
+                track.scanSelectionBound = true;
             }
             $('#scanModalKicker').text(scanState.paytype === '11' ? '支付宝扫码' : '微信扫码');
             $('#scanNicknameLabel').text(scanState.paytype === '11' ? '支付宝网名' : '微信网名');
@@ -937,6 +954,14 @@
             setScanMessage('');
             $('#scanPaymentModal').addClass('is-open').attr('aria-hidden', 'false');
             $('body').addClass('scan-modal-open');
+            window.requestAnimationFrame(function() {
+                if (!track || !count) return;
+                var slides = track.querySelectorAll('.scan-qr-slide');
+                var randomIndex = Math.floor(Math.random() * count);
+                var baseOffset = slides.length ? slides[0].offsetLeft : 0;
+                track.scrollLeft = Math.max(0, slides[randomIndex].offsetLeft - baseOffset);
+                updateScanSelection(track, randomIndex);
+            });
         }
 
         function closeScanModal() {
@@ -945,11 +970,6 @@
         }
 
         $(document).on('click', '[data-scan-close]', closeScanModal);
-        $(document).on('scroll', '.scan-qr-track', function() {
-            var track = this;
-            window.clearTimeout(track.scanScrollTimer);
-            track.scanScrollTimer = window.setTimeout(function() { updateScanSelection(track); }, 80);
-        });
         $(document).on('change', '#scanPaymentProof', function() {
             var file = this.files && this.files[0];
             if (!file) return;
