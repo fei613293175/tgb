@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>推广宝收银台</title>
+    <style>
+        :root {
+            --bg: #fff9f5;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --primary-gold: #ff7b00;
+            --gold-light: #ffb380;
+            --gold-dark: #e63946;
+            --gold-gradient: linear-gradient(135deg, #ff7b00, #e63946);
+            --gold-gradient-vip: linear-gradient(135deg, #ff7b00, #e63946);
+            --gold-soft: linear-gradient(135deg, #fef9f0, #fdf3e0);
+            --text-primary: #3d2b1a;
+            --text-secondary: #8b6f5c;
+            --text-tertiary: #b08968;
+            --text-muted: #aeb2bb;
+            --border-light: rgba(255, 200, 120, 0.35);
+            --border-card: rgba(255, 190, 90, 0.35);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 20px 45px rgba(255,140,30,0.10), 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.08), 0 3px 10px rgba(0, 0, 0, 0.05);
+            --shadow-gold: 0 5px 15px rgba(255,50,0,0.25);
+            --shadow-vip: 0 6px 24px rgba(255, 80, 0, 0.22), 0 3px 10px rgba(255, 50, 0, 0.12);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+            --nav-height: 50px;
+            --safe-bottom: env(safe-area-inset-bottom, 16px);
+            --font-xs: 0.7rem;
+            --font-sm: 0.78rem;
+            --font-md: 0.88rem;
+            --font-base: 0.95rem;
+            --font-lg: 1.1rem;
+            --font-xl: 1.35rem;
+            --font-2xl: 1.65rem;
+            --font-3xl: 2rem;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.25s ease;
+            --transition-slow: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #fef9f0 0%, #fff5e6 30%, #fef3e2 60%, #fdf0db 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            max-width: 100vw;
+            overflow-x: hidden;
+            padding-bottom: calc(20px + var(--safe-bottom));
+            position: relative;
+            line-height: 1.5;
+            background-image: radial-gradient(ellipse at 15% 8%, rgba(255, 123, 0, 0.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 22%, rgba(255, 123, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 55%, rgba(255, 140, 30, 0.04) 0%, transparent 60%);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.018;
+            background-image: linear-gradient(rgba(100, 100, 120, 0.5) 0.5px, transparent 0.5px),
+                linear-gradient(90deg, rgba(100, 100, 120, 0.5) 0.5px, transparent 0.5px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        /* 头部导航栏 - 毛玻璃效果 */
+        #header {
+            z-index: 999;
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            width: 100%;
+            height: var(--nav-height);
+            font-size: 18px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 20px 25px 20px;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255,200,120,0.35);
+            box-shadow: 0 2px 20px rgba(255,150,30,0.06);
+        }
+
+        #header a {
+            display: flex;
+            align-items: center;
+            min-width: 44px;
+            min-height: 44px;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition-fast);
+        }
+
+        #header a:active {
+            background: rgba(220, 222, 228, 0.7);
+            transform: scale(0.92);
+        }
+
+        #header a img {
+            display: block;
+            margin-top: 42px;
+        }
+
+        #header-title {
+            color: var(--text-primary);
+            font-weight: 800;
+            font-size: var(--font-lg);
+            margin: 0;
+            margin-top: 0px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        /* 主内容区域 */
+        .main-content-wrapper {
+            width: 92%;
+            max-width: 440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 110px;
+            padding-bottom: 100px;
+        }
+
+        /* 商品信息卡片 */
+        .order-info-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            padding: 20px 5.5% 18px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-card);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-info-card::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 123, 0, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .order-product-name {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: var(--font-base);
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-price-row {
+            color: var(--text-primary);
+            margin-top: 8px;
+            font-size: var(--font-base);
+            position: relative;
+            z-index: 1;
+        }
+
+        .order-price-amount {
+            font-weight: 800;
+            font-size: var(--font-3xl);
+            color: var(--text-primary);
+        }
+
+        /* 支付方式选择标题 */
+        .section-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            color: var(--text-primary);
+            font-size: var(--font-md);
+            font-weight: 600;
+        }
+
+        .section-title-row::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            border-radius: 2px;
+            background: var(--gold-gradient);
+            flex-shrink: 0;
+        }
+
+        /* 支付方式卡片 */
+        .payment-methods-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-card);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .pays {
+            border-radius: var(--radius-lg);
+            padding: 8px 0;
+        }
+
+        .weui-cells {
+            margin-top: 0px;
+            border-radius: var(--radius-lg);
+            background: transparent;
+        }
+
+        .weui-cells:before,
+        .weui-cells:after {
+            border: 0px;
+        }
+
+        .weui-cell {
+            display: flex;
+            align-items: center;
+            padding: 14px 5.5%;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-bottom: 1px solid var(--border-light);
+            background: transparent;
+        }
+
+        .weui-cell:last-child {
+            border-bottom: none;
+        }
+
+        .weui-cell:active {
+            background: rgba(240, 242, 245, 0.7);
+        }
+
+        .weui-cell__hd {
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .weui-cell__hd img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--border-light);
+            object-fit: cover;
+        }
+
+        .weui-cell__bd {
+            flex: 1;
+            min-width: 0;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .payinfo {
+            font-size: var(--font-base);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-left: 5px;
+            position: relative;
+            line-height: 28px;
+        }
+
+        .payinfo .desc-text {
+            margin-left: 5px;
+            color: var(--text-tertiary);
+            font-size: var(--font-xs);
+            font-weight: 400;
+            line-height: 20px;
+            display: block;
+        }
+
+        .weui-cell__ft {
+            flex-shrink: 0;
+            position: relative;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+        }
+
+        /* 自定义radio样式 */
+        .weui-icon-checked {
+            position: absolute;
+            display: block;
+            width: 22px;
+            height: 22px;
+            top: 50%;
+            right: 0;
+            margin-top: -11px;
+            border-radius: 50%;
+            border: 2px solid #d0d3db;
+            background: #fafbfc;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .weui-cells_radio .weui-check:checked+.weui-icon-checked {
+            border-color: var(--primary-gold);
+            background: var(--primary-gold);
+            box-shadow: 0 0 0 4px rgba(255, 123, 0, 0.15);
+            background-position: -20px 0 !important;
+        }
+
+        .weui-cells_radio .weui-check:checked+.weui-icon-checked:before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 6px;
+            width: 6px;
+            height: 11px;
+            border: solid #fff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            box-sizing: border-box;
+            color: #07c16000 !important;
+        }
+
+        .weui-check {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* 推荐标签 */
+        .price-desc-btn {
+            display: inline-block;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-name: buttonAnimate;
+            animation-timing-function: ease;
+        }
+
+        .ping_groups_cover_stamp {
+            display: inline-block;
+            padding: 2px 7px;
+            height: auto;
+            line-height: 1.3;
+            color: #fff;
+            font-size: 0.6rem;
+            white-space: nowrap;
+            background: var(--gold-gradient-vip);
+            border-radius: 10px 10px 10px 2px;
+            box-shadow: 0 2px 8px rgba(255, 123, 0, 0.3);
+            font-style: normal;
+            vertical-align: middle;
+            margin-left: 4px;
+            position: relative;
+            top: -1px;
+        }
+
+        @keyframes buttonAnimate {
+            50% {
+                transform: scale(1.06);
+            }
+        }
+
+        /* 返利提示 */
+        .rebate-tip {
+            margin-left: 5px;
+            border-radius: 8px;
+            padding: 4px 8px;
+            background: rgba(255, 123, 0, 0.06);
+            font-weight: 500;
+            color: var(--text-tertiary);
+            font-size: 10px;
+            line-height: 18px;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        .rebate-tip span {
+            color: #e8553d;
+            font-weight: 700;
+        }
+
+        /* 底部支付按钮 */
+        #paybtndiv {
+            bottom: 0;
+            width: 100%;
+            position: fixed;
+            z-index: 99999999;
+            padding: 12px 5% calc(12px + var(--safe-bottom));
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-top: 1px solid rgba(255,200,120,0.35);
+            box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.06);
+            box-sizing: border-box;
+        }
+
+        .paybtn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--gold-gradient);
+            border: 0px;
+            color: #fff;
+            border-radius: 28px;
+            font-weight: 700;
+            font-size: var(--font-base);
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: var(--shadow-gold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
+            box-sizing: border-box;
+        }
+
+        .paybtn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(255, 123, 0, 0.25);
+        }
+
+        .weui-btn:after {
+            border: 0px;
+        }
+
+        /* 弹窗内容通用样式 */
+        .popup-panel {
+            padding: 16px;
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .popup-panel .textcls {
+            height: 44px;
+            width: 100%;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-light);
+            background-color: rgba(255,245,235,0.7);
+            padding: 10px 14px;
+            font-size: var(--font-sm);
+            color: var(--text-primary);
+            box-sizing: border-box;
+            transition: var(--transition-fast);
+            outline: none;
+        }
+
+        .popup-panel .textcls:focus {
+            border-color: var(--primary-gold);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.08);
+        }
+
+        .popup-panel .copyaction {
+            display: inline-block;
+            border: 1px solid var(--border-light);
+            padding: 4px 12px;
+            background-color: rgba(255,245,235,0.7);
+            border-radius: 6px;
+            font-size: var(--font-xs);
+            color: var(--primary-gold);
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition-fast);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .popup-panel .copyaction:active {
+            background-color: #eef0f5;
+            transform: scale(0.93);
+            border-color: var(--primary-gold);
+        }
+
+        .popup-panel .info-line {
+            margin-top: 12px;
+            font-size: var(--font-sm);
+            color: var(--text-secondary);
+            word-break: break-all;
+            padding: 10px 14px;
+            background: #fafbfd;
+            border-radius: 10px;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .popup-panel .info-line:active {
+            background: #f0f2f5;
+            border-color: #dde0e6;
+        }
+
+        .popup-panel .highlight-red {
+            color: #e8553d;
+            font-weight: 600;
+        }
+
+        .popup-panel .section-desc {
+            flex: 1;
+            text-align: left;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: var(--font-sm);
+            line-height: 1.6;
+        }
+
+        .popup-panel .qr-code-img {
+            width: 80%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            margin-top: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .popup-panel .section-subtitle {
+            font-size: var(--font-base);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-align: center;
+            margin-top: 14px;
+            margin-bottom: 8px;
+        }
+
+        /* Toast样式覆盖 */
+        .layui-layer-msg {
+            border-radius: 24px !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        /* 隐藏div通用 */
+        [id^="pay_"] {
+            display: none;
+        }
+
+        #showbankinfo,
+        #showtipshtml,
+        #paytzhtml {
+            display: none;
+        }
+
+        /* 响应式 */
+        @media screen and (max-width: 360px) {
+            .order-price-amount {
+                font-size: 1.7rem;
+            }
+            .weui-cell__hd img {
+                width: 36px;
+                height: 36px;
+            }
+            .weui-cell {
+                padding: 11px 4%;
+            }
+            .paybtn {
+                font-size: var(--font-md);
+                padding: 12px 16px;
+                border-radius: 24px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="source/plugin/tb_pay/static/tgb-r09/cashier-light-grid-r09.css?{VERHASH}">
+    <link rel="stylesheet" href="source/plugin/tb_pay/static/tgb-r09/scan-review-r09.css?{VERHASH}">
+</head>
+<body>
+    <!-- 头部导航栏 -->
+    <div id="header">
+        <a href="javascript:window.history.go(-1);">
+            <span class="cashier-back-icon" aria-hidden="true"></span>
+        </a>
+        <h1 id="header-title">推广宝收银台</h1>
+        <div style="width: 20px;"></div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content-wrapper">
+        <!-- 商品信息卡片 -->
+        <div class="order-info-card">
+            <div class="order-product-name">商品名：{$tbpayorder_new['subject']}</div>
+            <div class="order-price-row">需支付 ￥<span class="order-price-amount">{$tbpayorder_new['price']}</span></div>
+        </div>
+
+        <!-- 支付方式选择标题 -->
+        <div class="section-title-row">选择付款方式</div>
+
+        <!-- 支付方式卡片 -->
+        <div class="payment-methods-card">
+            <section class="pays fix" style="border-radius: var(--radius-lg);padding:8px 0;">
+                <div class="weui-cells weui-cells_radio" style="border-radius: var(--radius-lg);">
+                    <!--{loop $zftype_arr $zfkey $zfval1}-->
+                    <label class="weui-cell weui-check__label" for="x1{$zfkey}">
+                        <div class="weui-cell__hd"><img src="$zfval1[1]" alt="" onerror="this.hidden=true"></div>
+                        <div class="weui-cell__bd payinfo">
+                            <div style="margin-left:5px;position: relative;line-height:28px;font-weight:600;font-size:16px;color:var(--text-primary);">
+                                $zfval1[0]
+                                <!--{if $zfkey==1 || $zfkey==2 || $zfkey==5}-->
+                                <span class="price-desc-btn">
+                                    <span class="ping_groups_cover_stamp">推荐</span>
+                                </span>
+                                <!--{/if}-->
+                                <!--{if $zfkey==9}-->
+                                （{$userMoney}）
+                                <!--{elseif $zfkey==20}-->
+                                （{eval echo (getuserprofile('extcredits2'));}<font style="font-size:10px;color:#e8553d;"> 1个抵2元</font>）
+                                <!--{elseif $zfkey==21}-->
+                                （{$userMoneynew}）
+                                <!--{/if}-->
+                            </div>
+                            <p style="margin-left:5px;color:var(--text-tertiary);margin-right: 15px;font-size: 12px;font-weight:400;line-height:20px;">$zfval1[2]</p>
+                            <!--{if $zfkey==1 || $zfkey==2 || $zfkey==5}-->
+                            {eval $zzprice = round($tbpayorder_new['price']*$tb_pay_config['bankper'],2)}
+                            <!--{if $zzprice>0}-->
+                            <div id="pay_1" style="margin-left:5px;border-radius: 8px;background-color: #fff0;">
+                                <div class="rebate-tip">使用本方式支付立返<span style="color:#e8553d;font-weight:700;"> {$zzprice}元 </span></div>
+                            </div>
+                            <!--{/if}-->
+                            <!--{/if}-->
+                        </div>
+                        <div class="weui-cell__ft">
+                            <input type="radio" name="zftype" value="{$zfkey}" class="weui-check" id="x1{$zfkey}">
+                            <span class="weui-icon-checked"></span>
+                        </div>
+                    </label>
+                    <!--{/loop}-->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 隐藏：银行信息弹窗 -->
+    <div id="showbankinfo" style="display: none">
+        <div style="padding: 20px;font-size:var(--font-sm);color:var(--text-secondary);line-height:1.7;">
+            $tb_pay_config['bankinfo']
+        </div>
+    </div>
+
+    <!-- 隐藏：提示信息弹窗 -->
+    <div id="showtipshtml" style="display: none">
+        <div style="padding: 20px;font-size:var(--font-sm);color:var(--text-secondary);line-height:1.7;">
+            $tb_pay_config['payinfo']
+        </div>
+    </div>
+
+    <!-- 支付跳转HTML容器 -->
+    <div id="paytzhtml"></div>
+
+    <!-- 底部支付按钮 -->
+    <div style="bottom:0;width: 100%;position: fixed;z-index:99999999;" id="paybtndiv">
+        <a href="javascript:;" class="weui-btn bg-blue paybtn">立即支付</a>
+    </div>
+
+    <!-- 隐藏：支付宝口令红包 (pay_10) -->
+    <div id="pay_10" style="display: none">
+        <div class="popup-panel">
+            <div style="margin-bottom: 15px;"><input type="text" placeholder="支付宝上显示的红包口令" id="alipaycode" class="textcls"></div>
+            <div style="margin-bottom: 15px;"><input type="text" placeholder="你的支付宝姓名" id="alipayname" class="textcls"></div>
+            <div style="flex: 1;text-align: left;font-size:14px;font-weight:400;color:var(--text-tertiary);margin-bottom:30px;margin-top:-10px;line-height:1.6;">操作方法：打开支付宝搜索口令红包，然后发1个口令红包，平台的订单金额是多少就发多少金额的红包，创建好后把你的支付宝姓名和红包的口令填入上面提交等平台审核，审核通过后订单会自动支付成功！</div>
+        </div>
+    </div>
+
+    <!-- 隐藏：银行卡转账 (pay_15) -->
+    <div id="pay_15" style="display: none">
+        <div class="popup-panel">
+            <div style="display: flex;font-size: 13px;flex-direction: column;">
+                <!--{loop $skcontact_arr $skkey $skval}-->
+                <div class="section-desc">请按照以下提供的银行卡信息进行转账，目前可使用微信、支付宝、银行APP等方式灵活的进行跨行转账。</div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" 陈烈平">姓名：陈烈平 <span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" 6228480478983811777">银行卡号：6228480478983811777 <span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" 农业银行">银行：中国农业银行 <span class="copyaction">复制</span></div>
+                <div class="section-desc" style="margin-top:8px;">转账完成后请联系以下任意微信客服进行加急充值。</div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink">微信客服1：fuylink <span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink888">微信客服2：fuylink888 <span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" imehui888">微信客服3：imehui888 <span class="copyaction">复制</span></div>
+                <script src="source/plugin/xigua_hh/template/touch/clipboard.min.js?{VERHASH}"></script>
+                <script>
+                    function copyyqm(id) {
+                        clipboard = new Clipboard(id);
+                        clipboard.on('success', function(e) {
+                            layer.msg("复制成功");
+                        });
+                        id.click();
+                        clipboard.destroy();
+                    }
+                </script>
+                <!--{/loop}-->
+            </div>
+        </div>
+    </div>
+
+    <div class="scan-modal" id="scanPaymentModal" aria-hidden="true">
+        <div class="scan-modal-backdrop" data-scan-close></div>
+        <section class="scan-modal-panel" role="dialog" aria-modal="true" aria-labelledby="scanModalTitle">
+            <header class="scan-modal-header">
+                <div>
+                    <span class="scan-modal-kicker" id="scanModalKicker">扫码支付</span>
+                    <h2 id="scanModalTitle">选择收款二维码</h2>
+                </div>
+                <button type="button" class="scan-close-button" data-scan-close aria-label="关闭">&times;</button>
+            </header>
+
+            <div class="scan-modal-body" id="scanReviewForm">
+                <div class="scan-order-summary">
+                    <span>{$tbpayorder_new['subject']}</span>
+                    <strong>￥{$tbpayorder_new['price']}</strong>
+                </div>
+                <p class="scan-helper">左右滑动选择收款码，保存图片完成付款后提交凭证审核。</p>
+
+                <div class="scan-channel" data-scan-channel="11">
+                    <div class="scan-qr-track">
+                        <!--{loop $scan_qrcodes_11 $scan_qr}-->
+                        <article class="scan-qr-slide" data-qr-key="{$scan_qr['key']}">
+                            <span>{$scan_qr['label']}</span>
+                            <img src="{$scan_qr['url']}" alt="{$scan_qr['label']}" loading="lazy">
+                            <a href="{$scan_qr['url']}" target="_blank" rel="noopener" class="scan-save-button">打开并保存二维码</a>
+                        </article>
+                        <!--{/loop}-->
+                    </div>
+                </div>
+                <div class="scan-channel" data-scan-channel="12">
+                    <div class="scan-qr-track">
+                        <!--{loop $scan_qrcodes_12 $scan_qr}-->
+                        <article class="scan-qr-slide" data-qr-key="{$scan_qr['key']}">
+                            <span>{$scan_qr['label']}</span>
+                            <img src="{$scan_qr['url']}" alt="{$scan_qr['label']}" loading="lazy">
+                            <a href="{$scan_qr['url']}" target="_blank" rel="noopener" class="scan-save-button">打开并保存二维码</a>
+                        </article>
+                        <!--{/loop}-->
+                    </div>
+                </div>
+                <div class="scan-dots" id="scanDots" aria-hidden="true"></div>
+
+                <label class="scan-field">
+                    <span id="scanNicknameLabel">支付账号网名</span>
+                    <input type="text" id="scanPayerNickname" maxlength="30" autocomplete="name" placeholder="请输入付款账号网名">
+                </label>
+                <label class="scan-field">
+                    <span>真实姓名最后一个字</span>
+                    <input type="text" id="scanRealnameLast" maxlength="1" placeholder="例如：张三填写“三”">
+                </label>
+                <label class="scan-proof-field" for="scanPaymentProof">
+                    <input type="file" id="scanPaymentProof" accept="image/jpeg,image/png,image/gif,image/webp">
+                    <span class="scan-proof-icon">+</span>
+                    <span class="scan-proof-copy"><b>上传支付凭证截图</b><small>必填，支持 JPG / PNG / GIF / WEBP，最大 8MB</small></span>
+                    <img id="scanProofPreview" alt="支付凭证预览">
+                </label>
+                <p class="scan-inline-message" id="scanInlineMessage" role="status"></p>
+                <button type="button" class="scan-submit-button" id="scanSubmitButton">提交审核</button>
+            </div>
+
+            <div class="scan-result" id="scanReviewResult" hidden>
+                <div class="scan-result-mark">&#10003;</div>
+                <h3>提交成功</h3>
+                <p>已提交审核，你可以在个人中心查询审核状态</p>
+                <a href="plugin.php?id=tb_pay:order" class="scan-result-primary">查看订单</a>
+                <button type="button" class="scan-result-secondary" data-scan-close>完成</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- 隐藏：USDT支付 (pay_14) -->
+    <div id="pay_14" style="display: none">
+        <div class="popup-panel">
+            <div style="display: flex;font-size: 13px;flex-direction: column;">
+                <!--{loop $skcontact_arr $skkey $skval}-->
+                <div style="flex: 1;text-align: left;margin-bottom:15px;line-height:1.6;">
+                    <span class="highlight-red" style="font-size:15px;">汇率以1USDT=7人民币折合，例如充值7元，需转账1 USDT，不可少转抹零否则不售后</span>，保存二维码扫码或复制地址，必须是USDT tron(TRC20)，充错平台不负责，付款后请联系客服微信
+                </div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" TJQGgv9A8YorgFLAKE6pnkDDPf5jK7pYvm ">USDT地址:TJQGgv9A8YorgFLAKE6pnkDDPf5jK7pYvm<span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink">微信客服1：fuylink<span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink888">微信客服2：fuylink888<span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" imehui888">微信客服3：imehui888<span class="copyaction">复制</span></div>
+                <div class="section-subtitle">以下是转账二维码，长按保存</div>
+                <script src="source/plugin/xigua_hh/template/touch/clipboard.min.js?{VERHASH}"></script>
+                <script>
+                    function copyyqm(id) {
+                        clipboard = new Clipboard(id);
+                        clipboard.on('success', function(e) {
+                            layer.msg("复制成功");
+                        });
+                        id.click();
+                        clipboard.destroy();
+                    }
+                </script>
+                <!--{/loop}-->
+            </div>
+            <script src="source/plugin/xigua_hh/template/touch/clipboard.min.js?{VERHASH}"></script>
+            <script>
+                function copyyqm(id) {
+                    clipboard = new Clipboard(id);
+                    clipboard.on('success', function(e) {
+                        layer.msg("复制成功");
+                    });
+                    id.click();
+                    clipboard.destroy();
+                }
+            </script>
+            <div style="text-align: center;">
+                <img src="https://img.imehui.com/20250126/17378934666796265ab6401.jpg" class="qr-code-img" style="width: 80%;border-radius:10px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- 隐藏：联系人工客服 (pay_13) -->
+    <div id="pay_13" style="display: none">
+        <div class="popup-panel">
+            <div style="display: flex;font-size: 13px;flex-direction: column;">
+                <!--{loop $skcontact_arr $skkey $skval}-->
+                <div style="flex: 1;text-align: left;margin-bottom:8px;color:var(--text-secondary);">$skval[0]:</div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink">微信客服1：fuylink<span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" fuylink888">微信客服2：fuylink888<span class="copyaction">复制</span></div>
+                <div class="info-line" onclick="copyyqm(this)" data-clipboard-text=" imehui888">微信客服3：imehui888<span class="copyaction">复制</span></div>
+                <div class="section-subtitle">以下是微信二维码，长按保存</div>
+                <script src="source/plugin/xigua_hh/template/touch/clipboard.min.js?{VERHASH}"></script>
+                <script>
+                    function copyyqm(id) {
+                        clipboard = new Clipboard(id);
+                        clipboard.on('success', function(e) {
+                            layer.msg("复制成功");
+                        });
+                        id.click();
+                        clipboard.destroy();
+                    }
+                </script>
+                <!--{/loop}-->
+            </div>
+            <div style="text-align: center">
+                <img src="{$tb_pay_config['paycode']}" style="width: 100%;border-radius:var(--radius-md);box-shadow:var(--shadow-md);">
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom:100px;">.</div>
+
+    <script src="{$static_path}/js/jquery-3.3.1.min.js"></script>
+    <script src="{$static_path}/layer/layer.js"></script>
+    <script src="{$static_path}/js/clipboard.min.js"></script>
+    <script>
+        $(function() {
+            $("input[name=zftype]").on("click", function() {
+                var zftype = jQuery(this).val();
+                $(".morepay").hide();
+            })
+        })
+
+        $(document).on('click', "#showtips", function() {
+            layer.open({
+                id: 1,
+                type: 1,
+                title: '温馨提示',
+                style: 'height:auto;',
+                content: $("#showtipshtml"),
+                btn: ['好的'],
+                yes: function(index, layero) {
+                    layer.close(index);
+                },
+                no: function(index, layero) {
+                    layer.close(index);
+                }
+            });
+        });
+
+        var scanState = { paytype: '', qrKey: '' };
+
+        function setScanMessage(message) {
+            $('#scanInlineMessage').text(message || '');
+        }
+
+        function updateScanSelection(track) {
+            var slides = track.querySelectorAll('.scan-qr-slide');
+            if (!slides.length) return;
+            var index = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / Math.max(track.clientWidth, 1))));
+            scanState.qrKey = slides[index].getAttribute('data-qr-key');
+            $('#scanDots i').removeClass('is-active').eq(index).addClass('is-active');
+        }
+
+        function openScanModal(paytype) {
+            scanState.paytype = String(paytype);
+            var channel = $('.scan-channel[data-scan-channel="' + scanState.paytype + '"]');
+            $('.scan-channel').removeClass('is-active');
+            channel.addClass('is-active');
+            var track = channel.find('.scan-qr-track').get(0);
+            var count = channel.find('.scan-qr-slide').length;
+            $('#scanDots').html(new Array(count + 1).join('<i></i>'));
+            if (track) {
+                track.scrollLeft = 0;
+                updateScanSelection(track);
+            }
+            $('#scanModalKicker').text(scanState.paytype === '11' ? '支付宝扫码' : '微信扫码');
+            $('#scanNicknameLabel').text(scanState.paytype === '11' ? '支付宝网名' : '微信网名');
+            $('#scanPayerNickname').attr('placeholder', scanState.paytype === '11' ? '请输入支付宝网名' : '请输入微信网名');
+            $('#scanReviewResult').prop('hidden', true);
+            $('#scanReviewForm').show();
+            setScanMessage('');
+            $('#scanPaymentModal').addClass('is-open').attr('aria-hidden', 'false');
+            $('body').addClass('scan-modal-open');
+        }
+
+        function closeScanModal() {
+            $('#scanPaymentModal').removeClass('is-open').attr('aria-hidden', 'true');
+            $('body').removeClass('scan-modal-open');
+        }
+
+        $(document).on('click', '[data-scan-close]', closeScanModal);
+        $(document).on('scroll', '.scan-qr-track', function() {
+            var track = this;
+            window.clearTimeout(track.scanScrollTimer);
+            track.scanScrollTimer = window.setTimeout(function() { updateScanSelection(track); }, 80);
+        });
+        $(document).on('change', '#scanPaymentProof', function() {
+            var file = this.files && this.files[0];
+            if (!file) return;
+            if (!/^image\//.test(file.type) || file.size > 8 * 1024 * 1024) {
+                this.value = '';
+                $('#scanProofPreview').removeClass('has-image').removeAttr('src');
+                setScanMessage('请选择不超过8MB的图片凭证');
+                return;
+            }
+            $('#scanProofPreview').attr('src', URL.createObjectURL(file)).addClass('has-image');
+            setScanMessage('');
+        });
+        $(document).on('click', '#scanSubmitButton', function() {
+            var nickname = $.trim($('#scanPayerNickname').val());
+            var realnameLast = $.trim($('#scanRealnameLast').val());
+            var proof = $('#scanPaymentProof').get(0).files[0];
+            if (!scanState.qrKey) return setScanMessage('请先选择收款二维码');
+            if (!nickname) return setScanMessage('请填写支付账号网名');
+            if (Array.from(realnameLast).length !== 1) return setScanMessage('请填写真实姓名最后一个字');
+            if (!proof) return setScanMessage('请上传支付凭证截图');
+
+            var button = this;
+            var formdata = new FormData();
+            formdata.append('zftype', scanState.paytype);
+            formdata.append('modac', 'pay');
+            formdata.append('formhash', '{FORMHASH}');
+            formdata.append('pluginid', '{$pluginid}');
+            formdata.append('orderid', '{$orderid}');
+            formdata.append('zd', '{$zd}');
+            formdata.append('qr_key', scanState.qrKey);
+            formdata.append('payer_nickname', nickname);
+            formdata.append('realname_last', realnameLast);
+            formdata.append('payment_proof', proof);
+            button.disabled = true;
+            button.textContent = '正在提交...';
+            setScanMessage('');
+            $.ajax({
+                type: 'post',
+                url: 'plugin.php?id=tb_pay',
+                data: formdata,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.code === 200) {
+                        $('#scanReviewForm').hide();
+                        $('#scanReviewResult').prop('hidden', false);
+                    } else {
+                        setScanMessage(data.msg || '提交失败，请稍后重试');
+                    }
+                },
+                error: function() { setScanMessage('网络异常，请稍后重试'); },
+                complete: function() {
+                    button.disabled = false;
+                    button.textContent = '提交审核';
+                }
+            });
+        });
+
+        $(document).on('click', ".paybtn", function() {
+            var zftype = $('input[name="zftype"]:checked').val();
+            var formdata = new FormData();
+
+            if (!zftype) {
+                layer.msg("请选择支付方式");
+                return false;
+            }
+
+            if (zftype == 14) {
+                layer.open({
+                    type: 1,
+                    title: '扫码支付',
+                    area: ['93%', '400px'],
+                    content: $("#pay_" + zftype),
+                    btn: ['好的'],
+                    yes: function(index, layero) {
+                        layer.close(index);
+                    },
+                    no: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+
+            if (zftype == 15) {
+                layer.open({
+                    type: 1,
+                    title: '银行卡转账',
+                    area: ['93%', '400px'],
+                    content: $("#pay_" + zftype),
+                    btn: ['好的'],
+                    yes: function(index, layero) {
+                        layer.close(index);
+                    },
+                    no: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+
+            if (zftype == 10) {
+                layer.open({
+                    type: 1,
+                    title: '支付宝口令红包',
+                    area: ['93%', '300px'],
+                    content: $("#pay_" + zftype),
+                    btn: ['提交口令', '取消'],
+                    yes: function(index, layero) {
+                        var alipaycode = $("#alipaycode").val();
+                        var alipayname = $("#alipayname").val();
+                        if (!alipaycode) {
+                            layer.msg($("#alipaycode").attr('placeholder'));
+                            return false;
+                        }
+                        if (!alipayname) {
+                            layer.msg($("#alipayname").attr('placeholder'));
+                            return false;
+                        }
+                        formdata.append('alipaycode', alipaycode);
+                        formdata.append('alipayname', alipayname);
+                        formdata.append('zftype', zftype);
+                        formdata.append('modac', 'pay');
+                        formdata.append('formhash', '{FORMHASH}');
+                        formdata.append('pluginid', '{$pluginid}');
+                        formdata.append('orderid', '{$orderid}');
+                        formdata.append('zd', '{$zd}');
+                        $.ajax({
+                            type: 'post',
+                            url: 'plugin.php?id=tb_pay',
+                            data: formdata,
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data.code != 200) {
+                                    layer.msg(data.msg);
+                                } else {
+                                    if (data.extend == 'tz') {
+                                        window.location.href = data.msg
+                                    } else if (data.extend == 'html') {
+                                        $("#paytzhtml").html(data.msg);
+                                    } else {
+                                        layer.msg(data.msg);
+                                    }
+                                }
+                            }
+                        });
+                        return false;
+                    },
+                    no: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+
+            if (zftype == 11 || zftype == 12) {
+                openScanModal(zftype);
+                return false;
+            }
+
+            if (zftype == 13) {
+                layer.open({
+                    type: 1,
+                    title: '联系人工客服',
+                    area: ['93%', '400px'],
+                    content: $("#pay_" + zftype),
+                    btn: ['好的'],
+                    yes: function(index, layero) {
+                        layer.close(index);
+                    },
+                    no: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+
+            if (zftype == 1) {
+                layer.open({
+                    id: 1,
+                    type: 1,
+                    title: '提示',
+                    style: 'height:auto;',
+                    content: $("#showbankinfo"),
+                    btn: ['立即支付', '取消'],
+                    yes: function(index, layero) {
+                        formdata.append('zftype', zftype);
+                        formdata.append('modac', 'pay');
+                        formdata.append('formhash', '{FORMHASH}');
+                        formdata.append('pluginid', '{$pluginid}');
+                        formdata.append('orderid', '{$orderid}');
+                        formdata.append('zd', '{$zd}');
+                        $.ajax({
+                            type: 'post',
+                            url: 'plugin.php?id=tb_pay',
+                            data: formdata,
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data.code != 200) {
+                                    layer.msg(data.msg);
+                                } else {
+                                    if (data.extend == 'tz') {
+                                        window.location.href = data.msg
+                                    } else {
+                                        layer.msg(data.msg);
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    no: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                return false;
+            }
+
+            formdata.append('zftype', zftype);
+            formdata.append('modac', 'pay');
+            formdata.append('formhash', '{FORMHASH}');
+            formdata.append('pluginid', '{$pluginid}');
+            formdata.append('orderid', '{$orderid}');
+            formdata.append('zd', '{$zd}');
+
+            $.ajax({
+                type: 'post',
+                url: 'plugin.php?id=tb_pay',
+                data: formdata,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.code != 200) {
+                        layer.msg(data.msg);
+                    } else {
+                        if (data.extend == 'tz') {
+                            window.location.href = data.msg
+                        } else if (data.extend == 'html') {
+                            $("#paytzhtml").html(data.msg);
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                    }
+                }
+            });
+        })
+
+        $(document).on('click', ".copyaction", function() {
+            var did = $(this).attr("data-did");
+            var clipboard2 = new Clipboard('.copyaction', {
+                text: function() {
+                    return $('#copytxt_' + did).text();
+                }
+            }).on('success', function(e) {
+                layer.msg("已复制客服微信");
+                clipboard2.destroy();
+            });
+            this.click();
+            clipboard2.destroy();
+        })
+    </script>
+
+</body>
+</html>

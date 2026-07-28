@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="{CHARSET}">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>推广宝 · 订单查询</title>
+<style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f4f6f8; color: #172033; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    .order-header { position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: 44px 1fr 44px; height: 50px; align-items: center; padding: 0 8px; background: #fff; border-bottom: 1px solid #e8ecf0; }
+    .order-back { display: grid; width: 40px; height: 40px; place-items: center; color: #283548; font-size: 28px; text-decoration: none; }
+    .order-header h1 { margin: 0; text-align: center; font-size: 17px; font-weight: 700; letter-spacing: 0; }
+    .order-page { width: min(100%, 520px); margin: 0 auto; padding: 14px 14px 30px; }
+    .order-intro { margin-bottom: 12px; padding: 13px 14px; border-left: 3px solid #16845b; border-radius: 4px; background: #fff; color: #687587; font-size: 12px; line-height: 1.55; }
+    .order-card { margin-bottom: 10px; padding: 15px; border: 1px solid #e3e8ed; border-radius: 7px; background: #fff; box-shadow: 0 3px 12px rgba(28, 42, 61, .04); }
+    .order-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .order-subject { min-width: 0; margin: 0; color: #172033; font-size: 15px; font-weight: 700; line-height: 1.45; }
+    .order-price { flex: none; color: #d44535; font-size: 17px; font-weight: 800; }
+    .order-status-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .order-badge { padding: 4px 8px; border-radius: 3px; background: #edf1f4; color: #5f6c7c; font-size: 11px; font-weight: 700; }
+    .order-badge.paid, .order-badge.approved { background: #e8f5ef; color: #13744f; }
+    .order-badge.pending { background: #fff5df; color: #9b6817; }
+    .order-badge.rejected, .order-badge.failed { background: #fcebea; color: #b54035; }
+    .order-meta { display: grid; gap: 7px; margin-top: 12px; padding-top: 11px; border-top: 1px solid #edf0f3; color: #768294; font-size: 12px; }
+    .order-meta-row { display: flex; justify-content: space-between; gap: 12px; }
+    .order-meta-row span:last-child { min-width: 0; color: #465466; text-align: right; overflow-wrap: anywhere; }
+    .order-reason { margin-top: 11px; padding: 10px 11px; border-radius: 4px; background: #fff2f0; color: #a93c33; font-size: 12px; line-height: 1.55; }
+    .order-resubmit { display: flex; min-height: 42px; align-items: center; justify-content: center; margin-top: 11px; border-radius: 5px; background: #16845b; color: #fff !important; font-size: 13px; font-weight: 700; text-decoration: none !important; }
+    .order-empty { padding: 60px 20px; color: #8793a2; text-align: center; font-size: 13px; }
+    .order-more { display: none; width: 100%; min-height: 44px; margin-top: 4px; border: 1px solid #d9e0e6; border-radius: 5px; background: #fff; color: #526071; font-size: 13px; }
+</style>
+</head>
+<body>
+    <header class="order-header">
+        <a href="javascript:history.back()" class="order-back" aria-label="返回">&#8249;</a>
+        <h1>订单查询</h1>
+        <span></span>
+    </header>
+    <main class="order-page">
+        <div class="order-intro">扫码支付提交后可在这里查看审核状态。审核通过后，对应服务会立即到账。</div>
+        <div id="orderList"></div>
+        <div class="order-empty" id="orderEmpty" hidden>暂时没有订单记录</div>
+        <button type="button" class="order-more" id="orderMore">加载更多</button>
+    </main>
+<script>
+(function () {
+    var start = 0;
+    var pageSize = 15;
+    var loading = false;
+    var finished = false;
+    var list = document.getElementById('orderList');
+    var empty = document.getElementById('orderEmpty');
+    var more = document.getElementById('orderMore');
+
+    function node(tag, className, text) {
+        var el = document.createElement(tag);
+        if (className) el.className = className;
+        if (text !== undefined) el.textContent = text;
+        return el;
+    }
+    function statusClass(text) {
+        if (text === '已支付' || text === '审核通过') return 'approved';
+        if (text === '审核驳回') return 'rejected';
+        if (text === '发放异常') return 'failed';
+        return 'pending';
+    }
+    function renderOrder(order) {
+        var card = node('article', 'order-card');
+        var head = node('div', 'order-card-head');
+        head.appendChild(node('h2', 'order-subject', order.subject));
+        head.appendChild(node('strong', 'order-price', '￥' + order.price));
+        card.appendChild(head);
+        var statuses = node('div', 'order-status-row');
+        statuses.appendChild(node('span', 'order-badge ' + statusClass(order.ostatusstr), order.ostatusstr));
+        if (order.shstatusstr) statuses.appendChild(node('span', 'order-badge ' + statusClass(order.shstatusstr), order.shstatusstr));
+        card.appendChild(statuses);
+        var meta = node('div', 'order-meta');
+        var numberRow = node('div', 'order-meta-row');
+        numberRow.appendChild(node('span', '', '订单号'));
+        numberRow.appendChild(node('span', '', order.orderid));
+        meta.appendChild(numberRow);
+        var timeRow = node('div', 'order-meta-row');
+        timeRow.appendChild(node('span', '', '下单时间'));
+        timeRow.appendChild(node('span', '', order.dateline));
+        meta.appendChild(timeRow);
+        card.appendChild(meta);
+        if (order.liyou) card.appendChild(node('div', 'order-reason', '审核说明：' + order.liyou));
+        if (Number(order.can_resubmit) === 1 && order.resubmit_url) {
+            var retry = node('a', 'order-resubmit', '重新提交支付凭证');
+            retry.href = order.resubmit_url;
+            card.appendChild(retry);
+        }
+        list.appendChild(card);
+    }
+    function loadOrders() {
+        if (loading || finished) return;
+        loading = true;
+        more.disabled = true;
+        more.textContent = '加载中...';
+        fetch('plugin.php?id=tb_pay:order&modac=myorder&start=' + start + '&pagesize=' + pageSize, {credentials: 'same-origin'})
+            .then(function (response) { return response.json(); })
+            .then(function (data) {
+                var rows = Array.isArray(data.list) ? data.list : [];
+                rows.forEach(renderOrder);
+                start += rows.length;
+                finished = rows.length < pageSize;
+                empty.hidden = start !== 0;
+                more.style.display = finished ? 'none' : 'block';
+            })
+            .catch(function () {
+                more.style.display = 'block';
+                more.textContent = '加载失败，点击重试';
+            })
+            .finally(function () {
+                loading = false;
+                more.disabled = false;
+                if (!finished && more.textContent !== '加载失败，点击重试') more.textContent = '加载更多';
+            });
+    }
+    more.addEventListener('click', loadOrders);
+    loadOrders();
+})();
+</script>
+</body>
+</html>

@@ -236,6 +236,13 @@ $hhendts = $hhme['endts_u'];
                     <span class="tool-name">项目审核</span>
                 </a>
 
+                <a href="plugin.php?id=tb_pay:order" class="tool-item">
+                    <div class="tool-icon-wrap t6">
+                        <i class="fa fa-list-alt"></i>
+                    </div>
+                    <span class="tool-name">订单查询</span>
+                </a>
+
             </div>
         </div>
 
