@@ -36,7 +36,11 @@ foreach ($rows as $row) {
             . '<button type="button" class="btn" onclick="reviewScan(' . $review_id . ',1)">审核通过并发放</button> '
             . '<button type="button" class="btn" onclick="reviewScan(' . $review_id . ',2)">驳回</button></div>';
     } else {
-        $action = intval($row['status']) === 2 ? '等待用户重新提交' : '不可重复审核';
+        if (intval($row['status']) === 2) {
+            $action = intval($row['submit_count']) < 2 ? '等待用户重新提交（剩余1次）' : '重新提交机会已用完';
+        } else {
+            $action = '不可重复审核';
+        }
     }
     showtablerow('', array(), array(
         dhtmlspecialchars($row['orderid']),
@@ -70,7 +74,10 @@ function reviewScan(reviewId, decision) {
         success: function(response) {
             var data;
             try {
-                data = JSON.parse(String(response).split(/\r?\n/)[0].trim());
+                var responseText = String(response);
+                var footerIndex = responseText.indexOf('</div>');
+                if (footerIndex >= 0) responseText = responseText.slice(0, footerIndex);
+                data = JSON.parse(responseText.trim());
             } catch (error) {
                 alert('审核响应异常，请刷新后台重试');
                 return;

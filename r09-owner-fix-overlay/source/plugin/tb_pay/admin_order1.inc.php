@@ -217,7 +217,10 @@ echo <<<EOT
                     success: function (response) {
                         var data;
                         try {
-                            data = JSON.parse(String(response).split(/\r?\n/)[0].trim());
+                            var responseText = String(response);
+                            var footerIndex = responseText.indexOf('</div>');
+                            if (footerIndex >= 0) responseText = responseText.slice(0, footerIndex);
+                            data = JSON.parse(responseText.trim());
                         } catch (error) {
                             layer.msg('审核响应异常，请刷新后台重试');
                             return;

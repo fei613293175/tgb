@@ -181,17 +181,31 @@ if($zftype == 1){
         $message = intval($review['status']) === 1 ? '该订单已审核通过' : '该订单已提交，请勿重复提交';
         tbpay_json_echo(-1, $message);
     }
+    if ($review && intval($review['status']) === 2) {
+        if (intval($review['submit_count']) >= 2) {
+            discuz_process::unlock($lock_name);
+            tbpay_json_echo(-1, '该订单的1次重新提交机会已用完，请重新下单');
+        }
+        if (intval($review['paytype']) !== $zftype) {
+            discuz_process::unlock($lock_name);
+            tbpay_json_echo(-1, '重新提交必须使用原支付渠道');
+        }
+    }
 
-    $proof_path = tbpay_save_scan_proof($_FILES['payment_proof']);
     $existing_pay = C::t('#tb_pay#tb_pay')->getPayByorderid($orderid);
     if ($existing_pay) {
         if (intval($existing_pay['uid']) !== intval($_G['uid']) || intval($existing_pay['paytype']) !== $zftype || intval($existing_pay['ostatus']) === 1) {
-            @unlink(DISCUZ_ROOT . './' . $proof_path);
             discuz_process::unlock($lock_name);
             tbpay_json_echo(-1, '订单状态已变化，请重新下单');
         }
         $pay_id = intval($existing_pay['id']);
-    } else {
+    } elseif ($review) {
+        discuz_process::unlock($lock_name);
+        tbpay_json_echo(-1, '原支付订单不存在，请重新下单');
+    }
+
+    $proof_path = tbpay_save_scan_proof($_FILES['payment_proof']);
+    if (!$existing_pay) {
         $pay_id = intval(C::t('#tb_pay#tb_pay')->insert($payorder_data, true));
     }
 
