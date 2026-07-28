@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>认证结果 - 推广宝</title>
+    <link href="/source/plugin/xiaomy_certification/static/tgb-certification-v2.css?v=20260728-2" rel="stylesheet">
+    <script src="/source/plugin/xiaomy_certification/static/jquery.min.js"></script>
+</head>
+<body>
+<header class="cert-header"><a class="cert-back" href="javascript:history.back()" aria-label="返回">‹</a><h1>实名认证</h1></header>
+<main class="cert-page"><section class="cert-card cert-status">
+    <div class="cert-dots" id="certDots"><i class="cert-dot"></i><i class="cert-dot"></i><i class="cert-dot"></i></div>
+    <div class="cert-result" id="showres">正在确认认证结果</div>
+    <button class="cert-button" id="resetbtn" type="button" disabled>返回推广宝</button>
+    <div class="cert-tips"><div><i></i>认证过程中请保持网络畅通</div><div><i></i>请勿反复刷新或关闭页面</div><div><i></i>认证结果会自动更新</div></div>
+</section></main>
+<script>
+(function($){var timer=setInterval(function(){$.get('{$_G["siteurl"]}plugin.php?id=xiaomy_certification&modac=checkres',{orderid:'{$orderid}'},function(data){clearInterval(timer);$('#certDots').hide();$('#showres').text(data.msg||(data.code==200?'认证成功':'认证未完成')).toggleClass('error',data.code!=200);$('#resetbtn').prop('disabled',false)},'json').fail(function(){clearInterval(timer);$('#certDots').hide();$('#showres').text('结果查询失败，请稍后返回重试').addClass('error');$('#resetbtn').prop('disabled',false)})},2000);$('#resetbtn').on('click',function(){window.location.href='{$_G["siteurl"]}plugin.php?id=xigua_hb&ac=my'})})(jQuery);
+</script>
+</body>
+</html>

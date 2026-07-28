@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>实名认证 - 推广宝</title>
+    <link href="/source/plugin/xiaomy_certification/static/tgb-certification-v2.css?v=20260728-2" rel="stylesheet">
+    <script src="/source/plugin/xiaomy_certification/static/jquery.min.js"></script>
+    <script src="https://o.alicdn.com/yd-cloudauth/cloudauth-cdn/jsvm_all.js"></script>
+</head>
+<body>
+<header class="cert-header"><a class="cert-back" href="javascript:history.back()" aria-label="返回">‹</a><h1>实名认证</h1></header>
+<main class="cert-page">
+    <form id="verifyform" class="cert-card" method="post" action="/plugin.php?id=xiaomy_certification&modac=verify">
+        <div class="cert-intro"><span class="cert-step">1. 身份信息</span><span class="cert-next">2. 支付宝授权</span></div>
+        <label class="cert-field"><span>真实姓名</span><input type="text" name="name" id="name" autocomplete="name" placeholder="请输入本人真实姓名"></label>
+        <label class="cert-field"><span>身份证号码</span><input type="text" name="sfzno" id="sfzno" autocomplete="off" placeholder="请输入本人身份证号码"></label>
+        <p class="cert-note">请在网络稳定、光线良好的环境中完成认证，避免重复操作。<strong>实名问题请联系客服。</strong></p>
+        <div class="cert-consent"><p>继续即代表您已阅读并同意 <a href="/m/smrz.html">《实名认证服务协议》</a></p><p>认证费用以当前页面和收银台显示为准</p><button class="cert-button" id="verifyButton" type="button">启动实名认证</button></div>
+        <input type="hidden" name="formhash" value="{FORMHASH}"><input type="hidden" name="bioMetaInfo" id="bioMetaInfo"><input type="hidden" name="deviceType" id="deviceType"><input type="hidden" name="guardToken" id="guardToken"><input type="hidden" name="ua" id="ua">
+    </form>
+</main>
+<div class="cert-loading" id="certLoading"><span>正在准备认证，请稍候</span></div><div class="cert-toast" id="certToast" role="status"></div>
+<script>
+(function($){var timer,busy=false;function toast(message){var n=$('#certToast');n.text(message).addClass('show');clearTimeout(n.data('timer'));n.data('timer',setTimeout(function(){n.removeClass('show')},2200))}function setBusy(v){busy=v;$('#verifyButton').prop('disabled',v);$('#certLoading').toggleClass('show',v)}$('#verifyButton').on('click',function(){if(busy)return;var name=$.trim($('#name').val()),sfzno=$.trim($('#sfzno').val());if(!name){toast('请输入真实姓名');$('#name').focus();return}if(!sfzno){toast('请输入身份证号码');$('#sfzno').focus();return}if(!window.getMetaInfo){toast('认证组件加载失败，请检查网络后重试');return}var meta=window.getMetaInfo();$('#bioMetaInfo').val(meta.bioMetaInfo||'');$('#deviceType').val(meta.deviceType||'');$('#guardToken').val(meta.guardToken||'');$('#ua').val(meta.ua||navigator.userAgent);setBusy(true);$.ajax({type:'POST',dataType:'json',data:$('#verifyform').serialize(),url:'/plugin.php?id=xiaomy_certification&modac=verify',success:function(data){if(data.code==200){localStorage.setItem('verifyOrderid',data.msg);toast('认证已启动，正在跳转');setTimeout(function(){window.location.href=data.url},350)}else{setBusy(false);toast(data.msg||'认证启动失败')}},error:function(){setBusy(false);toast('网络异常，请稍后重试')}})});timer=setInterval(function(){var orderid=localStorage.getItem('verifyOrderid');if(!orderid)return;$.get('{$_G["siteurl"]}plugin.php?id=xiaomy_certification&modac=checkres',{orderid:orderid},function(data){if(data.extinfo==1||data.extinfo==2){localStorage.removeItem('verifyOrderid');clearInterval(timer);window.location.reload()}},'json')},1000)})(jQuery);
+</script>
+</body>
+</html>

@@ -755,7 +755,7 @@
                         <article class="scan-qr-slide" data-qr-key="{$scan_qr['key']}">
                             <span>{$scan_qr['label']}</span>
                             <img src="{$scan_qr['url']}" alt="{$scan_qr['label']}" loading="lazy">
-                            <a href="{$scan_qr['url']}" target="_blank" rel="noopener" class="scan-save-button">打开并保存二维码</a>
+                            <a href="plugin.php?id=tb_pay:scan_qr&paytype=11&qr_key={$scan_qr['key']}" download class="scan-save-button">下载二维码</a>
                         </article>
                         <!--{/loop}-->
                     </div>
@@ -766,7 +766,7 @@
                         <article class="scan-qr-slide" data-qr-key="{$scan_qr['key']}">
                             <span>{$scan_qr['label']}</span>
                             <img src="{$scan_qr['url']}" alt="{$scan_qr['label']}" loading="lazy">
-                            <a href="{$scan_qr['url']}" target="_blank" rel="noopener" class="scan-save-button">打开并保存二维码</a>
+                            <a href="plugin.php?id=tb_pay:scan_qr&paytype=12&qr_key={$scan_qr['key']}" download class="scan-save-button">下载二维码</a>
                         </article>
                         <!--{/loop}-->
                     </div>

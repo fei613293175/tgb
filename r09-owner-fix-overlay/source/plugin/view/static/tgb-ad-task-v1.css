@@ -95,7 +95,7 @@ button { font: inherit; }
 .support-band strong { color: var(--task-ink); font-size: 14px; }
 .support-band small { margin-top: 3px; color: var(--task-muted); font-size: 10px; line-height: 15px; }
 .support-band > i { color: var(--task-muted); font-size: 20px; }
-.task-bottom-nav { position: fixed; z-index: 35; left: 0; right: 0; bottom: 0; height: calc(64px + var(--task-safe-bottom)); padding: 6px 10px var(--task-safe-bottom); display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid var(--task-line); background: rgba(255,255,255,.98); }
+.task-bottom-nav { position: fixed; z-index: 35; left: 0; right: 0; bottom: 0; height: calc(64px + var(--task-safe-bottom)); padding: 6px 10px var(--task-safe-bottom); display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid var(--task-line); background: rgba(255,255,255,.98); }
 .task-bottom-nav a { min-width: 0; min-height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #748397; font-size: 10px; text-decoration: none; }
 .task-bottom-nav i { font-size: 22px; }
 .task-bottom-nav a.active { color: var(--task-blue); font-weight: 700; }

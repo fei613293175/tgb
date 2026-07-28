@@ -271,7 +271,20 @@ class MainActivity : ComponentActivity() {
             onMainFrameVisible = ::markStartupDestinationReady
         )
         webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
-            enqueueTrustedDownload(url, userAgent, contentDisposition, mimeType)
+            val imageSource = mimeType
+                ?.takeIf { it.startsWith("image/", ignoreCase = true) }
+                ?.let { ImageSaveSource.parse(url) }
+            if (imageSource != null) {
+                val request = ImageGallerySaver.Request(
+                    source = imageSource,
+                    userAgent = userAgent ?: webView.settings.userAgentString,
+                    cookie = CookieManager.getInstance().getCookie(url),
+                    referer = webView.url
+                )
+                saveImageWithPermission(request)
+            } else {
+                enqueueTrustedDownload(url, userAgent, contentDisposition, mimeType)
+            }
         }
         imageGallerySaver = ImageGallerySaver(applicationContext)
         webView.setOnLongClickListener { view ->
