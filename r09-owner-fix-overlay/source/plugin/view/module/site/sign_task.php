@@ -594,7 +594,9 @@ if ($submodac === 'records') {
     $start = ($page - 1) * 10;
     $records = array();
     if ($type === 'promo') {
-        $rows = DB::fetch_all('SELECT level,reward_money,from_uid,dateline,note FROM %t WHERE uid=%d ORDER BY id DESC LIMIT %d,10', array('view_sign_promo_log', $uid, $start));
+        $rows = DB::fetch_all('SELECT level,reward_money,from_uid,dateline,note FROM %t WHERE uid=%d ORDER BY id DESC LIMIT %d,11', array('view_sign_promo_log', $uid, $start));
+        $hasMore = count($rows) > 10;
+        if ($hasMore) $rows = array_slice($rows, 0, 10);
         foreach ($rows as $row) {
             $records[] = array(
                 'title' => ($row['level'] == 1 ? '一级' : '二级') . '好友任务奖励',
@@ -604,7 +606,9 @@ if ($submodac === 'records') {
             );
         }
     } else {
-        $rows = DB::fetch_all('SELECT reward_money,dateline FROM %t WHERE uid=%d ORDER BY id DESC LIMIT %d,10', array('view_sign_reward_detail', $uid, $start));
+        $rows = DB::fetch_all('SELECT reward_money,dateline FROM %t WHERE uid=%d ORDER BY id DESC LIMIT %d,11', array('view_sign_reward_detail', $uid, $start));
+        $hasMore = count($rows) > 10;
+        if ($hasMore) $rows = array_slice($rows, 0, 10);
         foreach ($rows as $row) {
             $records[] = array(
                 'title' => '每日广告任务奖励',
@@ -614,7 +618,7 @@ if ($submodac === 'records') {
             );
         }
     }
-    _tgb_task_json(array('code' => 0, 'data' => $records));
+    _tgb_task_json(array('code' => 0, 'data' => $records, 'has_more' => $hasMore, 'next_page' => $hasMore ? $page + 1 : 0));
 }
 
 if ($submodac === 'support_info') {
@@ -699,7 +703,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     <meta name="color-scheme" content="light">
     <title>推广宝 · 每日广告任务</title>
     <link href="source/plugin/xigua_hb/static/tgb-r02/vendor/remixicon-3.5.0/remixicon.css?v=20260726-r02" rel="stylesheet">
-    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-4" rel="stylesheet">
+    <link href="source/plugin/view/static/tgb-ad-task-v1.css?v=20260729-5" rel="stylesheet">
 </head>
 <body>
 <header class="task-header">
@@ -748,16 +752,16 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         <div class="invite-impact">
             <div class="invite-copy">
                 <span class="section-kicker">INVITE & EARN</span>
-                <h2>好友每天做任务<br>你每天继续拿收益</h2>
-                <p><b>不是一次性奖励。</b>好友完成实名并领取当天广告奖励，你的推广收益自动到账。</p>
+                <h2>好友每天看广告<br>你每天都能拿收益</h2>
+                <p><b>不是一次性奖励：</b>好友完成实名并领取当天广告奖励，你的推广收益自动到账。</p>
             </div>
             <span class="invite-impact-icon"><i class="ri-user-add-line"></i></span>
         </div>
         <div class="invite-reward-grid">
-            <div class="regular featured"><span>每位一级普通好友完成任务</span><strong id="directRegularReward">+¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><em>/天</em></strong><?php if ($inviteCampaign['active']): ?><small>活动前 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>，现在每天多得 ¥<?php echo number_format($inviteCampaign['direct_regular_reward'] - $taskConfig['direct_regular_reward'], 2); ?></small><?php endif; ?></div>
-            <div class="regular"><span>二级普通好友 <em>每日</em></span><strong id="indirectRegularReward">+¥<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></small><?php endif; ?></div>
-            <div class="vip"><span>一级会员好友 <em>每日</em></span><strong id="directVipReward">+¥<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
-            <div class="vip"><span>二级会员好友 <em>每日</em></span><strong id="indirectVipReward">+¥<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
+            <div class="regular featured"><span>每位一级好友完成任务</span><strong id="directRegularReward">+¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><em>/天</em></strong><?php if ($inviteCampaign['active']): ?><small>活动前 ¥<?php echo number_format($taskConfig['direct_regular_reward'], 2); ?>，现在每天多得 ¥<?php echo number_format($inviteCampaign['direct_regular_reward'] - $taskConfig['direct_regular_reward'], 2); ?></small><?php endif; ?></div>
+            <div class="regular"><span>二级好友 <em>每日</em></span><strong id="indirectRegularReward">+¥<?php echo number_format($inviteCampaign['indirect_regular_reward'], 2); ?></strong><?php if ($inviteCampaign['active']): ?><small>原 ¥<?php echo number_format($taskConfig['indirect_regular_reward'], 2); ?></small><?php endif; ?></div>
+            <div class="vip"><span>一级好友是会员 <em>每日</em></span><strong id="directVipReward">+¥<?php echo number_format($inviteCampaign['direct_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
+            <div class="vip"><span>二级好友是会员 <em>每日</em></span><strong id="indirectVipReward">+¥<?php echo number_format($inviteCampaign['indirect_vip_reward'], 2); ?></strong><small>会员好友高收益</small></div>
         </div>
         <div class="invite-income-example"><span><i class="ri-line-chart-fill"></i> 例如邀请10位一级普通好友</span><strong>每天最高可得 ¥<?php echo number_format($inviteCampaign['direct_regular_reward'] * 10, 2); ?></strong><small>需10位好友当天均完成实名广告任务</small></div>
         <div class="invite-support-tip"><i class="ri-award-line"></i><span><strong>邀请收益还能叠加官方扶持</strong><small>实名直推连续完成3天任务计为有效用户，八档累计最高888元</small></span></div>
@@ -834,8 +838,8 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             <span class="campaign-date"><i class="ri-fire-fill"></i> <?php echo $inviteCampaign['active'] ? $inviteCampaignPeriod . ' 限时冲刺' : '邀请好友奖励计划'; ?></span>
             <span class="campaign-icon"><i class="ri-user-add-line"></i></span>
             <p>推广收益限时加码</p>
-            <h3 id="inviteCampaignTitle">现在邀请好友<br>每天都能继续拿收益</h3>
-            <div class="campaign-hero-reward"><span>每位一级普通好友</span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><small>/天</small></strong></div>
+            <h3 id="inviteCampaignTitle">现在邀请好友<br>每天持续拿收益</h3>
+            <div class="campaign-hero-reward"><span>每位一级好友看广告</span><strong>¥<?php echo number_format($inviteCampaign['direct_regular_reward'], 2); ?><small>/天</small></strong></div>
             <small>好友完成实名并领取当天广告奖励，推广收益自动进入你的钱包。</small>
         </div>
         <div class="campaign-body">
@@ -867,7 +871,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
 </div>
 
 <div class="task-modal" id="recordsModal" aria-hidden="true">
-    <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="recordsTitle">
+    <div class="sheet-card records-sheet" role="dialog" aria-modal="true" aria-labelledby="recordsTitle">
         <div class="sheet-head"><div><span class="section-kicker">RECORDS</span><h3 id="recordsTitle">奖励明细</h3></div><button class="modal-close" data-close="recordsModal"><i class="ri-close-line"></i></button></div>
         <div class="record-tabs"><button class="active" data-record-type="task">任务奖励</button><button data-record-type="promo">推广奖励</button></div>
         <div class="record-list" id="recordList"></div>
@@ -914,6 +918,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     var currentImageIndex = 0;
     var previewPointerStartX = 0;
     var previewDidSwipe = false;
+    var recordState = { type: 'task', page: 0, hasMore: true, loading: false, requestId: 0 };
     var configuredCountdown = <?php echo intval($taskConfig['countdown_seconds']); ?>;
     var inviteNoticeInterval = 30 * 60 * 1000;
     var inviteNoticeStorageKey = 'tgb_invite_campaign_notice_v3';
@@ -1079,7 +1084,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         } else {
             $('adMedia').innerHTML = '<div class="ad-gallery-track" id="adGalleryTrack">' + currentImages.map(function (image, index) {
                 return '<button class="ad-gallery-slide" type="button" data-image-index="' + index + '" aria-label="查看第' + (index + 1) + '张项目图片"><img src="' + escapeHtml(image) + '" alt="项目图片 ' + (index + 1) + '" draggable="false"></button>';
-            }).join('') + '</div><span class="ad-image-count" id="adImageCount">1 / ' + currentImages.length + '</span>' + (currentImages.length > 1 ? '<span class="ad-swipe-hint"><i class="ri-arrow-left-right-line"></i> 左右滑动，点击放大</span>' : '');
+            }).join('') + '</div><span class="ad-image-count" id="adImageCount">1 / ' + currentImages.length + '</span>' + (currentImages.length > 1 ? '<span class="ad-swipe-hint"><i class="ri-arrow-left-right-line"></i> 左右滑动-点击放大-长按保存</span>' : '');
             var track = $('adGalleryTrack');
             track.addEventListener('scroll', function () {
                 var width = track.clientWidth || 1;
@@ -1181,18 +1186,54 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
             loadStatus();
         });
     }
-    function loadRecords(type) {
-        $('recordList').innerHTML = '<div class="record-empty"><i class="ri-loader-4-line spin"></i> 加载中</div>';
-        request('records', { type: type, page: 1 }).then(function (res) {
+    function recordRowsHtml(items) {
+        return items.map(function (item) {
+            return '<div class="record-row"><span class="record-icon"><i class="ri-coins-line"></i></span><span><strong>' + escapeHtml(item.title) + '</strong><small>' + escapeHtml(item.note) + ' · ' + escapeHtml(item.time) + '</small></span><b>+' + escapeHtml(item.money) + '</b></div>';
+        }).join('');
+    }
+    function setRecordFooter(html) {
+        var oldFooter = $('recordLoadState');
+        if (oldFooter) oldFooter.remove();
+        if (html) $('recordList').insertAdjacentHTML('beforeend', '<div class="record-load-state" id="recordLoadState">' + html + '</div>');
+    }
+    function loadRecords(type, reset) {
+        reset = reset !== false;
+        if (reset) {
+            recordState = { type: type, page: 0, hasMore: true, loading: false, requestId: recordState.requestId + 1 };
+            $('recordList').scrollTop = 0;
+            $('recordList').innerHTML = '<div class="record-empty"><i class="ri-loader-4-line spin"></i> 正在加载奖励记录</div>';
+        }
+        if (recordState.loading || !recordState.hasMore) return;
+        var requestId = recordState.requestId;
+        var nextPage = recordState.page + 1;
+        recordState.loading = true;
+        if (!reset) setRecordFooter('<i class="ri-loader-4-line spin"></i><span>正在加载更多</span>');
+        request('records', { type: recordState.type, page: nextPage }).then(function (res) {
+            if (requestId !== recordState.requestId) return;
             if (res.code !== 0) throw new Error(res.msg || '加载失败');
-            if (!res.data.length) {
+            var items = Array.isArray(res.data) ? res.data : [];
+            if (reset) $('recordList').innerHTML = '';
+            setRecordFooter('');
+            if (items.length) $('recordList').insertAdjacentHTML('beforeend', recordRowsHtml(items));
+            recordState.page = nextPage;
+            recordState.hasMore = !!res.has_more;
+            if (!recordState.page || (!items.length && reset)) {
                 $('recordList').innerHTML = '<div class="record-empty"><i class="ri-inbox-2-line"></i><span>暂无奖励记录</span></div>';
-                return;
+            } else if (recordState.hasMore) {
+                setRecordFooter('<i class="ri-arrow-down-line"></i><span>继续下滑加载更多</span>');
+            } else {
+                setRecordFooter('<i class="ri-checkbox-circle-line"></i><span>已加载全部记录</span>');
             }
-            $('recordList').innerHTML = res.data.map(function (item) {
-                return '<div class="record-row"><span class="record-icon"><i class="ri-coins-line"></i></span><span><strong>' + escapeHtml(item.title) + '</strong><small>' + escapeHtml(item.note) + ' · ' + escapeHtml(item.time) + '</small></span><b>+' + escapeHtml(item.money) + '</b></div>';
-            }).join('');
-        }).catch(function (error) { $('recordList').innerHTML = '<div class="record-empty">' + escapeHtml(error.message) + '</div>'; });
+        }).catch(function (error) {
+            if (requestId !== recordState.requestId) return;
+            if (reset) {
+                $('recordList').innerHTML = '<div class="record-empty"><i class="ri-error-warning-line"></i><span>' + escapeHtml(error.message) + '</span><button type="button" data-record-retry>重新加载</button></div>';
+            } else {
+                setRecordFooter('<button type="button" data-record-retry><i class="ri-refresh-line"></i> 加载失败，点击重试</button>');
+            }
+        }).finally(function () {
+            if (requestId === recordState.requestId) recordState.loading = false;
+        });
     }
     function renderSupport(payload) {
         $('supportValidCount').textContent = payload.valid_count;
@@ -1292,12 +1333,19 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
     });
     $('keepWatchingButton').addEventListener('click', function () { closeModal('earlyCloseModal'); });
     $('confirmEarlyCloseButton').addEventListener('click', abandonCurrentAd);
-    $('recordsButton').addEventListener('click', function () { openModal('recordsModal'); loadRecords('task'); });
+    $('recordsButton').addEventListener('click', function () { openModal('recordsModal'); loadRecords('task', true); });
     $('rulesButton').addEventListener('click', function () { openModal('rulesModal'); });
     $('supportButton').addEventListener('click', function () { openModal('supportModal'); loadSupport(); });
     $('supportTierList').addEventListener('click', function (event) {
         var button = event.target.closest('[data-support-count]');
         if (button && !button.disabled) claimSupport(button);
+    });
+    $('recordList').addEventListener('scroll', function () {
+        var list = $('recordList');
+        if (list.scrollTop + list.clientHeight >= list.scrollHeight - 80) loadRecords(recordState.type, false);
+    }, { passive: true });
+    $('recordList').addEventListener('click', function (event) {
+        if (event.target.closest('[data-record-retry]')) loadRecords(recordState.type, false);
     });
     document.querySelectorAll('[data-close]').forEach(function (button) {
         button.addEventListener('click', function () { closeModal(button.getAttribute('data-close')); });
@@ -1306,7 +1354,7 @@ $tgbAndroidApp = strpos(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER
         button.addEventListener('click', function () {
             document.querySelectorAll('[data-record-type]').forEach(function (item) { item.classList.remove('active'); });
             button.classList.add('active');
-            loadRecords(button.getAttribute('data-record-type'));
+            loadRecords(button.getAttribute('data-record-type'), true);
         });
     });
     document.addEventListener('visibilitychange', function () {
