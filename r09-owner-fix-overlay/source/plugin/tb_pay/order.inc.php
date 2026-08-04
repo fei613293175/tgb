@@ -13,7 +13,9 @@ if ($modac == 'myorder') {
     }
     $startlimit = max(0, intval($_GET['start']));
     $ppp = min(30, max(1, intval($_GET['pagesize'])));
-    $wheres = 'where uid=' . intval($_G['uid']) . ' ORDER BY dateline desc';
+    // Scan orders remain in the database and backend; hide them from the user list after a rolling 24 hours.
+    $scan_visible_since = TIMESTAMP - 86400;
+    $wheres = 'where uid=' . intval($_G['uid']) . ' AND (IFNULL(paytype, 0) NOT IN (11, 12) OR dateline >= ' . intval($scan_visible_since) . ') ORDER BY dateline desc';
     $total = C::t('#tb_pay#tb_pay')->count_all($wheres);
     $listdata = C::t('#tb_pay#tb_pay')->fetch_page_data($startlimit, $ppp, $wheres);
     $scan_status = array(0 => '待审核', 1 => '审核通过', 2 => '审核驳回', 3 => '发放处理中', 4 => '发放异常');
