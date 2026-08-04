@@ -747,6 +747,13 @@
                     <span>{$tbpayorder_new['subject']}</span>
                     <strong>￥{$tbpayorder_new['price']}</strong>
                 </div>
+                <div class="scan-proof-alert" role="note">
+                    <span class="scan-proof-alert-icon">!</span>
+                    <span class="scan-proof-alert-copy">
+                        <strong>付款后请务必截图并提交审核</strong>
+                        <small>扫码付款成功后，请返回当前页面上传支付凭证并提交审核；未提交凭证，订单无法到账。</small>
+                    </span>
+                </div>
                 <p class="scan-helper">左右滑动选择收款码，保存图片完成付款后提交凭证审核。</p>
 
                 <div class="scan-channel" data-scan-channel="11">
@@ -784,7 +791,7 @@
                 <label class="scan-proof-field" for="scanPaymentProof">
                     <input type="file" id="scanPaymentProof" accept="image/jpeg,image/png,image/gif,image/webp">
                     <span class="scan-proof-icon">+</span>
-                    <span class="scan-proof-copy"><b>上传支付凭证截图</b><small>必填，支持 JPG / PNG / GIF / WEBP，最大 8MB</small></span>
+                    <span class="scan-proof-copy"><b>上传付款成功截图（必须）</b><small>付款后返回当前页面上传，未提交凭证无法审核到账</small></span>
                     <img id="scanProofPreview" alt="支付凭证预览">
                 </label>
                 <p class="scan-inline-message" id="scanInlineMessage" role="status"></p>

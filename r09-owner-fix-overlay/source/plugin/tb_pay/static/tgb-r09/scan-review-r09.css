@@ -29,6 +29,11 @@
 .scan-order-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; background: #f5f8f7; border-left: 3px solid #20a06b; border-radius: 4px; }
 .scan-order-summary span { min-width: 0; color: #465466; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .scan-order-summary strong { flex: none; color: #d44535; font-size: 18px; }
+.scan-proof-alert { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0 2px; padding: 11px 12px; border: 1px solid #f0a08f; border-left: 4px solid #dc513c; border-radius: 6px; background: #fff3ef; color: #8f2e22; }
+.scan-proof-alert-icon { display: grid; flex: none; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: #dc513c; color: #fff; font-size: 14px; font-weight: 800; line-height: 1; }
+.scan-proof-alert-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.scan-proof-alert-copy strong { color: #8f2e22; font-size: 13px; line-height: 1.35; }
+.scan-proof-alert-copy small { color: #a44738; font-size: 11px; line-height: 1.5; }
 .scan-helper { margin: 12px 0 9px; color: #687587; font-size: 12px; line-height: 1.55; }
 .scan-channel { display: none; }
 .scan-channel.is-active { display: block; }
